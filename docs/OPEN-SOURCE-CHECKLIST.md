@@ -44,10 +44,10 @@ or ask GitHub support to run GC before flipping visibility.
 ## ☑ Package name: glyphh-ada (resolved 2026-06-11)
 
 'ada' and 'adal' are taken on PyPI (adal = Microsoft's legacy Azure AD
-lib). 'glyphh' is ours but publicly branded "Hyperdimensional
-Computing SDK" — the pre-rewrite identity; do not attach Ada to it.
-Dist: glyphh-ada · import: ada. Side note for later: consider
-deprecating or rebranding the old 'glyphh' PyPI package.
+lib). 'glyphh' is ours and stays as-is — it IS the HDC SDK (a separate,
+intentional product); Ada doesn't attach to it. Dist: glyphh-ada ·
+import: ada · the glyphh-* namespace is the family pattern for future
+products.
 
 ## Remaining engineering (nice-to-have, not blockers)
 
