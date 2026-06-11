@@ -29,12 +29,25 @@ codebase. LICENSE + NOTICE + pyproject classifier + README updated.
 Options: keep `adaL` as the repo/product name, rename, or ship as
 "Ada by Glyphh". Ten minutes of trademark search before HN, minimum.
 
-## ☐ DECISION: repo history
+## ☑ Repo history: squashed to a single public commit (2026-06-11)
 
-History contains the full arc — HDC paper era, audit, rewrite. This is
-a *strength* for the honesty narrative (the paper references it), but
-review once more whether anything in old commits is unwanted in public
-(code comments, internal names). No secrets found by scan.
+158 private-era commits squashed into "Ada v0.7.0 — initial public
+release". Full history preserved twice: local bundle
+(../adaL-full-history-2026-06-11.bundle) and the PRIVATE mirror repo
+github.com/glyphh-ai/adaL-archive (never make that one public).
+
+⚠ At launch: GitHub may retain pre-squash objects server-side until
+its own GC. For a guaranteed-clean public artifact, delete the adaL
+repo on GitHub and recreate it fresh, then push the single commit —
+or ask GitHub support to run GC before flipping visibility.
+
+## ☑ Package name: glyphh-ada (resolved 2026-06-11)
+
+'ada' and 'adal' are taken on PyPI (adal = Microsoft's legacy Azure AD
+lib). 'glyphh' is ours but publicly branded "Hyperdimensional
+Computing SDK" — the pre-rewrite identity; do not attach Ada to it.
+Dist: glyphh-ada · import: ada. Side note for later: consider
+deprecating or rebranding the old 'glyphh' PyPI package.
 
 ## Remaining engineering (nice-to-have, not blockers)
 
