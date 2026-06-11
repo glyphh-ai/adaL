@@ -1,0 +1,3370 @@
+{
+  "ada": [
+    {
+      "shape": "negcmp",
+      "kind": "number",
+      "question": "How many people do NOT live in york?",
+      "expected": 57,
+      "answer": "57",
+      "latency_ms": 823.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Which color does Noho16 like best?",
+      "expected": "blue",
+      "answer": "blue",
+      "latency_ms": 728.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Befa19's hobby?",
+      "expected": "painting",
+      "answer": "black, cat, musician, painting",
+      "latency_ms": 1244.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "number",
+      "question": "How many people do NOT live in riga?",
+      "expected": 58,
+      "answer": "58",
+      "latency_ms": 799.1,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "none",
+      "question": "Who lives in riga, works as a teacher, and enjoys painting?",
+      "expected": [],
+      "answer": "none",
+      "latency_ms": 880.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "none",
+      "question": "Who lives in paris, works as a architect, and enjoys running?",
+      "expected": [],
+      "answer": "none",
+      "latency_ms": 1322.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a doctor?",
+      "expected": 4,
+      "answer": "0",
+      "latency_ms": 1132.5,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "none",
+      "question": "Who lives in paris, works as a pilot, and enjoys reading?",
+      "expected": [],
+      "answer": "none",
+      "latency_ms": 1184.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Raka1 live before moving?",
+      "expected": "Oslo",
+      "answer": "Oslo",
+      "latency_ms": 1204.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Reydo11's height?",
+      "expected": "176",
+      "answer": "176",
+      "latency_ms": 1485.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What does Jira57 enjoy doing?",
+      "expected": "photography",
+      "answer": "hamster, lawyer, photography, pink",
+      "latency_ms": 763.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have blue as their favorite color?",
+      "expected": 2,
+      "answer": "2",
+      "latency_ms": 846.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Kavi5 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 2758.6,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "How tall is Suto42 in centimeters?",
+      "expected": "190",
+      "answer": "190, hours",
+      "latency_ms": 1699.1,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What kind of animal does Quno52 own?",
+      "expected": "goldfish",
+      "answer": "goldfish, green, scientist, swimming",
+      "latency_ms": 1678.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have purple as their favorite color?",
+      "expected": 3,
+      "answer": "3",
+      "latency_ms": 1634.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Noho50's height?",
+      "expected": "175",
+      "answer": "175, hours",
+      "latency_ms": 5116.1,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have orange as their favorite color?",
+      "expected": 4,
+      "answer": "4",
+      "latency_ms": 1231.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "stress",
+      "kind": "value",
+      "question": "Whereabouts does Befa19 stay nowadays?",
+      "expected": "Quito",
+      "answer": "quito",
+      "latency_ms": 1868.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Karey59's height?",
+      "expected": "166",
+      "answer": "166",
+      "latency_ms": 1276.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What kind of animal does Pobe39 own?",
+      "expected": "parrot",
+      "answer": "carpenter, grey, parrot, photography",
+      "latency_ms": 1759.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common favorite colors?",
+      "expected": [
+        [
+          "black",
+          8
+        ],
+        [
+          "pink",
+          8
+        ],
+        [
+          "yellow",
+          7
+        ],
+        [
+          "green",
+          7
+        ],
+        [
+          "white",
+          6
+        ],
+        [
+          "red",
+          5
+        ],
+        [
+          "grey",
+          5
+        ]
+      ],
+      "answer": "black, pink, yellow, green, white",
+      "latency_ms": 734.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common jobs?",
+      "expected": [
+        [
+          "engineer",
+          7
+        ],
+        [
+          "accountant",
+          6
+        ],
+        [
+          "lawyer",
+          5
+        ],
+        [
+          "architect",
+          5
+        ],
+        [
+          "doctor",
+          4
+        ],
+        [
+          "carpenter",
+          4
+        ],
+        [
+          "musician",
+          4
+        ]
+      ],
+      "answer": "engineer, accountant, lawyer, architect, doctor",
+      "latency_ms": 1185.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people live in riga?",
+      "expected": 2,
+      "answer": "2",
+      "latency_ms": 929.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Leho4's occupation?",
+      "expected": "accountant",
+      "answer": "accountant, black, cooking, rabbit",
+      "latency_ms": 1629.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common cities people live in?",
+      "expected": [
+        [
+          "chicago",
+          5
+        ],
+        [
+          "austin",
+          5
+        ],
+        [
+          "denver",
+          4
+        ],
+        [
+          "quito",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ],
+        [
+          "calgary",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ]
+      ],
+      "answer": "austin, chicago, quito, denver, calgary",
+      "latency_ms": 1845.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Mika46's height?",
+      "expected": "170",
+      "answer": "170",
+      "latency_ms": 900.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "How old is Doze43?",
+      "expected": "54",
+      "answer": "54",
+      "latency_ms": 1121.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common cities people live in?",
+      "expected": [
+        [
+          "chicago",
+          5
+        ],
+        [
+          "austin",
+          5
+        ],
+        [
+          "denver",
+          4
+        ],
+        [
+          "quito",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ],
+        [
+          "calgary",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ]
+      ],
+      "answer": "austin, chicago, quito, denver, calgary",
+      "latency_ms": 1369.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Which color does Sudo51 like best?",
+      "expected": "grey",
+      "answer": "grey",
+      "latency_ms": 653.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Zewa9 live before moving?",
+      "expected": "Madrid",
+      "answer": "Madrid",
+      "latency_ms": 1816.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "number",
+      "question": "How many people do NOT live in helsinki?",
+      "expected": 59,
+      "answer": "59",
+      "latency_ms": 1640.1,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Jifa31 live before moving?",
+      "expected": "Chicago",
+      "answer": "Chicago",
+      "latency_ms": 717.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "names",
+      "question": "Who lives in Quito and works as a chef?",
+      "expected": [
+        "Zebe38"
+      ],
+      "answer": "zebe38",
+      "latency_ms": 1321.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common jobs?",
+      "expected": [
+        [
+          "engineer",
+          7
+        ],
+        [
+          "accountant",
+          6
+        ],
+        [
+          "lawyer",
+          5
+        ],
+        [
+          "architect",
+          5
+        ],
+        [
+          "doctor",
+          4
+        ],
+        [
+          "carpenter",
+          4
+        ],
+        [
+          "musician",
+          4
+        ]
+      ],
+      "answer": "engineer, accountant, lawyer, architect, doctor",
+      "latency_ms": 1114.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What university did Karey59 attend?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 3678.6,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a engineer?",
+      "expected": 7,
+      "answer": "0",
+      "latency_ms": 1229.6,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "names",
+      "question": "Who lives in Oslo and works as a chef?",
+      "expected": [
+        "Lele10"
+      ],
+      "answer": "lele10",
+      "latency_ms": 1433.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What is Quno52's salary?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 1420.6,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "names",
+      "question": "Who lives in Phoenix and works as a electrician?",
+      "expected": [
+        "Reyno37"
+      ],
+      "answer": "reyno37",
+      "latency_ms": 1254.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Which city does Wami18 live in?",
+      "expected": "Chicago",
+      "answer": "chicago",
+      "latency_ms": 1289.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Doze43 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 2559.1,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "value",
+      "question": "Which are there more of: people working as a nurse or as a farmer? Answer with the job title (or 'equal').",
+      "expected": "nurse",
+      "answer": "nurse",
+      "latency_ms": 819.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "stress",
+      "kind": "value",
+      "question": "How does Toze27 earn a paycheck?",
+      "expected": "musician",
+      "answer": "I don't know.",
+      "latency_ms": 3223.3,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a scientist?",
+      "expected": 1,
+      "answer": "0",
+      "latency_ms": 2662.4,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Reydo11 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 2672.6,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common favorite colors?",
+      "expected": [
+        [
+          "black",
+          8
+        ],
+        [
+          "pink",
+          8
+        ],
+        [
+          "yellow",
+          7
+        ],
+        [
+          "green",
+          7
+        ],
+        [
+          "white",
+          6
+        ],
+        [
+          "red",
+          5
+        ],
+        [
+          "grey",
+          5
+        ]
+      ],
+      "answer": "black, pink, yellow, green, white",
+      "latency_ms": 3435.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "stress",
+      "kind": "value",
+      "question": "How does Mika46 earn a paycheck?",
+      "expected": "engineer",
+      "answer": "I don't know.",
+      "latency_ms": 2668.9,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Reyyu21 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 3390.7,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Fado34 live before moving?",
+      "expected": "Kyoto",
+      "answer": "Kyoto",
+      "latency_ms": 1232.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Faqu8's favorite color?",
+      "expected": "white",
+      "answer": "white",
+      "latency_ms": 1198.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "value",
+      "question": "Which are there more of: people working as a lawyer or as a doctor? Answer with the job title (or 'equal').",
+      "expected": "lawyer",
+      "answer": "lawyer",
+      "latency_ms": 1344.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Supo20's age?",
+      "expected": "73",
+      "answer": "73",
+      "latency_ms": 1194.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Zewa9's favorite color?",
+      "expected": "green",
+      "answer": "green",
+      "latency_ms": 1123.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a carpenter?",
+      "expected": 4,
+      "answer": "0",
+      "latency_ms": 722.6,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Doze43 live before moving?",
+      "expected": "Chicago",
+      "answer": "Chicago",
+      "latency_ms": 759.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have yellow as their favorite color?",
+      "expected": 7,
+      "answer": "7",
+      "latency_ms": 1409.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "value",
+      "question": "Which are there more of: people working as a lawyer or as a carpenter? Answer with the job title (or 'equal').",
+      "expected": "lawyer",
+      "answer": "lawyer",
+      "latency_ms": 808.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Where is Mivi12 based these days?",
+      "expected": "Quito",
+      "answer": "quito",
+      "latency_ms": 1441.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Wale13 live before moving?",
+      "expected": "Denver",
+      "answer": "Denver",
+      "latency_ms": 1336.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    }
+  ],
+  "eav_sql": [
+    {
+      "shape": "negcmp",
+      "kind": "number",
+      "question": "How many people do NOT live in york?",
+      "expected": 57,
+      "answer": "57",
+      "latency_ms": 1825.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Which color does Noho16 like best?",
+      "expected": "blue",
+      "answer": "blue",
+      "latency_ms": 1521.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Befa19's hobby?",
+      "expected": "painting",
+      "answer": "none",
+      "latency_ms": 1519.5,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "number",
+      "question": "How many people do NOT live in riga?",
+      "expected": 58,
+      "answer": "58",
+      "latency_ms": 1935.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "none",
+      "question": "Who lives in riga, works as a teacher, and enjoys painting?",
+      "expected": [],
+      "answer": "I don't know.",
+      "latency_ms": 5179.2,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "none",
+      "question": "Who lives in paris, works as a architect, and enjoys running?",
+      "expected": [],
+      "answer": "none",
+      "latency_ms": 2634.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a doctor?",
+      "expected": 4,
+      "answer": "4",
+      "latency_ms": 1643.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "none",
+      "question": "Who lives in paris, works as a pilot, and enjoys reading?",
+      "expected": [],
+      "answer": "none",
+      "latency_ms": 3856.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Raka1 live before moving?",
+      "expected": "Oslo",
+      "answer": "oslo",
+      "latency_ms": 845.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Reydo11's height?",
+      "expected": "176",
+      "answer": "176",
+      "latency_ms": 1911.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What does Jira57 enjoy doing?",
+      "expected": "photography",
+      "answer": "none",
+      "latency_ms": 1683.3,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have blue as their favorite color?",
+      "expected": 2,
+      "answer": "2",
+      "latency_ms": 1419.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Kavi5 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 881.7,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "How tall is Suto42 in centimeters?",
+      "expected": "190",
+      "answer": "hours, 190",
+      "latency_ms": 1223.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What kind of animal does Quno52 own?",
+      "expected": "goldfish",
+      "answer": "none",
+      "latency_ms": 4126.0,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have purple as their favorite color?",
+      "expected": 3,
+      "answer": "3",
+      "latency_ms": 1226.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Noho50's height?",
+      "expected": "175",
+      "answer": "hours, 175",
+      "latency_ms": 1496.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have orange as their favorite color?",
+      "expected": 4,
+      "answer": "4",
+      "latency_ms": 1871.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "stress",
+      "kind": "value",
+      "question": "Whereabouts does Befa19 stay nowadays?",
+      "expected": "Quito",
+      "answer": "quito",
+      "latency_ms": 2314.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Karey59's height?",
+      "expected": "166",
+      "answer": "166",
+      "latency_ms": 1831.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What kind of animal does Pobe39 own?",
+      "expected": "parrot",
+      "answer": "none",
+      "latency_ms": 2074.6,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common favorite colors?",
+      "expected": [
+        [
+          "black",
+          8
+        ],
+        [
+          "pink",
+          8
+        ],
+        [
+          "yellow",
+          7
+        ],
+        [
+          "green",
+          7
+        ],
+        [
+          "white",
+          6
+        ],
+        [
+          "red",
+          5
+        ],
+        [
+          "grey",
+          5
+        ]
+      ],
+      "answer": "pink, 8, black, 8, yellow, 7, green, 7, white, 6",
+      "latency_ms": 1330.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common jobs?",
+      "expected": [
+        [
+          "engineer",
+          7
+        ],
+        [
+          "accountant",
+          6
+        ],
+        [
+          "lawyer",
+          5
+        ],
+        [
+          "architect",
+          5
+        ],
+        [
+          "doctor",
+          4
+        ],
+        [
+          "carpenter",
+          4
+        ],
+        [
+          "musician",
+          4
+        ]
+      ],
+      "answer": "engineer, 7, accountant, 6, lawyer, 5, architect, 5, musician, 4",
+      "latency_ms": 2445.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people live in riga?",
+      "expected": 2,
+      "answer": "2",
+      "latency_ms": 1890.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Leho4's occupation?",
+      "expected": "accountant",
+      "answer": "accountant",
+      "latency_ms": 1230.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common cities people live in?",
+      "expected": [
+        [
+          "chicago",
+          5
+        ],
+        [
+          "austin",
+          5
+        ],
+        [
+          "denver",
+          4
+        ],
+        [
+          "quito",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ],
+        [
+          "calgary",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ]
+      ],
+      "answer": "chicago, 5, austin, 5, vienna, 4, quito, 4, eugene, 4",
+      "latency_ms": 1509.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Mika46's height?",
+      "expected": "170",
+      "answer": "170",
+      "latency_ms": 3180.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "How old is Doze43?",
+      "expected": "54",
+      "answer": "54",
+      "latency_ms": 1760.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common cities people live in?",
+      "expected": [
+        [
+          "chicago",
+          5
+        ],
+        [
+          "austin",
+          5
+        ],
+        [
+          "denver",
+          4
+        ],
+        [
+          "quito",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ],
+        [
+          "calgary",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ]
+      ],
+      "answer": "chicago, 5, austin, 5, vienna, 4, quito, 4, eugene, 4",
+      "latency_ms": 1534.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Which color does Sudo51 like best?",
+      "expected": "grey",
+      "answer": "grey",
+      "latency_ms": 1474.1,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Zewa9 live before moving?",
+      "expected": "Madrid",
+      "answer": "madrid",
+      "latency_ms": 921.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "number",
+      "question": "How many people do NOT live in helsinki?",
+      "expected": 59,
+      "answer": "59",
+      "latency_ms": 1502.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Jifa31 live before moving?",
+      "expected": "Chicago",
+      "answer": "chicago",
+      "latency_ms": 1609.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "names",
+      "question": "Who lives in Quito and works as a chef?",
+      "expected": [
+        "Zebe38"
+      ],
+      "answer": "none",
+      "latency_ms": 2166.7,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common jobs?",
+      "expected": [
+        [
+          "engineer",
+          7
+        ],
+        [
+          "accountant",
+          6
+        ],
+        [
+          "lawyer",
+          5
+        ],
+        [
+          "architect",
+          5
+        ],
+        [
+          "doctor",
+          4
+        ],
+        [
+          "carpenter",
+          4
+        ],
+        [
+          "musician",
+          4
+        ]
+      ],
+      "answer": "engineer, 7, accountant, 6, lawyer, 5, architect, 5, musician, 4",
+      "latency_ms": 2506.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What university did Karey59 attend?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 1541.9,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a engineer?",
+      "expected": 7,
+      "answer": "7",
+      "latency_ms": 3940.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "names",
+      "question": "Who lives in Oslo and works as a chef?",
+      "expected": [
+        "Lele10"
+      ],
+      "answer": "none",
+      "latency_ms": 2203.8,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What is Quno52's salary?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 667.9,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "names",
+      "question": "Who lives in Phoenix and works as a electrician?",
+      "expected": [
+        "Reyno37"
+      ],
+      "answer": "none",
+      "latency_ms": 2589.0,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Which city does Wami18 live in?",
+      "expected": "Chicago",
+      "answer": "chicago",
+      "latency_ms": 1672.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Doze43 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 1323.0,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "value",
+      "question": "Which are there more of: people working as a nurse or as a farmer? Answer with the job title (or 'equal').",
+      "expected": "nurse",
+      "answer": "nurse",
+      "latency_ms": 2381.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "stress",
+      "kind": "value",
+      "question": "How does Toze27 earn a paycheck?",
+      "expected": "musician",
+      "answer": "I don't know.",
+      "latency_ms": 596.0,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a scientist?",
+      "expected": 1,
+      "answer": "1",
+      "latency_ms": 1576.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Reydo11 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 1225.6,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common favorite colors?",
+      "expected": [
+        [
+          "black",
+          8
+        ],
+        [
+          "pink",
+          8
+        ],
+        [
+          "yellow",
+          7
+        ],
+        [
+          "green",
+          7
+        ],
+        [
+          "white",
+          6
+        ],
+        [
+          "red",
+          5
+        ],
+        [
+          "grey",
+          5
+        ]
+      ],
+      "answer": "pink, 8, black, 8, yellow, 7, green, 7, white, 6",
+      "latency_ms": 1318.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "stress",
+      "kind": "value",
+      "question": "How does Mika46 earn a paycheck?",
+      "expected": "engineer",
+      "answer": "I don't know.",
+      "latency_ms": 1062.1,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Reyyu21 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 1014.3,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Fado34 live before moving?",
+      "expected": "Kyoto",
+      "answer": "kyoto",
+      "latency_ms": 2113.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Faqu8's favorite color?",
+      "expected": "white",
+      "answer": "white",
+      "latency_ms": 1448.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "value",
+      "question": "Which are there more of: people working as a lawyer or as a doctor? Answer with the job title (or 'equal').",
+      "expected": "lawyer",
+      "answer": "lawyer",
+      "latency_ms": 2094.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Supo20's age?",
+      "expected": "73",
+      "answer": "73",
+      "latency_ms": 1577.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Zewa9's favorite color?",
+      "expected": "green",
+      "answer": "green",
+      "latency_ms": 1228.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a carpenter?",
+      "expected": 4,
+      "answer": "4",
+      "latency_ms": 1224.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Doze43 live before moving?",
+      "expected": "Chicago",
+      "answer": "jakarta",
+      "latency_ms": 2970.2,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have yellow as their favorite color?",
+      "expected": 7,
+      "answer": "7",
+      "latency_ms": 1230.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "value",
+      "question": "Which are there more of: people working as a lawyer or as a carpenter? Answer with the job title (or 'equal').",
+      "expected": "lawyer",
+      "answer": "lawyer",
+      "latency_ms": 2083.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Where is Mivi12 based these days?",
+      "expected": "Quito",
+      "answer": "quito",
+      "latency_ms": 1052.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Wale13 live before moving?",
+      "expected": "Denver",
+      "answer": "denver",
+      "latency_ms": 1860.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    }
+  ],
+  "rag_minilm": [
+    {
+      "shape": "negcmp",
+      "kind": "number",
+      "question": "How many people do NOT live in york?",
+      "expected": 57,
+      "answer": "3",
+      "latency_ms": 858.5,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Which color does Noho16 like best?",
+      "expected": "blue",
+      "answer": "blue",
+      "latency_ms": 1849.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Befa19's hobby?",
+      "expected": "painting",
+      "answer": "painting",
+      "latency_ms": 2083.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "number",
+      "question": "How many people do NOT live in riga?",
+      "expected": 58,
+      "answer": "2",
+      "latency_ms": 2114.0,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "none",
+      "question": "Who lives in riga, works as a teacher, and enjoys painting?",
+      "expected": [],
+      "answer": "I don't know.\n\nThe notes indicate that some people live in Riga and some enjoy painting, but there is no information about anyone who works as a teacher.",
+      "latency_ms": 1545.5,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "none",
+      "question": "Who lives in paris, works as a architect, and enjoys running?",
+      "expected": [],
+      "answer": "I don't know.\n\nThe notes identify several people who work as architects (Nowa24, Zewa30, Raka1, Reyji33) and several people connected to Paris (Anvi14, Toho49, Faze3, Nosu15), but there is no information about anyone who enjoys running.",
+      "latency_ms": 1776.1,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a doctor?",
+      "expected": 4,
+      "answer": "4",
+      "latency_ms": 616.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "none",
+      "question": "Who lives in paris, works as a pilot, and enjoys reading?",
+      "expected": [],
+      "answer": "I don't know.",
+      "latency_ms": 1124.1,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Raka1 live before moving?",
+      "expected": "Oslo",
+      "answer": "I don't know.\n\nThe notes state that Raka1 recently relocated to Chicago and is based in Oslo these days, but they don't explicitly state where Raka1 lived immediately before the most recent move.",
+      "latency_ms": 1294.6,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Reydo11's height?",
+      "expected": "176",
+      "answer": "176 centimeters",
+      "latency_ms": 914.1,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What does Jira57 enjoy doing?",
+      "expected": "photography",
+      "answer": "Photography",
+      "latency_ms": 1159.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have blue as their favorite color?",
+      "expected": 2,
+      "answer": "1",
+      "latency_ms": 744.5,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Kavi5 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 984.0,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "How tall is Suto42 in centimeters?",
+      "expected": "190",
+      "answer": "190",
+      "latency_ms": 747.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What kind of animal does Quno52 own?",
+      "expected": "goldfish",
+      "answer": "goldfish",
+      "latency_ms": 1197.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have purple as their favorite color?",
+      "expected": 3,
+      "answer": "I don't know.",
+      "latency_ms": 895.3,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Noho50's height?",
+      "expected": "175",
+      "answer": "175 centimeters",
+      "latency_ms": 1601.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have orange as their favorite color?",
+      "expected": 4,
+      "answer": "3",
+      "latency_ms": 1702.8,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "stress",
+      "kind": "value",
+      "question": "Whereabouts does Befa19 stay nowadays?",
+      "expected": "Quito",
+      "answer": "Quito",
+      "latency_ms": 782.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Karey59's height?",
+      "expected": "166",
+      "answer": "166 centimeters",
+      "latency_ms": 1243.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What kind of animal does Pobe39 own?",
+      "expected": "parrot",
+      "answer": "A parrot",
+      "latency_ms": 1200.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common favorite colors?",
+      "expected": [
+        [
+          "black",
+          8
+        ],
+        [
+          "pink",
+          8
+        ],
+        [
+          "yellow",
+          7
+        ],
+        [
+          "green",
+          7
+        ],
+        [
+          "white",
+          6
+        ],
+        [
+          "red",
+          5
+        ],
+        [
+          "grey",
+          5
+        ]
+      ],
+      "answer": "I don't know.",
+      "latency_ms": 1038.0,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common jobs?",
+      "expected": [
+        [
+          "engineer",
+          7
+        ],
+        [
+          "accountant",
+          6
+        ],
+        [
+          "lawyer",
+          5
+        ],
+        [
+          "architect",
+          5
+        ],
+        [
+          "doctor",
+          4
+        ],
+        [
+          "carpenter",
+          4
+        ],
+        [
+          "musician",
+          4
+        ]
+      ],
+      "answer": "I don't know.",
+      "latency_ms": 837.4,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people live in riga?",
+      "expected": 2,
+      "answer": "4\n\n(Noho50, Reyyu21, Suho32, and Raka1)",
+      "latency_ms": 1308.9,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Leho4's occupation?",
+      "expected": "accountant",
+      "answer": "Accountant",
+      "latency_ms": 1078.1,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common cities people live in?",
+      "expected": [
+        [
+          "chicago",
+          5
+        ],
+        [
+          "austin",
+          5
+        ],
+        [
+          "denver",
+          4
+        ],
+        [
+          "quito",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ],
+        [
+          "calgary",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ]
+      ],
+      "answer": "I don't know.\n\nThe notes only mention 8 people and their cities (Naples, Antwerp, Jakarta, Chicago, Phoenix, Stockholm, Oslo, Quito), each appearing only once. There is insufficient data to determine the 5 most common cities.",
+      "latency_ms": 2059.7,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Mika46's height?",
+      "expected": "170",
+      "answer": "170 centimeters",
+      "latency_ms": 738.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "How old is Doze43?",
+      "expected": "54",
+      "answer": "54",
+      "latency_ms": 696.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common cities people live in?",
+      "expected": [
+        [
+          "chicago",
+          5
+        ],
+        [
+          "austin",
+          5
+        ],
+        [
+          "denver",
+          4
+        ],
+        [
+          "quito",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ],
+        [
+          "calgary",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ]
+      ],
+      "answer": "I don't know.\n\nThe notes only provide information about 8 individuals and their cities, which is insufficient to determine the 5 most common cities people live in across a larger population.",
+      "latency_ms": 1565.7,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Which color does Sudo51 like best?",
+      "expected": "grey",
+      "answer": "grey",
+      "latency_ms": 1028.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Zewa9 live before moving?",
+      "expected": "Madrid",
+      "answer": "I don't know.\n\nThe notes show that Zewa9 moved to Austin, then to Madrid, and is originally from Istanbul, but they don't specify which location Zewa9 lived in immediately before the most recent move mentioned.",
+      "latency_ms": 1034.5,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "number",
+      "question": "How many people do NOT live in helsinki?",
+      "expected": 59,
+      "answer": "I need to identify who lives in Helsinki and who does not.\n\nPeople who live in Helsinki:\n- Zewa30 (currently lives in Helsinki)\n\nPeople who do NOT live in Helsinki:\n- Noho50 (lives in Riga)\n- Mika46 (moved to Riga)\n- Quno52 (moved to Vienna)\n- Kavi5 (grew up in Stockholm - no current location stated, but not stated to live in Helsinki)\n- Toze27 (grew up in Helsinki - current location not stated)\n- Lele10 (was born in Helsinki - current location not stated)\n\nThe notes only clearly state current residence for: Zewa30 (Helsinki), Noho50 (Riga), Mika46 (Riga), and Quno52 (Vienna).\n\nFor Toze27, L",
+      "latency_ms": 2565.2,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Jifa31 live before moving?",
+      "expected": "Chicago",
+      "answer": "Chicago",
+      "latency_ms": 615.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "names",
+      "question": "Who lives in Quito and works as a chef?",
+      "expected": [
+        "Zebe38"
+      ],
+      "answer": "I don't know.\n\nThe notes indicate that Pono56, Pobe39, and Leho4 were born in or grew up in Quito, but none of them are stated to work as a chef. The notes indicate that Lele10, Waan48, and Zebe38 work as chefs, but their locations are not specified.",
+      "latency_ms": 1863.6,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common jobs?",
+      "expected": [
+        [
+          "engineer",
+          7
+        ],
+        [
+          "accountant",
+          6
+        ],
+        [
+          "lawyer",
+          5
+        ],
+        [
+          "architect",
+          5
+        ],
+        [
+          "doctor",
+          4
+        ],
+        [
+          "carpenter",
+          4
+        ],
+        [
+          "musician",
+          4
+        ]
+      ],
+      "answer": "I don't know.",
+      "latency_ms": 611.0,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What university did Karey59 attend?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 1332.1,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a engineer?",
+      "expected": 7,
+      "answer": "6",
+      "latency_ms": 1038.3,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "names",
+      "question": "Who lives in Oslo and works as a chef?",
+      "expected": [
+        "Lele10"
+      ],
+      "answer": "Lele10",
+      "latency_ms": 842.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What is Quno52's salary?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 2206.2,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "names",
+      "question": "Who lives in Phoenix and works as a electrician?",
+      "expected": [
+        "Reyno37"
+      ],
+      "answer": "Reyno37",
+      "latency_ms": 974.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Which city does Wami18 live in?",
+      "expected": "Chicago",
+      "answer": "Chicago",
+      "latency_ms": 944.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Doze43 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 1353.3,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "value",
+      "question": "Which are there more of: people working as a nurse or as a farmer? Answer with the job title (or 'equal').",
+      "expected": "nurse",
+      "answer": "nurse",
+      "latency_ms": 1666.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "stress",
+      "kind": "value",
+      "question": "How does Toze27 earn a paycheck?",
+      "expected": "musician",
+      "answer": "As a musician.",
+      "latency_ms": 1407.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a scientist?",
+      "expected": 1,
+      "answer": "1",
+      "latency_ms": 1590.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Reydo11 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 2127.4,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common favorite colors?",
+      "expected": [
+        [
+          "black",
+          8
+        ],
+        [
+          "pink",
+          8
+        ],
+        [
+          "yellow",
+          7
+        ],
+        [
+          "green",
+          7
+        ],
+        [
+          "white",
+          6
+        ],
+        [
+          "red",
+          5
+        ],
+        [
+          "grey",
+          5
+        ]
+      ],
+      "answer": "I don't know.\n\nThe notes provide 8 individual color preferences, but do not contain enough data to determine what the 5 most common favorite colors are across a larger population.",
+      "latency_ms": 1292.2,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "stress",
+      "kind": "value",
+      "question": "How does Mika46 earn a paycheck?",
+      "expected": "engineer",
+      "answer": "engineer",
+      "latency_ms": 1036.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Reyyu21 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 574.8,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Fado34 live before moving?",
+      "expected": "Kyoto",
+      "answer": "York",
+      "latency_ms": 1029.2,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Faqu8's favorite color?",
+      "expected": "white",
+      "answer": "white",
+      "latency_ms": 1530.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "value",
+      "question": "Which are there more of: people working as a lawyer or as a doctor? Answer with the job title (or 'equal').",
+      "expected": "lawyer",
+      "answer": "doctor",
+      "latency_ms": 781.1,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Supo20's age?",
+      "expected": "73",
+      "answer": "73",
+      "latency_ms": 956.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Zewa9's favorite color?",
+      "expected": "green",
+      "answer": "I don't know.",
+      "latency_ms": 749.3,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a carpenter?",
+      "expected": 4,
+      "answer": "4",
+      "latency_ms": 1129.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Doze43 live before moving?",
+      "expected": "Chicago",
+      "answer": "I don't know.",
+      "latency_ms": 1601.8,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have yellow as their favorite color?",
+      "expected": 7,
+      "answer": "4",
+      "latency_ms": 1672.9,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "value",
+      "question": "Which are there more of: people working as a lawyer or as a carpenter? Answer with the job title (or 'equal').",
+      "expected": "lawyer",
+      "answer": "lawyer",
+      "latency_ms": 1375.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Where is Mivi12 based these days?",
+      "expected": "Quito",
+      "answer": "Quito",
+      "latency_ms": 1438.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Wale13 live before moving?",
+      "expected": "Denver",
+      "answer": "Tokyo",
+      "latency_ms": 612.8,
+      "correct": false,
+      "refused": false,
+      "hallucinated": false
+    }
+  ],
+  "kuzu_cypher": [
+    {
+      "shape": "negcmp",
+      "kind": "number",
+      "question": "How many people do NOT live in york?",
+      "expected": 57,
+      "answer": "57",
+      "latency_ms": 1343.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Which color does Noho16 like best?",
+      "expected": "blue",
+      "answer": "I don't know.",
+      "latency_ms": 716.1,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Befa19's hobby?",
+      "expected": "painting",
+      "answer": "painting",
+      "latency_ms": 856.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "number",
+      "question": "How many people do NOT live in riga?",
+      "expected": 58,
+      "answer": "58",
+      "latency_ms": 3594.1,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "none",
+      "question": "Who lives in riga, works as a teacher, and enjoys painting?",
+      "expected": [],
+      "answer": "none",
+      "latency_ms": 3280.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "none",
+      "question": "Who lives in paris, works as a architect, and enjoys running?",
+      "expected": [],
+      "answer": "none",
+      "latency_ms": 2194.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a doctor?",
+      "expected": 4,
+      "answer": "4",
+      "latency_ms": 4407.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "none",
+      "question": "Who lives in paris, works as a pilot, and enjoys reading?",
+      "expected": [],
+      "answer": "none",
+      "latency_ms": 1503.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Raka1 live before moving?",
+      "expected": "Oslo",
+      "answer": "oslo",
+      "latency_ms": 1631.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Reydo11's height?",
+      "expected": "176",
+      "answer": "176",
+      "latency_ms": 1271.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What does Jira57 enjoy doing?",
+      "expected": "photography",
+      "answer": "photography",
+      "latency_ms": 1228.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have blue as their favorite color?",
+      "expected": 2,
+      "answer": "2",
+      "latency_ms": 1538.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Kavi5 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 912.8,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "How tall is Suto42 in centimeters?",
+      "expected": "190",
+      "answer": "190",
+      "latency_ms": 1649.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What kind of animal does Quno52 own?",
+      "expected": "goldfish",
+      "answer": "goldfish",
+      "latency_ms": 811.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have purple as their favorite color?",
+      "expected": 3,
+      "answer": "3",
+      "latency_ms": 1124.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Noho50's height?",
+      "expected": "175",
+      "answer": "175",
+      "latency_ms": 1334.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have orange as their favorite color?",
+      "expected": 4,
+      "answer": "4",
+      "latency_ms": 1359.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "stress",
+      "kind": "value",
+      "question": "Whereabouts does Befa19 stay nowadays?",
+      "expected": "Quito",
+      "answer": "quito",
+      "latency_ms": 1142.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Karey59's height?",
+      "expected": "166",
+      "answer": "166",
+      "latency_ms": 1028.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What kind of animal does Pobe39 own?",
+      "expected": "parrot",
+      "answer": "parrot",
+      "latency_ms": 848.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common favorite colors?",
+      "expected": [
+        [
+          "black",
+          8
+        ],
+        [
+          "pink",
+          8
+        ],
+        [
+          "yellow",
+          7
+        ],
+        [
+          "green",
+          7
+        ],
+        [
+          "white",
+          6
+        ],
+        [
+          "red",
+          5
+        ],
+        [
+          "grey",
+          5
+        ]
+      ],
+      "answer": "black, 8, pink, 8, yellow, 7, green, 7, white, 6",
+      "latency_ms": 886.6,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common jobs?",
+      "expected": [
+        [
+          "engineer",
+          7
+        ],
+        [
+          "accountant",
+          6
+        ],
+        [
+          "lawyer",
+          5
+        ],
+        [
+          "architect",
+          5
+        ],
+        [
+          "doctor",
+          4
+        ],
+        [
+          "carpenter",
+          4
+        ],
+        [
+          "musician",
+          4
+        ]
+      ],
+      "answer": "engineer, 7, accountant, 6, lawyer, 5, architect, 5, doctor, 4",
+      "latency_ms": 1330.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people live in riga?",
+      "expected": 2,
+      "answer": "2",
+      "latency_ms": 1375.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Leho4's occupation?",
+      "expected": "accountant",
+      "answer": "accountant",
+      "latency_ms": 1222.1,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common cities people live in?",
+      "expected": [
+        [
+          "chicago",
+          5
+        ],
+        [
+          "austin",
+          5
+        ],
+        [
+          "denver",
+          4
+        ],
+        [
+          "quito",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ],
+        [
+          "calgary",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ]
+      ],
+      "answer": "austin, 5, chicago, 5, quito, 4, denver, 4, calgary, 4",
+      "latency_ms": 1230.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Mika46's height?",
+      "expected": "170",
+      "answer": "170",
+      "latency_ms": 1400.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "How old is Doze43?",
+      "expected": "54",
+      "answer": "54",
+      "latency_ms": 921.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common cities people live in?",
+      "expected": [
+        [
+          "chicago",
+          5
+        ],
+        [
+          "austin",
+          5
+        ],
+        [
+          "denver",
+          4
+        ],
+        [
+          "quito",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ],
+        [
+          "calgary",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ]
+      ],
+      "answer": "austin, 5, chicago, 5, quito, 4, denver, 4, calgary, 4",
+      "latency_ms": 1540.1,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Which color does Sudo51 like best?",
+      "expected": "grey",
+      "answer": "I don't know.",
+      "latency_ms": 1184.9,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Zewa9 live before moving?",
+      "expected": "Madrid",
+      "answer": "madrid",
+      "latency_ms": 2818.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "number",
+      "question": "How many people do NOT live in helsinki?",
+      "expected": 59,
+      "answer": "I don't know.",
+      "latency_ms": 2710.3,
+      "correct": false,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Jifa31 live before moving?",
+      "expected": "Chicago",
+      "answer": "chicago",
+      "latency_ms": 1496.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "names",
+      "question": "Who lives in Quito and works as a chef?",
+      "expected": [
+        "Zebe38"
+      ],
+      "answer": "zebe38",
+      "latency_ms": 1502.1,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common jobs?",
+      "expected": [
+        [
+          "engineer",
+          7
+        ],
+        [
+          "accountant",
+          6
+        ],
+        [
+          "lawyer",
+          5
+        ],
+        [
+          "architect",
+          5
+        ],
+        [
+          "doctor",
+          4
+        ],
+        [
+          "carpenter",
+          4
+        ],
+        [
+          "musician",
+          4
+        ]
+      ],
+      "answer": "engineer, 7, accountant, 6, lawyer, 5, architect, 5, doctor, 4",
+      "latency_ms": 1513.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What university did Karey59 attend?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 1306.0,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a engineer?",
+      "expected": 7,
+      "answer": "7",
+      "latency_ms": 1251.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "names",
+      "question": "Who lives in Oslo and works as a chef?",
+      "expected": [
+        "Lele10"
+      ],
+      "answer": "lele10",
+      "latency_ms": 1770.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What is Quno52's salary?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 917.5,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "intersect",
+      "kind": "names",
+      "question": "Who lives in Phoenix and works as a electrician?",
+      "expected": [
+        "Reyno37"
+      ],
+      "answer": "reyno37",
+      "latency_ms": 1360.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Which city does Wami18 live in?",
+      "expected": "Chicago",
+      "answer": "chicago",
+      "latency_ms": 1529.1,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Doze43 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 1342.3,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "value",
+      "question": "Which are there more of: people working as a nurse or as a farmer? Answer with the job title (or 'equal').",
+      "expected": "nurse",
+      "answer": "nurse",
+      "latency_ms": 3848.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "stress",
+      "kind": "value",
+      "question": "How does Toze27 earn a paycheck?",
+      "expected": "musician",
+      "answer": "musician",
+      "latency_ms": 1844.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a scientist?",
+      "expected": 1,
+      "answer": "1",
+      "latency_ms": 1236.9,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Reydo11 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 991.3,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "dist",
+      "kind": "top5",
+      "question": "What are the 5 most common favorite colors?",
+      "expected": [
+        [
+          "black",
+          8
+        ],
+        [
+          "pink",
+          8
+        ],
+        [
+          "yellow",
+          7
+        ],
+        [
+          "green",
+          7
+        ],
+        [
+          "white",
+          6
+        ],
+        [
+          "red",
+          5
+        ],
+        [
+          "grey",
+          5
+        ]
+      ],
+      "answer": "black, 8, pink, 8, green, 7, yellow, 7, white, 6",
+      "latency_ms": 814.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "stress",
+      "kind": "value",
+      "question": "How does Mika46 earn a paycheck?",
+      "expected": "engineer",
+      "answer": "engineer",
+      "latency_ms": 1156.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "refusal",
+      "kind": "refusal",
+      "question": "What car does Reyyu21 drive?",
+      "expected": null,
+      "answer": "I don't know.",
+      "latency_ms": 1531.7,
+      "correct": true,
+      "refused": true,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Fado34 live before moving?",
+      "expected": "Kyoto",
+      "answer": "kyoto",
+      "latency_ms": 1786.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Faqu8's favorite color?",
+      "expected": "white",
+      "answer": "white, white",
+      "latency_ms": 1398.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "value",
+      "question": "Which are there more of: people working as a lawyer or as a doctor? Answer with the job title (or 'equal').",
+      "expected": "lawyer",
+      "answer": "lawyer",
+      "latency_ms": 1746.0,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Supo20's age?",
+      "expected": "73",
+      "answer": "73",
+      "latency_ms": 725.7,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "What is Zewa9's favorite color?",
+      "expected": "green",
+      "answer": "green, green",
+      "latency_ms": 1544.4,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people work as a carpenter?",
+      "expected": 4,
+      "answer": "4",
+      "latency_ms": 1145.3,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Doze43 live before moving?",
+      "expected": "Chicago",
+      "answer": "chicago",
+      "latency_ms": 987.1,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "agg",
+      "kind": "number",
+      "question": "How many people have yellow as their favorite color?",
+      "expected": 7,
+      "answer": "7",
+      "latency_ms": 1211.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "negcmp",
+      "kind": "value",
+      "question": "Which are there more of: people working as a lawyer or as a carpenter? Answer with the job title (or 'equal').",
+      "expected": "lawyer",
+      "answer": "lawyer",
+      "latency_ms": 2306.8,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "lookup",
+      "kind": "value",
+      "question": "Where is Mivi12 based these days?",
+      "expected": "Quito",
+      "answer": "quito",
+      "latency_ms": 1679.2,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    },
+    {
+      "shape": "history",
+      "kind": "value",
+      "question": "Where did Wale13 live before moving?",
+      "expected": "Denver",
+      "answer": "denver",
+      "latency_ms": 1595.5,
+      "correct": true,
+      "refused": false,
+      "hallucinated": false
+    }
+  ]
+}

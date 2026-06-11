@@ -1,0 +1,109 @@
+# Stage 10 — differentiated emotions (18-24 months).
+#
+# The diffuse affect of infancy crystallizes into named, recognizable
+# emotional states. Self-conscious emotions (pride, shame) begin to
+# emerge with self-recognition.
+
+# ── Primary emotions ───────────────────────────────────────────────
+
+- key: infant.happy
+  category: emotion
+  entity: {name: happy, kind: emotion, subkind: primary}
+  semantic: {category: "feel-good-strongly, smile, laugh"}
+  composed_of: [binary.feel, binary.good, prime.very, infant.smile-reflex]
+  source: "developmental psychology"
+
+- key: infant.sad
+  category: emotion
+  entity: {name: sad, kind: emotion, subkind: primary}
+  semantic: {category: "feel-bad-quietly, want-comfort"}
+  composed_of: [binary.feel, binary.bad, prime.some, prime.want, infant.comfort]
+  source: "developmental psychology"
+
+- key: infant.angry
+  category: emotion
+  entity: {name: angry, kind: emotion, subkind: primary}
+  semantic: {category: "feel-bad-because-of-something, want-to-act-against-it"}
+  composed_of: [binary.feel, binary.bad, prime.very, prime.because, binary.wanted, prime.do]
+  source: "developmental psychology"
+
+- key: infant.scared
+  category: emotion
+  entity: {name: scared, kind: emotion, subkind: primary}
+  semantic: {category: "feel-bad-because-of-unknown-or-anticipated-harm"}
+  composed_of: [binary.feel, binary.bad, binary.unknown, prime.happen, prime.maybe]
+  source: "developmental psychology"
+
+- key: infant.disgust
+  category: emotion
+  entity: {name: disgust, kind: emotion, subkind: primary}
+  semantic: {category: "reject-as-tainted, often-food-related"}
+  composed_of: [binary.feel, binary.bad, binary.unwanted, binary.inside, binary.lacks]
+  source: "developmental psychology"
+
+- key: infant.joy
+  category: emotion
+  entity: {name: joy, kind: emotion, subkind: primary}
+  semantic: {category: "intense-pleasure-with-laughter"}
+  composed_of: [infant.happy, prime.very, infant.laugh]
+  source: "developmental psychology"
+
+- key: infant.interest
+  category: emotion
+  entity: {name: interest, kind: emotion, subkind: primary}
+  semantic: {category: "drawn-toward-thing, want-to-explore"}
+  composed_of: [binary.feel, prime.want, prime.know, prime.this, binary.wanted]
+  source: "developmental psychology"
+
+- key: infant.frustration
+  category: emotion
+  entity: {name: frustration, kind: emotion, subkind: primary}
+  semantic: {category: "tried-and-failed, want-but-cannot"}
+  composed_of: [binary.wanted, binary.cannot, prime.do, binary.feel, binary.bad]
+  source: "developmental psychology"
+
+# ── Self-conscious emotions (require self-recognition) ────────────
+
+- key: infant.pride
+  category: emotion
+  entity: {name: pride, kind: emotion, subkind: self-conscious}
+  semantic: {category: "feel-good-about-own-accomplishment"}
+  composed_of: [binary.self, prime.do, binary.good, binary.feel, prime.very]
+  source: "developmental psychology"
+
+- key: infant.shame
+  category: emotion
+  entity: {name: shame, kind: emotion, subkind: self-conscious}
+  semantic: {category: "feel-bad-about-own-action-seen-by-others"}
+  composed_of: [binary.self, prime.do, binary.bad, prime.someone, binary.see, binary.feel, binary.bad]
+  source: "developmental psychology"
+
+- key: infant.embarrassment
+  category: emotion
+  entity: {name: embarrassment, kind: emotion, subkind: self-conscious}
+  semantic: {category: "uncomfortable-self-awareness-when-noticed"}
+  composed_of: [binary.self, prime.someone, binary.see, binary.feel, binary.bad, prime.little]
+  source: "developmental psychology"
+
+- key: infant.envy
+  category: emotion
+  entity: {name: envy, kind: emotion, subkind: self-conscious}
+  semantic: {category: "want-what-other-has"}
+  composed_of: [binary.other, binary.has, binary.self, prime.not, binary.has, binary.wanted]
+  source: "developmental psychology"
+
+# ── Emotion regulation begins ──────────────────────────────────────
+
+- key: infant.self-soothe
+  category: behavior
+  entity: {name: self-soothe, kind: behavior, subkind: emotion-regulation}
+  semantic: {category: "calm-self-without-caregiver-help, thumb-sucking-blanket"}
+  composed_of: [binary.self, prime.do, infant.comfort, infant.touch-soft, prime.not, infant.mother]
+  source: "developmental psychology"
+
+- key: infant.tantrum
+  category: behavior
+  entity: {name: tantrum, kind: behavior, subkind: emotion-overflow}
+  semantic: {category: "intense-cry-thrash-when-frustrated, regulation-fails"}
+  composed_of: [infant.frustration, prime.very, infant.cry, binary.cannot, prime.do]
+  source: "developmental psychology"

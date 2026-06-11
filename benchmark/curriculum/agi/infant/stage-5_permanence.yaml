@@ -1,0 +1,103 @@
+# Stage 5 — object permanence and spatial cognition (9-12 months).
+#
+# Piaget's central milestone: things continue to exist when you can't
+# see them. This unlocks searching, memory of absent objects, and
+# stable mental representation.
+
+- key: infant.object-permanence
+  category: principle
+  entity: {name: object-permanence, kind: cognitive-principle, subkind: piaget}
+  semantic: {category: "thing-exists-even-when-not-perceived"}
+  composed_of: [prime.something, binary.presence, binary.not, prime.see, prime.live]
+  source: "Piagetian developmental psychology"
+
+- key: infant.hidden
+  category: cognition
+  entity: {name: hidden, kind: cognition, subkind: spatial}
+  semantic: {category: "thing-is-there-but-covered, not-visible"}
+  composed_of: [prime.something, binary.presence, binary.not, binary.see, binary.inside]
+  source: "developmental psychology"
+
+- key: infant.search
+  category: action
+  entity: {name: search, kind: action, subkind: investigative}
+  semantic: {category: "look-for-hidden-thing-because-believe-it-exists"}
+  composed_of: [prime.do, prime.see, binary.wanted, infant.object-permanence]
+  source: "developmental psychology"
+
+- key: infant.find
+  category: cognition
+  entity: {name: find, kind: cognition, subkind: discovery}
+  semantic: {category: "succeed-in-locating-hidden-thing"}
+  composed_of: [infant.search, binary.after, binary.see, binary.good]
+  source: "developmental psychology"
+
+- key: infant.gone
+  category: cognition
+  entity: {name: gone, kind: cognition, subkind: spatial}
+  semantic: {category: "thing-no-longer-here, may-be-elsewhere"}
+  composed_of: [prime.something, binary.not, binary.here, binary.before, binary.here]
+  source: "developmental psychology"
+
+- key: infant.returned
+  category: cognition
+  entity: {name: returned, kind: cognition, subkind: spatial-temporal}
+  semantic: {category: "thing-was-gone-now-here-again"}
+  composed_of: [infant.gone, binary.after, binary.here, binary.same]
+  source: "developmental psychology"
+
+- key: infant.container
+  category: concept
+  entity: {name: container, kind: concept, subkind: spatial}
+  semantic: {category: "thing-that-holds-other-things-inside"}
+  composed_of: [infant.object, binary.inside, binary.has, prime.other, prime.something]
+  source: "developmental psychology"
+
+- key: infant.put-in
+  category: action
+  entity: {name: put-in, kind: action, subkind: spatial-manipulation}
+  semantic: {category: "place-object-inside-container"}
+  composed_of: [prime.do, prime.move, infant.object, binary.inside, infant.container]
+  source: "developmental psychology"
+
+- key: infant.take-out
+  category: action
+  entity: {name: take-out, kind: action, subkind: spatial-manipulation}
+  semantic: {category: "remove-object-from-container"}
+  composed_of: [prime.do, prime.move, infant.object, binary.outside, infant.container]
+  source: "developmental psychology"
+
+- key: infant.peekaboo
+  category: behavior
+  entity: {name: peekaboo, kind: behavior, subkind: social-game}
+  semantic: {category: "face-hidden-then-revealed, exercises-object-permanence"}
+  composed_of: [infant.mother, infant.hidden, binary.after, binary.see, binary.good, prime.like]
+  source: "developmental psychology"
+
+- key: infant.separation-anxiety
+  category: emotion
+  entity: {name: separation-anxiety, kind: emotion, subkind: attachment}
+  semantic: {category: "distress-when-caregiver-leaves, requires-object-permanence"}
+  composed_of: [infant.caregiver-bond, infant.gone, binary.feel, binary.bad, prime.very]
+  source: "attachment theory"
+
+- key: infant.stranger-anxiety
+  category: emotion
+  entity: {name: stranger-anxiety, kind: emotion, subkind: social-fear}
+  semantic: {category: "wariness-of-unfamiliar-people, peaks-around-8-10mo"}
+  composed_of: [infant.stranger, binary.feel, binary.bad, binary.unknown, prime.very]
+  source: "developmental psychology"
+
+- key: infant.spatial-here
+  category: spatial
+  entity: {name: spatial-here, kind: spatial, subkind: deixis}
+  semantic: {category: "in-the-immediate-vicinity-of-self"}
+  composed_of: [binary.here, prime.where, binary.self]
+  source: "developmental psychology"
+
+- key: infant.spatial-there
+  category: spatial
+  entity: {name: spatial-there, kind: spatial, subkind: deixis}
+  semantic: {category: "in-another-location, away-from-self"}
+  composed_of: [binary.there, prime.where, binary.other]
+  source: "developmental psychology"

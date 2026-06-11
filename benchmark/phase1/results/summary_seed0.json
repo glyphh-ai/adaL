@@ -1,0 +1,176 @@
+{
+  "seed": 0,
+  "n_facts": 480,
+  "semantic_accuracy": 0.8791666666666667,
+  "entity_rate": 1.0,
+  "canonical_rate": 0.8791666666666667,
+  "captured_rate": 0.9145833333333333,
+  "by_type": {
+    "age": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "location": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 52,
+      "captured": 52,
+      "semantic": 52
+    },
+    "job": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "hobby": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "pet": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 26,
+      "captured": 27,
+      "semantic": 26
+    },
+    "color": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "height": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 56,
+      "captured": 60,
+      "semantic": 56
+    },
+    "origin": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 48,
+      "captured": 60,
+      "semantic": 48
+    }
+  },
+  "usage": {
+    "calls": 480,
+    "input_tokens": 120952,
+    "output_tokens": 42368
+  },
+  "cost_usd": 0.3328,
+  "cost_per_fact_usd": 0.000693,
+  "wall_seconds": 196.2,
+  "end_to_end_aggregation": {
+    "count_color_blue": {
+      "truth": 6,
+      "ada": 6
+    },
+    "count_job_engineer": {
+      "truth": 3,
+      "ada": 3
+    },
+    "top5_locations": {
+      "truth": [
+        [
+          "lyon",
+          5
+        ],
+        [
+          "phoenix",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ],
+        [
+          "riga",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ]
+      ],
+      "ada": [
+        [
+          "home",
+          12
+        ],
+        [
+          "lyon",
+          4
+        ],
+        [
+          "jakarta",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ]
+      ]
+    },
+    "top5_colors": {
+      "truth": [
+        [
+          "orange",
+          8
+        ],
+        [
+          "red",
+          8
+        ],
+        [
+          "pink",
+          7
+        ],
+        [
+          "black",
+          6
+        ],
+        [
+          "blue",
+          6
+        ]
+      ],
+      "ada": [
+        [
+          "orange",
+          8
+        ],
+        [
+          "red",
+          8
+        ],
+        [
+          "pink",
+          7
+        ],
+        [
+          "black",
+          6
+        ],
+        [
+          "blue",
+          6
+        ]
+      ]
+    }
+  }
+}

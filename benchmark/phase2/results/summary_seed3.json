@@ -1,0 +1,92 @@
+{
+  "seed": 3,
+  "n_facts": 498,
+  "n_queries": 60,
+  "extraction_cost_usd": 0.5365,
+  "systems": {
+    "ada": {
+      "accuracy": 0.9166666666666666,
+      "by_shape": {
+        "agg": "4/9",
+        "dist": "6/6",
+        "history": "6/6",
+        "intersect": "6/6",
+        "lookup": "18/18",
+        "negcmp": "6/6",
+        "refusal": "6/6",
+        "stress": "3/3"
+      },
+      "hallucination_rate_on_refusal": 0.0,
+      "latency_p50_ms": 1336.6,
+      "latency_p95_ms": 3481.7,
+      "query_cost_usd": 0.0429,
+      "cost_per_query_usd": 0.000714,
+      "ingest_errors": 0,
+      "ingest_seconds": 0.0,
+      "query_seconds": 17.3
+    },
+    "eav_sql": {
+      "accuracy": 0.7166666666666667,
+      "by_shape": {
+        "agg": "8/9",
+        "dist": "6/6",
+        "history": "1/6",
+        "intersect": "2/6",
+        "lookup": "12/18",
+        "negcmp": "5/6",
+        "refusal": "6/6",
+        "stress": "3/3"
+      },
+      "hallucination_rate_on_refusal": 0.0,
+      "latency_p50_ms": 1518.9,
+      "latency_p95_ms": 2933.0,
+      "query_cost_usd": 0.0556,
+      "cost_per_query_usd": 0.000926,
+      "ingest_errors": 0,
+      "ingest_seconds": 0.0,
+      "query_seconds": 19.0
+    },
+    "rag_minilm": {
+      "accuracy": 0.5333333333333333,
+      "by_shape": {
+        "agg": "4/9",
+        "dist": "0/6",
+        "history": "0/6",
+        "intersect": "0/6",
+        "lookup": "16/18",
+        "negcmp": "3/6",
+        "refusal": "6/6",
+        "stress": "3/3"
+      },
+      "hallucination_rate_on_refusal": 0.0,
+      "latency_p50_ms": 1255.4,
+      "latency_p95_ms": 2296.6,
+      "query_cost_usd": 0.0166,
+      "cost_per_query_usd": 0.000276,
+      "ingest_errors": 0,
+      "ingest_seconds": 0.2,
+      "query_seconds": 13.1
+    },
+    "kuzu_cypher": {
+      "accuracy": 0.95,
+      "by_shape": {
+        "agg": "8/9",
+        "dist": "6/6",
+        "history": "6/6",
+        "intersect": "6/6",
+        "lookup": "16/18",
+        "negcmp": "6/6",
+        "refusal": "6/6",
+        "stress": "3/3"
+      },
+      "hallucination_rate_on_refusal": 0.0,
+      "latency_p50_ms": 1452.0,
+      "latency_p95_ms": 2379.8,
+      "query_cost_usd": 0.0314,
+      "cost_per_query_usd": 0.000524,
+      "ingest_errors": 30,
+      "ingest_seconds": 4.2,
+      "query_seconds": 17.0
+    }
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "seed": 1,
+  "n_facts": 480,
+  "semantic_accuracy": 0.8875,
+  "entity_rate": 1.0,
+  "canonical_rate": 0.8875,
+  "captured_rate": 0.9270833333333334,
+  "by_type": {
+    "age": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "location": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 57,
+      "captured": 57,
+      "semantic": 57
+    },
+    "job": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "hobby": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "pet": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 28,
+      "captured": 28,
+      "semantic": 28
+    },
+    "color": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "height": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 55,
+      "captured": 60,
+      "semantic": 55
+    },
+    "origin": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 46,
+      "captured": 60,
+      "semantic": 46
+    }
+  },
+  "usage": {
+    "calls": 480,
+    "input_tokens": 120974,
+    "output_tokens": 42874
+  },
+  "cost_usd": 0.3353,
+  "cost_per_fact_usd": 0.000699,
+  "wall_seconds": 186.2,
+  "end_to_end_aggregation": {
+    "count_color_blue": {
+      "truth": 4,
+      "ada": 4
+    },
+    "count_job_engineer": {
+      "truth": 5,
+      "ada": 5
+    },
+    "top5_locations": {
+      "truth": [
+        [
+          "quito",
+          4
+        ],
+        [
+          "chicago",
+          4
+        ],
+        [
+          "oslo",
+          3
+        ],
+        [
+          "xi'an",
+          3
+        ],
+        [
+          "denver",
+          3
+        ]
+      ],
+      "ada": [
+        [
+          "home",
+          14
+        ],
+        [
+          "denver",
+          7
+        ],
+        [
+          "quito",
+          7
+        ],
+        [
+          "chicago",
+          5
+        ],
+        [
+          "oslo",
+          4
+        ]
+      ]
+    },
+    "top5_colors": {
+      "truth": [
+        [
+          "yellow",
+          9
+        ],
+        [
+          "black",
+          9
+        ],
+        [
+          "grey",
+          8
+        ],
+        [
+          "purple",
+          6
+        ],
+        [
+          "white",
+          6
+        ]
+      ],
+      "ada": [
+        [
+          "yellow",
+          9
+        ],
+        [
+          "black",
+          9
+        ],
+        [
+          "grey",
+          8
+        ],
+        [
+          "purple",
+          6
+        ],
+        [
+          "white",
+          6
+        ]
+      ]
+    }
+  }
+}

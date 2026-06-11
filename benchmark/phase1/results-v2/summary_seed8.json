@@ -1,0 +1,176 @@
+{
+  "seed": 8,
+  "n_facts": 480,
+  "semantic_accuracy": 0.9625,
+  "entity_rate": 1.0,
+  "canonical_rate": 0.9625,
+  "captured_rate": 1.0,
+  "by_type": {
+    "age": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "location": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "job": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 47,
+      "captured": 60,
+      "semantic": 47
+    },
+    "hobby": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "pet": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "color": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 55,
+      "captured": 60,
+      "semantic": 55
+    },
+    "height": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "origin": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    }
+  },
+  "usage": {
+    "calls": 480,
+    "input_tokens": 254413,
+    "output_tokens": 33102
+  },
+  "cost_usd": 0.4199,
+  "cost_per_fact_usd": 0.000875,
+  "wall_seconds": 61.2,
+  "end_to_end_aggregation": {
+    "count_color_blue": {
+      "truth": 4,
+      "ada": 4
+    },
+    "count_job_engineer": {
+      "truth": 2,
+      "ada": 2
+    },
+    "top5_locations": {
+      "truth": [
+        [
+          "madrid",
+          5
+        ],
+        [
+          "istanbul",
+          5
+        ],
+        [
+          "fresno",
+          4
+        ],
+        [
+          "xi'an",
+          3
+        ],
+        [
+          "phoenix",
+          3
+        ]
+      ],
+      "ada": [
+        [
+          "home",
+          11
+        ],
+        [
+          "madrid",
+          5
+        ],
+        [
+          "istanbul",
+          5
+        ],
+        [
+          "fresno",
+          4
+        ],
+        [
+          "xi'an",
+          3
+        ]
+      ]
+    },
+    "top5_colors": {
+      "truth": [
+        [
+          "brown",
+          8
+        ],
+        [
+          "yellow",
+          7
+        ],
+        [
+          "pink",
+          7
+        ],
+        [
+          "red",
+          6
+        ],
+        [
+          "orange",
+          6
+        ]
+      ],
+      "ada": [
+        [
+          "yellow",
+          7
+        ],
+        [
+          "pink",
+          7
+        ],
+        [
+          "brown",
+          7
+        ],
+        [
+          "white",
+          6
+        ],
+        [
+          "black",
+          5
+        ]
+      ]
+    }
+  }
+}

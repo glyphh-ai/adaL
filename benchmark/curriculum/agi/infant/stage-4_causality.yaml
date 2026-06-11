@@ -1,0 +1,89 @@
+# Stage 4 — cause and effect (6-9 months).
+#
+# The infant begins to notice that actions produce outcomes. This is
+# the seed of agency: "I do something, something happens." From here
+# come expectation, anticipation, and means-end behavior.
+
+- key: infant.cause-effect
+  category: principle
+  entity: {name: cause-effect, kind: cognitive-principle}
+  semantic: {category: "when-A-happens-B-follows"}
+  composed_of: [prime.happen, prime.because, prime.do, binary.after]
+  source: "Piagetian developmental psychology"
+
+- key: infant.contingency
+  category: principle
+  entity: {name: contingency, kind: cognitive-principle}
+  semantic: {category: "my-action-produces-predictable-response"}
+  composed_of: [infant.cause-effect, binary.self, prime.do, binary.same]
+  source: "developmental psychology"
+
+- key: infant.expectation
+  category: cognition
+  entity: {name: expectation, kind: cognition, subkind: prediction}
+  semantic: {category: "anticipate-known-outcome-of-known-cause"}
+  composed_of: [prime.think, prime.happen, binary.after, binary.known, binary.before]
+  source: "developmental psychology"
+
+- key: infant.surprise-violated
+  category: cognition
+  entity: {name: surprise-violated, kind: cognition, subkind: violation-of-expectation}
+  semantic: {category: "expected-X-but-got-Y, recalibration-trigger"}
+  composed_of: [infant.expectation, binary.different, prime.happen, prime.not, prime.true]
+  source: "developmental psychology"
+
+- key: infant.cry-brings-mother
+  category: causal-link
+  entity: {name: cry-brings-mother, kind: causal-link, subkind: social}
+  semantic: {category: "my-cry-causes-caregiver-to-arrive"}
+  composed_of: [infant.cry, prime.because, infant.mother, prime.move, binary.near]
+  source: "attachment theory"
+
+- key: infant.drop-makes-sound
+  category: causal-link
+  entity: {name: drop-makes-sound, kind: causal-link, subkind: physical}
+  semantic: {category: "letting-go-of-object-produces-noise-when-it-hits"}
+  composed_of: [prime.do, binary.lacks, binary.below, prime.because, infant.hear-sound]
+  source: "developmental psychology"
+
+- key: infant.push-makes-move
+  category: causal-link
+  entity: {name: push-makes-move, kind: causal-link, subkind: physical}
+  semantic: {category: "applying-force-causes-displacement"}
+  composed_of: [binary.touch, prime.because, binary.moving, infant.object]
+  source: "developmental psychology"
+
+- key: infant.smile-gets-smile
+  category: causal-link
+  entity: {name: smile-gets-smile, kind: causal-link, subkind: social}
+  semantic: {category: "smiling-causes-other-to-smile-back"}
+  composed_of: [infant.social-smile, prime.because, infant.mother, prime.do, binary.same]
+  source: "developmental psychology"
+
+- key: infant.repetition
+  category: behavior
+  entity: {name: repetition, kind: behavior, subkind: motor-learning}
+  semantic: {category: "doing-the-same-thing-many-times, often-with-pleasure"}
+  composed_of: [prime.do, binary.same, prime.many, binary.because, binary.good]
+  source: "developmental psychology"
+
+- key: infant.means-end
+  category: cognition
+  entity: {name: means-end, kind: cognition, subkind: planning}
+  semantic: {category: "do-A-to-cause-B, instrumental-action"}
+  composed_of: [prime.do, binary.because, binary.wanted, infant.cause-effect]
+  source: "Piagetian developmental psychology"
+
+- key: infant.exploration
+  category: behavior
+  entity: {name: exploration, kind: behavior, subkind: investigative}
+  semantic: {category: "trying-different-actions-to-see-what-happens"}
+  composed_of: [prime.do, binary.different, prime.see, prime.happen, binary.unknown]
+  source: "developmental psychology"
+
+- key: infant.routine
+  category: cognition
+  entity: {name: routine, kind: cognition, subkind: temporal-schema}
+  semantic: {category: "events-happen-in-a-predictable-sequence"}
+  composed_of: [prime.happen, binary.same, prime.many, binary.after, binary.before]
+  source: "developmental psychology"

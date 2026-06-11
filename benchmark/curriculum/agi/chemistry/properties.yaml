@@ -1,0 +1,181 @@
+# Physical and chemical properties — the empirical facts that
+# attach to compounds. These let us answer "why does water boil
+# higher than methane" by traversal, not by recall.
+
+# --- Boiling points ---
+- key: property.water.bp
+  category: property
+  entity: {name: water-boiling-point, kind: property, subkind: phase-transition}
+  quantitative: {magnitude: "100", unit: degrees-celsius}
+  relational: {predicate: property-of, object: water}
+  semantic: {category: "anomalously-high-for-mass, due-to-hydrogen-bonding"}
+  composed_of: [compound.water, bond.hydrogen]
+  source: "CRC handbook"
+
+- key: property.methane.bp
+  category: property
+  entity: {name: methane-boiling-point, kind: property, subkind: phase-transition}
+  quantitative: {magnitude: "-161.5", unit: degrees-celsius}
+  relational: {predicate: property-of, object: methane}
+  semantic: {category: "low-because-only-london-forces, nonpolar"}
+  composed_of: [compound.methane]
+  source: "CRC handbook"
+
+- key: property.ammonia.bp
+  category: property
+  entity: {name: ammonia-boiling-point, kind: property, subkind: phase-transition}
+  quantitative: {magnitude: "-33.3", unit: degrees-celsius}
+  relational: {predicate: property-of, object: ammonia}
+  semantic: {category: "elevated-by-hydrogen-bonding, still-below-water"}
+  composed_of: [compound.ammonia, bond.hydrogen]
+  source: "CRC handbook"
+
+- key: property.ethanol.bp
+  category: property
+  entity: {name: ethanol-boiling-point, kind: property, subkind: phase-transition}
+  quantitative: {magnitude: "78.37", unit: degrees-celsius}
+  relational: {predicate: property-of, object: ethanol}
+  semantic: {category: "raised-by-hydroxyl-hydrogen-bonding"}
+  composed_of: [compound.ethanol, group.hydroxyl, bond.hydrogen]
+  source: "CRC handbook"
+
+- key: property.methanol.bp
+  category: property
+  entity: {name: methanol-boiling-point, kind: property, subkind: phase-transition}
+  quantitative: {magnitude: "64.7", unit: degrees-celsius}
+  relational: {predicate: property-of, object: methanol}
+  composed_of: [compound.methanol, group.hydroxyl, bond.hydrogen]
+  source: "CRC handbook"
+
+- key: property.acetic-acid.bp
+  category: property
+  entity: {name: acetic-acid-boiling-point, kind: property, subkind: phase-transition}
+  quantitative: {magnitude: "118.1", unit: degrees-celsius}
+  relational: {predicate: property-of, object: acetic-acid}
+  semantic: {category: "high-due-to-carboxyl-dimer-hydrogen-bonding"}
+  composed_of: [compound.acetic-acid, group.carboxyl, bond.hydrogen]
+  source: "CRC handbook"
+
+- key: property.benzene.bp
+  category: property
+  entity: {name: benzene-boiling-point, kind: property, subkind: phase-transition}
+  quantitative: {magnitude: "80.1", unit: degrees-celsius}
+  relational: {predicate: property-of, object: benzene}
+  composed_of: [compound.benzene]
+  source: "CRC handbook"
+
+# --- Acidity / basicity ---
+- key: property.acetic-acid.pka
+  category: property
+  entity: {name: acetic-acid-pKa, kind: property, subkind: acidity}
+  quantitative: {magnitude: "4.76", unit: pKa}
+  relational: {predicate: property-of, object: acetic-acid}
+  semantic: {category: "weak-acid, carboxyl-deprotonates"}
+  composed_of: [compound.acetic-acid, group.carboxyl]
+  source: "general chemistry"
+
+- key: property.hydrochloric-acid.pka
+  category: property
+  entity: {name: HCl-pKa, kind: property, subkind: acidity}
+  quantitative: {magnitude: "-7", unit: pKa}
+  relational: {predicate: property-of, object: hydrochloric-acid}
+  semantic: {category: "strong-acid, fully-dissociates-in-water"}
+  composed_of: [compound.hydrochloric-acid]
+  source: "general chemistry"
+
+- key: property.sulfuric-acid.pka
+  category: property
+  entity: {name: H2SO4-pKa, kind: property, subkind: acidity}
+  quantitative: {magnitude: "-3", unit: pKa}
+  relational: {predicate: property-of, object: sulfuric-acid}
+  semantic: {category: "strong-diprotic-acid"}
+  composed_of: [compound.sulfuric-acid]
+  source: "general chemistry"
+
+- key: property.ammonia.pkb
+  category: property
+  entity: {name: ammonia-pKb, kind: property, subkind: basicity}
+  quantitative: {magnitude: "4.75", unit: pKb}
+  relational: {predicate: property-of, object: ammonia}
+  semantic: {category: "weak-base, lone-pair-on-nitrogen-accepts-proton"}
+  composed_of: [compound.ammonia, element.nitrogen]
+  source: "general chemistry"
+
+# --- Solubility ---
+- key: property.sodium-chloride.solubility
+  category: property
+  entity: {name: NaCl-solubility, kind: property, subkind: solubility}
+  quantitative: {magnitude: "360", unit: g-per-liter-water-at-25C}
+  relational: {predicate: property-of, object: sodium-chloride}
+  semantic: {category: "highly-soluble, ionic-dissolves-in-polar"}
+  composed_of: [compound.sodium-chloride, compound.water, bond.ionic]
+  source: "CRC handbook"
+
+- key: property.calcium-carbonate.solubility
+  category: property
+  entity: {name: CaCO3-solubility, kind: property, subkind: solubility}
+  quantitative: {magnitude: "0.013", unit: g-per-liter-water-at-25C}
+  relational: {predicate: property-of, object: calcium-carbonate}
+  semantic: {category: "nearly-insoluble, lattice-energy-too-high"}
+  composed_of: [compound.calcium-carbonate]
+  source: "CRC handbook"
+
+- key: property.benzene.solubility-in-water
+  category: property
+  entity: {name: benzene-solubility, kind: property, subkind: solubility}
+  quantitative: {magnitude: "1.8", unit: g-per-liter-water-at-25C}
+  relational: {predicate: property-of, object: benzene}
+  semantic: {category: "poorly-soluble, nonpolar-in-polar"}
+  composed_of: [compound.benzene, compound.water]
+  source: "CRC handbook"
+
+# --- Reactions ---
+- key: reaction.combustion-methane
+  category: reaction
+  entity: {name: methane-combustion, kind: reaction, subkind: combustion}
+  relational: {predicate: produces, object: carbon-dioxide-and-water}
+  semantic: {category: "CH4-plus-2O2-yields-CO2-plus-2H2O, exothermic"}
+  quantitative: {magnitude: "-890", unit: kJ-per-mol}
+  composed_of: [compound.methane, element.oxygen, compound.carbon-dioxide, compound.water]
+  source: "general chemistry"
+
+- key: reaction.esterification
+  category: reaction
+  entity: {name: esterification, kind: reaction, subkind: condensation}
+  relational: {predicate: produces, object: ester-plus-water}
+  semantic: {category: "carboxylic-acid-plus-alcohol-yields-ester-plus-water, reversible"}
+  composed_of: [group.carboxyl, group.hydroxyl, group.ester, compound.water]
+  source: "organic chemistry"
+
+- key: reaction.neutralization
+  category: reaction
+  entity: {name: acid-base-neutralization, kind: reaction, subkind: acid-base}
+  relational: {predicate: produces, object: salt-plus-water}
+  semantic: {category: "HCl-plus-NaOH-yields-NaCl-plus-H2O, exothermic"}
+  composed_of: [compound.hydrochloric-acid, compound.sodium-hydroxide, compound.sodium-chloride, compound.water]
+  source: "general chemistry"
+
+- key: reaction.photosynthesis
+  category: reaction
+  entity: {name: photosynthesis, kind: reaction, subkind: biological}
+  relational: {predicate: produces, object: glucose-plus-oxygen}
+  semantic: {category: "6CO2-plus-6H2O-plus-light-yields-glucose-plus-6O2, endergonic"}
+  composed_of: [compound.carbon-dioxide, compound.water, compound.glucose, element.oxygen]
+  source: "biochemistry"
+
+- key: reaction.cellular-respiration
+  category: reaction
+  entity: {name: cellular-respiration, kind: reaction, subkind: biological}
+  relational: {predicate: produces, object: ATP-plus-CO2-plus-water}
+  semantic: {category: "glucose-plus-6O2-yields-6CO2-plus-6H2O-plus-ATP, reverses-photosynthesis"}
+  quantitative: {magnitude: "-2870", unit: kJ-per-mol}
+  composed_of: [compound.glucose, element.oxygen, compound.carbon-dioxide, compound.water, compound.atp]
+  source: "biochemistry"
+
+- key: reaction.peptide-bond-formation
+  category: reaction
+  entity: {name: peptide-bond-formation, kind: reaction, subkind: condensation}
+  relational: {predicate: produces, object: dipeptide-plus-water}
+  semantic: {category: "amine-of-one-amino-acid-plus-carboxyl-of-another-yields-amide-bond"}
+  composed_of: [group.amino, group.carboxyl, compound.water, compound.glycine, compound.alanine]
+  source: "biochemistry"

@@ -1,0 +1,87 @@
+# Phonotactics — the rules for what phoneme sequences are sayable
+# in English. These are constraints, not lexical entries.
+#
+# Each rule grounds in the phoneme inventory + binary.* + primes.
+
+# ── Voicing assimilation ──────────────────────────────────────────
+
+- key: phonotactic.voicing-cluster
+  category: phonotactic-rule
+  entity: {name: voicing-cluster, kind: phonotactic-rule}
+  semantic: {category: "consonant-clusters-must-agree-in-voicing, e.g.-cats-vs-dogs"}
+  composed_of: [phoneme.s, phoneme.z, binary.same, binary.different, prime.after]
+  source: "english phonotactics"
+
+# ── Onset rules (start of syllable) ──────────────────────────────
+
+- key: phonotactic.onset-single
+  category: phonotactic-rule
+  entity: {name: onset-single, kind: phonotactic-rule}
+  semantic: {category: "any-single-consonant-may-begin-a-syllable, except-ng"}
+  composed_of: [prime.one, prime.kind, prime.before, prime.say]
+  source: "english phonotactics"
+
+- key: phonotactic.onset-no-ng
+  category: phonotactic-rule
+  entity: {name: onset-no-ng, kind: phonotactic-rule}
+  semantic: {category: "phoneme-ng-cannot-start-a-syllable-in-english"}
+  composed_of: [phoneme.ng, binary.cannot, prime.before, binary.continuous]
+  source: "english phonotactics"
+
+- key: phonotactic.onset-s-stop
+  category: phonotactic-rule
+  entity: {name: onset-s-stop, kind: phonotactic-rule}
+  semantic: {category: "s-can-cluster-with-following-voiceless-stop, as-in-spy-sty-sky"}
+  composed_of: [phoneme.s, phoneme.p, phoneme.t, phoneme.k, prime.after, prime.before]
+  source: "english phonotactics"
+
+- key: phonotactic.onset-stop-liquid
+  category: phonotactic-rule
+  entity: {name: onset-stop-liquid, kind: phonotactic-rule}
+  semantic: {category: "stop-plus-liquid-cluster, as-in-pray-blue-tree"}
+  composed_of: [phoneme.p, phoneme.b, phoneme.t, phoneme.d, phoneme.k, phoneme.g,
+                phoneme.r, phoneme.l, prime.after]
+  source: "english phonotactics"
+
+# ── Nucleus rules (vowel center) ──────────────────────────────────
+
+- key: phonotactic.nucleus-required
+  category: phonotactic-rule
+  entity: {name: nucleus-required, kind: phonotactic-rule}
+  semantic: {category: "every-syllable-must-have-a-vowel-or-diphthong"}
+  composed_of: [phoneme.ae, phoneme.eh, phoneme.ih, phoneme.ay, prime.kind,
+                binary.continuous, prime.one]
+  source: "english phonotactics"
+
+# ── Coda rules (end of syllable) ─────────────────────────────────
+
+- key: phonotactic.coda-single
+  category: phonotactic-rule
+  entity: {name: coda-single, kind: phonotactic-rule}
+  semantic: {category: "single-consonant-may-end-a-syllable"}
+  composed_of: [prime.one, prime.kind, prime.after, binary.brief]
+  source: "english phonotactics"
+
+- key: phonotactic.coda-cluster
+  category: phonotactic-rule
+  entity: {name: coda-cluster, kind: phonotactic-rule}
+  semantic: {category: "many-consonants-can-cluster-at-syllable-end, e.g.-sixths"}
+  composed_of: [prime.many, prime.kind, prime.after, prime.body, binary.brief]
+  source: "english phonotactics"
+
+- key: phonotactic.coda-no-h
+  category: phonotactic-rule
+  entity: {name: coda-no-h, kind: phonotactic-rule}
+  semantic: {category: "phoneme-h-cannot-end-a-syllable-in-english"}
+  composed_of: [phoneme.h, binary.cannot, prime.after, binary.continuous]
+  source: "english phonotactics"
+
+# ── Sonority sequencing principle ────────────────────────────────
+
+- key: phonotactic.sonority
+  category: phonotactic-rule
+  entity: {name: sonority, kind: phonotactic-rule}
+  semantic: {category: "sonority-rises-toward-nucleus-then-falls, universal-tendency"}
+  composed_of: [prime.more, prime.before, binary.continuous, prime.after, binary.brief,
+                prime.like, prime.kind]
+  source: "Selkirk 1984 / universal phonotactics"

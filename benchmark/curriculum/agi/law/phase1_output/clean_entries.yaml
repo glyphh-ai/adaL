@@ -1,0 +1,7193 @@
+- key: product.animal
+  category: material-substance
+  entity:
+    name: animal product
+    kind: material
+    subkind: derived-from-animal
+  semantic:
+    category: material-derived-from-body
+  relational:
+    predicate: comes-from
+    object: non-human-animal
+  composed_of:
+  - prime.something
+  - prime.part
+  - prime.body
+  - prime.other
+- key: event.patent-office-fire-1877
+  category: historical-disaster
+  entity:
+    name: 1877 U.S. Patent Office fire
+    kind: fire-event
+    subkind: institutional-building-fire
+  semantic:
+    category: destructive-event
+  relational:
+    predicate: occurred-in
+    object: Patent Office Building, Washington D.C.
+  quantitative:
+  - magnitude: '80000'
+    unit: patent-models
+  - magnitude: '600000'
+    unit: copy-drawings
+  perceptual:
+    color: color.orange
+    temperature: high
+  composed_of:
+  - prime.happen
+  - time.past
+  - prime.bad
+  - prime.move
+  - spatial.in
+  - prime.many
+  - prime.something
+  - prime.die
+- key: event.1949-liechtenstein-trade-referendum
+  category: historical-political-event
+  entity:
+    name: 1949 Liechtenstein Trade, Commerce and Industry Regulation Act referendum
+    kind: referendum
+    subkind: legislative
+  semantic:
+    category: democratic-decision-making
+  relational:
+    predicate: rejects
+    object: Trade, Commerce and Industry Regulations Act
+  quantitative:
+    magnitude: '78.4'
+    unit: percent
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.year
+  - prime.people
+  - prime.say
+  - prime.not
+  - prime.want
+- key: event.2000-french-constitutional-referendum
+  category: political-event
+  entity:
+    name: 2000 French constitutional referendum
+    kind: referendum
+    subkind: constitutional
+  semantic:
+    category: democratic-decision-making
+  relational:
+    predicate: changes
+    object: presidential-mandate-duration
+  quantitative:
+  - attribute: approval-percentage
+    magnitude: '73.2'
+    unit: percent
+  - attribute: turnout-percentage
+    magnitude: '30.2'
+    unit: percent
+  - attribute: previous-mandate-length
+    magnitude: '7'
+    unit: years
+  - attribute: new-mandate-length
+    magnitude: '5'
+    unit: years
+  composed_of:
+  - prime.happen
+  - prime.people
+  - prime.think
+  - prime.say
+  - prime.want
+  - time.past
+  - logic.or
+  - prime.many
+  - prime.good
+  - prime.because
+- key: person.miyazaki-hayao
+  category: person
+  entity:
+    name: Miyazaki Hayao
+    kind: person
+    subkind: animator-artist
+  semantic:
+    category: creative-professional
+  relational:
+    predicate: born
+    object: '1941-01-05'
+  quantitative:
+    magnitude: '1941'
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.live
+  - time.past
+  - time.present
+- key: event.maine-question-1-2011
+  category: political-referendum
+  entity:
+    name: Maine Question 1
+    kind: referendum
+    subkind: people's veto
+  semantic:
+    category: electoral-policy-reversal
+  relational:
+    predicate: rejected
+    object: bill.maine-election-day-registration-repeal
+  quantitative:
+    magnitude: '237024'
+    unit: votes-in-favor
+  composed_of:
+  - prime.when
+  - time.year
+  - prime.people
+  - prime.do
+  - prime.say
+  - prime.not
+  - prime.want
+  - logic.and
+  - prime.more
+  - prime.many
+- key: event.2017-paris-shooting
+  category: violent-event
+  entity:
+    name: 2017 Paris shooting
+    kind: mass-shooting
+    subkind: killing-spree
+  semantic:
+    category: violence-death
+  relational:
+    predicate: occurs-in
+    object: Paris, France
+  quantitative:
+    magnitude: '3'
+    unit: deaths
+  composed_of:
+  - prime.happen
+  - prime.die
+  - prime.people
+  - prime.many
+  - time.evening
+  - time.past
+  - prime.bad
+- key: event.2017-cairo-declaration
+  category: historical-event
+  entity:
+    name: 2017 Cairo Declaration
+    kind: declaration
+    subkind: diplomatic-agreement
+  semantic:
+    category: formal-agreement-signed
+  relational:
+    predicate: signed-at
+    object: egyptian-general-intelligence-headquarters
+  quantitative:
+    magnitude: '1'
+    unit: declaration
+  composed_of:
+  - prime.happen
+  - time.year
+  - spatial.in
+  - prime.words
+  - prime.people
+  - logic.and
+- key: event.2020-solingen-killings
+  category: tragic-event
+  entity:
+    name: 2020 Solingen killings
+    kind: event
+    subkind: homicide
+  semantic:
+    category: multiple-deaths-caused-by-person
+  relational:
+    predicate: perpetrator
+    object: Christiane K.
+  quantitative:
+    magnitude: '5'
+    unit: children-killed
+  composed_of:
+  - prime.die
+  - prime.because
+  - prime.people
+  - prime.bad
+  - prime.when
+  - time.past
+  - prime.before
+  - spatial.in
+  - prime.do
+  - prime.think
+- key: event.2007-balashikha-shooting
+  category: mass-violence
+  entity:
+    name: 2007 Balashikha shooting
+    kind: mass-murder-event
+    subkind: shooting
+  semantic:
+    category: violent-crime
+  relational:
+    predicate: occurred-in
+    object: Balashikha, Moscow Oblast, Russia
+  quantitative:
+    magnitude: '4'
+    unit: people-killed
+  composed_of:
+  - prime.die
+  - prime.many
+  - prime.happen
+  - time.past
+  - prime.bad
+  - prime.someone
+  - prime.do
+- key: event.anqing-stabbing-2021
+  category: violent-incident
+  entity:
+    name: 2021 Anqing stabbing
+    kind: mass-stabbing
+    subkind: criminal-violence
+  semantic:
+    category: attack-with-blade
+  relational:
+    predicate: occurred-at
+    object: Anqing, Anhui, China
+  quantitative:
+  - magnitude: '7'
+    unit: fatalities
+  - magnitude: '13'
+    unit: injuries
+  temporal:
+    date: '2021-06-05'
+  composed_of:
+  - prime.happen
+  - prime.die
+  - prime.feel
+  - prime.bad
+  - prime.many
+  - prime.people
+- key: event.2021-kebbi-kidnapping
+  category: crime-event
+  entity:
+    name: 2021 Kebbi kidnapping
+    kind: incident
+    subkind: mass-abduction
+  semantic:
+    category: criminal-abduction
+  relational:
+    predicate: occurred-at
+    object: Federal Government College Birnin Yauri, Kebbi, Nigeria
+  quantitative:
+    magnitude: '80'
+    unit: students-and-staff
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.day
+  - time.year
+  - prime.people
+  - prime.many
+  - prime.move
+  - prime.not
+  - prime.want
+  - prime.die
+  - prime.bad
+- key: work.a-man
+  category: literary-work
+  entity:
+    name: A Man
+    kind: novel
+    subkind: contemporary-fiction
+  semantic:
+    category: literary-artifact
+  relational:
+    predicate: created-by
+    object: Keiichiro Hirano
+  composed_of:
+  - prime.words
+  - prime.say
+  - prime.people
+  - prime.happen
+  - time.present
+- key: person.a-leo-levin
+  category: person
+  entity:
+    name: A. Leo Levin
+    kind: human
+    subkind: legal scholar
+  semantic:
+    category: academic-authority
+  relational:
+    predicate: teaches-at
+    object: institution.university-of-pennsylvania-law-school
+  quantitative:
+    magnitude: 1919-2015
+    unit: year-lifespan
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - time.past
+- key: convention.aarhus
+  category: international-legal-instrument
+  entity:
+    name: Aarhus Convention
+    kind: convention
+    subkind: UNECE environmental-governance
+  semantic:
+    category: access-information-participation-justice
+  relational:
+    predicate: signed-in
+    object: Aarhus, Denmark
+  quantitative:
+    magnitude: '49'
+    unit: parties
+  composed_of:
+  - prime.have
+  - prime.know
+  - prime.words
+  - prime.people
+  - prime.say
+  - prime.do
+  - prime.when
+  - prime.because
+  - prime.good
+- key: person.abdul-aziz-al-harbi
+  category: person
+  entity:
+    name: Abdul Aziz bin Ali al-Harbi
+    kind: person
+    subkind: scholar
+  semantic:
+    category: islamic-scholar
+  relational:
+  - predicate: affiliation
+    object: organization.umm-al-qura-university
+  - predicate: role
+    object: role.associate-professor
+  - predicate: founder-and-president
+    object: organization.arabic-language-academy-mecca
+  - predicate: origin
+    object: location.saudi-arabia
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.think
+  - prime.words
+- key: legal.abstract
+  category: document-type
+  entity:
+    name: Abstract
+    kind: legal document
+    subkind: summary
+  semantic:
+    category: condensed-representation
+  relational:
+    predicate: summarizes
+    object: legal document
+  composed_of:
+  - prime.words
+  - prime.short_time
+  - prime.part
+  - prime.have
+  - prime.many
+- key: law.acceleration
+  category: legal-concept
+  entity:
+    name: Acceleration
+    kind: legal-term
+    subkind: procedural-modification
+  semantic:
+    category: time-compression
+  relational:
+    predicate: shortens
+    object: time-period
+  composed_of:
+  - prime.short_time
+  - prime.happen
+  - logic.implies
+  - time.present
+- key: person.adam-tomkins
+  category: person
+  entity:
+    name: Adam Tomkins
+    kind: person
+    subkind: academic-politician
+  semantic:
+    category: british-scholar-legislator
+  relational:
+  - predicate: holds-position
+    object: role.john-millar-professor-public-law
+  - predicate: affiliated-with
+    object: institution.university-of-glasgow-school-of-law
+  - predicate: member-of
+    object: organization.scottish-conservatives
+  - predicate: served-as
+    object: role.msp-glasgow-region
+  quantitative:
+    magnitude: '1969'
+    unit: birth-year
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.do
+  - prime.think
+  - prime.say
+- key: publication.administrative-law-review
+  category: academic-journal
+  entity:
+    name: Administrative Law Review
+    kind: journal
+    subkind: law-review
+  semantic:
+    category: legal-scholarship-publication
+  relational:
+    predicate: official-journal-of
+    object: American Bar Association Section of Administrative Law & Regulatory Practice
+  quantitative:
+    magnitude: '1948'
+    unit: year-established
+  composed_of:
+  - prime.words
+  - prime.have
+  - prime.people
+  - prime.know
+  - prime.say
+  - time.past
+- key: person.adnan-gulshair-el-shukrijumah
+  category: person
+  entity:
+    name: Adnan Gulshair el Shukrijumah
+    kind: person
+    subkind: militant
+  semantic:
+    category: al-qaeda-member
+  relational:
+  - predicate: member-of
+    object: organization.al-qaeda
+  - predicate: citizen-of
+    object: nation.guyana
+  - predicate: citizen-of
+    object: nation.saudi-arabia
+  - predicate: born-in
+    object: nation.saudi-arabia
+  - predicate: grew-up-in
+    object: nation.united-states
+  quantitative:
+    magnitude: "1975\u20132014"
+    unit: lifespan-years
+  composed_of:
+  - prime.people
+  - prime.live
+  - prime.have
+  - time.past
+- key: person.adeniyi-akintola
+  category: person
+  entity:
+    name: Adeniyi Michael Akintola
+    kind: person
+    subkind: politician-lawyer
+  semantic:
+    category: nigerian-legal-professional
+  relational:
+  - predicate: has-profession
+    object: lawyer
+  - predicate: has-profession
+    object: politician
+  - predicate: holds-position
+    object: senior-advocate-of-nigeria
+  - predicate: leads-organization
+    object: niyi-akintola-law-firm
+  - predicate: holds-position
+    object: deputy-speaker-oyo-state-house
+  - predicate: nationality
+    object: nigerian
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.know
+  - prime.say
+  - prime.have
+- key: legal.agreement-in-principle
+  category: legal-instrument
+  entity:
+    name: agreement in principle
+    kind: legal-arrangement
+    subkind: negotiation-stage
+  semantic:
+    category: conditional-commitment
+  relational:
+    predicate: precedes
+    object: legal.contract
+  composed_of:
+  - prime.say
+  - prime.this
+  - prime.when
+  - prime.people
+  - prime.want
+  - prime.do
+  - prime.something
+  - prime.if
+  - prime.maybe
+  - logic.not
+  - prime.all
+  - prime.part
+  - prime.know
+- key: case.airey-v-ireland
+  category: legal-proceeding
+  entity:
+    name: Airey v. Ireland
+    kind: court case
+    subkind: European Court of Human Rights decision
+  semantic:
+    category: judicial-ruling
+  relational:
+    predicate: decided by
+    object: European Court of Human Rights
+  quantitative:
+    magnitude: '1979'
+    unit: year
+  composed_of:
+  - prime.happen
+  - time.past
+  - prime.people
+  - prime.words
+  - prime.think
+  - logic.and
+  - prime.say
+- key: person.alexander-of-roes
+  category: historical-figure
+  entity:
+    name: Alexander of Roes
+    kind: person
+    subkind: priest
+  semantic:
+    category: german-catholic-cleric-jurist
+  relational:
+  - predicate: occupation
+    object: canon-law-jurist
+  - predicate: position
+    object: dean-st-maria-im-kapitol-cologne
+  - predicate: nationality
+    object: german
+  - predicate: religious-affiliation
+    object: catholic
+  - predicate: social-group-member
+    object: cardinal-jacobus-de-columna-circle
+  - predicate: family-origin
+    object: cologne-patrician-family
+  - predicate: author-of
+    object: memoriale-work
+  composed_of:
+  - prime.people
+  - prime.have
+  - prime.do
+  - prime.kind
+  - prime.know
+  - prime.words
+- key: legal.allegation
+  category: legal-claim
+  entity:
+    name: allegation
+    kind: claim
+    subkind: unproven-assertion
+  semantic:
+    category: unproven-factual-claim
+  relational:
+    predicate: asserted-by
+    object: party-in-legal-proceeding
+  composed_of:
+  - prime.say
+  - prime.something
+  - logic.not
+  - prime.true
+  - prime.maybe
+- key: person.allen-weiner
+  category: academic
+  entity:
+    name: Allen S. Weiner
+    kind: person
+    subkind: academic
+  semantic:
+    category: legal-scholar
+  relational:
+    predicate: works-at
+    object: Stanford Law School
+  composed_of:
+  - prime.someone
+  - prime.people
+  - prime.know
+  - prime.say
+  - prime.part
+- key: dispute.amapa-question
+  category: geopolitical-conflict
+  entity:
+    name: "Amap\xE1 Question"
+    kind: border-dispute
+    subkind: Franco-Brazilian
+  semantic:
+    category: territorial-conflict
+  relational:
+    predicate: between
+    object: France and Brazil
+  quantitative:
+    magnitude: '1895'
+    unit: year
+  composed_of:
+  - prime.two
+  - prime.people
+  - prime.want
+  - prime.side
+  - prime.not
+  - prime.the_same
+  - prime.happen
+  - prime.bad
+  - time.past
+- key: person.amaru-reto-schenkel
+  category: person
+  entity:
+    name: Amaru Reto Schenkel
+    kind: person
+    subkind: athlete
+  semantic:
+    category: sprinter
+  relational:
+  - predicate: born_in
+    object: "Lom\xE9, Togo"
+  - predicate: represents
+    object: Switzerland
+  - predicate: specializes_in
+    object: 100 metres sprint
+  quantitative:
+    magnitude: '1988'
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.body
+  - prime.move
+  - prime.do
+  - spatial.back
+  - spatial.front
+- key: organization.american-jewish-joint-distribution-committee
+  category: relief-organization
+  entity:
+    name: American Jewish Joint Distribution Committee
+    kind: organization
+    subkind: relief-organization
+  semantic:
+    category: jewish-humanitarian-aid
+  relational:
+    predicate: supports
+    object: jewish-people-globally
+  composed_of:
+  - prime.people
+  - prime.have
+  - prime.want
+  - prime.good
+  - prime.live
+  - prime.many
+  - prime.where
+- key: person.andreas-fischer-lescano
+  category: person
+  entity:
+    name: Andreas Fischer-Lescano
+    kind: person
+    subkind: jurist
+  semantic:
+    category: legal-scholar
+  relational:
+  - predicate: has-nationality
+    object: Germany
+  - predicate: worked-at
+    object: University of Bremen
+  - predicate: works-at
+    object: University of Kassel
+  - predicate: specializes-in
+    object: public-law
+  - predicate: specializes-in
+    object: European-law
+  - predicate: specializes-in
+    object: international-law
+  - predicate: specializes-in
+    object: legal-theory
+  - predicate: specializes-in
+    object: transitional-justice
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - prime.have
+  - prime.do
+- key: person.andreas-helgstrand
+  category: athlete
+  entity:
+    name: Andreas Helgstrand
+    kind: person
+    subkind: dressage rider
+  semantic:
+    category: equestrian-sports-competitor
+  relational:
+  - predicate: from
+    object: location.denmark
+  - predicate: born
+    object: time.year
+  - predicate: competes-in
+    object: sport.dressage
+  - predicate: won
+    object: achievement.danish-dressage-championship
+  - predicate: banned-until
+    object: time.year
+  quantitative:
+  - magnitude: '1977'
+    unit: year-of-birth
+  - magnitude: '4'
+    unit: consecutive-championships
+  - magnitude: 2005-2008
+    unit: championship-span
+  - magnitude: '2025'
+    unit: ban-end-year
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.have
+  - prime.live
+  - prime.when
+- key: person.angela-m-banks
+  category: person
+  entity:
+    name: Angela M. Banks
+    kind: person
+    subkind: lawyer and legal academic
+  semantic:
+    category: expertise-immigration-citizenship
+  relational:
+  - predicate: specializes-in
+    object: immigration law
+  - predicate: specializes-in
+    object: citizenship law
+  - predicate: holds-position
+    object: Charles J. Merriam distinguished professor
+  - predicate: affiliated-with
+    object: Sandra Day O'Connor College of Law
+  - predicate: member-of
+    object: Council on Foreign Relations
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - prime.do
+  - prime.live
+- key: person.andrii-derkach
+  category: politician
+  entity:
+    name: Andrii Leonidovych Derkach
+    kind: person
+    subkind: politician
+  semantic:
+    category: political-figure
+  relational:
+  - predicate: nationality
+    object: Russian
+  - predicate: former-nationality
+    object: Ukrainian
+  - predicate: occupation
+    object: businessman
+  - predicate: member-of
+    object: Verkhovna Rada
+  - predicate: stripped-of
+    object: Ukrainian citizenship
+  quantitative:
+    magnitude: '1967'
+    unit: birth-year
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.have
+  - prime.part
+  - time.past
+- key: event.ismaaiyl-brinsley-2014-murders
+  category: violent-crime
+  entity:
+    name: Ismaaiyl Abdullah Brinsley shooting spree
+    kind: crime-event
+    subkind: homicide
+  semantic:
+    category: mass-shooting
+  relational:
+    predicate: resulted-in-deaths
+    object: NYPD officers Rafael Ramos and Wenjian Liu
+  quantitative:
+    magnitude: '2'
+    unit: victims-killed
+  composed_of:
+  - prime.do
+  - prime.bad
+  - prime.die
+  - prime.people
+  - prime.because
+  - prime.happen
+  - time.past
+  - spatial.in
+  - prime.move
+  - prime.before
+- key: legislation.animal-health-welfare-scotland-act-2006
+  category: legal-instrument
+  entity:
+    name: Animal Health and Welfare (Scotland) Act 2006
+    kind: legislation
+    subkind: act-of-parliament
+  semantic:
+    category: regulatory-statute
+  relational:
+    predicate: enacted_by
+    object: Scottish Parliament
+  quantitative:
+    magnitude: '2006'
+    unit: year
+  composed_of:
+  - prime.words
+  - prime.do
+  - prime.people
+  - prime.body
+  - prime.good
+  - prime.bad
+  - logic.and
+  - time.past
+- key: person.anita-schug
+  category: individual
+  entity:
+    name: Anita Schug
+    kind: person
+    subkind: neurosurgeon, activist
+  semantic:
+    category: refugee-doctor-humanitarian
+  relational:
+  - predicate: ethnicity
+    object: Rohingya
+  - predicate: profession
+    object: neurosurgeon
+  - predicate: activism
+    object: human rights
+  - predicate: location
+    object: Solothurn, Switzerland
+  - predicate: co-founder
+    object: Rohingya Medics Organisation
+  - predicate: education
+    object: Ukraine
+  - predicate: fled-at-age
+    object: five
+  - predicate: fled-from
+    object: Myanmar
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.know
+  - prime.want
+  - prime.because
+  - prime.move
+  - prime.before
+- key: person.anthony-cox-producer
+  category: person
+  entity:
+    name: Anthony D. Cox
+    kind: person
+    subkind: film producer
+  semantic:
+    category: creative-professional
+  relational:
+    predicate: produces
+    object: film
+  composed_of:
+  - prime.someone
+  - prime.do
+  - prime.have
+  - time.past
+- key: doctrine.sharia-application
+  category: legal-system
+  entity:
+    name: Sharia
+    kind: legal-doctrine
+    subkind: religious-law
+  semantic:
+    category: islamic-jurisprudence
+  relational:
+    predicate: derived-from
+    object: islamic-scripture
+  composed_of:
+  - prime.words
+  - prime.say
+  - prime.know
+  - prime.people
+  - prime.do
+  - prime.good
+  - prime.bad
+  - time.past
+  - logic.and
+- key: legal.arguendo
+  category: legal-rhetorical-device
+  entity:
+    name: arguendo
+    kind: legal-term
+    subkind: argumentative-procedure
+  semantic:
+    category: provisional-assumption-for-reasoning
+  relational:
+    predicate: enables
+    object: exploration-of-implications
+  composed_of:
+  - prime.if
+  - prime.think
+  - prime.maybe
+  - prime.say
+  - logic.implies
+- key: doctrine.argument-in-the-alternative
+  category: legal-strategy
+  entity:
+    name: Argument in the alternative
+    kind: doctrine
+    subkind: legal-strategy
+  semantic:
+    category: persuasion-through-exhaustive-cases
+  relational:
+    predicate: employed-by
+    object: lawyer
+  composed_of:
+  - prime.say
+  - prime.many
+  - prime.because
+  - prime.other
+  - logic.or
+  - prime.want
+  - prime.think
+  - prime.true
+- key: person.arthur-taylor-von-mehren
+  category: person
+  entity:
+    name: Arthur Taylor von Mehren
+    kind: person
+    subkind: scholar
+  semantic:
+    category: academic-authority
+  relational:
+  - predicate: profession
+    object: international-law-scholar
+  - predicate: affiliation
+    object: harvard-law-school
+  - predicate: nationality
+    object: american
+  quantitative:
+    magnitude: "1922\u20132006"
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - time.past
+- key: regulation.artificial-intelligence-act
+  category: legal-framework
+  entity:
+    name: Artificial Intelligence Act
+    kind: regulation
+    subkind: EU legal framework
+  semantic:
+    category: governance-of-technology
+  relational:
+    predicate: regulates
+    object: artificial intelligence systems
+  perceptual: {}
+  quantitative:
+    magnitude: 6 to 36
+    unit: months
+  composed_of:
+  - prime.when
+  - time.present
+  - prime.people
+  - prime.do
+  - prime.know
+  - prime.say
+  - logic.and
+  - prime.want
+- key: legal.assisted-person
+  category: legal-status
+  entity:
+    name: assisted person
+    kind: legal-status
+    subkind: indigence
+  semantic:
+    category: person-receiving-aid
+  relational:
+    predicate: receives-legal-support
+    object: indigent-individual
+  composed_of:
+  - prime.people
+  - prime.have
+  - prime.little
+  - prime.want
+- key: legal.assisting-offender
+  category: legal-status
+  entity:
+    name: assisting offender
+    kind: person
+    subkind: criminal-justice-participant
+  semantic:
+    category: conditional-cooperation-with-authorities
+  relational:
+  - predicate: is
+    object: suspected-or-convicted-criminal
+  - predicate: agrees-to-assist
+    object: investigation-or-prosecution
+  composed_of:
+  - prime.someone
+  - prime.bad
+  - prime.know
+  - prime.say
+  - logic.and
+  - prime.other
+  - prime.because
+- key: convention.asbestos-1986
+  category: legal-instrument
+  entity:
+    name: Asbestos Convention, 1986
+    kind: convention
+    subkind: international-labour-organization
+  semantic:
+    category: occupational-safety-regulation
+  relational:
+    predicate: adopted-by
+    object: International Labour Organization
+  quantitative:
+    magnitude: '72'
+    unit: session
+  composed_of:
+  - prime.words
+  - prime.people
+  - prime.can
+  - prime.bad
+  - prime.happen
+  - prime.body
+  - logic.and
+  - prime.because
+- key: event.baakline-attack
+  category: violent-incident
+  entity:
+    name: Baakline attack
+    kind: event
+    subkind: mass-killing
+  semantic:
+    category: homicide-spree
+  relational:
+    predicate: occurred-in
+    object: Baakline, Lebanon
+  quantitative:
+    magnitude: '9'
+    unit: people-killed
+  composed_of:
+  - prime.die
+  - prime.many
+  - prime.happen
+  - time.past
+  - prime.bad
+  - prime.because
+- key: person.bahey-el-din-barakat-pasha
+  category: historical-figure
+  entity:
+    name: Bahey El Din Barakat Pasha
+    kind: person
+    subkind: political-figure
+  semantic:
+    category: egyptian-politics
+  relational:
+    predicate: nationality
+    object: Egypt
+  quantitative:
+    magnitude: 1889-1972
+    unit: year-span
+  composed_of:
+  - prime.people
+  - prime.have
+  - time.past
+- key: conduct.bad-faith
+  category: ethical-violation
+  entity:
+    name: bad faith
+    kind: conduct
+    subkind: deception
+  semantic:
+    category: sustained-deception
+  relational:
+    predicate: is-form-of
+    object: deception
+  composed_of:
+  - prime.think
+  - prime.say
+  - prime.not
+  - logic.equals
+  - prime.want
+  - prime.do
+  - prime.other
+  - prime.bad
+- key: institution.balurghat-law-college
+  category: educational-institution
+  entity:
+    name: Balurghat Law College
+    kind: law college
+    subkind: higher-education
+  semantic:
+    category: legal-education-provider
+  relational:
+    predicate: located-in
+    object: Balurghat, Dakshin Dinajpur, West Bengal
+  quantitative:
+    magnitude: '2001'
+    unit: year-established
+  composed_of:
+  - prime.something
+  - prime.kind
+  - prime.inside
+  - prime.people
+  - prime.know
+  - prime.say
+  - prime.one
+- key: institution.battersea-general-hospital
+  category: healthcare-facility
+  entity:
+    name: Battersea General Hospital
+    kind: hospital
+    subkind: general
+  semantic:
+    category: medical-institution
+  relational:
+    predicate: located-in
+    object: Battersea, London
+  composed_of:
+  - prime.body
+  - prime.feel
+  - prime.bad
+  - prime.can
+  - prime.do
+  - prime.people
+  - spatial.in
+- key: legal.beneficiary
+  category: legal-role
+  entity:
+    name: Beneficiary
+    kind: legal-entity
+    subkind: recipient
+  semantic:
+    category: receives-benefit-from-another
+  relational:
+    predicate: receives-from
+    object: benefactor
+  composed_of:
+  - prime.someone
+  - prime.have
+  - prime.good
+  - prime.because
+  - prime.other
+- key: role.benefactor
+  category: social-role
+  entity:
+    name: benefactor
+    kind: person
+    subkind: agent-of-benefit
+  semantic:
+    category: charitable-giver
+  relational:
+    predicate: gives-help-to
+    object: person-group-organization
+  composed_of:
+  - prime.someone
+  - prime.do
+  - prime.good
+  - prime.other
+  - prime.have
+  - prime.want
+- key: person.benjamin-pell
+  category: person
+  entity:
+    name: Benjamin Pell
+    kind: person
+    subkind: British
+  semantic:
+    category: document-scavenger
+  relational:
+    predicate: searches-for
+    object: incriminating-documents
+  composed_of:
+  - prime.someone
+  - prime.do
+  - prime.touch
+  - prime.see
+  - prime.want
+  - prime.have
+  - prime.other
+  - time.past
+- key: person.bernardus-compostellanus-antiquus
+  category: historical-person
+  entity:
+    name: Bernardus Compostellanus Antiquus
+    kind: person
+    subkind: canonist
+  semantic:
+    category: medieval-scholar
+  relational:
+    predicate: native-of
+    object: Compostela
+  quantitative:
+    magnitude: early
+    unit: thirteenth-century
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.when
+  - time.year
+  - spatial.west
+- key: statute.french-intelligence-act-2015
+  category: legal-instrument
+  entity:
+    name: French Intelligence Act of 24 July 2015
+    kind: statute
+    subkind: national-security-legislation
+  semantic:
+    category: legal-regulation-of-state-surveillance
+  relational:
+    predicate: regulates
+    object: French intelligence surveillance programs
+  composed_of:
+  - prime.happen
+  - time.year
+  - prime.people
+  - prime.do
+  - prime.know
+  - prime.part
+  - logic.and
+- key: event.bishops-ban-1599
+  category: historical-censorship-event
+  entity:
+    name: Bishops' Ban of 1599
+    kind: censorship-action
+    subkind: book-burning-order
+  semantic:
+    category: suppression-of-expression
+  relational:
+    predicate: ordered-by
+    object: John Whitgift, Richard Bancroft
+  quantitative:
+    magnitude: '1'
+    unit: date
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.year
+  - prime.say
+  - prime.not
+  - prime.words
+  - prime.bad
+  - prime.many
+  - prime.do
+  - prime.because
+- key: group.blue-eyed-six
+  category: historical-criminal-group
+  entity:
+    name: Blue Eyed Six
+    kind: group
+    subkind: accused-persons
+  semantic:
+    category: arrested-and-indicted
+  relational:
+    predicate: charged-with
+    object: first-degree-murder
+  perceptual:
+    color: color.blue
+  quantitative:
+    magnitude: '6'
+    unit: number.6
+  composed_of:
+  - prime.people
+  - prime.many
+  - prime.bad
+  - color.blue
+  - time.past
+- key: publication.boston-college-law-review
+  category: academic-journal
+  entity:
+    name: Boston College Law Review
+    kind: journal
+    subkind: law-review
+  semantic:
+    category: legal-scholarship-publication
+  relational:
+    predicate: published-by
+    object: Boston College Law School
+  quantitative:
+    magnitude: '21'
+    unit: rank-among-student-edited-law-reviews
+  composed_of:
+  - prime.words
+  - prime.people
+  - prime.think
+  - prime.know
+  - time.past
+- key: system.bridge-navigational-watch-alarm
+  category: maritime-safety-device
+  entity:
+    name: Bridge Navigational Watch Alarm System
+    kind: alarm-system
+    subkind: maritime-safety
+  semantic:
+    category: automated-incapacity-detection
+  relational:
+    predicate: monitors
+    object: watch-officer-on-ship-bridge
+  composed_of:
+  - prime.happen
+  - prime.feel
+  - prime.move
+  - prime.not
+  - prime.know
+  - prime.body
+  - prime.long_time
+- key: person.brian-coote
+  category: legal-academic
+  entity:
+    name: Brian Coote
+    kind: person
+    subkind: legal-academic
+  relational:
+  - predicate: nationality
+    object: New Zealand
+  - predicate: authored
+    object: book.exception-clauses
+  - predicate: held-position
+    object: position.dean-law-faculty-auckland
+  quantitative:
+  - magnitude: '1929'
+    unit: birth-year
+  - magnitude: '2019'
+    unit: death-year
+  - magnitude: '1983'
+    unit: dean-start-year
+  - magnitude: '1987'
+    unit: dean-end-year
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - time.past
+- key: person.bubba-the-love-sponge
+  category: person
+  entity:
+    name: Bubba the Love Sponge Clem
+    kind: person
+    subkind: radio-personality
+  semantic:
+    category: broadcast-media-professional
+  relational:
+    predicate: hosts
+    object: The Bubba the Love Sponge Show
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.say
+  - prime.words
+- key: person.bruce-fein
+  category: person
+  entity:
+    name: Bruce Fein
+    kind: person
+    subkind: lawyer
+  semantic:
+    category: legal-professional
+  relational:
+  - predicate: specializes-in
+    object: constitutional-law
+  - predicate: specializes-in
+    object: international-law
+  - predicate: writes-about
+    object: civil-liberties
+  - predicate: affiliated-with
+    object: american-enterprise-institute
+  - predicate: affiliated-with
+    object: heritage-foundation
+  composed_of:
+  - prime.someone
+  - prime.do
+  - prime.words
+  - prime.know
+  - prime.good
+- key: agreement.burgrecht
+  category: medieval-legal-institution
+  entity:
+    name: Burgrecht
+    kind: agreement
+    subkind: medieval-municipal-rights
+  semantic:
+    category: legal-covenant-between-settlements
+  relational:
+    predicate: governs-relationship-between
+    object: town-and-surrounding-settlements
+  composed_of:
+  - prime.have
+  - prime.people
+  - prime.say
+  - prime.because
+  - prime.this
+  - prime.kind
+  - time.past
+  - spatial.between
+- key: case.bunny-industries-v-fsw-enterprises
+  category: legal-decision
+  entity:
+    name: Bunny Industries v FSW Enterprises
+    kind: court-case
+    subkind: supreme-court-decision
+  semantic:
+    category: judicial-ruling
+  relational:
+    predicate: decided-by
+    object: court.supreme-court-queensland
+  composed_of:
+  - prime.two
+  - prime.people
+  - prime.happen
+  - prime.say
+  - prime.because
+- key: communication.call-sign
+  category: identifier
+  entity:
+    name: call sign
+    kind: designation
+    subkind: radio-identifier
+  semantic:
+    category: unique-station-marker
+  relational:
+    predicate: identifies
+    object: transmitting-station
+  composed_of:
+  - prime.words
+  - prime.one
+  - prime.something
+  - prime.have
+  - prime.because
+  - prime.say
+- key: law.capital-punishment-abolition-burundi
+  category: legal-policy
+  entity:
+    name: Capital punishment abolition in Burundi
+    kind: legal-action
+    subkind: abolition
+  semantic:
+    category: criminal-justice-reform
+  relational:
+    predicate: abolished-in
+    object: Burundi
+  quantitative:
+    magnitude: '24'
+    unit: April 2009
+  composed_of:
+  - prime.not
+  - prime.happen
+  - prime.die
+  - prime.because
+  - prime.say
+  - time.past
+  - prime.one
+  - prime.before
+- key: legal.capital-punishment-moldova
+  category: legal-history
+  entity:
+    name: Capital punishment in Moldova
+    kind: legal-practice
+    subkind: execution
+  semantic:
+    category: abolished-law
+  relational:
+    predicate: abolished-in
+    object: Moldova
+  quantitative:
+    magnitude: '2005'
+    unit: year
+  composed_of:
+  - prime.die
+  - prime.because
+  - logic.not
+  - time.past
+  - prime.people
+  - prime.say
+- key: law.capital-punishment-monaco
+  category: legal-history
+  entity:
+    name: Capital punishment in Monaco
+    kind: legal-institution
+    subkind: penal-practice
+  semantic:
+    category: abolished-practice
+  relational:
+    predicate: abolished-in
+    object: Monaco
+  quantitative:
+    magnitude: '1962'
+    unit: year
+  composed_of:
+  - prime.die
+  - prime.happen
+  - prime.before
+  - time.past
+  - logic.not
+- key: organization.carter-ledyard-milburn
+  category: law-firm
+  entity:
+    name: Carter Ledyard & Milburn LLP
+    kind: organization
+    subkind: law-firm
+  semantic:
+    category: professional-services
+  relational:
+    predicate: located-in
+    object: New York City
+  quantitative:
+    magnitude: '1854'
+    unit: year-founded
+  composed_of:
+  - prime.people
+  - prime.words
+  - prime.know
+  - prime.do
+- key: event.cat-stevens-rushdie-fatwa-statements
+  category: historical-controversy
+  entity:
+    name: Cat Stevens's comments about Salman Rushdie
+    kind: event
+    subkind: public-statement
+  semantic:
+    category: endorsement-of-violence
+  relational:
+    predicate: response-to
+    object: event.khomeini-rushdie-fatwa
+  composed_of:
+  - prime.someone
+  - prime.say
+  - prime.want
+  - prime.people
+  - prime.die
+  - prime.because
+  - prime.words
+  - prime.bad
+  - time.past
+- key: institution.chamber-of-deputies
+  category: legislative-body
+  entity:
+    name: Chamber of Deputies
+    kind: legislative-institution
+    subkind: house
+  semantic:
+    category: lower-house-or-unicameral-legislature
+  relational:
+    predicate: is-part-of
+    object: legislature
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.say
+  - logic.or
+- key: person.chan-kai-kit
+  category: person
+  entity:
+    name: Chan Kai-kit
+    kind: person
+    subkind: businessman-politician
+  semantic:
+    category: macanese-public-figure
+  relational:
+  - predicate: from
+    object: Macau
+  - predicate: engaged-in
+    object: business
+  - predicate: member-of
+    object: Legislative Assembly of Macau
+  - predicate: accused-of
+    object: fraud
+  - predicate: wanted-by
+    object: ICAC
+  composed_of:
+  - prime.people
+  - prime.live
+  - prime.do
+  - prime.bad
+  - prime.know
+  - prime.say
+  - prime.have
+- key: convention.chemicals
+  category: international-agreement
+  entity:
+    name: Chemicals Convention
+    kind: convention
+    subkind: international-labour-organization
+  semantic:
+    category: regulatory-framework
+  relational:
+    predicate: established-by
+    object: International Labour Organization
+  composed_of:
+  - prime.words
+  - prime.people
+  - prime.happen
+  - prime.all
+  - logic.and
+- key: criminal.chicago-strangler
+  category: serial-killer
+  entity:
+    name: Chicago Strangler
+    kind: person
+    subkind: unidentified-serial-killer
+  semantic:
+    category: criminal-agent
+  relational:
+    predicate: caused-death-of
+    object: multiple-women-in-chicago
+  composed_of:
+  - prime.someone
+  - prime.do
+  - prime.bad
+  - prime.many
+  - prime.die
+  - prime.other
+  - prime.people
+  - prime.think
+  - prime.maybe
+- key: crime.child-abduction
+  category: criminal-act
+  entity:
+    name: child abduction
+    kind: crime
+    subkind: unlawful-removal
+  semantic:
+    category: unauthorized-taking
+  relational:
+    predicate: removal-of
+    object: minor-from-lawful-custody
+  composed_of:
+  - prime.do
+  - prime.not
+  - prime.can
+  - prime.have
+  - prime.someone
+  - prime.other
+  - prime.bad
+- key: legislation.child-support-act-1991
+  category: legislation
+  entity:
+    name: Child Support Act 1991
+    kind: statute
+    subkind: act-of-parliament
+  semantic:
+    category: legal-instrument-establishing-obligations
+  relational:
+    predicate: enacted-by
+    object: New Zealand Parliament
+  quantitative:
+    magnitude: '1991'
+    unit: year
+  composed_of:
+  - prime.words
+  - prime.have
+  - prime.people
+  - prime.someone
+  - prime.other
+  - prime.do
+  - prime.because
+  - logic.and
+- key: evidence.circumstantial
+  category: epistemic-support
+  entity:
+    name: circumstantial evidence
+    kind: evidence
+    subkind: indirect
+  semantic:
+    category: inference-based-support
+  relational:
+    predicate: supports-through-inference
+    object: conclusion
+  composed_of:
+  - prime.something
+  - prime.because
+  - prime.think
+  - logic.implies
+  - prime.not
+  - prime.can
+  - prime.say
+  - prime.true
+- key: error.clerical
+  category: mistake
+  entity:
+    name: clerical error
+    kind: error
+    subkind: administrative
+  semantic:
+    category: unintended-action
+  relational:
+    predicate: caused_by
+    object: office worker
+  composed_of:
+  - prime.not
+  - prime.want
+  - prime.do
+  - prime.happen
+  - prime.words
+  - prime.think
+- key: social.code-of-silence
+  category: social-practice
+  entity:
+    name: code of silence
+    kind: practice
+    subkind: information-withholding
+  semantic:
+    category: intentional-non-disclosure
+  relational:
+    predicate: involves
+    object: person
+  composed_of:
+  - prime.not
+  - prime.say
+  - prime.know
+  - prime.words
+  - prime.people
+- key: person.colton-harris-moore
+  category: person
+  entity:
+    name: Colton Harris Moore
+    kind: person
+    subkind: fugitive
+  semantic:
+    category: criminal-fugitive
+  relational:
+    predicate: accused-of
+    object: theft.property-crime
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.bad
+  - prime.move
+  - prime.have
+  - time.past
+- key: publication.columbia-journal-of-tax-law
+  category: academic-journal
+  entity:
+    name: Columbia Journal of Tax Law
+    kind: journal
+    subkind: law-journal
+  semantic:
+    category: scholarly-publication
+  relational:
+    predicate: published_by
+    object: Columbia Law School
+  quantitative:
+    magnitude: '3'
+    unit: issues-per-year
+  composed_of:
+  - prime.words
+  - prime.think
+  - prime.know
+  - prime.say
+  - prime.this
+  - prime.people
+  - time.present
+- key: role.commissioner
+  category: social-role
+  entity:
+    name: Commissioner
+    kind: role
+    subkind: appointed-authority
+  semantic:
+    category: formal-position-of-authority
+  relational:
+    predicate: member-of
+    object: commission
+  composed_of:
+  - prime.people
+  - prime.have
+  - prime.one
+  - prime.other
+  - prime.part
+- key: event.compromise-of-thorn
+  category: historical-agreement
+  entity:
+    name: Compromise of Thorn
+    kind: peace-agreement
+    subkind: treaty
+  semantic:
+    category: conflict-resolution
+  relational:
+    predicate: resolves
+    object: event.polish-teutonic-war
+  quantitative:
+    magnitude: '1521'
+    unit: year
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.past
+  - prime.two
+  - prime.people
+  - prime.bad
+  - prime.because
+  - prime.not
+  - prime.want
+  - logic.and
+  - prime.say
+  - prime.the_same
+  - prime.after
+- key: publication.connecticut-law-review
+  category: academic-journal
+  entity:
+    name: Connecticut Law Review
+    kind: periodical
+    subkind: law-review
+  semantic:
+    category: scholarly-legal-publication
+  relational:
+    predicate: produced-by
+    object: University of Connecticut School of Law
+  quantitative:
+  - magnitude: '1000'
+    unit: pages-per-year
+  - magnitude: '4'
+    unit: issues-per-year
+  - magnitude: '50'
+    unit: ranking-2025
+  composed_of:
+  - prime.words
+  - prime.think
+  - prime.people
+  - prime.do
+  - prime.part
+  - time.year
+  - number.1000
+- key: concept.connivance
+  category: social-wrongdoing
+  entity:
+    name: connivance
+    kind: act
+    subkind: conspiracy
+  semantic:
+    category: knowing-deception-with-consent
+  relational:
+    predicate: involves
+    object: wrongdoing
+  composed_of:
+  - prime.know
+  - prime.think
+  - prime.say
+  - prime.not
+  - prime.the_same
+  - prime.other
+  - prime.want
+  - prime.someone
+  - prime.people
+  - logic.and
+- key: person.constance-grewe
+  category: person
+  entity:
+    name: Constance Grewe
+    kind: person
+    subkind: academic-judge
+  semantic:
+    category: legal-scholar
+  relational:
+  - predicate: nationality
+    object: German-French
+  - predicate: former-role
+    object: judge-constitutional-court-bosnia-herzegovina
+  - predicate: current-role
+    object: professor-emeritus-university-strasbourg
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.do
+  - prime.have
+- key: person.constantin-c-arion
+  category: historical-figure
+  entity:
+    name: Constantin C. Arion
+    kind: person
+    subkind: politician
+  semantic:
+    category: political-leader
+  relational:
+  - predicate: affiliated-with
+    object: National Liberal Party
+  - predicate: affiliated-with
+    object: Conservative Party
+  - predicate: affiliated-with
+    object: People's Party
+  - predicate: served-as
+    object: Minister of Religion and Public Instruction
+  - predicate: served-as
+    object: Minister of Agriculture
+  - predicate: served-as
+    object: Minister of Interior
+  - predicate: served-as
+    object: Minister of Foreign Affairs
+  - predicate: nationality
+    object: Romanian
+  quantitative:
+  - magnitude: '1855'
+    unit: year-born
+  - magnitude: '1923'
+    unit: year-died
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.have
+  - prime.think
+  - time.past
+- key: social.consumer-complaint
+  category: social-action
+  entity:
+    name: Consumer complaint
+    kind: communicative-act
+    subkind: expression-of-dissatisfaction
+  semantic:
+    category: negative-evaluation-report
+  relational:
+    predicate: directed-to
+    object: responsible-party
+  composed_of:
+  - prime.say
+  - prime.bad
+  - prime.feel
+  - prime.someone
+  - prime.other
+  - prime.think
+- key: artifact.contraband
+  category: illegal-goods
+  entity:
+    name: Contraband
+    kind: artifact
+    subkind: prohibited-item
+  semantic:
+    category: illegal-possession
+  relational:
+    predicate: forbidden-by
+    object: law
+  composed_of:
+  - prime.something
+  - prime.bad
+  - logic.not
+  - prime.can
+  - prime.have
+  - concept.legality
+- key: treaty.convention-for-conservation-of-antarctic-seals
+  category: international-agreement
+  entity:
+    name: Convention for the Conservation of Antarctic Seals
+    kind: treaty
+    subkind: multilateral-conservation-agreement
+  semantic:
+    category: legal-instrument-for-environmental-protection
+  relational:
+    predicate: part-of
+    object: antarctic-treaty-system
+  quantitative:
+    magnitude: '1972'
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.many
+  - prime.say
+  - prime.words
+  - prime.do
+  - prime.good
+  - prime.live
+  - time.past
+  - spatial.around
+- key: treaty.convention-safeguarding-intangible-cultural-heritage
+  category: international-agreement
+  entity:
+    name: Convention for the Safeguarding of the Intangible Cultural Heritage
+    kind: treaty
+    subkind: UNESCO convention
+  semantic:
+    category: cultural-preservation-instrument
+  relational:
+    predicate: adopted-by
+    object: UNESCO General Conference
+  quantitative:
+    magnitude: '17'
+    unit: October 2003
+  composed_of:
+  - prime.have
+  - prime.can
+  - prime.do
+  - prime.words
+  - prime.people
+  - prime.live
+  - time.past
+  - prime.long_time
+- key: treaty.convention-of-limits-1926
+  category: international-agreement
+  entity:
+    name: Convention of Limits
+    kind: treaty
+    subkind: bilateral-boundary-agreement
+  semantic:
+    category: border-demarcation
+  relational:
+    predicate: signed-between
+    object: Portugal and Spain
+  quantitative:
+    magnitude: '1926'
+    unit: year
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.year
+  - prime.two
+  - prime.people
+  - prime.say
+  - prime.words
+  - spatial.between
+  - prime.side
+- key: action.copying
+  category: action
+  entity:
+    name: copying
+    kind: action
+    subkind: duplication
+  semantic:
+    category: information-reproduction
+  relational:
+  - predicate: duplicates
+    object: information-or-artifact
+  - predicate: based-on
+    object: original-instance
+  - predicate: not-using
+    object: original-process
+  composed_of:
+  - prime.do
+  - prime.the_same
+  - prime.have
+  - prime.think
+  - prime.not
+  - logic.equals
+- key: law.copyright-argentina
+  category: legal-instrument
+  entity:
+    name: Law No. 11.723 of Argentina
+    kind: statute
+    subkind: copyright-law
+  semantic:
+    category: intellectual-property-protection
+  relational:
+    predicate: governs
+    object: creative-works-argentina
+  composed_of:
+  - prime.have
+  - prime.words
+  - prime.people
+  - prime.because
+  - time.past
+- key: symbol.copyright
+  category: legal-mark
+  entity:
+    name: copyright symbol
+    kind: symbol
+    subkind: legal-notice-mark
+  semantic:
+    category: ownership-declaration
+  relational:
+    predicate: marks
+    object: creative-work
+  perceptual:
+    visual: circle-with-c-inside
+  composed_of:
+  - prime.words
+  - prime.mine
+  - prime.have
+  - prime.people
+  - prime.say
+- key: institution.court-of-appeal-of-kenya
+  category: judicial-institution
+  entity:
+    name: Court of Appeal of Kenya
+    kind: court
+    subkind: appellate-court
+  semantic:
+    category: legal-authority
+  relational:
+    predicate: established-in
+    object: Kenya
+  quantitative:
+    magnitude: '42'
+    unit: judges
+  composed_of:
+  - prime.people
+  - prime.have
+  - prime.do
+  - prime.know
+  - prime.say
+  - logic.and
+  - institution.legal-system
+- key: phenomenon.crime-in-arkansas
+  category: social-phenomenon
+  entity:
+    name: Crime in Arkansas
+    kind: phenomenon
+    subkind: criminal-activity
+  semantic:
+    category: illegal-acts-in-place
+  relational:
+    predicate: occurs-in
+    object: Arkansas
+  composed_of:
+  - prime.happen
+  - prime.bad
+  - prime.where
+  - logic.and
+- key: practice.crime-reenactment
+  category: investigative-procedure
+  entity:
+    name: crime reenactment
+    kind: practice
+    subkind: police-investigation
+  semantic:
+    category: reconstructive-demonstration
+  relational:
+    predicate: part-of
+    object: police-investigation
+  composed_of:
+  - prime.do
+  - prime.say
+  - prime.someone
+  - prime.bad
+  - prime.see
+  - prime.know
+  - prime.when
+  - prime.where
+  - prime.happen
+- key: phenomenon.crime-in-north-carolina
+  category: social-phenomenon
+  entity:
+    name: Crime in North Carolina
+    kind: social-phenomenon
+    subkind: criminal-activity
+  semantic:
+    category: illegal-harmful-acts
+  relational:
+    predicate: occurs-in
+    object: North Carolina
+  quantitative:
+  - magnitude: '415810'
+    unit: reported-crimes
+    when: '2008'
+  - magnitude: '318464'
+    unit: reported-crimes
+    when: '2014'
+  - magnitude: '605'
+    unit: murders
+    when: '2008'
+  - magnitude: '510'
+    unit: murders
+    when: '2014'
+  composed_of:
+  - prime.bad
+  - prime.do
+  - prime.people
+  - prime.happen
+  - prime.many
+- key: person.curtis-bradley
+  category: person
+  entity:
+    name: Curtis A. Bradley
+    kind: person
+    subkind: lawyer
+  semantic:
+    category: legal-scholar
+  relational:
+    predicate: employed-at
+    object: institution.university-of-chicago-law-school
+  composed_of:
+  - prime.people
+  - prime.think
+  - prime.know
+  - prime.words
+- key: publication.current-issues-in-criminal-justice
+  category: academic-journal
+  entity:
+    name: Current Issues in Criminal Justice
+    kind: journal
+    subkind: peer-reviewed law journal
+  semantic:
+    category: scholarly-publication
+  relational:
+    predicate: published by
+    object: Sydney Institute of Criminology
+  quantitative:
+    magnitude: '1989'
+    unit: year-of-first-publication
+  composed_of:
+  - prime.words
+  - prime.people
+  - prime.know
+  - prime.say
+  - time.past
+- key: person.curtis-r-reitz
+  category: person
+  entity:
+    name: Curtis Randall Reitz
+    kind: person
+    subkind: legal academic
+  semantic:
+    category: academic-law-professor
+  relational:
+    predicate: held position at
+    object: University of Pennsylvania Law School
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+- key: person.cutting-ball
+  category: historical-figure
+  entity:
+    name: Cutting Ball
+    kind: person
+    subkind: criminal
+  semantic:
+    category: notorious-criminal
+  relational:
+    predicate: lived-during
+    object: elizabethan-age
+  composed_of:
+  - prime.people
+  - prime.bad
+  - time.past
+- key: institution.dfb-sports-court
+  category: regulatory-body
+  entity:
+    name: DFB Sports Court
+    kind: institution
+    subkind: judicial-body
+  semantic:
+    category: sports-governance
+  relational:
+    predicate: part-of
+    object: German Football Association
+  composed_of:
+  - prime.do
+  - prime.not
+  - prime.good
+  - prime.bad
+  - prime.people
+  - prime.have
+  - prime.because
+- key: person.dave-everett
+  category: person
+  entity:
+    name: David Francis Everett
+    kind: person
+    subkind: criminal
+  semantic:
+    category: wanted-criminal
+  relational:
+  - predicate: nationality
+    object: Australian
+  - predicate: occupation
+    object: criminal
+  - predicate: occupation
+    object: writer
+  - predicate: member-of
+    object: Australian Special Air Service Regiment
+  - predicate: member-of
+    object: Karen National Liberation Army
+  - predicate: status
+    object: most-wanted-criminal-in-Australian-history
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.bad
+  - prime.live
+  - prime.words
+  - prime.know
+- key: person.david-ahenakew
+  category: person
+  entity:
+    name: David Ahenakew
+    kind: human
+    subkind: politician
+  semantic:
+    category: first-nations-leader
+  relational:
+  - predicate: member-of
+    object: group.cree
+  - predicate: held-position
+    object: role.national-chief-assembly-first-nations
+  - predicate: citizen-of
+    object: place.canada
+  quantitative:
+    magnitude: 1933-2010
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.live
+  - time.past
+- key: person.david-d-siegel
+  category: person
+  entity:
+    name: David D. Siegel
+    kind: person
+    subkind: law professor
+  semantic:
+    category: legal-academia
+  relational:
+    predicate: occupies_role
+    object: law professor
+  quantitative:
+    magnitude: '1931'
+    unit: birth year
+  composed_of:
+  - prime.people
+  - prime.live
+  - prime.know
+  - prime.say
+- key: organization.davis-graham-stubbs
+  category: law-firm
+  entity:
+    name: Davis Graham & Stubbs
+    kind: organization
+    subkind: law-firm
+  semantic:
+    category: professional-services
+  relational:
+    predicate: located-in
+    object: Denver, Colorado
+  quantitative:
+    magnitude: '2'
+    unit: rank-by-size-in-Colorado
+  composed_of:
+  - prime.people
+  - prime.have
+  - prime.kind
+  - prime.do
+- key: person.davy-crockett-outlaw
+  category: historical-person
+  entity:
+    name: Davy Crockett
+    kind: person
+    subkind: outlaw
+  semantic:
+    category: lawbreaker
+  relational:
+    predicate: relative-of
+    object: person.davy-crockett-frontiersman
+  composed_of:
+  - prime.people
+  - prime.bad
+  - prime.live
+- key: person.dave-stewart-baseball
+  category: person
+  entity:
+    name: Dave Stewart
+    kind: person
+    subkind: baseball-player-executive
+  semantic:
+    category: professional-athlete-executive
+  relational:
+  - predicate: born
+    object: '1957'
+  - predicate: nickname
+    object: Smoke
+  - predicate: position
+    object: pitcher
+  - predicate: drafted-by
+    object: los-angeles-dodgers
+  - predicate: draft-round
+    object: '16'
+  - predicate: draft-year
+    object: '1975'
+  - predicate: career-span
+    object: 1978-1995
+  - predicate: played-for
+    object:
+    - los-angeles-dodgers
+    - texas-rangers
+    - philadelphia-phillies
+    - oakland-athletics
+    - toronto-blue-jays
+  - predicate: championships
+    object: '3'
+  quantitative:
+  - magnitude: '3.95'
+    unit: era
+  - magnitude: '168'
+    unit: wins
+  - magnitude: '129'
+    unit: losses
+  - magnitude: '4'
+    unit: consecutive-20-win-seasons
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.have
+  - prime.when
+  - prime.more
+  - prime.good
+  - prime.body
+  - time.past
+  - time.present
+- key: law.deception
+  category: legal-concept
+  entity:
+    name: Deception
+    kind: legal-term
+    subkind: statutory-offence-element
+  semantic:
+    category: criminal-law-doctrine
+  relational:
+    predicate: element-of
+    object: statutory-offences
+  composed_of:
+  - prime.say
+  - prime.not
+  - prime.true
+  - prime.someone
+  - prime.think
+  - prime.know
+- key: decree.theatres-paris
+  category: legal-instrument
+  entity:
+    name: Decree on the theatres
+    kind: decree
+    subkind: administrative-limitation
+  semantic:
+    category: legal-restriction
+  relational:
+    predicate: issued-by
+    object: Napoleon I
+  quantitative:
+    magnitude: '8'
+    unit: theatres
+  composed_of:
+  - prime.do
+  - prime.not
+  - prime.many
+  - prime.happen
+  - time.past
+  - prime.have
+  - prime.because
+- key: decree.ranking-1606
+  category: legal-instrument
+  entity:
+    name: Decreet of Ranking of 1606
+    kind: decree
+    subkind: precedence-determination
+  semantic:
+    category: legal-ranking
+  relational:
+    predicate: determines
+    object: peerage.scotland-precedence
+  quantitative:
+    magnitude: '1606'
+    unit: year
+  composed_of:
+  - prime.say
+  - prime.have
+  - prime.kind
+  - prime.other
+  - logic.and
+  - prime.before
+  - prime.after
+  - prime.people
+  - prime.part
+- key: rank.deputy-commander-metropolitan-police
+  category: organizational-rank
+  entity:
+    name: Deputy commander
+    kind: rank
+    subkind: police-rank
+  semantic:
+    category: hierarchical-authority-position
+  relational:
+    predicate: part_of
+    object: London Metropolitan Police
+  quantitative:
+    magnitude: 1946-1968
+    unit: years-of-existence
+  composed_of:
+  - prime.have
+  - prime.people
+  - prime.kind
+  - prime.do
+  - time.past
+- key: person.dieter-stauder
+  category: person
+  entity:
+    name: Dieter Stauder
+    kind: person
+    subkind: attorney-at-law
+  semantic:
+    category: legal-professional
+  relational:
+  - predicate: nationality
+    object: German
+  - predicate: expertise
+    object: intellectual-property-law
+  - predicate: directed
+    object: organization.centre-for-international-industrial-property-studies
+  - predicate: member-of
+    object: organization.european-patent-office
+  - predicate: worked-for
+    object: organization.bardehle-pagenberg-dost-altenburg-geissler
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.know
+  - prime.words
+  - time.past
+- key: tort.dignitary
+  category: legal-harm
+  entity:
+    name: dignitary tort
+    kind: tort
+    subkind: intentional
+  semantic:
+    category: non-physical-harm
+  relational:
+    predicate: causes
+    object: damage to reputation
+  composed_of:
+  - prime.bad
+  - prime.someone
+  - prime.do
+  - prime.not
+  - prime.body
+  - prime.say
+  - prime.other
+  - prime.people
+- key: police.director-general
+  category: rank
+  entity:
+    name: Director General
+    kind: police rank
+    subkind: senior leadership
+  semantic:
+    category: hierarchical-authority
+  relational:
+    predicate: is-highest-in
+    object: police organization
+  composed_of:
+  - prime.above
+  - prime.one
+  - prime.people
+  - prime.have
+  - prime.can
+  - prime.do
+- key: lawsuit.direct-action
+  category: legal-action
+  entity:
+    name: direct-action lawsuit
+    kind: lawsuit
+    subkind: insurance-claim
+  semantic:
+    category: legal-remedy
+  relational:
+    predicate: brought-against
+    object: insurance-company
+  composed_of:
+  - prime.do
+  - prime.bad
+  - prime.because
+  - prime.other
+  - prime.say
+  - logic.and
+- key: concept.dominium
+  category: legal-ontology
+  entity:
+    name: Dominium
+    kind: concept
+    subkind: legal-right
+  semantic:
+    category: control-and-possession
+  relational:
+    predicate: has-authority-over
+    object: something
+  composed_of:
+  - prime.have
+  - prime.can
+  - prime.do
+  - logic.and
+  - prime.other
+  - prime.people
+- key: legal-case.dolan-v-united-states
+  category: legal-case
+  entity:
+    name: Dolan v. United States
+    kind: court-decision
+    subkind: supreme-court-ruling
+  semantic:
+    category: appellate-judicial-authority
+  relational:
+    predicate: establishes-legal-precedent
+    object: sentencing-restitution-authority
+  quantitative:
+    magnitude: '90'
+    unit: days
+  composed_of:
+  - prime.is
+  - prime.when
+  - prime.happen
+  - prime.can
+  - prime.do
+  - prime.say
+  - prime.before
+  - prime.because
+  - prime.people
+  - logic.and
+  - time.past
+- key: person.donald-good
+  category: person
+  entity:
+    name: Donald Bernard Waters Good
+    kind: person
+    subkind: judge
+  semantic:
+    category: british-barrister-colonial-judge
+  relational:
+    predicate: profession
+    object: judge
+  quantitative:
+    magnitude: "1907\u20131993"
+    unit: years
+  composed_of:
+  - prime.people
+  - prime.live
+  - time.past
+- key: agreement.doha-trips-declaration
+  category: legal-document
+  entity:
+    name: Doha Declaration on the TRIPS Agreement and Public Health
+    kind: international-agreement
+    subkind: WTO-ministerial-declaration
+  semantic:
+    category: patent-flexibilty-for-medicines
+  relational:
+    predicate: affirms
+    object: member-state-authority-to-prioritize-public-health-over-patent-protection
+  composed_of:
+  - prime.when
+  - time.past
+  - prime.people
+  - prime.say
+  - prime.can
+  - prime.have
+  - prime.because
+  - prime.good
+  - prime.many
+- key: legal.drabble-v-hycolite
+  category: legal-case
+  entity:
+    name: Drabble (Harold) Ltd v Hycolite Manufacturing Co
+    kind: court-case
+    subkind: litigation
+  semantic:
+    category: dispute-resolution
+  relational:
+    predicate: involves
+    object: two-parties-in-legal-conflict
+  composed_of:
+  - prime.two
+  - prime.people
+  - prime.say
+  - logic.not_equals
+  - prime.think
+  - prime.want
+- key: person.e-adamson-hoebel
+  category: person
+  entity:
+    name: Edward Adamson Hoebel
+    kind: person
+    subkind: academic
+  semantic:
+    category: american-anthropologist-educator
+  relational:
+    predicate: profession
+    object: anthropology
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.words
+  - prime.think
+  - prime.know
+  - time.past
+- key: edict.cyrus
+  category: historical-proclamation
+  entity:
+    name: Edict of Cyrus
+    kind: proclamation
+    subkind: royal-decree
+  semantic:
+    category: authorization-and-permission
+  relational:
+    predicate: issued-by
+    object: Cyrus II of Persia
+  quantitative:
+    magnitude: '539'
+    unit: BCE
+  composed_of:
+  - prime.say
+  - prime.someone
+  - prime.can
+  - prime.do
+  - prime.people
+  - prime.want
+  - prime.happen
+  - prime.because
+  - time.past
+- key: edict.pitres
+  category: historical-legislation
+  entity:
+    name: "Edict of P\xEEtres"
+    kind: capitulary
+    subkind: royal-decree
+  semantic:
+    category: governmental-action
+  relational:
+    predicate: promulgated-by
+    object: Charles the Bald
+  quantitative:
+    magnitude: '864'
+    unit: year
+  composed_of:
+  - prime.do
+  - prime.say
+  - prime.someone
+  - prime.people
+  - prime.move
+  - prime.good
+  - time.past
+- key: decree.edict-of-expulsion
+  category: historical-decree
+  entity:
+    name: Edict of Expulsion
+    kind: royal-decree
+    subkind: expulsion-order
+  semantic:
+    category: state-mandated-exclusion
+  relational:
+    predicate: issued-by
+    object: Edward I of England
+  quantitative:
+    magnitude: '1290'
+    unit: year
+  composed_of:
+  - prime.say
+  - prime.people
+  - prime.not
+  - prime.can
+  - prime.live
+  - prime.here
+  - prime.because
+  - prime.think
+  - prime.bad
+  - prime.one
+  - prime.other
+  - prime.want
+  - prime.happen
+  - prime.when
+  - time.past
+  - logic.and
+  - spatial.out
+- key: person.eduardo-vio-grossi
+  category: person
+  entity:
+    name: Eduardo Renato Vio Grossi
+    kind: person
+    subkind: lawyer, judge
+  semantic:
+    category: legal-professional
+  relational:
+  - predicate: nationality
+    object: Chile
+  - predicate: occupation
+    object: lawyer
+  - predicate: occupation
+    object: judge
+  - predicate: served-on
+    object: Inter-American Court of Human Rights
+  quantitative:
+  - magnitude: '1944'
+    unit: year-birth
+  - magnitude: '2022'
+    unit: year-death
+  - magnitude: '2010'
+    unit: year-service-start
+  - magnitude: '2021'
+    unit: year-service-end
+  composed_of:
+  - prime.people
+  - prime.live
+  - prime.die
+  - prime.know
+  - prime.do
+- key: legislation.electronic-commerce-protection-act
+  category: legal-statute
+  entity:
+    name: Electronic Commerce Protection Act
+    kind: legislation
+    subkind: anti-spam-statute
+  semantic:
+    category: regulatory-prohibition
+  relational:
+    predicate: enacted-by
+    object: Government of Canada
+  quantitative:
+    magnitude: '2009'
+    unit: year
+  composed_of:
+  - prime.not
+  - prime.say
+  - prime.words
+  - prime.many
+  - prime.people
+  - prime.bad
+  - time.past
+- key: person.elihu-lauterpacht
+  category: person
+  entity:
+    name: Elihu Lauterpacht
+    kind: person
+    subkind: academic-lawyer
+  semantic:
+    category: international-law-specialist
+  relational:
+  - predicate: specializes-in
+    object: field.international-law
+  - predicate: son-of
+    object: person.hersch-lauterpacht
+  - predicate: founder-of
+    object: institution.lauterpacht-centre-international-law
+  composed_of:
+  - prime.people
+  - prime.think
+  - prime.words
+  - prime.know
+- key: person.enrique-salinas
+  category: person
+  entity:
+    name: Enrique Eduardo Guillermo Salinas de Gortari
+    kind: human
+    subkind: male
+  relational:
+    predicate: sibling-of
+    object: person.carlos-salinas
+  composed_of:
+  - prime.people
+  - prime.have
+  - prime.other
+- key: person.eric-talley
+  category: person
+  entity:
+    name: Eric Leonard Talley
+    kind: person
+    subkind: legal scholar
+  semantic:
+    category: academic-professional
+  relational:
+  - predicate: works-at
+    object: institution.columbia-law-school
+  - predicate: holds-position
+    object: role.professor
+  - predicate: co-directs
+    object: institution.ira-millstein-center
+  composed_of:
+  - prime.someone
+  - prime.know
+  - prime.words
+  - prime.think
+- key: person.ernesto-garzon-valdes
+  category: person
+  entity:
+    name: "Ernesto Garz\xF3n Vald\xE9s"
+    kind: person
+    subkind: philosopher
+  semantic:
+    category: Argentine-philosopher
+  relational:
+    predicate: profession
+    object: philosophy
+  quantitative:
+    magnitude: "1927\u20132023"
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.think
+  - prime.words
+  - time.past
+- key: person.ernest-nys
+  category: person
+  entity:
+    name: Ernest Nys
+    kind: person
+    subkind: lawyer-scholar
+  semantic:
+    category: legal-professional
+  relational:
+  - predicate: nationality
+    object: Belgium
+  - predicate: profession
+    object: lawyer
+  - predicate: field
+    object: public-international-law
+  - predicate: affiliation
+    object: University-of-Brussels
+  - predicate: role
+    object: member-Permanent-Court-of-Arbitration
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.say
+  - prime.do
+- key: legal.estray
+  category: legal-status
+  entity:
+    name: estray
+    kind: domestic-animal
+    subkind: wandering-lost
+  semantic:
+    category: lost-property-animal
+  relational:
+    predicate: separated-from
+    object: owner
+  composed_of:
+  - prime.something
+  - prime.kind
+  - prime.live
+  - prime.move
+  - prime.where
+  - logic.not
+  - prime.have
+  - prime.know
+- key: person.esteban-pavletich-trujillo
+  category: person
+  entity:
+    name: Esteban Pavletich Trujillo
+    kind: person
+    subkind: writer
+  semantic:
+    category: croatian-peruvian-writer-journalist-activist
+  relational:
+    predicate: has-nationality
+    object: Croatian-Peruvian
+  composed_of:
+  - prime.people
+  - prime.words
+  - prime.say
+  - time.past
+- key: procedure.european-small-claims
+  category: legal-process
+  entity:
+    name: European Small Claims Procedure
+    kind: procedure
+    subkind: judicial-mechanism
+  semantic:
+    category: cross-border-dispute-resolution
+  relational:
+    predicate: applies-to
+    object: European Union member states
+  quantitative:
+    magnitude: '5000'
+    unit: EUR
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.year
+  - prime.many
+  - prime.people
+  - prime.say
+  - prime.because
+  - prime.move
+  - spatial.between
+  - prime.want
+  - logic.and
+  - prime.know
+- key: doctrine.exceptionalism
+  category: belief-system
+  entity:
+    name: exceptionalism
+    kind: doctrine
+    subkind: comparative-belief
+  semantic:
+    category: superiority-claim
+  relational:
+    predicate: asserts
+    object: entity-is-extraordinary
+  composed_of:
+  - prime.think
+  - prime.something
+  - prime.like
+  - prime.good
+  - prime.more
+  - prime.other
+  - prime.kind
+- key: person.f-elrington-ball
+  category: person
+  entity:
+    name: Francis Elrington Ball
+    kind: person
+    subkind: author-legal-historian
+  semantic:
+    category: irish-intellectual
+  relational:
+    predicate: created-work
+    object: work.the-judges-in-ireland
+  quantitative:
+    magnitude: 1863-1928
+    unit: year-lifespan
+  composed_of:
+  - prime.people
+  - prime.words
+  - prime.know
+  - time.past
+- key: claim.false-accusation
+  category: allegation
+  entity:
+    name: false accusation
+    kind: claim
+    subkind: wrongdoing-allegation
+  semantic:
+    category: untrue-allegation
+  relational:
+    predicate: asserts-wrongdoing-of
+    object: target-person-or-entity
+  composed_of:
+  - prime.say
+  - prime.someone
+  - prime.bad
+  - logic.not
+  - prime.true
+- key: allegation.false-child-sexual-abuse
+  category: legal-accusation
+  entity:
+    name: False allegation of child sexual abuse
+    kind: accusation
+    subkind: criminal-allegation
+  semantic:
+    category: bad-faith-claim
+  relational:
+    predicate: accuses
+    object: person-of-abuse
+  composed_of:
+  - prime.say
+  - prime.bad
+  - prime.not
+  - prime.happen
+  - prime.someone
+  - prime.other
+  - prime.people
+  - prime.body
+  - logic.and
+- key: person.febronio-indio-do-brasil
+  category: criminal
+  entity:
+    name: "Febr\xF4nio \xCDndio do Brasil"
+    kind: person
+    subkind: serial killer
+  semantic:
+    category: violent-crime
+  relational:
+    predicate: perpetrated
+    object: serial killing
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.bad
+  - prime.many
+  - prime.die
+- key: event.february-2021-kaduna-katsina-attacks
+  category: criminal-violence
+  entity:
+    name: February 2021 Kaduna and Katsina attacks
+    kind: event
+    subkind: armed-attack
+  semantic:
+    category: criminal-violence
+  relational:
+    predicate: occurs-in
+    object: location.kaduna-katsina-nigeria
+  quantitative:
+    magnitude: '36'
+    unit: deaths
+  composed_of:
+  - prime.happen
+  - prime.die
+  - prime.many
+  - prime.people
+  - time.past
+  - time.day
+- key: person.fernando-campos-harriet
+  category: person
+  entity:
+    name: Fernando Campos Harriet
+    kind: person
+    subkind: lawyer, historian
+  semantic:
+    category: professional-intellectual
+  relational:
+    predicate: from
+    object: Chile
+  quantitative:
+    magnitude: "1910\u20132003"
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - time.past
+- key: person.fiona-sampson
+  category: person
+  entity:
+    name: Fiona Sampson
+    kind: human
+    subkind: poet, writer, scholar
+  semantic:
+    category: british-literary-figure
+  relational:
+    predicate: creates
+    object: literary works
+  composed_of:
+  - prime.people
+  - prime.words
+  - prime.think
+  - time.year
+- key: edict.firman
+  category: governmental-decree
+  entity:
+    name: Firman
+    kind: decree
+    subkind: royal-mandate
+  semantic:
+    category: authoritative-command
+  relational:
+    predicate: issued-by
+    object: sovereign-in-islamic-state
+  composed_of:
+  - prime.say
+  - prime.do
+  - prime.can
+  - prime.because
+  - prime.one
+  - prime.other
+  - prime.people
+- key: medical.foetal-impairment
+  category: medical-condition
+  entity:
+    name: foetal impairment
+    kind: medical-condition
+    subkind: developmental-abnormality
+  semantic:
+    category: fetal-health-status
+  relational:
+    predicate: grounds-for
+    object: abortion-decision
+  composed_of:
+  - prime.before
+  - prime.body
+  - prime.not
+  - prime.good
+  - prime.happen
+  - prime.kind
+- key: designation.fouo
+  category: information-security
+  entity:
+    name: For Official Use Only
+    kind: designation
+    subkind: security-classification
+  semantic:
+    category: access-restriction
+  relational:
+    predicate: restricts-access-to
+    object: government-information
+  composed_of:
+  - prime.words
+  - prime.people
+  - prime.know
+  - prime.not
+  - prime.some
+- key: person.fouad-ammoun
+  category: person
+  entity:
+    name: Fouad Ammoun
+    kind: human
+    subkind: jurist
+  semantic:
+    category: legal-professional
+  relational:
+  - predicate: origin
+    object: Lebanon
+  - predicate: occupation
+    object: lawyer
+  - predicate: occupation
+    object: diplomat
+  - predicate: role
+    object: judge-international-court-of-justice
+  - predicate: role
+    object: vice-president-icj
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - prime.say
+  - prime.do
+- key: person.francesco-da-barberino
+  category: historical-person
+  entity:
+    name: Francesco da Barberino
+    kind: person
+    subkind: notary-doctor-of-law-author
+  semantic:
+    category: tuscan-legal-scholar
+  relational:
+    predicate: lived-in
+    object: tuscany
+  quantitative:
+    magnitude: "1264\u20131348"
+    unit: year-range
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - time.past
+- key: treaty.france-mauritius-delimitation-convention
+  category: international-agreement
+  entity:
+    name: "France\u2013Mauritius Delimitation Convention"
+    kind: treaty
+    subkind: maritime-boundary-delimitation
+  semantic:
+    category: legal-instrument-establishing-boundaries
+  relational:
+    predicate: delimits-boundary-between
+    object: "Mauritius and R\xE9union"
+  quantitative:
+    magnitude: '1980'
+    unit: year
+  composed_of:
+  - prime.two
+  - prime.people
+  - prime.have
+  - prime.part
+  - spatial.between
+  - prime.say
+  - prime.this
+  - time.past
+- key: treaty.france-saint-lucia-delimitation-agreement
+  category: international-agreement
+  entity:
+    name: "France\u2013Saint Lucia Delimitation Agreement"
+    kind: treaty
+    subkind: maritime-boundary-delimitation
+  semantic:
+    category: international-maritime-law
+  relational:
+    predicate: delimits-boundary-between
+    object: Saint Lucia and Martinique
+  quantitative:
+    magnitude: '1981'
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.two
+  - prime.say
+  - prime.words
+  - spatial.between
+  - prime.part
+  - prime.have
+- key: history.francoist-spain
+  category: historical-period
+  entity:
+    name: Francoist Spain
+    kind: state
+    subkind: dictatorship
+  semantic:
+    category: authoritarian-rule
+  relational:
+    predicate: ruled-by
+    object: Francisco Franco
+  quantitative:
+    magnitude: '39'
+    unit: years
+  composed_of:
+  - prime.this
+  - prime.people
+  - prime.live
+  - prime.one
+  - prime.want
+  - prime.have
+  - prime.because
+  - prime.not
+  - time.past
+  - time.year
+  - spatial.in
+- key: event.frankfurt-hauptbahnhof-murder
+  category: criminal-event
+  entity:
+    name: Frankfurt Hauptbahnhof murder
+    kind: event
+    subkind: homicide
+  semantic:
+    category: violent-crime
+  relational:
+    predicate: occurs_at
+    object: Frankfurt Hauptbahnhof
+  quantitative:
+    magnitude: '1'
+    unit: victim
+  composed_of:
+  - prime.die
+  - prime.someone
+  - prime.do
+  - prime.bad
+  - prime.one
+  - time.past
+  - time.year
+- key: concept.free-contract
+  category: economic-concept
+  entity:
+    name: free contract
+    kind: concept
+    subkind: economic-principle
+  semantic:
+    category: voluntary-agreement
+  relational:
+    predicate: enables
+    object: voluntary-decision-making
+  composed_of:
+  - prime.people
+  - prime.can
+  - prime.want
+  - prime.say
+  - logic.and
+  - prime.do
+- key: right.freedom-of-thought
+  category: right
+  entity:
+    name: Freedom of thought
+    kind: right
+    subkind: cognitive-liberty
+  semantic:
+    category: individual-autonomy
+  relational:
+    predicate: enables
+    object: independent-cognition
+  composed_of:
+  - prime.i
+  - prime.can
+  - prime.think
+  - prime.not
+  - prime.other
+  - prime.want
+  - prime.the_same
+- key: criminal.freeway-phantom
+  category: serial-killer
+  entity:
+    name: Freeway Phantom
+    kind: person
+    subkind: unidentified-serial-killer
+  semantic:
+    category: criminal-offender
+  relational:
+    predicate: murdered
+    object: six-victims
+  quantitative:
+    magnitude: '6'
+    unit: victims
+  composed_of:
+  - prime.someone
+  - prime.not
+  - prime.know
+  - prime.do
+  - prime.die
+  - prime.bad
+  - time.past
+  - spatial.in
+- key: person.fulgentius-ferrandus
+  category: historical-figure
+  entity:
+    name: Fulgentius Ferrandus
+    kind: person
+    subkind: theologian
+  semantic:
+    category: 6th-century-african-christian-theologian
+  relational:
+    predicate: located-in
+    object: Carthage
+  composed_of:
+  - prime.people
+  - prime.think
+  - prime.words
+  - time.year
+  - spatial.south
+- key: crime.gangland-killing
+  category: criminal-act
+  entity:
+    name: gangland killing
+    kind: murder
+    subkind: organized-crime-murder
+  semantic:
+    category: unlawful-death
+  relational:
+    predicate: connected-to
+    object: organized-crime
+  composed_of:
+  - prime.die
+  - prime.bad
+  - prime.happen
+  - prime.because
+  - crime.organized-crime
+- key: person.gary-ridgway
+  category: criminal-individual
+  entity:
+    name: Gary Leon Ridgway
+    kind: person
+    subkind: serial-killer
+  semantic:
+    category: criminal-agent
+  relational:
+  - predicate: perpetrator-of
+    object: crime.serial-homicide
+  - predicate: known-as
+    object: epithet.green-river-killer
+  - predicate: origin
+    object: spatial.region-northwestern-usa
+  quantitative:
+  - magnitude: '49'
+    unit: confirmed-victims
+  - magnitude: '1982'
+    unit: year-start
+  - magnitude: '1998'
+    unit: year-end
+  - magnitude: '1949'
+    unit: birth-year
+  - magnitude: '2001'
+    unit: arrest-year
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.bad
+  - prime.die
+  - prime.many
+  - time.past
+  - logic.and
+- key: military.general-order-143
+  category: historical-directive
+  entity:
+    name: General Order No. 143
+    kind: military-directive
+    subkind: War Department order
+  semantic:
+    category: authorization-for-troop-formation
+  relational:
+    predicate: authorizes-creation-of
+    object: United States Colored Troops
+  quantitative:
+    magnitude: '1863'
+    unit: year
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.year
+  - prime.do
+  - prime.people
+  - prime.kind
+  - prime.many
+  - prime.say
+  - prime.words
+  - logic.and
+  - prime.can
+- key: case.godfrey-v-demon-internet-service
+  category: legal-precedent
+  entity:
+    name: Godfrey v Demon Internet Service
+    kind: court-case
+    subkind: defamation-liability
+  semantic:
+    category: internet-provider-responsibility
+  relational:
+    predicate: establishes-liability-rule-for
+    object: internet-service-providers
+  composed_of:
+  - prime.is
+  - prime.people
+  - prime.say
+  - prime.bad
+  - prime.know
+  - logic.and
+  - prime.have
+  - prime.part
+  - prime.when
+  - prime.happen
+  - prime.where
+- key: doctrine.golden-rule
+  category: ethical-principle
+  entity:
+    name: Golden Rule
+    kind: principle
+    subkind: ethical
+  semantic:
+    category: reciprocal-treatment-ethics
+  relational:
+    predicate: prescribes
+    object: mutual-respect-conduct
+  composed_of:
+  - prime.do
+  - prime.other
+  - prime.like
+  - prime.want
+  - prime.the_same
+  - logic.implies
+- key: "person.gonzalo-fern\xE1ndez"
+  category: person
+  entity:
+    name: "Gonzalo Daniel Fern\xE1ndez Dom\xEDnguez"
+    kind: person
+    subkind: politician
+  semantic:
+    category: uruguayan-lawyer-and-statesman
+  relational:
+  - predicate: has-profession
+    object: profession.law
+  - predicate: has-role
+    object: role.foreign-minister
+  - predicate: has-role
+    object: role.defense-minister
+  - predicate: nationality
+    object: country.uruguay
+  composed_of:
+  - prime.people
+  - prime.have
+  - prime.do
+  - prime.know
+- key: entity.gordo-monkey
+  category: animal-subject
+  entity:
+    name: Gordo
+    kind: monkey
+    subkind: space-test-subject
+  semantic:
+    category: experimental-animal
+  relational:
+    predicate: sent-to
+    object: space
+  composed_of:
+  - prime.body
+  - prime.people
+  - prime.happen
+  - prime.move
+  - spatial.up
+  - prime.die
+  - time.past
+- key: experience.grievance
+  category: emotional-state
+  entity:
+    name: grievance
+    kind: state
+    subkind: complaint-basis
+  semantic:
+    category: wrong-or-hardship
+  relational:
+    predicate: causes
+    object: complaint
+  composed_of:
+  - prime.bad
+  - prime.feel
+  - prime.say
+  - prime.because
+- key: person.grover-cleveland-land
+  category: person
+  entity:
+    name: Grover Cleveland Land
+    kind: person
+    subkind: baseball player
+  semantic:
+    category: athlete-catcher
+  relational:
+    predicate: played-for
+    object: Cleveland Naps, Brooklyn Tip-Tops
+  quantitative:
+    magnitude: '95'
+    unit: games
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.live
+  - time.year
+- key: law.guarantee-international
+  category: international-law
+  entity:
+    name: Guarantee
+    kind: legal-agreement
+    subkind: international-obligation
+  semantic:
+    category: state-commitment-to-support
+  relational:
+    predicate: helps-fulfill
+    object: international-obligations
+  composed_of:
+  - prime.people
+  - prime.say
+  - prime.can
+  - prime.do
+  - prime.because
+  - prime.other
+  - prime.bad
+  - logic.and
+- key: concept.harm
+  category: moral-legal
+  entity:
+    name: Harm
+    kind: concept
+    subkind: moral-legal
+  semantic:
+    category: moral-badness
+  relational:
+    predicate: causes
+    object: prime.bad
+  composed_of:
+  - prime.bad
+  - prime.do
+  - prime.someone
+  - prime.feel
+- key: person.hans-peter-kaul
+  category: person
+  entity:
+    name: Hans-Peter Kaul
+    kind: person
+    subkind: scholar, diplomat, lawyer
+  semantic:
+    category: legal-professional
+  relational:
+  - predicate: nationality
+    object: German
+  - predicate: occupation
+    object: international law scholar
+  - predicate: occupation
+    object: diplomat
+  - predicate: occupation
+    object: lawyer
+  - predicate: served-as
+    object: Judge at International Criminal Court
+  - predicate: service-period
+    object: 2003-2014
+  - predicate: died
+    object: 21 July 2014
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.do
+  - prime.live
+  - prime.die
+  - time.past
+- key: person.harold-demsetz
+  category: economist
+  entity:
+    name: Harold Demsetz
+    kind: person
+    subkind: economist
+  semantic:
+    category: academic-scholar
+  relational:
+    predicate: affiliated-with
+    object: University of California at Los Angeles
+  quantitative:
+    magnitude: 1930-2019
+    unit: years-of-life
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.live
+  - time.past
+  - prime.do
+- key: "person.hans-j\xFCrgen-teuteberg"
+  category: person
+  entity:
+    name: "Hans J\xFCrgen Teuteberg"
+    kind: person
+    subkind: historian
+  semantic:
+    category: social-and-economic-historian
+  relational:
+    predicate: worked-at
+    object: "University of M\xFCnster"
+  quantitative:
+    magnitude: 1974-1995
+    unit: years-of-service
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.this
+  - time.past
+- key: person.harmon-wilfred
+  category: person
+  entity:
+    name: Harmon Lynn Wilfred
+    kind: human
+    subkind: businessman
+  semantic:
+    category: whistleblower-asylum-seeker
+  relational:
+  - predicate: citizen_of
+    object: country.new-zealand
+  - predicate: formerly_citizen_of
+    object: country.united-states
+  - predicate: emigrated_to
+    object: country.canada
+  - predicate: sought_asylum_in
+    object: country.new-zealand
+  - predicate: exposed_alleged
+    object: concept.corruption
+  - predicate: renounced_citizenship
+    object: country.united-states
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.say
+  - prime.bad
+  - prime.move
+  - prime.want
+  - prime.because
+  - time.past
+- key: law.hearing
+  category: legal-proceeding
+  entity:
+    name: hearing
+    kind: proceeding
+    subkind: judicial
+  semantic:
+    category: formal-examination-before-authority
+  relational:
+    predicate: occurs-before
+    object: law.judgment
+  composed_of:
+  - prime.happen
+  - prime.think
+  - prime.say
+  - prime.know
+  - prime.someone
+  - logic.and
+  - prime.people
+  - prime.see
+  - prime.hear
+- key: law.hazardous-substances-and-new-organisms-act-1996
+  category: legislation
+  entity:
+    name: Hazardous Substances and New Organisms Act 1996
+    kind: Act of Parliament
+    subkind: environmental-protection-legislation
+  semantic:
+    category: legal-framework-for-regulating-hazardous-materials
+  relational:
+    predicate: enacted-by
+    object: Parliament of New Zealand
+  quantitative:
+    magnitude: '1996'
+    unit: year
+  composed_of:
+  - prime.is
+  - prime.kind
+  - prime.do
+  - prime.bad
+  - prime.have
+  - prime.people
+  - prime.words
+  - prime.know
+  - prime.can
+  - prime.think
+- key: person.hendrik-de-moy
+  category: historical-figure
+  entity:
+    name: Hendrik de Moy
+    kind: person
+    subkind: administrator-historian
+  semantic:
+    category: secretary-and-historian
+  relational:
+  - predicate: held-position
+    object: antwerp.city-council-secretary
+  - predicate: practiced-discipline
+    object: discipline.history
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.words
+  - prime.think
+  - prime.know
+- key: person.henry-ireton
+  category: historical-figure
+  entity:
+    name: Henry Ireton
+    kind: person
+    subkind: English general and politician
+  semantic:
+    category: military-leader-and-statesman
+  relational:
+  - predicate: lived-during
+    object: wars.three-kingdoms
+  - predicate: family-relation
+    object: person.oliver-cromwell
+  - predicate: died-at
+    object: place.limerick
+  - predicate: died-in
+    object: time.year
+  quantitative:
+    magnitude: "1611\u20131651"
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.live
+  - prime.die
+  - prime.long_time
+- key: action.hijacking
+  category: action
+  entity:
+    name: hijacking
+    kind: action
+    subkind: seizure
+  semantic:
+    category: forcible-control-seizure
+  relational:
+    predicate: prime.do
+    object: entity.seizure-control
+  composed_of:
+  - prime.do
+  - prime.can
+  - prime.other
+  - prime.move
+  - prime.want
+  - prime.not
+  - prime.say
+- key: crime.homicide
+  category: criminal-act
+  entity:
+    name: homicide
+    kind: act
+    subkind: lethal-action
+  semantic:
+    category: causing-death
+  relational:
+    predicate: causes
+    object: death
+  composed_of:
+  - prime.someone
+  - prime.do
+  - prime.other
+  - prime.die
+  - logic.and
+  - prime.body
+- key: organization.honigman-llp
+  category: law-firm
+  entity:
+    name: Honigman LLP
+    kind: organization
+    subkind: law-firm
+  semantic:
+    category: professional-services-provider
+  relational:
+    predicate: founded-in
+    object: Detroit
+  quantitative:
+  - magnitude: '350'
+    unit: attorneys
+  - magnitude: '8'
+    unit: offices
+  - magnitude: '135'
+    unit: ranking-position
+  composed_of:
+  - prime.people
+  - prime.have
+  - prime.know
+  - prime.words
+  - prime.do
+- key: event.hong-tai-raid
+  category: law-enforcement-action
+  entity:
+    name: Hong Tai raid
+    kind: event
+    subkind: police-raid
+  semantic:
+    category: law-enforcement-operation
+  relational:
+    predicate: conducted-by
+    object: Philippine National Police
+  quantitative:
+    magnitude: '1'
+    unit: raid
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.day
+  - prime.do
+  - prime.people
+  - prime.say
+  - prime.bad
+  - prime.want
+  - prime.know
+  - prime.because
+  - prime.other
+  - prime.not
+- key: text.homosexuality-hebrew-bible
+  category: religious-textual-analysis
+  entity:
+    name: Homosexuality in the Hebrew Bible
+    kind: textual-concept
+    subkind: scriptural-interpretation
+  semantic:
+    category: sexual-orientation-in-ancient-religious-text
+  relational:
+    predicate: discussed-in
+    object: Torah
+  composed_of:
+  - prime.people
+  - prime.like
+  - prime.the_same
+  - prime.kind
+  - prime.body
+  - prime.words
+  - prime.say
+  - prime.think
+- key: law.hotchpot
+  category: legal-procedure
+  entity:
+    name: hotchpot
+    kind: legal-doctrine
+    subkind: property-law
+  semantic:
+    category: blending-offsetting-property
+  relational:
+    predicate: ensures
+    object: equality-in-division
+  composed_of:
+  - prime.have
+  - prime.part
+  - prime.many
+  - logic.and
+  - prime.the_same
+  - prime.do
+- key: convention.hours-of-work-industry-1919
+  category: legal-instrument
+  entity:
+    name: Hours of Work (Industry) Convention, 1919
+    kind: convention
+    subkind: international-labour-agreement
+  semantic:
+    category: labour-regulation
+  relational:
+    predicate: created-by
+    object: International Labour Organization
+  composed_of:
+  - prime.words
+  - prime.people
+  - prime.do
+  - time.day
+  - prime.long_time
+  - prime.have
+  - logic.and
+  - prime.good
+- key: person.howard-f-chang
+  category: person
+  entity:
+    name: Howard F. Chang
+    kind: person
+    subkind: academic
+  semantic:
+    category: legal-scholar
+  relational:
+    predicate: employed_at
+    object: institution.university-of-pennsylvania-law-school
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+- key: legislation.house-of-commons-qualification-act-1838
+  category: legal-document
+  entity:
+    name: House of Commons Qualification Act 1838
+    kind: legislation
+    subkind: act-of-parliament
+  semantic:
+    category: parliamentary-law
+  relational:
+    predicate: jurisdiction
+    object: united-kingdom
+  composed_of:
+  - prime.words
+  - prime.have
+  - prime.when
+  - time.past
+- key: person.hwang-jau-yuan
+  category: person
+  entity:
+    name: Hwang Jau-yuan
+    kind: person
+    subkind: jurist
+  semantic:
+    category: legal-professional
+  relational:
+  - predicate: born
+    object: '1962'
+  - predicate: nationality
+    object: Taiwan
+  - predicate: served-as
+    object: "Constitutional Court justice 2016\u20132024"
+  - predicate: appointed
+    object: WTO representative 2025
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.say
+  - time.past
+  - time.present
+- key: institution.ims-law-college
+  category: educational-institution
+  entity:
+    name: IMS Law College
+    kind: law school
+    subkind: higher-education
+  semantic:
+    category: legal-education
+  relational:
+  - predicate: located-in
+    object: Noida, Uttar Pradesh, India
+  - predicate: affiliated-with
+    object: Chaudhary Charan Singh University
+  - predicate: recognized-by
+    object: Bar Council of India
+  - predicate: closed-in
+    object: '2004'
+  composed_of:
+  - prime.something
+  - prime.kind
+  - prime.people
+  - prime.know
+  - prime.words
+  - time.past
+- key: engine.idle
+  category: mechanical-state
+  entity:
+    name: Idle (engine)
+    kind: operational-mode
+    subkind: rotational-speed-state
+  semantic:
+    category: engine-running-without-motion
+  relational:
+    predicate: occurs-when
+    object: vehicle-stationary-with-engine-on
+  quantitative:
+    magnitude: resting-point
+    unit: RPM
+  composed_of:
+  - prime.happen
+  - prime.move
+  - prime.not
+  - prime.live
+  - prime.moment
+- key: legal.imminent-peril
+  category: legal-doctrine
+  entity:
+    name: Imminent Peril
+    kind: legal-concept
+    subkind: doctrine
+  semantic:
+    category: danger-immediate-threatening
+  relational:
+    predicate: defines-as
+    object: certain-immediate-impending-danger
+  composed_of:
+  - prime.bad
+  - prime.happen
+  - prime.near
+  - time.present
+  - prime.maybe
+  - logic.and
+  - prime.not
+- key: action.impersonation
+  category: behavior
+  entity:
+    name: impersonator
+    kind: agent
+    subkind: performer or actor
+  semantic:
+    category: imitation-of-another
+  relational:
+    predicate: imitates
+    object: another person
+  composed_of:
+  - prime.do
+  - prime.like
+  - prime.other
+  - prime.someone
+  - prime.see
+  - prime.move
+  - prime.say
+  - prime.think
+- key: process.impeachment-investigation
+  category: governmental-process
+  entity:
+    name: impeachment investigation
+    kind: process
+    subkind: governmental-inquiry
+  semantic:
+    category: formal-scrutiny-of-official-conduct
+  relational:
+    predicate: precedes-or-enables
+    object: impeachment
+  composed_of:
+  - prime.know
+  - prime.someone
+  - prime.do
+  - prime.bad
+  - prime.because
+  - prime.say
+  - prime.think
+  - prime.people
+- key: legal.implied-consent
+  category: legal-doctrine
+  entity:
+    name: Implied Consent
+    kind: legal-concept
+    subkind: consent-doctrine
+  semantic:
+    category: permission-without-explicit-statement
+  relational:
+    predicate: inferred-from
+    object: actions-and-circumstances
+  composed_of:
+  - prime.not
+  - prime.say
+  - prime.have
+  - prime.want
+  - prime.do
+  - prime.because
+  - prime.think
+  - logic.implies
+- key: textual.incipit
+  category: textual-identification
+  entity:
+    name: incipit
+    kind: textual-marker
+    subkind: opening-words
+  semantic:
+    category: initial-identifying-label
+  relational:
+    predicate: marks-beginning-of
+    object: text
+  composed_of:
+  - prime.before
+  - prime.words
+  - prime.this
+  - prime.say
+- key: law.incitement
+  category: criminal-offense
+  entity:
+    name: incitement
+    kind: legal-concept
+    subkind: inchoate-offense
+  semantic:
+    category: encouragement-to-harm
+  relational:
+    predicate: encourages
+    object: crime-commission
+  composed_of:
+  - prime.say
+  - prime.want
+  - prime.other
+  - prime.do
+  - prime.bad
+  - logic.implies
+- key: concept.information-asymmetry
+  category: economic-concept
+  entity:
+    name: information asymmetry
+    kind: situation
+    subkind: epistemic-disparity
+  semantic:
+    category: unequal-knowledge-distribution
+  relational:
+    predicate: involves
+    object: two-parties-with-differential-information
+  composed_of:
+  - prime.two
+  - prime.people
+  - prime.know
+  - prime.more
+  - prime.the_same
+  - logic.not_equals
+- key: law.intelligence-act-france
+  category: legislation
+  entity:
+    name: Intelligence Act (France)
+    kind: statute
+    subkind: national-security-law
+  semantic:
+    category: surveillance-regulation
+  relational:
+    predicate: regulates
+    object: French intelligence surveillance programs
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.past
+  - prime.people
+  - prime.do
+  - prime.see
+  - prime.hear
+  - logic.and
+  - prime.not
+  - prime.want
+  - prime.other
+  - prime.know
+- key: event.international-womens-year
+  category: historical-designation
+  entity:
+    name: International Women's Year
+    kind: event
+    subkind: annual-observance
+  semantic:
+    category: recognition-of-group
+  relational:
+    predicate: designated-by
+    object: United Nations
+  quantitative:
+    magnitude: '1975'
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.kind
+  - prime.the_same
+  - time.year
+  - prime.say
+  - prime.think
+  - prime.good
+- key: criminal.interstate-80-rapist
+  category: criminal-offender
+  entity:
+    name: Interstate 80 rapist
+    kind: person
+    subkind: serial-rapist
+  semantic:
+    category: unidentified-serial-offender
+  relational:
+    predicate: committed-crimes-in
+    object: Sacramento, California
+  quantitative:
+    magnitude: multiple
+    unit: rape-offenses
+  composed_of:
+  - prime.someone
+  - prime.do
+  - prime.bad
+  - prime.many
+  - spatial.in
+  - time.past
+  - prime.not
+  - prime.know
+- key: legal.id-seo-v-hyundai-motors
+  category: legal-case
+  entity:
+    name: 'Investigating Directorate: SEO v Hyundai Motors'
+    kind: judicial-proceeding
+    subkind: constitutional-court-case
+  semantic:
+    category: south-african-law
+  relational:
+    predicate: decided-by
+    object: south-african-constitutional-court
+  quantitative:
+    magnitude: '11'
+    unit: judges
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.year
+  - prime.people
+  - prime.think
+  - prime.say
+  - logic.and
+  - prime.because
+  - prime.bad
+- key: concept.ipso-facto
+  category: logical-principle
+  entity:
+    name: ipso facto
+    kind: logical principle
+    subkind: causality
+  semantic:
+    category: direct-consequence
+  relational:
+    predicate: means
+    object: phenomenon is direct result of action
+  composed_of:
+  - prime.this
+  - prime.happen
+  - prime.because
+  - prime.do
+  - logic.implies
+- key: person.isa-kasimi
+  category: person
+  entity:
+    name: Isa Kasimi
+    kind: person
+    subkind: chess player
+  semantic:
+    category: chess-competition
+  relational:
+  - predicate: born-as
+    object: Igor Kondylev
+  - predicate: known-as
+    object: Igors Rausis
+  - predicate: nationality
+    object: Latvia
+  - predicate: awarded-title
+    object: Grandmaster
+  - predicate: title-revoked-reason
+    object: cheating
+  - predicate: won-championship
+    object: Latvian Chess Championship
+  - predicate: represented-country
+    object: Bangladesh
+  - predicate: represented-country
+    object: Czech Republic
+  quantitative:
+  - magnitude: '1961'
+    unit: birth-year
+  - magnitude: '2024'
+    unit: death-year
+  - magnitude: '1992'
+    unit: grandmaster-award-year
+  - magnitude: '2019'
+    unit: cheating-caught-year
+  - magnitude: '1995'
+    unit: championship-win-year
+  - magnitude: '2003'
+    unit: bangladesh-representation-start-year
+  - magnitude: '2007'
+    unit: bangladesh-representation-end-year
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.think
+  - prime.good
+  - prime.bad
+  - time.past
+- key: person.j-h-a-lokin
+  category: person
+  entity:
+    name: J. H. A. Lokin
+    kind: person
+    subkind: academic
+  semantic:
+    category: legal-historian
+  relational:
+  - predicate: born
+    object: '1945'
+  - predicate: died
+    object: '2022'
+  - predicate: nationality
+    object: Dutch
+  - predicate: profession
+    object: professor
+  - predicate: field
+    object: legal-history
+  - predicate: specialization
+    object: Roman-law
+  - predicate: institution
+    object: University-of-Groningen
+  composed_of:
+  - prime.people
+  - prime.live
+  - prime.know
+  - prime.words
+  - time.past
+- key: person.jacob-scher
+  category: person
+  entity:
+    name: Jacob Scher
+    kind: person
+    subkind: journalist
+  semantic:
+    category: professional-communicator
+  relational:
+    predicate: worked-as
+    object: journalist
+  quantitative:
+    magnitude: 1908-1961
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.words
+  - time.past
+- key: person.ivan-head
+  category: person
+  entity:
+    name: Ivan Leigh Head
+    kind: person
+    subkind: lawyer
+  semantic:
+    category: legal-professional
+  relational:
+    predicate: advised
+    object: Pierre Trudeau
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - prime.think
+- key: person.james-drummond-4th-earl-perth
+  category: historical-figure
+  entity:
+    name: James Drummond, 4th Earl of Perth
+    kind: person
+    subkind: scottish-politician
+  semantic:
+    category: nobility-and-governance
+  relational:
+    predicate: has-title
+    object: Earl of Perth
+  composed_of:
+  - prime.people
+  - prime.say
+  - prime.do
+- key: law.jackson-v-bishop
+  category: legal-case
+  entity:
+    name: Jackson v. Bishop
+    kind: court-decision
+    subkind: appellate-ruling
+  semantic:
+    category: prohibition-of-corporal-punishment
+  relational:
+    predicate: abolished
+    object: corporal-punishment-in-arkansas-prisons
+  quantitative:
+    magnitude: '1968'
+    unit: year
+  composed_of:
+  - prime.happen
+  - prime.not
+  - prime.do
+  - prime.bad
+  - prime.body
+  - prime.people
+  - prime.say
+  - logic.implies
+  - time.past
+- key: person.jamshid-momtaz
+  category: person
+  entity:
+    name: Jamshid Momtaz
+    kind: person
+    subkind: jurist, academic
+  semantic:
+    category: professional-scholar
+  relational:
+    predicate: nationality
+    object: Iranian
+  quantitative:
+    magnitude: '1942'
+    unit: birth-year
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.think
+- key: person.jean-pierre-gibert
+  category: historical-person
+  entity:
+    name: Jean-Pierre Gibert
+    kind: person
+    subkind: canon lawyer
+  semantic:
+    category: legal-scholar
+  relational:
+    predicate: practiced
+    object: canon law
+  quantitative:
+    magnitude: 1660-1736
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - time.past
+- key: person.joe-hoerner
+  category: person
+  entity:
+    name: Joe Hoerner
+    kind: person
+    subkind: baseball player
+  semantic:
+    category: relief-pitcher
+  relational:
+    predicate: played-sport
+    object: baseball
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.live
+  - prime.die
+  - time.year
+- key: person.joe-bloggs
+  category: placeholder-name
+  entity:
+    name: Joe Bloggs
+    kind: person
+    subkind: placeholder
+  semantic:
+    category: unnamed-generic-person
+  relational:
+    predicate: represents
+    object: average-unnamed-person
+  composed_of:
+  - prime.someone
+  - prime.words
+  - prime.not
+  - prime.know
+- key: person.joanne-mcnally
+  category: person
+  entity:
+    name: Joanne McNally
+    kind: person
+    subkind: comedian
+  semantic:
+    category: entertainment-professional
+  relational:
+    predicate: originates-from
+    object: Ireland
+  quantitative:
+    magnitude: '1983'
+    unit: year-of-birth
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.say
+  - prime.words
+  - time.past
+- key: person.jody-kraus
+  category: person
+  entity:
+    name: Jody S. Ponsa-Kraus
+    kind: person
+    subkind: academic
+  semantic:
+    category: law-professor
+  relational:
+    predicate: holds-position-at
+    object: columbia-law-school
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+- key: person.joe-thomson
+  category: person
+  entity:
+    name: Joseph McGeachy Thomson
+    kind: person
+    subkind: lawyer-academic
+  semantic:
+    category: scottish-legal-scholar
+  relational:
+  - predicate: profession
+    object: lawyer
+  - predicate: role
+    object: Regius Professor of Law
+  - predicate: affiliation
+    object: University of Glasgow
+  - predicate: membership
+    object: Scottish Law Commission
+  - predicate: nationality
+    object: Scottish
+  quantitative:
+    magnitude: "1948\u20132018"
+    unit: years-of-life
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.do
+  - time.past
+- key: person.john-strawson
+  category: person
+  entity:
+    name: John Strawson
+    kind: person
+    subkind: academic
+  semantic:
+    category: law-professor-and-author
+  relational:
+  - predicate: works-at
+    object: institution.university-of-east-london-school-of-law
+  - predicate: teaches
+    object: domain.international-law
+  - predicate: teaches
+    object: domain.middle-east-studies
+  - predicate: specializes-in
+    object: field.law-and-postcolonialism
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.say
+  - prime.words
+- key: person.john-tregonwell
+  category: historical-figure
+  entity:
+    name: John Tregonwell
+    kind: person
+    subkind: jurist
+  semantic:
+    category: legal-authority
+  relational:
+  - predicate: served-as
+    object: judge.high-court-admiralty
+  - predicate: agent-of
+    object: person.henry-viii
+  - predicate: agent-of
+    object: person.thomas-cromwell
+  - predicate: participated-in
+    object: event.dissolution-monasteries
+  - predicate: origin
+    object: place.cornwall
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.say
+  - prime.know
+  - prime.think
+- key: book.jordens-herrar
+  category: published-work
+  entity:
+    name: Jordens herrar
+    kind: book
+    subkind: authored-work
+  semantic:
+    category: swedish-literature
+  relational:
+    predicate: authored-by
+    object: Pelle Strindlund
+  quantitative:
+    magnitude: '2011'
+    unit: year
+  composed_of:
+  - prime.words
+  - prime.someone
+  - time.year
+- key: person.joseph-brodsky
+  category: person
+  entity:
+    name: Joseph Brodsky
+    kind: person
+    subkind: poet
+  semantic:
+    category: russian-american-literary-figure
+  relational:
+    predicate: writes
+    object: poetry
+  quantitative:
+    magnitude: 1940-1996
+    unit: years-of-life
+  composed_of:
+  - prime.people
+  - prime.words
+  - prime.think
+  - time.past
+- key: publication.journal-health-politics-policy-law
+  category: academic-journal
+  entity:
+    name: Journal of Health Politics, Policy and Law
+    kind: publication
+    subkind: academic-journal
+  semantic:
+    category: peer-reviewed-scholarly-periodical
+  relational:
+  - predicate: published_by
+    object: organization.duke-university-press
+  - predicate: edited_by
+    object: person.jonathan-oberlander
+  - predicate: covers_domain
+    object: domain.health-policy
+  - predicate: covers_domain
+    object: domain.health-law
+  - predicate: established_in
+    object: time.year-1976
+  quantitative:
+  - property: publication-frequency
+    magnitude: '6'
+    unit: issues-per-year
+  - property: impact-factor-2021
+    magnitude: '2.977'
+    unit: dimensionless
+  composed_of:
+  - prime.something
+  - prime.many
+  - prime.words
+  - prime.people
+  - prime.know
+  - prime.say
+- key: state.jury-stress
+  category: psychological-state
+  entity:
+    name: jury stress
+    kind: state
+    subkind: psychological-physical
+  semantic:
+    category: tension-and-strain
+  relational:
+    predicate: affects
+    object: jury-members
+  composed_of:
+  - prime.feel
+  - prime.body
+  - prime.think
+  - prime.bad
+  - prime.want
+  - prime.long_time
+  - prime.many
+  - prime.because
+- key: "person.j\xF6rg-philipp-terhechte"
+  category: person
+  entity:
+    name: "J\xF6rg Philipp Terhechte"
+    kind: person
+    subkind: jurist
+  semantic:
+    category: legal-scholar
+  relational:
+  - predicate: lived-during
+    object: time.1975-2024
+  - predicate: nationality
+    object: location.germany
+  - predicate: profession
+    object: profession.legal-scholar
+  - predicate: affiliated-with
+    object: "institution.leuphana-university-l\xFCneburg"
+  - predicate: affiliated-with
+    object: institution.university-of-glasgow
+  - predicate: held-position
+    object: role.vice-president
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - prime.think
+  - time.past
+- key: animal.kaavan
+  category: individual-animal
+  entity:
+    name: Kaavan
+    kind: elephant
+    subkind: Asian elephant
+  semantic:
+    category: solitary-animal-in-captivity
+  relational:
+    predicate: was-moved-from
+    object: islamabad-zoo
+  quantitative:
+    magnitude: '1985'
+    unit: birth-year
+  composed_of:
+  - prime.one
+  - prime.body
+  - prime.live
+  - prime.long_time
+  - prime.feel
+  - prime.bad
+  - prime.move
+  - prime.because
+  - prime.people
+  - prime.want
+  - prime.good
+- key: person.k-t-telang
+  category: historical-person
+  entity:
+    name: Kashinath Trimbak Telang
+    kind: person
+    subkind: judge, indologist, politician
+  semantic:
+    category: indian-intellectual-19th-century
+  relational:
+  - predicate: worked-as
+    object: judge
+  - predicate: specialized-in
+    object: indology
+  - predicate: served-at
+    object: bombay-high-court
+  quantitative:
+    magnitude: "1850\u20131893"
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - time.past
+- key: event.kaiyuan-stabbing-attack
+  category: violent-crime
+  entity:
+    name: Kaiyuan stabbing attack
+    kind: event
+    subkind: mass-stabbing
+  semantic:
+    category: criminal-violence
+  relational:
+    predicate: occurred-at
+    object: Kaiyuan, Liaoning, China
+  quantitative:
+  - magnitude: '14'
+    unit: people-stabbed
+  - magnitude: '7'
+    unit: people-killed
+  - magnitude: '1'
+    unit: perpetrator
+  temporal:
+    date: '2020-12-27'
+  composed_of:
+  - prime.happen
+  - prime.die
+  - prime.many
+  - prime.bad
+  - prime.someone
+  - prime.touch
+  - time.past
+- key: person.kendrick-moxon
+  category: person
+  entity:
+    name: Kendrick Lichty Moxon
+    kind: person
+    subkind: attorney, Scientology official
+  semantic:
+    category: legal-professional, religious-organization-member
+  relational:
+  - predicate: practices-law-in
+    object: Los Angeles, California
+  - predicate: lead-counsel-for
+    object: Church of Scientology
+  - predicate: member-of
+    object: Moxon & Kobrin law firm
+  - predicate: worked-for
+    object: Scientology Guardian's Office
+  - predicate: named-unindicted-coconspirator-in
+    object: Operation Snow White FBI investigation
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.say
+  - prime.can
+  - prime.bad
+  - prime.touch
+  - prime.words
+- key: person.kermit-roosevelt-iii
+  category: person
+  entity:
+    name: Kermit Roosevelt III
+    kind: person
+    subkind: academic-professional
+  semantic:
+    category: writer-lawyer-professor
+  relational:
+  - predicate: employed-at
+    object: institution.university-of-pennsylvania-law-school
+  - predicate: clerked-for
+    object: person.david-souter
+  - predicate: specializes-in
+    object: field.constitutional-law
+  - predicate: specializes-in
+    object: field.conflict-of-laws
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.words
+  - prime.say
+  - prime.know
+  - prime.think
+- key: event.killing-of-eurie-martin
+  category: historical-incident
+  entity:
+    name: Killing of Eurie Martin
+    kind: event
+    subkind: police-involved-death
+  semantic:
+    category: law-enforcement-fatality
+  relational:
+    predicate: involved
+    object: Eurie Martin
+  quantitative:
+    magnitude: '1'
+    unit: death
+  composed_of:
+  - prime.die
+  - prime.happen
+  - time.evening
+  - time.past
+  - spatial.south
+  - prime.people
+  - prime.body
+  - prime.because
+- key: event.killing-of-khaled-el-atrash
+  category: fatal-incident
+  entity:
+    name: Killing of Khaled el-Atrash
+    kind: event
+    subkind: homicide
+  semantic:
+    category: violent-death
+  relational:
+    predicate: agent-kills-patient
+    object: khaled-el-atrash
+  quantitative:
+    magnitude: '1'
+    unit: death
+  composed_of:
+  - prime.die
+  - prime.someone
+  - prime.do
+  - prime.because
+  - time.past
+  - spatial.on
+- key: event.killing-of-jonathan-zito
+  category: historical-crime
+  entity:
+    name: Killing of Jonathan Zito
+    kind: event
+    subkind: homicide
+  semantic:
+    category: fatal-stabbing
+  relational:
+    predicate: agent
+    object: Christopher Clunis
+  quantitative:
+    magnitude: '1'
+    unit: death
+  composed_of:
+  - prime.die
+  - prime.someone
+  - prime.do
+  - prime.happen
+  - time.past
+  - spatial.in
+  - prime.touch
+  - prime.body
+- key: person.kimberlee-weatherall
+  category: person
+  entity:
+    name: Kimberlee Weatherall
+    kind: person
+    subkind: lawyer, academic
+  semantic:
+    category: intellectual-property-law, law-and-technology
+  relational:
+    predicate: employed_at
+    object: University of Sydney Law School
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - time.year
+- key: law.khyber-pakhtunkhwa-local-government-act-2012
+  category: legislation
+  entity:
+    name: Khyber Pakhtunkhwa Local Government Act, 2012
+    kind: law
+    subkind: provincial-act
+  semantic:
+    category: local-government-regulation
+  relational:
+  - predicate: enacted-by
+    object: organization.provincial-assembly-khyber-pakhtunkhwa
+  - predicate: assented-by
+    object: role.governor-khyber-pakhtunkhwa
+  - predicate: repeals
+    object: law.north-west-frontier-province-local-government-ordinance-2001
+  - predicate: jurisdiction
+    object: location.khyber-pakhtunkhwa-pakistan
+  quantitative:
+  - magnitude: '2012'
+    unit: year
+  - magnitude: '8'
+    unit: day-of-may
+  - magnitude: '11'
+    unit: day-of-may
+  composed_of:
+  - prime.do
+  - prime.say
+  - prime.people
+  - prime.part
+  - logic.and
+  - time.past
+- key: event.killing-of-sohane-benziane
+  category: criminal-event
+  entity:
+    name: Killing of Sohane Benziane
+    kind: death-event
+    subkind: homicide
+  semantic:
+    category: violent-crime
+  relational:
+    predicate: victim
+    object: Sohane Benziane
+  quantitative:
+    magnitude: '17'
+    unit: years
+  composed_of:
+  - prime.die
+  - prime.someone
+  - prime.bad
+  - time.past
+  - prime.because
+  - prime.happen
+- key: person.krystyna-marek
+  category: person
+  entity:
+    name: Krystyna Marek
+    kind: person
+    subkind: academic
+  semantic:
+    category: international-law-professor
+  relational:
+  - predicate: nationality
+    object: Swiss-Polish
+  - predicate: profession
+    object: university-teacher
+  - predicate: field
+    object: international-law
+  - predicate: recognition
+    object: early-female-diplomat
+  quantitative:
+  - magnitude: '1914'
+    unit: year-birth
+  - magnitude: '1993'
+    unit: year-death
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.say
+  - prime.do
+  - time.past
+- key: person.krystyna-kurczab-redlich
+  category: person
+  entity:
+    name: Krystyna Kurczab-Redlich
+    kind: person
+    subkind: journalist-author
+  semantic:
+    category: professional-creator
+  relational:
+    predicate: has-nationality
+    object: Poland
+  quantitative:
+    magnitude: '1954'
+    unit: birth-year
+  composed_of:
+  - prime.people
+  - prime.words
+  - prime.say
+- key: person.l-ron-hubbard
+  category: person
+  entity:
+    name: Lafayette Ronald Hubbard
+    kind: human
+    subkind: author, religious founder
+  semantic:
+    category: historical-figure-writer-founder
+  relational:
+  - predicate: founded
+    object: organization.scientology
+  - predicate: authored
+    object: work.dianetics
+  - predicate: lived-during
+    object: time.twentieth-century
+  quantitative:
+    magnitude: '75'
+    unit: years
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.say
+  - prime.words
+  - prime.think
+  - prime.live
+  - prime.long_time
+  - time.past
+  - prime.have
+  - prime.move
+- key: law.labor-standards-act-south-korea
+  category: legislation
+  entity:
+    name: Labor Standards Act
+    kind: law
+    subkind: labour-law
+  semantic:
+    category: legal-regulation
+  relational:
+    predicate: jurisdiction
+    object: South Korea
+  quantitative:
+    magnitude: '1953'
+    unit: year
+  composed_of:
+  - prime.words
+  - prime.have
+  - prime.people
+  - prime.do
+  - prime.good
+  - prime.bad
+  - logic.and
+- key: case.lagrand
+  category: legal-action
+  entity:
+    name: LaGrand case
+    kind: legal-proceeding
+    subkind: international-court-case
+  semantic:
+    category: judicial-decision
+  relational:
+  - predicate: heard-by
+    object: institution.icj
+  - predicate: concerns
+    object: treaty.vienna-convention-consular-relations
+  - predicate: established
+    object: principle.court-orders-binding
+  - predicate: established
+    object: principle.treaty-rights-override-domestic-procedure
+  composed_of:
+  - prime.happen
+  - prime.know
+  - prime.say
+  - prime.think
+  - logic.not
+  - prime.can
+  - prime.because
+  - prime.words
+  - prime.people
+- key: event.lands-and-liberties-of-the-church-at-ely
+  category: legal-proceeding
+  entity:
+    name: Lands and Liberties of the Church at Ely
+    kind: court-case
+    subkind: appeal
+  semantic:
+    category: property-recovery-dispute
+  relational:
+    predicate: seeks-recovery-of
+    object: lands
+  quantitative:
+    magnitude: '14'
+    unit: years
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.past
+  - prime.have
+  - prime.part
+  - prime.want
+  - prime.say
+  - logic.implies
+  - prime.because
+  - prime.before
+- key: person.larry-may
+  category: individual
+  entity:
+    name: Larry May
+    kind: person
+    subkind: philosopher
+  semantic:
+    category: academic-philosopher
+  relational:
+    predicate: employed_at
+    object: Vanderbilt University
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - prime.say
+- key: person.lazare-kopelmanas
+  category: person
+  entity:
+    name: Lazare Kopelmanas
+    kind: person
+    subkind: lawyer
+  semantic:
+    category: jurist-diplomat
+  relational:
+    predicate: profession
+    object: international law and diplomacy
+  quantitative:
+    magnitude: "1907\u20131980"
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - time.past
+- key: work.legally-blonde
+  category: literary-work
+  entity:
+    name: Legally Blonde
+    kind: novel
+    subkind: comic-novel
+  semantic:
+    category: fictional-narrative
+  relational:
+    predicate: created-by
+    object: Amanda Brown
+  quantitative:
+    magnitude: '2001'
+    unit: year
+  composed_of:
+  - prime.words
+  - prime.people
+  - prime.think
+  - prime.happen
+  - prime.like
+- key: law.legitimacy
+  category: legal-concept
+  entity:
+    name: Legitimacy
+    kind: abstract-legal-concept
+    subkind: normative-justification
+  semantic:
+    category: moral-or-social-rightness
+  relational:
+    predicate: distinct-from
+    object: law.legality
+  composed_of:
+  - prime.good
+  - prime.think
+  - prime.people
+  - logic.not
+  - logic.equals
+- key: person.leonard-burt
+  category: person
+  entity:
+    name: Leonard Frank Burt
+    kind: person
+    subkind: policeman
+  semantic:
+    category: law-enforcement
+  relational:
+  - predicate: involved-in
+    object: operation.countryman
+  - predicate: discovered
+    object: portland-spy-ring
+  quantitative:
+    magnitude: '1932'
+    unit: birth-year
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.know
+  - prime.say
+- key: legal.license
+  category: legal-permission
+  entity:
+    name: License
+    kind: legal-document
+    subkind: permission-grant
+  semantic:
+    category: official-authorization
+  relational:
+    predicate: grants-permission-to
+    object: licensee
+  composed_of:
+  - prime.say
+  - prime.can
+  - prime.do
+  - prime.have
+  - prime.other
+  - logic.and
+  - prime.not
+- key: legislation.limitation-act-1623
+  category: legal-statute
+  entity:
+    name: Limitation Act 1623
+    kind: legislation
+    subkind: statute
+  semantic:
+    category: time-bound-legal-constraint
+  relational:
+    predicate: enacted_by
+    object: Parliament of England
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.past
+  - prime.because
+  - logic.and
+  - prime.say
+  - prime.words
+- key: organization.loeb-and-loeb
+  category: law-firm
+  entity:
+    name: Loeb & Loeb LLP
+    kind: organization
+    subkind: law-firm
+  semantic:
+    category: professional-services
+  relational:
+    predicate: operates-in
+    object: United States and Asia
+  quantitative:
+  - magnitude: '450'
+    unit: lawyers
+  - magnitude: '9'
+    unit: offices
+  composed_of:
+  - prime.people
+  - prime.kind
+  - prime.do
+  - prime.many
+- key: event.lwow-oath
+  category: historical-event
+  entity:
+    name: "Lw\xF3w Oath"
+    kind: oath
+    subkind: royal-vow
+  semantic:
+    category: solemn-commitment
+  relational:
+    predicate: made-by
+    object: John II Casimir Vasa
+  perceptual: {}
+  quantitative: {}
+  composed_of:
+  - prime.say
+  - prime.words
+  - prime.people
+  - prime.want
+  - time.past
+  - time.day
+  - spatial.in
+- key: criminal.lydia-sherman
+  category: person
+  entity:
+    name: Lydia Sherman
+    kind: person
+    subkind: serial killer
+  semantic:
+    category: criminal-perpetrator
+  relational:
+    predicate: poisoned
+    object: multiple victims
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.bad
+  - prime.die
+  - prime.many
+  - time.past
+  - prime.think
+  - prime.want
+- key: person.luca-antonini
+  category: jurist
+  entity:
+    name: Luca Antonini
+    kind: person
+    subkind: jurist
+  semantic:
+    category: legal-professional
+  relational:
+  - predicate: occupation
+    object: lawyer
+  - predicate: occupation
+    object: judge
+  - predicate: role
+    object: constitutional-court-judge
+  - predicate: affiliation
+    object: university-of-padua
+  - predicate: nationality
+    object: italian
+  quantitative:
+    magnitude: '1963'
+    unit: birth-year
+  composed_of:
+  - prime.people
+  - prime.have
+  - prime.do
+  - prime.know
+  - prime.say
+- key: vessel.mv-tampa
+  category: vessel
+  entity:
+    name: MV Tampa
+    kind: ship
+    subkind: container-carrier
+  semantic:
+    category: cargo-transport-vessel
+  relational:
+    predicate: built-by
+    object: Hyundai Heavy Industries
+  quantitative:
+    magnitude: '1984'
+    unit: year
+  composed_of:
+  - prime.body
+  - prime.move
+  - prime.have
+  - prime.big
+  - prime.long_time
+- key: person.maciej-rybus
+  category: athlete
+  entity:
+    name: Maciej Rybus
+    kind: person
+    subkind: footballer
+  semantic:
+    category: professional-athlete
+  relational:
+  - predicate: nationality
+    object: Poland
+  - predicate: sport
+    object: football
+  - predicate: position
+    object: left-back
+  - predicate: birth-year
+    object: '1989'
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.have
+  - prime.body
+  - prime.live
+  - time.year
+- key: person.madeleine-cosman
+  category: person
+  entity:
+    name: Madeleine Pelner Cosman
+    kind: person
+    subkind: academic
+  semantic:
+    category: educator-author
+  relational:
+    predicate: employed_at
+    object: City College of New York
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.say
+  - prime.words
+  - prime.do
+- key: tool.magic-lantern
+  category: spyware
+  entity:
+    name: Magic Lantern
+    kind: software
+    subkind: keystroke-logger
+  semantic:
+    category: surveillance-technology
+  relational:
+    predicate: developed-by
+    object: United States Federal Bureau of Investigation
+  composed_of:
+  - prime.do
+  - prime.see
+  - prime.words
+  - prime.touch
+  - prime.happen
+- key: person.malcolm-shaw-lawyer
+  category: person
+  entity:
+    name: Malcolm Nathan Shaw
+    kind: person
+    subkind: lawyer
+  semantic:
+    category: legal-professional
+  relational:
+    predicate: is-from
+    object: Britain
+  quantitative:
+    magnitude: '1947'
+    unit: birth-year
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - prime.say
+- key: behavior.malingering
+  category: deceptive-conduct
+  entity:
+    name: malingering
+    kind: behavior
+    subkind: deception
+  semantic:
+    category: intentional-false-representation
+  relational:
+    predicate: performed-to-achieve
+    object: personal-benefit
+  composed_of:
+  - prime.do
+  - prime.not
+  - prime.true
+  - prime.say
+  - prime.body
+  - prime.think
+  - prime.want
+  - prime.good
+  - prime.other
+- key: person.marvin-chirelstein
+  category: person
+  entity:
+    name: Marvin A. Chirelstein
+    kind: person
+    subkind: law professor
+  semantic:
+    category: legal-education
+  relational:
+    predicate: teaches-at
+    object: columbia-law-school
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.know
+  - prime.words
+  - prime.long_time
+  - prime.many
+- key: law.matigan-i-hazar-datistan
+  category: judicial-code
+  entity:
+    name: Matigan-i Hazar Datistan
+    kind: legal-document
+    subkind: imperial-judicial-code
+  semantic:
+    category: rules-for-governance
+  relational:
+    predicate: governs
+    object: Magistan-imperial-parliament
+  composed_of:
+  - prime.words
+  - prime.know
+  - prime.do
+  - prime.can
+  - prime.bad
+  - prime.good
+  - prime.because
+  - prime.if
+  - prime.people
+  - prime.have
+  - prime.the_same
+- key: person.matthew-levinger
+  category: person
+  entity:
+    name: Matthew Levinger
+    kind: person
+    subkind: historian
+  semantic:
+    category: academic-professional
+  relational:
+    predicate: works-at
+    object: George Washington University Elliott School of International Affairs
+  quantitative:
+    magnitude: '1960'
+    unit: birth-year
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.think
+  - prime.say
+- key: person.mauro-hamza
+  category: person
+  entity:
+    name: Mauro Hamza
+    kind: person
+    subkind: fencing-coach
+  semantic:
+    category: athlete-instructor
+  relational:
+  - predicate: born-in
+    object: Cairo, Egypt
+  - predicate: coached-at
+    object: Texas A&M
+  - predicate: coached-at
+    object: Rice University
+  - predicate: coached-for
+    object: US national teams
+  - predicate: coached-for
+    object: Egyptian Olympic team
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.live
+  - prime.have
+- key: person.max-du-plessis
+  category: person
+  entity:
+    name: Max du Plessis
+    kind: person
+    subkind: barrister-academic
+  semantic:
+    category: legal-professional
+  relational:
+  - predicate: practices-in
+    object: location.durban
+  - predicate: practices-in
+    object: location.south-africa
+  - predicate: practices-in
+    object: location.england
+  - predicate: specializes-in
+    object: field.international-law
+  - predicate: specializes-in
+    object: field.administrative-law
+  - predicate: specializes-in
+    object: field.constitutional-law
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.think
+  - prime.words
+- key: law.mens-rea
+  category: legal-concept
+  entity:
+    name: mens rea
+    kind: legal-doctrine
+    subkind: criminal-law
+  semantic:
+    category: guilty-mental-state
+  relational:
+    predicate: required-for
+    object: criminal-guilt
+  composed_of:
+  - prime.think
+  - prime.bad
+  - prime.someone
+  - prime.know
+  - prime.want
+- key: credential.merchant-mariners-document
+  category: identifying-credential
+  entity:
+    name: Merchant Mariner's Document
+    kind: credential
+    subkind: maritime-identity
+  semantic:
+    category: official-identity-marker
+  relational:
+    predicate: certifies
+    object: mariner
+  composed_of:
+  - prime.words
+  - prime.have
+  - prime.know
+  - prime.this
+  - prime.people
+- key: virtue.mercy
+  category: virtue
+  entity:
+    name: Mercy
+    kind: virtue
+    subkind: moral-disposition
+  semantic:
+    category: benevolence-forgiveness-kindness
+  relational:
+    predicate: involves
+    object: compassionate-restraint
+  composed_of:
+  - prime.good
+  - prime.feel
+  - prime.because
+  - prime.not
+  - prime.bad
+  - prime.want
+- key: person.menachem-mautner
+  category: person
+  entity:
+    name: Menachem Mautner
+    kind: person
+    subkind: academic
+  semantic:
+    category: legal-scholar
+  relational:
+  - predicate: professor-at
+    object: institution.tel-aviv-university
+  - predicate: specializes-in
+    object: field.comparative-civil-law
+  - predicate: specializes-in
+    object: field.jurisprudence
+  - predicate: was-dean-of
+    object: institution.tel-aviv-law-faculty
+  - predicate: nationality
+    object: location.israel
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.do
+- key: legislation.merchant-shipping-scottish-fishing-boats-act-1920
+  category: legal-instrument
+  entity:
+    name: Merchant Shipping (Scottish Fishing Boats) Act 1920
+    kind: legislation
+    subkind: act-of-parliament
+  semantic:
+    category: maritime-regulation
+  relational:
+    predicate: governs
+    object: fishing-in-scotland
+  perceptual: {}
+  quantitative:
+    magnitude: '1920'
+    unit: year
+  composed_of:
+  - prime.say
+  - prime.do
+  - prime.people
+  - prime.can
+  - prime.because
+  - time.past
+  - logic.implies
+- key: film.mercy-killing
+  category: cinematic-work
+  entity:
+    name: Mercy Killing
+    kind: film
+    subkind: drama
+  semantic:
+    category: Telugu-language-cinema
+  relational:
+    predicate: created-by
+    object: Venkatramana Surapalli
+  quantitative:
+    magnitude: '2024'
+    unit: year
+  composed_of:
+  - prime.happen
+  - prime.people
+  - prime.words
+  - time.year
+- key: person.michael-ignatieff
+  category: person
+  entity:
+    name: Michael Grant Ignatieff
+    kind: person
+    subkind: author, academic, politician
+  semantic:
+    category: intellectual-leader
+  relational:
+  - predicate: holds-position
+    object: Liberal Party leader
+  - predicate: holds-position
+    object: Opposition leader
+  - predicate: holds-position
+    object: university rector
+  - predicate: specializes-in
+    object: history
+  - predicate: nationality
+    object: Canadian
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.think
+  - prime.words
+  - prime.know
+  - time.past
+  - prime.say
+- key: person.michael-j-saks
+  category: person
+  entity:
+    name: Michael J. Saks
+    kind: person
+    subkind: legal scholar
+  semantic:
+    category: academic-professional
+  relational:
+  - predicate: employed-at
+    object: institution.sandra-day-oconnor-college-of-law
+  - predicate: affiliated-with
+    object: institution.arizona-state-university
+  - predicate: has-secondary-appointment-in
+    object: department.psychology
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.have
+  - prime.say
+- key: person.michael-knoll
+  category: academic
+  entity:
+    name: Michael Knoll
+    kind: person
+    subkind: academic
+  relational:
+  - predicate: holds-position
+    object: position.warner-professor-law
+  - predicate: holds-position
+    object: position.professor-real-estate
+  - predicate: affiliated-with
+    object: institution.upenn-law-school
+  - predicate: holds-position
+    object: position.co-director-tax-center
+  - predicate: holds-position
+    object: position.deputy-dean
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.know
+- key: person.michael-karayanni
+  category: person
+  entity:
+    name: Michael (Mousa) Karayanni
+    kind: person
+    subkind: academic
+  semantic:
+    category: legal-scholar
+  relational:
+  - predicate: profession
+    object: professor-of-law
+  - predicate: affiliation
+    object: hebrew-university-jerusalem
+  - predicate: holds-chair
+    object: bruce-w-wayne-chair-international-law
+  - predicate: ethnicity
+    object: arab
+  - predicate: nationality
+    object: israeli
+  composed_of:
+  - prime.someone
+  - prime.know
+  - prime.words
+  - prime.have
+- key: custom.military-night
+  category: procedural-rule
+  entity:
+    name: Military Night
+    kind: custom
+    subkind: complaint-delay-rule
+  semantic:
+    category: temporal-constraint-on-grievance
+  relational:
+    predicate: restricts
+    object: complaint-filing
+  composed_of:
+  - prime.when
+  - prime.happen
+  - prime.say
+  - time.day
+  - prime.after
+  - prime.maybe
+  - prime.think
+  - prime.good
+  - prime.not
+  - logic.implies
+- key: regulation.minimum-landing-size
+  category: legal-standard
+  entity:
+    name: Minimum Landing Size
+    kind: regulatory-threshold
+    subkind: fish-measurement-standard
+  semantic:
+    category: legal-constraint-on-resource-extraction
+  relational:
+    predicate: applies-to
+    object: fish-species
+  quantitative:
+    magnitude: varies
+    unit: length-measurement
+  composed_of:
+  - prime.little
+  - prime.big
+  - prime.can
+  - prime.not
+  - prime.have
+  - prime.say
+  - prime.kind
+  - logic.and
+  - prime.where
+- key: person.miroslav-sasek
+  category: person
+  entity:
+    name: "Miroslav \u0160a\u0161ek"
+    kind: person
+    subkind: illustrator-writer
+  semantic:
+    category: creative-professional
+  relational:
+    predicate: created
+    object: This Is... book series
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.say
+  - prime.see
+  - prime.touch
+  - prime.words
+- key: experiment.minnesota-starvation
+  category: clinical-study
+  entity:
+    name: Minnesota Starvation Experiment
+    kind: experiment
+    subkind: medical-clinical-study
+  semantic:
+    category: physiological-investigation
+  relational:
+    predicate: investigates
+    object: dietary-restriction-effects
+  quantitative:
+    magnitude: '1'
+    unit: study
+  composed_of:
+  - prime.happen
+  - time.year
+  - prime.body
+  - prime.feel
+  - prime.want
+  - prime.bad
+  - prime.long_time
+  - prime.think
+  - prime.know
+- key: legal.misappropriation
+  category: legal-violation
+  entity:
+    name: misappropriation
+    kind: legal-tort
+    subkind: unauthorized-use
+  semantic:
+    category: unauthorized-appropriation
+  relational:
+    predicate: violates-rights-of
+    object: person
+  composed_of:
+  - prime.do
+  - prime.not
+  - prime.have
+  - logic.and
+  - prime.someone
+  - prime.other
+  - prime.part
+  - prime.bad
+- key: media.mission-to-prey
+  category: television-episode
+  entity:
+    name: Mission to Prey
+    kind: television-episode
+    subkind: investigative-journalism
+  semantic:
+    category: false-accusation-broadcast
+  relational:
+    predicate: episode-of
+    object: Prime Time Investigates
+  composed_of:
+  - prime.say
+  - prime.not
+  - prime.true
+  - prime.bad
+  - prime.people
+  - prime.do
+  - prime.happen
+  - time.past
+- key: deity.mitra
+  category: divine-being
+  entity:
+    name: Mitra
+    kind: divinity
+    subkind: Indo-Iranian
+  semantic:
+    category: supernatural-agent
+  relational:
+    predicate: originates-from
+    object: Rigvedic-Avestan-tradition
+  composed_of:
+  - prime.people
+  - prime.very
+  - prime.good
+  - prime.kind
+- key: offense.mopery
+  category: legal-infraction
+  entity:
+    name: mopery
+    kind: offense
+    subkind: minor
+  semantic:
+    category: vague-informal-charge
+  relational:
+    predicate: is-form-of
+    object: legal offense
+  composed_of:
+  - prime.bad
+  - prime.little
+  - prime.not
+  - prime.kind
+  - prime.say
+- key: concept.moral-certainty
+  category: epistemology
+  entity:
+    name: moral certainty
+    kind: concept
+    subkind: probability-assessment
+  semantic:
+    category: high-probability-sufficient-for-action
+  relational:
+    predicate: falls-short-of
+    object: absolute-certainty
+  quantitative:
+    magnitude: very-high
+    unit: probability
+  composed_of:
+  - prime.think
+  - prime.know
+  - prime.maybe
+  - prime.very
+  - logic.greater
+  - prime.can
+  - prime.do
+  - prime.not
+  - prime.all
+- key: law.moratorium
+  category: legal-instrument
+  entity:
+    name: moratorium
+    kind: legal-action
+    subkind: suspension
+  semantic:
+    category: temporary-halt
+  relational:
+    predicate: suspends
+    object: law-or-activity
+  composed_of:
+  - prime.not
+  - prime.happen
+  - prime.short_time
+  - prime.because
+  - prime.think
+- key: concept.motive-law
+  category: legal-concept
+  entity:
+    name: Motive
+    kind: legal-concept
+    subkind: causal-explanation
+  semantic:
+    category: reason-for-action
+  relational:
+    predicate: causes
+    object: action
+  composed_of:
+  - prime.because
+  - prime.do
+  - prime.people
+  - prime.think
+  - prime.want
+- key: law.mount-albert-borough-council-v-johnson
+  category: legal-case
+  entity:
+    name: Mount Albert Borough Council v Johnson
+    kind: court-decision
+    subkind: tort-law-precedent
+  semantic:
+    category: statute-of-limitations-defense
+  relational:
+    predicate: establishes-precedent-in
+    object: New Zealand tort law
+  composed_of:
+  - prime.happen
+  - prime.before
+  - prime.know
+  - prime.words
+  - logic.implies
+  - time.past
+- key: person.mountague-bernard
+  category: person
+  entity:
+    name: Mountague Bernard
+    kind: person
+    subkind: lawyer
+  semantic:
+    category: international-law
+  relational:
+    predicate: specializes-in
+    object: international-law
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+- key: document.motu-proprio
+  category: legal-document
+  entity:
+    name: motu proprio
+    kind: official act
+    subkind: papal document
+  semantic:
+    category: self-initiated-action
+  relational:
+    predicate: issued-by
+    object: pope
+  composed_of:
+  - prime.do
+  - prime.not
+  - prime.someone
+  - prime.say
+  - prime.words
+  - logic.and
+- key: system.moys-classification-scheme
+  category: library-classification
+  entity:
+    name: Moys Classification Scheme
+    kind: system
+    subkind: library-classification
+  semantic:
+    category: organization-of-knowledge
+  relational:
+    predicate: designed-by
+    object: Betty Moys
+  quantitative:
+    magnitude: '1968'
+    unit: year
+  composed_of:
+  - prime.kind
+  - prime.words
+  - prime.do
+  - prime.have
+  - prime.many
+  - prime.people
+  - prime.where
+- key: event.murder-of-mohebullah
+  category: historical-incident
+  entity:
+    name: Murder of Mohebullah
+    kind: event
+    subkind: fatal-shooting
+  semantic:
+    category: violent-death
+  relational:
+    predicate: occurred-in
+    object: Afghanistan
+  quantitative:
+    magnitude: '1'
+    unit: death
+  composed_of:
+  - prime.die
+  - prime.happen
+  - prime.someone
+  - prime.bad
+  - time.year
+  - spatial.in
+- key: phrase.mutatis-mutandis
+  category: linguistic-formula
+  entity:
+    name: mutatis mutandis
+    kind: phrase
+    subkind: medieval-latin
+  semantic:
+    category: conditional-equivalence
+  relational:
+    predicate: acknowledges-necessity-of
+    object: alterations-in-comparison
+  composed_of:
+  - prime.if
+  - prime.some
+  - prime.think
+  - prime.the_same
+  - prime.not
+  - logic.implies
+- key: legislation.nationality-immigration-asylum-act-2002
+  category: legal-instrument
+  entity:
+    name: Nationality, Immigration and Asylum Act 2002
+    kind: statute
+    subkind: parliamentary-act
+  semantic:
+    category: law-governing-national-status-movement-and-refuge
+  relational:
+    predicate: enacted-by
+    object: Parliament of the United Kingdom
+  quantitative:
+    magnitude: '7'
+    unit: November-2002
+  composed_of:
+  - prime.words
+  - prime.do
+  - prime.people
+  - prime.say
+  - prime.can
+  - prime.have
+  - logic.and
+  - time.past
+- key: person.nicole-wong
+  category: person
+  entity:
+    name: Nicole Wong
+    kind: person
+    subkind: attorney
+  semantic:
+    category: public-policy-lawyer
+  relational:
+  - predicate: specializes-in
+    object: internet-media-intellectual-property-law
+  - predicate: served-as
+    object: white-house-deputy-chief-technology-officer
+  - predicate: worked-at
+    object: google
+  - predicate: advises
+    object: albright-stonebridge-group
+  - predicate: board-member
+    object: mozilla-foundation
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+  - prime.do
+  - prime.have
+- key: media.night-court
+  category: television-sitcom
+  entity:
+    name: Night Court
+    kind: television-show
+    subkind: sitcom
+  semantic:
+    category: american-comedy-series
+  relational:
+    predicate: set-in
+    object: manhattan-criminal-court
+  quantitative:
+    magnitude: '9'
+    unit: seasons
+  composed_of:
+  - prime.happen
+  - prime.people
+  - prime.words
+  - time.night
+  - prime.think
+  - logic.and
+  - prime.feel
+  - prime.say
+- key: measure.noael
+  category: scientific-measurement
+  entity:
+    name: no-observed-adverse-effect level
+    kind: exposure threshold
+    subkind: toxicological metric
+  semantic:
+    category: safe-exposure-boundary
+  relational:
+    predicate: marks-threshold-of
+    object: adverse biological effect
+  quantitative:
+    magnitude: variable
+    unit: dose-or-concentration
+  composed_of:
+  - prime.not
+  - prime.bad
+  - prime.happen
+  - prime.more
+  - prime.people
+  - prime.body
+  - prime.know
+  - prime.because
+  - prime.do
+- key: concept.norm-artificial-intelligence
+  category: computational-concept
+  entity:
+    name: Norm
+    kind: concept
+    subkind: artificial-intelligence
+  semantic:
+    category: behavioral-standard-rule
+  relational:
+    predicate: guides
+    object: intelligent-behavior
+  composed_of:
+  - prime.think
+  - prime.do
+  - prime.good
+  - prime.can
+  - logic.implies
+- key: phrase.nota-bene
+  category: linguistic-convention
+  entity:
+    name: nota bene
+    kind: phrase
+    subkind: latin-editorial-marker
+  semantic:
+    category: attention-direction
+  relational:
+    predicate: directs-reader-to
+    object: relevant-textual-aspect
+  composed_of:
+  - prime.words
+  - prime.say
+  - prime.think
+  - prime.want
+- key: historical-event.oaths-of-strasbourg
+  category: historical-pact
+  entity:
+    name: Oaths of Strasbourg
+    kind: military-alliance
+    subkind: sworn-pact
+  semantic:
+    category: political-coalition-against-rival
+  relational:
+    predicate: made-by
+    object: charles-the-bald-and-louis-the-german
+  quantitative:
+    magnitude: '2'
+    unit: signatories
+  composed_of:
+  - prime.people
+  - prime.say
+  - prime.because
+  - prime.not
+  - prime.want
+  - prime.other
+  - time.past
+  - number.2
+- key: institution.oberlandesgericht
+  category: legal-institution
+  entity:
+    name: Oberlandesgericht
+    kind: court
+    subkind: appellate
+  semantic:
+    category: higher-court-germany
+  relational:
+    predicate: is-a
+    object: institution.appellate-court
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.think
+  - prime.say
+  - prime.because
+  - logic.implies
+- key: practice.obstructionism
+  category: social-behavior
+  entity:
+    name: Obstructionism
+    kind: practice
+    subkind: deliberate-impediment
+  semantic:
+    category: resistance-to-change
+  relational:
+    predicate: prevents-or-delays
+    object: process
+  composed_of:
+  - prime.do
+  - prime.not
+  - prime.want
+  - prime.happen
+  - prime.long_time
+  - prime.because
+  - prime.someone
+- key: accord.ohrid-framework-agreement
+  category: political-accord
+  entity:
+    name: Ohrid Framework Agreement
+    kind: peace-agreement
+    subkind: inter-ethnic-accord
+  semantic:
+    category: conflict-resolution
+  relational:
+    predicate: signed-by
+    object: Republic-of-Macedonia-government-and-Albanian-minority-representatives
+  quantitative:
+    magnitude: '13'
+    unit: August-2001
+  composed_of:
+  - prime.happen
+  - prime.when
+  - prime.two
+  - prime.people
+  - prime.bad
+  - prime.want
+  - prime.the_same
+  - prime.say
+  - prime.do
+  - time.past
+  - logic.and
+- key: person.oleg-naumov
+  category: criminal
+  entity:
+    name: Oleg Vladimirovich Naumov
+    kind: person
+    subkind: mass murderer
+  semantic:
+    category: violent-crime
+  relational:
+    predicate: convicted-of
+    object: mass-murder
+  composed_of:
+  - prime.people
+  - prime.die
+  - prime.bad
+  - prime.many
+  - time.past
+- key: person.olle-moller
+  category: person
+  entity:
+    name: "Olof Manfred \"Olle\" M\xF6ller"
+    kind: person
+    subkind: athlete, criminal
+  semantic:
+    category: swedish-american-long-distance-runner-and-murderer
+  relational:
+  - predicate: convicted-of
+    object: murder-of-gerd-johansson-1939
+  - predicate: convicted-of
+    object: murder-of-rut-lind-1959
+  quantitative:
+    magnitude: '77'
+    unit: years
+    context: lifespan-1906-1983
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.bad
+  - prime.live
+  - prime.die
+  - time.past
+- key: operation.necora
+  category: law-enforcement
+  entity:
+    name: "Operaci\xF3n N\xE9cora"
+    kind: police-operation
+    subkind: drug-trafficking-enforcement
+  semantic:
+    category: law-enforcement-action
+  relational:
+    predicate: targets
+    object: drug-trafficking
+  perceptual: {}
+  quantitative:
+    magnitude: '54'
+    unit: arrests
+  composed_of:
+  - prime.do
+  - prime.happen
+  - prime.people
+  - prime.bad
+  - prime.can
+  - logic.and
+  - prime.many
+- key: operation.bridger
+  category: security-programme
+  entity:
+    name: Operation Bridger
+    kind: police-protection-programme
+    subkind: security-services
+  semantic:
+    category: institutional-protection-system
+  relational:
+    predicate: protects
+    object: Members of Parliament
+  composed_of:
+  - prime.do
+  - prime.people
+  - prime.because
+  - prime.bad
+  - prime.have
+  - prime.inside
+  - spatial.in
+  - time.past
+- key: investigation.operation-whistle
+  category: law-enforcement-operation
+  entity:
+    name: Operation Whistle
+    kind: investigation
+    subkind: historical-sexual-abuse-inquiry
+  semantic:
+    category: criminal-investigation
+  relational:
+    predicate: investigates
+    object: historical-sexual-abuse-of-children
+  composed_of:
+  - prime.happen
+  - prime.bad
+  - prime.body
+  - prime.people
+  - prime.know
+  - prime.say
+  - time.past
+- key: law.ecclesiastical-ordinance
+  category: legal-instrument
+  entity:
+    name: Ordinance
+    kind: law
+    subkind: ecclesiastical
+  semantic:
+    category: canon-law
+  relational:
+    predicate: governs
+    object: religious-community
+  composed_of:
+  - prime.words
+  - prime.say
+  - prime.do
+  - prime.can
+  - prime.because
+  - prime.people
+- key: event.orbit-inn-bombing
+  category: historical-disaster
+  entity:
+    name: Orbit Inn bombing
+    kind: explosion-event
+    subkind: bombing
+  semantic:
+    category: violent-incident
+  relational:
+    predicate: caused-death
+    object: six-people
+  quantitative:
+    magnitude: '50'
+    unit: sticks-of-dynamite
+  composed_of:
+  - prime.happen
+  - time.past
+  - time.year
+  - spatial.in
+  - prime.die
+  - prime.many
+  - prime.people
+  - prime.feel
+  - prime.bad
+  - prime.want
+  - prime.because
+  - prime.think
+  - prime.like
+- key: animal.osama-bin-laden-elephant
+  category: rogue-elephant
+  entity:
+    name: Osama bin Laden
+    kind: elephant
+    subkind: bull
+  semantic:
+    category: dangerous-rogue-animal
+  relational:
+    predicate: caused-deaths-in
+    object: Sonitpur district, Assam, India
+  quantitative:
+    magnitude: '27'
+    unit: deaths
+  composed_of:
+  - prime.body
+  - prime.live
+  - prime.bad
+  - prime.die
+  - prime.people
+  - prime.many
+  - prime.happen
+  - time.past
+  - spatial.in
+- key: person.otto-von-corvin
+  category: person
+  entity:
+    name: Otto Julius Bernhard von Corvin-Wiersbitzki
+    kind: person
+    subkind: author
+  semantic:
+    category: german-author
+  relational:
+    predicate: has-nationality
+    object: Germany
+  quantitative:
+    magnitude: 1812-1886
+    unit: year
+  composed_of:
+  - prime.people
+  - prime.words
+  - time.year
+- key: publication.osgoode-hall-law-journal
+  category: academic-journal
+  entity:
+    name: Osgoode Hall Law Journal
+    kind: publication
+    subkind: law-review
+  semantic:
+    category: peer-reviewed-legal-scholarship
+  relational:
+    predicate: affiliated-with
+    object: Osgoode Hall Law School, York University
+  quantitative:
+    magnitude: '1958'
+    unit: year-of-first-publication
+  composed_of:
+  - prime.words
+  - prime.many
+  - prime.happen
+  - time.past
+  - prime.people
+  - prime.think
+  - prime.know
+- key: interjection.oyez
+  category: linguistic-signal
+  entity:
+    name: Oyez
+    kind: interjection
+    subkind: court-announcement
+  semantic:
+    category: attention-call
+  relational:
+    predicate: announces-opening-of
+    object: court-of-law
+  composed_of:
+  - prime.say
+  - prime.words
+  - prime.many
+  - prime.people
+  - prime.hear
+  - prime.now
+- key: law.palestinian-citizenship-order-1925
+  category: legal-instrument
+  entity:
+    name: Palestinian Citizenship Order 1925
+    kind: law
+    subkind: citizenship-order
+  semantic:
+    category: legal-governance-status
+  relational:
+  - predicate: applies-to
+    object: territory.palestine-mandate
+  - predicate: creates
+    object: status.citizenship
+  - predicate: promulgated-on
+    object: date.1925-07-24
+  - predicate: enacted-on
+    object: date.1925-08-01
+  - predicate: terminated-on
+    object: date.1948-05-14
+  composed_of:
+  - prime.have
+  - prime.people
+  - prime.where
+  - prime.say
+  - prime.one
+  - prime.kind
+  - time.past
+  - logic.implies
+- key: person.pamela-jones
+  category: person
+  entity:
+    name: Pamela Jones
+    kind: person
+    subkind: scholar
+  semantic:
+    category: computer-law-advocate
+  relational:
+  - predicate: created
+    object: website.groklaw
+  - predicate: advocated-for
+    object: concept.open-source-software
+  - predicate: trained-as
+    object: role.paralegal
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.know
+  - prime.words
+  - prime.think
+- key: document.papello
+  category: written-communication
+  entity:
+    name: papello
+    kind: document
+    subkind: letter
+  semantic:
+    category: formal-written-complaint
+  relational:
+    predicate: conveys
+    object: grievance-or-information
+  composed_of:
+  - prime.words
+  - prime.long_time
+  - prime.have
+  - prime.say
+- key: concept.pari-passu
+  category: legal-principle
+  entity:
+    name: pari passu
+    kind: Latin phrase
+    subkind: legal doctrine
+  semantic:
+    category: equality-without-distinction
+  relational:
+    predicate: applies-to
+    object: multiple-parties
+  composed_of:
+  - prime.the_same
+  - prime.all
+  - prime.many
+  - logic.equals
+- key: transaction.payment
+  category: exchange
+  entity:
+    name: Payment
+    kind: action
+    subkind: transfer
+  semantic:
+    category: value-exchange
+  relational:
+    predicate: transfers-from-to
+    object: payer-payee
+  composed_of:
+  - prime.do
+  - prime.have
+  - prime.move
+  - prime.something
+  - prime.one
+  - prime.other
+  - prime.because
+  - logic.or
+- key: treaty.peace-of-nikolsburg
+  category: historical-agreement
+  entity:
+    name: Peace of Nikolsburg
+    kind: treaty
+    subkind: peace-treaty
+  semantic:
+    category: conflict-resolution
+  relational:
+    predicate: ended-conflict-between
+    object: Bethlen-and-Ferdinand-II
+  quantitative:
+    magnitude: '31'
+    unit: December-1621
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.past
+  - prime.two
+  - prime.people
+  - prime.want
+  - prime.the_same
+  - prime.not
+  - prime.bad
+  - prime.say
+  - prime.words
+- key: law.pearce-v-r
+  category: legal-case
+  entity:
+    name: Pearce v R
+    kind: legal-case
+    subkind: high-court-decision
+  semantic:
+    category: judicial-dispute-resolution
+  relational:
+    predicate: decided-by
+    object: High Court of Australia
+  composed_of:
+  - prime.people
+  - prime.say
+  - prime.think
+  - prime.good
+  - prime.bad
+  - logic.and
+  - prime.before
+  - prime.know
+  - prime.because
+- key: punishment.peine-forte-et-dure
+  category: legal-torture-method
+  entity:
+    name: Peine forte et dure
+    kind: punishment
+    subkind: torture
+  semantic:
+    category: coercive-legal-procedure
+  relational:
+    predicate: applied-to
+    object: defendant-refusing-to-plead
+  composed_of:
+  - prime.do
+  - prime.bad
+  - prime.body
+  - prime.touch
+  - prime.want
+  - prime.not
+  - prime.happen
+  - prime.die
+  - prime.because
+  - spatial.on
+  - prime.many
+  - prime.big
+- key: person.pavel-chikov
+  category: human
+  entity:
+    name: Pavel Vladimirovich Chikov
+    kind: person
+    subkind: lawyer
+  semantic:
+    category: human-rights-advocate
+  relational:
+  - predicate: nationality
+    object: Russia
+  - predicate: profession
+    object: lawyer
+  - predicate: heads
+    object: organization.agora-international-human-rights-group
+  - predicate: member_of
+    object: organization.presidential-council-civil-society-human-rights
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.good
+  - prime.know
+  - prime.words
+- key: person.peter-alldridge
+  category: person
+  entity:
+    name: Peter Alldridge
+    kind: person
+    subkind: legal scholar
+  relational:
+  - predicate: has-role
+    object: role.drapers-professor-of-law
+  - predicate: affiliated-with
+    object: institution.queen-mary-university-of-london
+  - predicate: nationality
+    object: place.britain
+  composed_of:
+  - prime.people
+  - prime.know
+  - prime.words
+- key: property.permanent-grant
+  category: legal-instrument
+  entity:
+    name: Permanent grant
+    kind: lease
+    subkind: long-term property transfer
+  semantic:
+    category: contractual-property-right
+  relational:
+    predicate: granted-by
+    object: United Kingdom Privy Council
+  composed_of:
+  - prime.have
+  - prime.long_time
+  - prime.this
+  - logic.implies
+  - prime.not
+  - prime.die
+- key: person.peter-suber
+  category: person
+  entity:
+    name: Peter Dain Suber
+    kind: person
+    subkind: philosopher
+  semantic:
+    category: open-access-advocate
+  relational:
+  - predicate: specializes-in
+    object: philosophy.philosophy-of-law
+  - predicate: specializes-in
+    object: philosophy.open-access
+  - predicate: position-at
+    object: institution.berkman-klein-center
+  - predicate: director-of
+    object: institution.harvard-office-scholarly-communication
+  - predicate: director-of
+    object: institution.harvard-open-access-project
+  - predicate: creator-of
+    object: game.nomic
+  composed_of:
+  - prime.people
+  - prime.think
+  - prime.know
+  - prime.say
+- key: person.peter-schey
+  category: person
+  entity:
+    name: Peter Anthony Schey
+    kind: person
+    subkind: lawyer
+  semantic:
+    category: legal-professional
+  relational:
+    predicate: founded
+    object: organization.center-for-human-rights-and-constitutional-law
+  quantitative:
+    magnitude: "1947\u20132024"
+    unit: year-of-life
+  composed_of:
+  - prime.people
+  - prime.do
+  - prime.know
+  - prime.words
+- key: entity.pigcasso
+  category: animal-artist
+  entity:
+    name: Pigcasso
+    kind: pig
+    subkind: painter
+  semantic:
+    category: non-human-creative-agent
+  relational:
+    predicate: created
+    object: paintings
+  quantitative:
+    magnitude: '700'
+    unit: kilogram
+  composed_of:
+  - prime.body
+  - prime.do
+  - prime.see
+  - prime.touch
+  - prime.move
+  - prime.have
+  - prime.people
+  - prime.know
+  - prime.say
+  - time.past
+- key: practice.pittailiniit
+  category: cultural-ritual
+  entity:
+    name: Pittailiniit
+    kind: ritual-system
+    subkind: taboo-prohibition
+  semantic:
+    category: forbidden-behavior-regulation
+  relational:
+    predicate: governs
+    object: Inuit-cultural-practice
+  composed_of:
+  - prime.not
+  - prime.do
+  - prime.people
+  - prime.because
+  - prime.think
+  - prime.bad
+- key: event.bolsonaro-electoral-ineligibility
+  category: political-legal-proceeding
+  entity:
+    name: Political ineligibility of Jair Bolsonaro
+    kind: legal-decision
+    subkind: electoral-disqualification
+  semantic:
+    category: governmental-authority-determination
+  relational:
+    predicate: declares-ineligible
+    object: Jair Bolsonaro
+  composed_of:
+  - prime.happen
+  - time.past
+  - prime.people
+  - prime.think
+  - prime.bad
+  - prime.do
+  - prime.because
+  - prime.say
+  - prime.words
+  - time.year
+  - number.5
+  - number.2
+- key: edict.population-census-edict
+  category: legal-instrument
+  entity:
+    name: Population Census Edict
+    kind: edict
+    subkind: census-law
+  semantic:
+    category: legal-directive-for-counting-people
+  relational:
+    predicate: promulgated-by
+    object: Toyotomi Hidetsugu
+  composed_of:
+  - prime.say
+  - prime.people
+  - prime.many
+  - prime.happen
+  - logic.and
+  - prime.have
+- key: espionage.postal-interception
+  category: covert-action
+  entity:
+    name: postal interception
+    kind: action
+    subkind: espionage
+  semantic:
+    category: unauthorized-mail-retrieval
+  relational:
+    predicate: retrieves
+    object: mail-of-other-person
+  composed_of:
+  - prime.do
+  - prime.not
+  - prime.someone
+  - prime.know
+  - prime.other
+  - prime.want
+  - prime.see
+  - prime.words
+- key: process.pre-qualification
+  category: procedural-filtering
+  entity:
+    name: pre-qualification
+    kind: process
+    subkind: gatekeeping
+  semantic:
+    category: initial-assessment-for-eligibility
+  relational:
+    predicate: precedes
+    object: process.full-consideration
+  composed_of:
+  - prime.before
+  - prime.know
+  - prime.if
+  - prime.someone
+  - prime.can
+  - prime.do
+  - prime.want
+  - prime.part
+- key: act.prank-call
+  category: communication-act
+  entity:
+    name: prank call
+    kind: telephone-communication
+    subkind: practical-joke
+  semantic:
+    category: deception-for-amusement
+  relational:
+    predicate: intended-to-cause
+    object: laughter-or-surprise
+  composed_of:
+  - prime.do
+  - prime.say
+  - prime.think
+  - prime.like
+  - prime.other
+  - prime.maybe
+  - prime.bad
+- key: property.premises
+  category: real-estate
+  entity:
+    name: Premises
+    kind: property
+    subkind: land-and-buildings
+  semantic:
+    category: collective-physical-property
+  relational:
+    predicate: comprises
+    object: land and buildings
+  composed_of:
+  - prime.part
+  - prime.have
+  - spatial.on
+  - prime.something
+  - prime.big
+- key: law.presentment
+  category: legal-procedure
+  entity:
+    name: presentment
+    kind: legal-statement
+    subkind: formal-communication
+  semantic:
+    category: formal-assertion-to-authority
+  relational:
+    predicate: presented-to
+    object: authority
+  composed_of:
+  - prime.say
+  - prime.someone
+  - prime.other
+  - logic.and
+  - prime.because
+  - prime.think
+- key: treaty.pretoria-convention
+  category: political-agreement
+  entity:
+    name: Pretoria Convention
+    kind: treaty
+    subkind: peace-treaty
+  semantic:
+    category: conflict-resolution
+  relational:
+    predicate: ended
+    object: First Boer War
+  quantitative:
+    magnitude: '1881'
+    unit: year
+  composed_of:
+  - prime.happen
+  - prime.when
+  - prime.two
+  - prime.people
+  - prime.bad
+  - prime.because
+  - prime.want
+  - prime.say
+  - prime.the_same
+- key: case.pretty-v-united-kingdom
+  category: legal-proceeding
+  entity:
+    name: Pretty v. United Kingdom
+    kind: court-case
+    subkind: human-rights-case
+  semantic:
+    category: judicial-decision
+  relational:
+    predicate: decided-by
+    object: European Court of Human Rights
+  quantitative:
+    magnitude: '2002'
+    unit: year
+  composed_of:
+  - prime.happen
+  - prime.when
+  - time.year
+  - prime.two
+  - prime.people
+  - prime.say
+  - prime.think
+  - logic.and
+  - prime.know
+- key: person.prisoner
+  category: social-role
+  entity:
+    name: Prisoner
+    kind: person
+    subkind: captive
+  semantic:
+    category: deprivation-of-liberty
+  relational:
+    predicate: held-against-will
+    object: location.confinement
+  composed_of:
+  - prime.someone
+  - prime.not
+  - prime.can
+  - prime.move
+  - prime.because
+  - prime.other
+  - prime.want
+- key: concept.process
+  category: abstract-procedure
+  entity:
+    name: process
+    kind: abstract-entity
+    subkind: procedural-sequence
+  semantic:
+    category: series-of-activities
+  relational:
+    predicate: produces
+    object: result
+  composed_of:
+  - prime.many
+  - prime.happen
+  - prime.do
+  - prime.part
+  - logic.and
+- key: proof.truth
+  category: epistemic-validation
+  entity:
+    name: Proof
+    kind: abstract-process
+    subkind: truth-establishment
+  semantic:
+    category: sufficient-evidence
+  relational:
+    predicate: establishes
+    object: proposition-truth
+  composed_of:
+  - prime.because
+  - prime.true
+  - prime.think
+  - prime.say
+  - logic.implies
+- key: legal.promptitude
+  category: legal-duty
+  entity:
+    name: promptitude
+    kind: legal-obligation
+    subkind: temporal-requirement
+  semantic:
+    category: duty-to-act-without-delay
+  relational:
+    predicate: opposite-of
+    object: legal.tardiness
+  composed_of:
+  - prime.do
+  - prime.when
+  - time.present
+  - logic.not
+  - prime.long_time
+  - prime.can
+  - prime.happen

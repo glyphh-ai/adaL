@@ -1,0 +1,88 @@
+# Stage 7 — intentional actions on objects (12-18 months).
+#
+# Once the infant has object permanence and means-end thinking,
+# actions become deliberate manipulations of the world.
+
+- key: infant.give
+  category: action
+  entity: {name: give, kind: action, subkind: transfer}
+  semantic: {category: "hand-object-to-another-person"}
+  composed_of: [prime.do, prime.move, infant.object, binary.lacks, binary.other, binary.has]
+  source: "developmental psychology"
+
+- key: infant.take
+  category: action
+  entity: {name: take, kind: action, subkind: transfer}
+  semantic: {category: "obtain-object-from-someone-or-somewhere"}
+  composed_of: [prime.do, prime.move, infant.object, binary.self, binary.has]
+  source: "developmental psychology"
+
+- key: infant.hold
+  category: action
+  entity: {name: hold, kind: action, subkind: possession}
+  semantic: {category: "maintain-grip-on-object, sustained-contact"}
+  composed_of: [binary.has, binary.touch, binary.continuous, infant.grasp-voluntary]
+  source: "developmental psychology"
+
+- key: infant.drop
+  category: action
+  entity: {name: drop, kind: action, subkind: release}
+  semantic: {category: "let-object-fall, often-deliberately-for-effect"}
+  composed_of: [prime.do, binary.lacks, prime.move, infant.object, binary.below, infant.drop-makes-sound]
+  source: "developmental psychology"
+
+- key: infant.throw
+  category: action
+  entity: {name: throw, kind: action, subkind: propulsion}
+  semantic: {category: "release-object-with-force, send-it-far"}
+  composed_of: [prime.do, prime.move, infant.object, binary.far, prime.very]
+  source: "developmental psychology"
+
+- key: infant.push
+  category: action
+  entity: {name: push, kind: action, subkind: manipulation}
+  semantic: {category: "apply-force-to-move-object-away"}
+  composed_of: [prime.do, binary.touch, infant.object, prime.move, binary.far, infant.push-makes-move]
+  source: "developmental psychology"
+
+- key: infant.pull
+  category: action
+  entity: {name: pull, kind: action, subkind: manipulation}
+  semantic: {category: "apply-force-to-bring-object-closer"}
+  composed_of: [prime.do, binary.touch, infant.object, prime.move, binary.near, binary.self]
+  source: "developmental psychology"
+
+- key: infant.bang
+  category: action
+  entity: {name: bang, kind: action, subkind: percussive}
+  semantic: {category: "strike-object-against-surface-for-sound"}
+  composed_of: [prime.do, infant.object, binary.touch, prime.very, infant.hear-sound]
+  source: "developmental psychology"
+
+- key: infant.stack
+  category: action
+  entity: {name: stack, kind: action, subkind: spatial-construction}
+  semantic: {category: "place-objects-on-top-of-each-other"}
+  composed_of: [prime.do, infant.object, binary.above, infant.object, binary.same]
+  source: "developmental psychology"
+
+- key: infant.crawl
+  category: action
+  entity: {name: crawl, kind: action, subkind: locomotion}
+  semantic: {category: "move-on-hands-and-knees"}
+  composed_of: [prime.do, binary.moving, binary.self, infant.hand, prime.part, prime.body]
+  source: "developmental psychology"
+
+- key: infant.walk
+  category: action
+  entity: {name: walk, kind: action, subkind: locomotion}
+  semantic: {category: "move-upright-on-two-feet"}
+  composed_of: [prime.do, binary.moving, binary.self, prime.part, prime.body, prime.two, binary.below]
+  source: "developmental psychology"
+
+- key: infant.climb
+  category: action
+  entity: {name: climb, kind: action, subkind: locomotion-vertical}
+  semantic: {category: "move-upward-using-hands-and-feet"}
+  composed_of: [prime.do, binary.moving, binary.self, binary.above, infant.hand, prime.touch]
+  source: "developmental psychology"

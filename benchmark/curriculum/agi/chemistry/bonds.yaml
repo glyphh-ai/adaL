@@ -1,0 +1,47 @@
+# Chemical bond types. Each composes from layer-0 primitives + elements.
+
+- key: bond.covalent
+  category: bond
+  entity: {name: covalent, kind: bond}
+  semantic: {category: "shared-electron-pair, between-nonmetals"}
+  relational: {predicate: bonds-by, object: electron-sharing}
+  composed_of: [prime.the_same, prime.have, prime.touch]
+  source: "general chemistry"
+
+- key: bond.ionic
+  category: bond
+  entity: {name: ionic, kind: bond}
+  semantic: {category: "electron-transfer, between-metal-and-nonmetal"}
+  relational: {predicate: bonds-by, object: electron-transfer}
+  composed_of: [prime.move, prime.have, prime.not]
+  source: "general chemistry"
+
+- key: bond.hydrogen
+  category: bond
+  entity: {name: hydrogen-bond, kind: bond, subkind: intermolecular}
+  semantic: {category: "weak-attraction, H-bonded-to-F-O-or-N"}
+  relational: {predicate: bonds-by, object: dipole-attraction}
+  composed_of: [prime.near, prime.touch, element.hydrogen]
+  source: "general chemistry"
+
+- key: bond.metallic
+  category: bond
+  entity: {name: metallic, kind: bond}
+  semantic: {category: "delocalized-electrons-in-lattice, between-metals"}
+  relational: {predicate: bonds-by, object: delocalized-electrons}
+  composed_of: [prime.move, prime.all, prime.touch]
+  source: "general chemistry"
+
+- key: bond.double-covalent
+  category: bond
+  entity: {name: double-covalent, kind: bond, subkind: covalent}
+  semantic: {category: "two-shared-electron-pairs"}
+  composed_of: [bond.covalent, prime.two]
+  source: "general chemistry"
+
+- key: bond.triple-covalent
+  category: bond
+  entity: {name: triple-covalent, kind: bond, subkind: covalent}
+  semantic: {category: "three-shared-electron-pairs"}
+  composed_of: [bond.covalent, prime.two, prime.one]
+  source: "general chemistry"

@@ -1,0 +1,90 @@
+# Digit symbols 0-9.
+#
+# A digit is the VISUAL SYMBOL you write/see to represent a quantity.
+# This is distinct from the quantity itself (which lives at
+# layer-1/numbers.yaml as `number.*`). The digit references the
+# quantity via composed_of.
+#
+# Each successive digit composes through the previous one + the
+# successor relation (binary.after), so the lattice encodes the
+# counting sequence as traversable structure.
+
+- key: digit.0
+  category: digit
+  entity: {name: zero, kind: digit-symbol, subkind: numeric}
+  perceptual: {symbol: "0", spoken: "zero"}
+  semantic: {category: "visual-symbol-for-no-quantity, the-first-digit"}
+  composed_of: [prime.something, binary.see, prime.say, prime.kind, prime.one, number.0]
+  source: "elementary mathematics"
+
+- key: digit.1
+  category: digit
+  entity: {name: one, kind: digit-symbol, subkind: numeric}
+  perceptual: {symbol: "1", spoken: "one"}
+  semantic: {category: "visual-symbol-for-quantity-1, after-zero"}
+  composed_of: [digit.0, binary.after, number.1]
+  source: "elementary mathematics"
+
+- key: digit.2
+  category: digit
+  entity: {name: two, kind: digit-symbol, subkind: numeric}
+  perceptual: {symbol: "2", spoken: "two"}
+  semantic: {category: "visual-symbol-for-quantity-2, after-one"}
+  composed_of: [digit.1, binary.after, number.2]
+  source: "elementary mathematics"
+
+- key: digit.3
+  category: digit
+  entity: {name: three, kind: digit-symbol, subkind: numeric}
+  perceptual: {symbol: "3", spoken: "three"}
+  semantic: {category: "visual-symbol-for-quantity-3, after-two"}
+  composed_of: [digit.2, binary.after, number.3]
+  source: "elementary mathematics"
+
+- key: digit.4
+  category: digit
+  entity: {name: four, kind: digit-symbol, subkind: numeric}
+  perceptual: {symbol: "4", spoken: "four"}
+  semantic: {category: "visual-symbol-for-quantity-4, after-three"}
+  composed_of: [digit.3, binary.after, number.4]
+  source: "elementary mathematics"
+
+- key: digit.5
+  category: digit
+  entity: {name: five, kind: digit-symbol, subkind: numeric}
+  perceptual: {symbol: "5", spoken: "five"}
+  semantic: {category: "visual-symbol-for-quantity-5, after-four"}
+  composed_of: [digit.4, binary.after, number.5]
+  source: "elementary mathematics"
+
+- key: digit.6
+  category: digit
+  entity: {name: six, kind: digit-symbol, subkind: numeric}
+  perceptual: {symbol: "6", spoken: "six"}
+  semantic: {category: "visual-symbol-for-quantity-6, after-five"}
+  composed_of: [digit.5, binary.after, number.6]
+  source: "elementary mathematics"
+
+- key: digit.7
+  category: digit
+  entity: {name: seven, kind: digit-symbol, subkind: numeric}
+  perceptual: {symbol: "7", spoken: "seven"}
+  semantic: {category: "visual-symbol-for-quantity-7, after-six"}
+  composed_of: [digit.6, binary.after, number.7]
+  source: "elementary mathematics"
+
+- key: digit.8
+  category: digit
+  entity: {name: eight, kind: digit-symbol, subkind: numeric}
+  perceptual: {symbol: "8", spoken: "eight"}
+  semantic: {category: "visual-symbol-for-quantity-8, after-seven"}
+  composed_of: [digit.7, binary.after, number.8]
+  source: "elementary mathematics"
+
+- key: digit.9
+  category: digit
+  entity: {name: nine, kind: digit-symbol, subkind: numeric}
+  perceptual: {symbol: "9", spoken: "nine"}
+  semantic: {category: "visual-symbol-for-quantity-9, after-eight, last-single-digit"}
+  composed_of: [digit.8, binary.after, number.9]
+  source: "elementary mathematics"

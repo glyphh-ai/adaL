@@ -1,0 +1,176 @@
+{
+  "seed": 6,
+  "n_facts": 480,
+  "semantic_accuracy": 0.9604166666666667,
+  "entity_rate": 1.0,
+  "canonical_rate": 0.9604166666666667,
+  "captured_rate": 1.0,
+  "by_type": {
+    "age": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "location": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "job": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 47,
+      "captured": 60,
+      "semantic": 47
+    },
+    "hobby": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "pet": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "color": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 54,
+      "captured": 60,
+      "semantic": 54
+    },
+    "height": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "origin": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    }
+  },
+  "usage": {
+    "calls": 480,
+    "input_tokens": 254373,
+    "output_tokens": 32946
+  },
+  "cost_usd": 0.4191,
+  "cost_per_fact_usd": 0.000873,
+  "wall_seconds": 60.3,
+  "end_to_end_aggregation": {
+    "count_color_blue": {
+      "truth": 2,
+      "ada": 2
+    },
+    "count_job_engineer": {
+      "truth": 3,
+      "ada": 2
+    },
+    "top5_locations": {
+      "truth": [
+        [
+          "tokyo",
+          5
+        ],
+        [
+          "chicago",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ],
+        [
+          "glasgow",
+          3
+        ],
+        [
+          "xi'an",
+          3
+        ]
+      ],
+      "ada": [
+        [
+          "home",
+          14
+        ],
+        [
+          "tokyo",
+          5
+        ],
+        [
+          "chicago",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ],
+        [
+          "glasgow",
+          3
+        ]
+      ]
+    },
+    "top5_colors": {
+      "truth": [
+        [
+          "black",
+          8
+        ],
+        [
+          "purple",
+          8
+        ],
+        [
+          "yellow",
+          8
+        ],
+        [
+          "white",
+          6
+        ],
+        [
+          "brown",
+          6
+        ]
+      ],
+      "ada": [
+        [
+          "black",
+          7
+        ],
+        [
+          "purple",
+          7
+        ],
+        [
+          "yellow",
+          7
+        ],
+        [
+          "brown",
+          6
+        ],
+        [
+          "pink",
+          5
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,229 @@
+# Grammar templates — the rules for combining words into utterances.
+#
+# Each template describes a phrase structure that the substrate can
+# fill from the lexicon to produce a valid sentence.
+
+# ══════════════════════════════════════════════════════════════════
+# Phrase-level templates
+# ══════════════════════════════════════════════════════════════════
+
+- key: grammar.NP-pronoun
+  category: grammar-template
+  entity: {name: NP-pronoun, kind: grammar-template, subkind: phrase}
+  semantic: {category: "noun-phrase-realized-as-single-pronoun, e.g. me, you"}
+  composed_of: [lexicon.me, lexicon.you, prime.one, prime.kind, prime.someone]
+  source: "english syntax"
+
+- key: grammar.NP-noun
+  category: grammar-template
+  entity: {name: NP-noun, kind: grammar-template, subkind: phrase}
+  semantic: {category: "noun-phrase-realized-as-bare-noun, e.g. mama, ball"}
+  composed_of: [lexicon.mama, lexicon.ball, lexicon.doggy, prime.kind,
+                prime.something]
+  source: "english syntax"
+
+- key: grammar.NP-det-noun
+  category: grammar-template
+  entity: {name: NP-det-noun, kind: grammar-template, subkind: phrase}
+  semantic: {category: "noun-phrase-with-determiner, e.g. the ball, a doggy"}
+  composed_of: [grammar.NP-noun, prime.this, prime.one, prime.before]
+  source: "english syntax"
+
+- key: grammar.VP-intransitive
+  category: grammar-template
+  entity: {name: VP-intransitive, kind: grammar-template, subkind: phrase}
+  semantic: {category: "verb-with-no-object, e.g. mama sleeps, baby cries"}
+  composed_of: [lexicon.go, lexicon.stop, lexicon.cry, lexicon.sleep, prime.do]
+  source: "english syntax"
+
+- key: grammar.VP-transitive
+  category: grammar-template
+  entity: {name: VP-transitive, kind: grammar-template, subkind: phrase}
+  semantic: {category: "verb-with-one-object, e.g. eat milk, see ball"}
+  composed_of: [lexicon.eat, lexicon.drink, lexicon.look, lexicon.want,
+                grammar.NP-noun, prime.do, prime.after]
+  source: "english syntax"
+
+- key: grammar.VP-ditransitive
+  category: grammar-template
+  entity: {name: VP-ditransitive, kind: grammar-template, subkind: phrase}
+  semantic: {category: "verb-with-recipient-and-object, e.g. give me milk"}
+  composed_of: [lexicon.give, grammar.NP-noun, grammar.NP-pronoun, prime.do,
+                prime.move, binary.other, binary.has]
+  source: "english syntax"
+
+# ══════════════════════════════════════════════════════════════════
+# Sentence-level templates
+# ══════════════════════════════════════════════════════════════════
+
+- key: grammar.S-declarative
+  category: grammar-template
+  entity: {name: S-declarative, kind: grammar-template, subkind: sentence}
+  semantic: {category: "subject-verb-(object) declarative, e.g. mama sleeps"}
+  composed_of: [grammar.NP-noun, grammar.VP-intransitive,
+                grammar.VP-transitive, prime.before, prime.after,
+                prime.true, prime.say]
+  source: "english syntax"
+
+- key: grammar.S-question-wh
+  category: grammar-template
+  entity: {name: S-question-wh, kind: grammar-template, subkind: sentence}
+  semantic: {category: "wh-fronted-question, e.g. where mama, what that"}
+  composed_of: [lexicon.what, lexicon.where, lexicon.why,
+                grammar.NP-noun, prime.before, prime.want, prime.know]
+  source: "english syntax"
+
+- key: grammar.S-question-yn
+  category: grammar-template
+  entity: {name: S-question-yn, kind: grammar-template, subkind: sentence}
+  semantic: {category: "yes-no-question, often-just-rising-intonation"}
+  composed_of: [grammar.S-declarative, prime.want, prime.know,
+                lexicon.yes, lexicon.no]
+  source: "english syntax"
+
+- key: grammar.S-imperative
+  category: grammar-template
+  entity: {name: S-imperative, kind: grammar-template, subkind: sentence}
+  semantic: {category: "command, bare-verb-+-optional-object, e.g. give me"}
+  composed_of: [grammar.VP-intransitive, grammar.VP-transitive,
+                grammar.VP-ditransitive, binary.wanted, prime.do, prime.you]
+  source: "english syntax"
+
+- key: grammar.S-negation
+  category: grammar-template
+  entity: {name: S-negation, kind: grammar-template, subkind: sentence}
+  semantic: {category: "negated-sentence, no-X or not-X"}
+  composed_of: [lexicon.no, prime.not, grammar.S-declarative]
+  source: "english syntax"
+
+- key: grammar.S-possessive
+  category: grammar-template
+  entity: {name: S-possessive, kind: grammar-template, subkind: sentence}
+  semantic: {category: "expressing-ownership, mine + NP or NP + 's"}
+  composed_of: [lexicon.mine, grammar.NP-noun, binary.self, binary.has,
+                prime.before, prime.after]
+  source: "english syntax"
+
+# ══════════════════════════════════════════════════════════════════
+# Telegraphic (early childhood) sentences
+# ══════════════════════════════════════════════════════════════════
+
+- key: grammar.S-telegraphic-2word
+  category: grammar-template
+  entity: {name: S-telegraphic-2word, kind: grammar-template, subkind: developmental}
+  semantic: {category: "two-word-sentence, e.g. more milk, mama go"}
+  composed_of: [infant.two-word, grammar.NP-noun, grammar.VP-intransitive,
+                prime.two, prime.words]
+  source: "developmental grammar"
+
+# ══════════════════════════════════════════════════════════════════
+# Speech acts (what an utterance DOES)
+# ══════════════════════════════════════════════════════════════════
+
+- key: act.statement
+  category: speech-act
+  entity: {name: statement, kind: speech-act, subkind: declarative}
+  semantic: {category: "assert-something-as-true"}
+  composed_of: [grammar.S-declarative, prime.say, prime.true]
+  source: "speech act theory"
+
+- key: act.question
+  category: speech-act
+  entity: {name: question, kind: speech-act, subkind: interrogative}
+  semantic: {category: "request-information"}
+  composed_of: [grammar.S-question-wh, grammar.S-question-yn,
+                prime.want, prime.know, prime.say]
+  source: "speech act theory"
+
+- key: act.command
+  category: speech-act
+  entity: {name: command, kind: speech-act, subkind: directive}
+  semantic: {category: "tell-someone-to-do-something"}
+  composed_of: [grammar.S-imperative, binary.wanted, prime.you, prime.do]
+  source: "speech act theory"
+
+- key: act.request
+  category: speech-act
+  entity: {name: request, kind: speech-act, subkind: directive-polite}
+  semantic: {category: "ask-someone-to-do-something, often-indirect"}
+  composed_of: [act.command, grammar.S-question-yn, infant.point-proto-imperative,
+                binary.wanted, prime.can]
+  source: "speech act theory"
+
+- key: act.greeting
+  category: speech-act
+  entity: {name: greeting, kind: speech-act, subkind: phatic}
+  semantic: {category: "open-an-interaction, acknowledge-presence"}
+  composed_of: [lexicon.hi, binary.other, binary.now, infant.social-smile]
+  source: "speech act theory"
+
+- key: act.farewell
+  category: speech-act
+  entity: {name: farewell, kind: speech-act, subkind: phatic}
+  semantic: {category: "close-an-interaction, mark-departure"}
+  composed_of: [lexicon.bye, binary.after, binary.far, infant.wave]
+  source: "speech act theory"
+
+- key: act.agreement
+  category: speech-act
+  entity: {name: agreement, kind: speech-act, subkind: response}
+  semantic: {category: "affirm-or-accept"}
+  composed_of: [lexicon.yes, binary.true, binary.same, prime.think]
+  source: "speech act theory"
+
+- key: act.refusal
+  category: speech-act
+  entity: {name: refusal, kind: speech-act, subkind: response}
+  semantic: {category: "decline-or-reject"}
+  composed_of: [lexicon.no, binary.unwanted, binary.different, prime.not]
+  source: "speech act theory"
+
+- key: act.acknowledgment
+  category: speech-act
+  entity: {name: acknowledgment, kind: speech-act, subkind: response}
+  semantic: {category: "show-understanding-or-receipt"}
+  composed_of: [binary.known, binary.hear, prime.say, prime.the_same]
+  source: "speech act theory"
+
+# ══════════════════════════════════════════════════════════════════
+# Dialogue structure
+# ══════════════════════════════════════════════════════════════════
+
+- key: dialogue.turn-taking
+  category: dialogue-rule
+  entity: {name: turn-taking, kind: dialogue-rule}
+  semantic: {category: "alternation-of-speakers, one-speaks-then-other"}
+  composed_of: [binary.self, prime.say, binary.after, binary.other, prime.say]
+  source: "conversation analysis"
+
+- key: dialogue.adjacency-pair
+  category: dialogue-rule
+  entity: {name: adjacency-pair, kind: dialogue-rule}
+  semantic: {category: "first-pair-part-projects-second, question-answer, greeting-greeting"}
+  composed_of: [dialogue.turn-taking, prime.before, prime.after, binary.same,
+                prime.kind]
+  source: "conversation analysis"
+
+- key: dialogue.repair
+  category: dialogue-rule
+  entity: {name: repair, kind: dialogue-rule}
+  semantic: {category: "fix-misunderstanding, e.g. what did you say"}
+  composed_of: [binary.not, binary.known, act.question, prime.say,
+                binary.same, binary.after, prime.the_same]
+  source: "conversation analysis"
+
+- key: dialogue.common-ground
+  category: dialogue-rule
+  entity: {name: common-ground, kind: dialogue-rule}
+  semantic: {category: "shared-knowledge-between-speakers, builds-over-turns"}
+  composed_of: [binary.self, binary.other, prime.know, binary.same,
+                binary.continuous]
+  source: "conversation analysis"
+
+- key: dialogue.topic-shift
+  category: dialogue-rule
+  entity: {name: topic-shift, kind: dialogue-rule}
+  semantic: {category: "moving-from-one-subject-to-another"}
+  composed_of: [binary.different, prime.kind, prime.think, prime.after,
+                binary.now]
+  source: "conversation analysis"

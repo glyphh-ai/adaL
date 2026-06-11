@@ -1,0 +1,44 @@
+# Ada runtime + Postgres, ready to boot.
+#
+#   cp .env.example .env      # set ANTHROPIC_API_KEY (DB is wired below)
+#   docker compose up --build
+#
+# The runtime connects via DATABASE_URL, which flips Ada to the Postgres
+# backend automatically; on boot it runs the alembic migrations. Thoughts
+# persist in the named volume across restarts.
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ada}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ada}
+      POSTGRES_DB: ${POSTGRES_DB:-ada}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ada} -d ${POSTGRES_DB:-ada}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+
+  ada:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Storage + DB connectivity (the whole point of this compose file).
+      DATABASE_URL: postgresql://${POSTGRES_USER:-ada}:${POSTGRES_PASSWORD:-ada}@db:5432/${POSTGRES_DB:-ada}
+      # Secrets / model — substituted from the host environment or root .env.
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ADA_MODEL: ${ADA_MODEL:-claude-haiku-4-5-20251001}
+      HOST: 0.0.0.0
+      PORT: 8002
+    ports:
+      - "${PORT:-8002}:8002"
+
+volumes:
+  pgdata:

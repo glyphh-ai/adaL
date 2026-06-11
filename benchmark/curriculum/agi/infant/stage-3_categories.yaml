@@ -1,0 +1,128 @@
+# Stage 3 — first categories: people and objects (3-6 months).
+#
+# The infant begins to carve the world into stable kinds.
+
+# ── People (the most important category) ───────────────────────────
+
+- key: infant.self
+  category: person
+  entity: {name: self, kind: person, subkind: agent}
+  semantic: {category: "the-one-doing-the-experiencing, body-felt-from-inside"}
+  composed_of: [binary.self, prime.body, binary.feel, binary.here]
+  source: "developmental psychology"
+
+- key: infant.mother
+  category: person
+  entity: {name: mother, kind: person, subkind: primary-caregiver}
+  semantic: {category: "primary-caregiver, source-of-food-and-comfort"}
+  composed_of: [binary.other, infant.recognize-face, infant.recognize-voice, binary.good, binary.near]
+  source: "developmental psychology"
+
+- key: infant.father
+  category: person
+  entity: {name: father, kind: person, subkind: caregiver}
+  semantic: {category: "secondary-caregiver, also-familiar"}
+  composed_of: [binary.other, infant.recognize-face, infant.recognize-voice, binary.good]
+  source: "developmental psychology"
+
+- key: infant.sibling
+  category: person
+  entity: {name: sibling, kind: person, subkind: familiar}
+  semantic: {category: "another-child-in-household"}
+  composed_of: [binary.other, binary.known, prime.small, prime.someone]
+  source: "developmental psychology"
+
+- key: infant.stranger
+  category: person
+  entity: {name: stranger, kind: person, subkind: unfamiliar}
+  semantic: {category: "person-not-recognized, may-trigger-anxiety"}
+  composed_of: [binary.other, binary.unknown, binary.bad, prime.someone]
+  source: "developmental psychology"
+
+- key: infant.caregiver-bond
+  category: relationship
+  entity: {name: caregiver-bond, kind: relationship, subkind: attachment}
+  semantic: {category: "attachment-to-primary-caregiver, evolutionarily-driven"}
+  composed_of: [infant.mother, binary.near, binary.good, binary.same, binary.wanted, prime.very]
+  source: "attachment theory"
+
+# ── Objects (things that aren't people) ────────────────────────────
+
+- key: infant.object
+  category: object
+  entity: {name: object, kind: object}
+  semantic: {category: "physical-thing-not-a-person"}
+  composed_of: [prime.something, binary.not, prime.someone, binary.touch]
+  source: "developmental psychology"
+
+- key: infant.food
+  category: object
+  entity: {name: food, kind: object, subkind: ingestible}
+  semantic: {category: "thing-you-put-in-mouth-relieves-hunger"}
+  composed_of: [infant.object, binary.inside, binary.wanted, infant.hunger, binary.unwanted]
+  source: "developmental psychology"
+
+- key: infant.milk
+  category: object
+  entity: {name: milk, kind: object, subkind: liquid-food}
+  semantic: {category: "primary-nutrition, sweet-warm-from-mother"}
+  composed_of: [infant.food, infant.taste-sweet, infant.warm, prime.like]
+  source: "developmental psychology"
+
+- key: infant.bottle
+  category: object
+  entity: {name: bottle, kind: object, subkind: feeding-tool}
+  semantic: {category: "container-that-holds-milk"}
+  composed_of: [infant.object, infant.milk, binary.inside, binary.has]
+  source: "developmental psychology"
+
+- key: infant.toy
+  category: object
+  entity: {name: toy, kind: object, subkind: graspable}
+  semantic: {category: "thing-you-hold-and-explore, brings-interest"}
+  composed_of: [infant.object, binary.has, binary.touch, binary.good, binary.wanted]
+  source: "developmental psychology"
+
+- key: infant.blanket
+  category: object
+  entity: {name: blanket, kind: object, subkind: comfort}
+  semantic: {category: "soft-thing-that-provides-warmth-and-comfort"}
+  composed_of: [infant.object, infant.touch-soft, infant.warm, infant.comfort]
+  source: "developmental psychology"
+
+# ── Body parts (the infant's own body as object) ───────────────────
+
+- key: infant.face
+  category: body-part
+  entity: {name: face, kind: body-part}
+  semantic: {category: "front-of-head, source-of-expression"}
+  composed_of: [prime.part, prime.body, binary.see, binary.feel]
+  source: "developmental psychology"
+
+- key: infant.hand
+  category: body-part
+  entity: {name: hand, kind: body-part}
+  semantic: {category: "extremity, used-for-grasping"}
+  composed_of: [prime.part, prime.body, binary.touch, infant.grasp]
+  source: "developmental psychology"
+
+- key: infant.mouth
+  category: body-part
+  entity: {name: mouth, kind: body-part}
+  semantic: {category: "opening-for-food-and-sound"}
+  composed_of: [prime.part, prime.body, binary.inside, infant.sucking, prime.say]
+  source: "developmental psychology"
+
+- key: infant.eyes
+  category: body-part
+  entity: {name: eyes, kind: body-part}
+  semantic: {category: "organ-of-vision"}
+  composed_of: [prime.part, prime.body, binary.see, prime.two]
+  source: "developmental psychology"
+
+- key: infant.ears
+  category: body-part
+  entity: {name: ears, kind: body-part}
+  semantic: {category: "organ-of-hearing"}
+  composed_of: [prime.part, prime.body, binary.hear, prime.two]
+  source: "developmental psychology"

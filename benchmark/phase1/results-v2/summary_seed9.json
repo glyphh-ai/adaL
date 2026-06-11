@@ -1,0 +1,176 @@
+{
+  "seed": 9,
+  "n_facts": 480,
+  "semantic_accuracy": 0.9625,
+  "entity_rate": 1.0,
+  "canonical_rate": 0.9625,
+  "captured_rate": 1.0,
+  "by_type": {
+    "age": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "location": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "job": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 47,
+      "captured": 60,
+      "semantic": 47
+    },
+    "hobby": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "pet": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "color": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 55,
+      "captured": 60,
+      "semantic": 55
+    },
+    "height": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "origin": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    }
+  },
+  "usage": {
+    "calls": 480,
+    "input_tokens": 254381,
+    "output_tokens": 32871
+  },
+  "cost_usd": 0.4187,
+  "cost_per_fact_usd": 0.000872,
+  "wall_seconds": 63.5,
+  "end_to_end_aggregation": {
+    "count_color_blue": {
+      "truth": 4,
+      "ada": 3
+    },
+    "count_job_engineer": {
+      "truth": 3,
+      "ada": 3
+    },
+    "top5_locations": {
+      "truth": [
+        [
+          "kyoto",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ],
+        [
+          "helsinki",
+          3
+        ],
+        [
+          "york",
+          3
+        ],
+        [
+          "zurich",
+          3
+        ]
+      ],
+      "ada": [
+        [
+          "home",
+          12
+        ],
+        [
+          "kyoto",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ],
+        [
+          "helsinki",
+          3
+        ],
+        [
+          "york",
+          3
+        ]
+      ]
+    },
+    "top5_colors": {
+      "truth": [
+        [
+          "green",
+          9
+        ],
+        [
+          "white",
+          8
+        ],
+        [
+          "red",
+          7
+        ],
+        [
+          "purple",
+          7
+        ],
+        [
+          "black",
+          6
+        ]
+      ],
+      "ada": [
+        [
+          "purple",
+          7
+        ],
+        [
+          "green",
+          7
+        ],
+        [
+          "white",
+          7
+        ],
+        [
+          "red",
+          6
+        ],
+        [
+          "black",
+          6
+        ]
+      ]
+    }
+  }
+}

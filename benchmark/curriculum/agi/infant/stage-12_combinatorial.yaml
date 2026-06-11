@@ -1,0 +1,131 @@
+# Stage 12 — combinatorial cognition (24-36 months).
+#
+# The toddler begins to compose simple meanings into multi-element
+# structures: two-word sentences, negation, comparison, and the
+# first traces of counting.
+
+- key: infant.word-combination
+  category: linguistic
+  entity: {name: word-combination, kind: linguistic, subkind: syntax}
+  semantic: {category: "join-two-words-for-richer-meaning"}
+  composed_of: [infant.word, prime.two, prime.say, binary.same, binary.brief]
+  source: "developmental psychology"
+
+- key: infant.two-word
+  category: linguistic
+  entity: {name: two-word, kind: linguistic, subkind: telegraphic}
+  semantic: {category: "more milk, go bye, my ball"}
+  composed_of: [infant.word-combination, prime.two, infant.holophrase]
+  source: "developmental psychology"
+
+- key: infant.negation
+  category: cognition
+  entity: {name: negation, kind: cognition, subkind: logical}
+  semantic: {category: "deny-or-refuse-with-not-no-don't"}
+  composed_of: [prime.not, prime.say, prime.true, binary.unwanted]
+  source: "developmental psychology"
+
+- key: infant.negation-rejection
+  category: linguistic
+  entity: {name: negation-rejection, kind: linguistic, subkind: pragmatic}
+  semantic: {category: "no-i-don't-want-that"}
+  composed_of: [infant.negation, binary.unwanted, infant.word-no]
+  source: "developmental psychology"
+
+- key: infant.negation-nonexistence
+  category: linguistic
+  entity: {name: negation-nonexistence, kind: linguistic, subkind: pragmatic}
+  semantic: {category: "no-more, all-gone, nothing-there"}
+  composed_of: [infant.negation, binary.absence, prime.not, binary.here]
+  source: "developmental psychology"
+
+- key: infant.negation-denial
+  category: linguistic
+  entity: {name: negation-denial, kind: linguistic, subkind: pragmatic}
+  semantic: {category: "no-that-is-not-true"}
+  composed_of: [infant.negation, binary.false, prime.true, prime.not]
+  source: "developmental psychology"
+
+- key: infant.comparison
+  category: cognition
+  entity: {name: comparison, kind: cognition, subkind: relational}
+  semantic: {category: "this-is-bigger-than-that"}
+  composed_of: [binary.this, prime.more, binary.that, binary.different]
+  source: "developmental psychology"
+
+- key: infant.bigger
+  category: cognition
+  entity: {name: bigger, kind: cognition, subkind: comparison-magnitude}
+  semantic: {category: "this-is-larger-than-that-thing"}
+  composed_of: [infant.comparison, binary.big, prime.more, binary.that]
+  source: "developmental psychology"
+
+- key: infant.smaller
+  category: cognition
+  entity: {name: smaller, kind: cognition, subkind: comparison-magnitude}
+  semantic: {category: "this-is-littler-than-that-thing"}
+  composed_of: [infant.comparison, binary.small, prime.not, prime.more]
+  source: "developmental psychology"
+
+- key: infant.same-as
+  category: cognition
+  entity: {name: same-as, kind: cognition, subkind: comparison-identity}
+  semantic: {category: "this-matches-that-in-some-way"}
+  composed_of: [binary.this, binary.same, binary.that, prime.like]
+  source: "developmental psychology"
+
+- key: infant.count-one
+  category: cognition
+  entity: {name: count-one, kind: cognition, subkind: numerical}
+  semantic: {category: "say-one-while-pointing-to-one-thing"}
+  composed_of: [prime.say, prime.one, prime.do, prime.this, prime.something]
+  source: "developmental psychology"
+
+- key: infant.count-two
+  category: cognition
+  entity: {name: count-two, kind: cognition, subkind: numerical}
+  semantic: {category: "say-two-while-pointing-to-second-thing"}
+  composed_of: [prime.say, prime.two, prime.after, infant.count-one, prime.other, prime.something]
+  source: "developmental psychology"
+
+- key: infant.count-rote
+  category: cognition
+  entity: {name: count-rote, kind: cognition, subkind: numerical-procedural}
+  semantic: {category: "recite-1-2-3-without-true-cardinality"}
+  composed_of: [prime.say, prime.words, binary.same, binary.same, prime.many, binary.after]
+  source: "developmental psychology"
+
+- key: infant.classify
+  category: cognition
+  entity: {name: classify, kind: cognition, subkind: categorical}
+  semantic: {category: "group-things-by-shared-feature, all-dogs"}
+  composed_of: [prime.many, prime.something, binary.same, prime.kind, prime.like]
+  source: "developmental psychology"
+
+- key: infant.color-naming
+  category: cognition
+  entity: {name: color-naming, kind: cognition, subkind: linguistic-categorical}
+  semantic: {category: "use-color-words, often-after-shape-and-action"}
+  composed_of: [infant.naming, binary.see, prime.kind, prime.something, binary.different]
+  source: "developmental psychology"
+
+- key: infant.question-what
+  category: linguistic
+  entity: {name: question-what, kind: linguistic, subkind: interrogative}
+  semantic: {category: "ask-what-something-is"}
+  composed_of: [prime.say, prime.want, prime.know, binary.this, prime.kind, prime.something]
+  source: "developmental psychology"
+
+- key: infant.question-where
+  category: linguistic
+  entity: {name: question-where, kind: linguistic, subkind: interrogative}
+  semantic: {category: "ask-where-something-is"}
+  composed_of: [prime.say, prime.want, prime.know, prime.where, prime.something]
+  source: "developmental psychology"
+
+- key: infant.question-why
+  category: linguistic
+  entity: {name: question-why, kind: linguistic, subkind: interrogative}
+  semantic: {category: "ask-the-cause, the-defining-toddler-question"}
+  composed_of: [prime.say, prime.want, prime.know, prime.because, prime.happen]
+  source: "developmental psychology"

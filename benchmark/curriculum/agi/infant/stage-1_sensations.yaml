@@ -1,0 +1,221 @@
+# Stage 1 — innate sensations and reflexes (0-3 months).
+#
+# Bodily / sensory states the infant has access to before any learned
+# categories. Each composes through the binary layer (stage 0), which
+# itself terminates at NSM primes. The chain is:
+#   sensation → binary distinctions → NSM primes
+#
+# This makes the layering explicit: every sensation is a combination
+# of on/off cognitive contrasts.
+
+# ── Interoceptive (internal body) ──────────────────────────────────
+
+- key: infant.hunger
+  category: sensation
+  entity: {name: hunger, kind: sensation, subkind: interoceptive}
+  semantic: {category: "want-food-internal-state, drives-crying"}
+  composed_of: [binary.feel, binary.wanted, binary.bad, binary.inside]
+  source: "developmental psychology"
+
+- key: infant.thirst
+  category: sensation
+  entity: {name: thirst, kind: sensation, subkind: interoceptive}
+  semantic: {category: "want-drink, dry-mouth"}
+  composed_of: [binary.feel, binary.wanted, binary.bad, binary.inside]
+  source: "developmental psychology"
+
+- key: infant.satiety
+  category: sensation
+  entity: {name: satiety, kind: sensation, subkind: interoceptive}
+  semantic: {category: "fed-no-longer-hungry"}
+  composed_of: [binary.feel, binary.good, binary.unwanted, binary.inside]
+  source: "developmental psychology"
+
+- key: infant.pain
+  category: sensation
+  entity: {name: pain, kind: sensation, subkind: interoceptive}
+  semantic: {category: "body-hurts-drives-crying"}
+  composed_of: [binary.feel, binary.bad, prime.body, prime.very]
+  source: "developmental psychology"
+
+- key: infant.comfort
+  category: sensation
+  entity: {name: comfort, kind: sensation, subkind: interoceptive}
+  semantic: {category: "no-discomfort-body-relaxed"}
+  composed_of: [binary.feel, binary.good, prime.body]
+  source: "developmental psychology"
+
+- key: infant.tired
+  category: sensation
+  entity: {name: tired, kind: sensation, subkind: arousal}
+  semantic: {category: "low-energy-want-to-stop"}
+  composed_of: [binary.feel, binary.wanted, binary.cannot, prime.do]
+  source: "developmental psychology"
+
+- key: infant.alert
+  category: sensation
+  entity: {name: alert, kind: sensation, subkind: arousal}
+  semantic: {category: "responsive-ready-to-engage"}
+  composed_of: [binary.awake, binary.feel, binary.can]
+  source: "developmental psychology"
+
+# ── Thermal ─────────────────────────────────────────────────────────
+
+- key: infant.warm
+  category: sensation
+  entity: {name: warm, kind: sensation, subkind: thermal}
+  semantic: {category: "comfortable-temperature"}
+  composed_of: [binary.feel, binary.touch, binary.good]
+  source: "developmental psychology"
+
+- key: infant.cold
+  category: sensation
+  entity: {name: cold, kind: sensation, subkind: thermal}
+  semantic: {category: "uncomfortable-low-temperature"}
+  composed_of: [binary.feel, binary.touch, binary.bad]
+  source: "developmental psychology"
+
+# ── Visual ──────────────────────────────────────────────────────────
+
+- key: infant.see-light
+  category: sensation
+  entity: {name: see-light, kind: sensation, subkind: visual}
+  semantic: {category: "bright-region-in-visual-field"}
+  composed_of: [binary.see, binary.presence]
+  source: "developmental psychology"
+
+- key: infant.see-dark
+  category: sensation
+  entity: {name: see-dark, kind: sensation, subkind: visual}
+  semantic: {category: "absence-of-light"}
+  composed_of: [binary.see, binary.absence]
+  source: "developmental psychology"
+
+- key: infant.see-motion
+  category: sensation
+  entity: {name: see-motion, kind: sensation, subkind: visual}
+  semantic: {category: "thing-changing-position-in-visual-field"}
+  composed_of: [binary.see, binary.moving]
+  source: "developmental psychology"
+
+- key: infant.see-face
+  category: sensation
+  entity: {name: see-face, kind: sensation, subkind: visual}
+  semantic: {category: "face-pattern-in-visual-field, innate-preference"}
+  composed_of: [binary.see, prime.part, prime.body, prime.someone]
+  source: "developmental psychology"
+
+# ── Auditory ────────────────────────────────────────────────────────
+
+- key: infant.hear-sound
+  category: sensation
+  entity: {name: hear-sound, kind: sensation, subkind: auditory}
+  semantic: {category: "auditory-input-detected"}
+  composed_of: [binary.hear, binary.presence]
+  source: "developmental psychology"
+
+- key: infant.hear-voice
+  category: sensation
+  entity: {name: hear-voice, kind: sensation, subkind: auditory}
+  semantic: {category: "human-vocal-sound, attracts-attention"}
+  composed_of: [binary.hear, prime.someone, prime.say]
+  source: "developmental psychology"
+
+- key: infant.hear-mother-voice
+  category: sensation
+  entity: {name: hear-mother-voice, kind: sensation, subkind: auditory-familiar}
+  semantic: {category: "familiar-voice, calming, recognized-from-womb"}
+  composed_of: [binary.hear, binary.known, binary.same, prime.someone, binary.good]
+  source: "developmental psychology"
+
+# ── Tactile ─────────────────────────────────────────────────────────
+
+- key: infant.touch-soft
+  category: sensation
+  entity: {name: touch-soft, kind: sensation, subkind: tactile}
+  semantic: {category: "gentle-pressure-on-skin"}
+  composed_of: [binary.touch, binary.feel, binary.good, prime.little]
+  source: "developmental psychology"
+
+- key: infant.touch-firm
+  category: sensation
+  entity: {name: touch-firm, kind: sensation, subkind: tactile}
+  semantic: {category: "strong-pressure-on-skin"}
+  composed_of: [binary.touch, binary.feel, prime.very]
+  source: "developmental psychology"
+
+# ── Gustatory / olfactory ──────────────────────────────────────────
+
+- key: infant.taste-sweet
+  category: sensation
+  entity: {name: taste-sweet, kind: sensation, subkind: gustatory}
+  semantic: {category: "milk-like-flavor, approach-response"}
+  composed_of: [binary.feel, binary.inside, binary.good, prime.like]
+  source: "developmental psychology"
+
+- key: infant.taste-bitter
+  category: sensation
+  entity: {name: taste-bitter, kind: sensation, subkind: gustatory}
+  semantic: {category: "harsh-flavor, rejection-response"}
+  composed_of: [binary.feel, binary.inside, binary.bad]
+  source: "developmental psychology"
+
+- key: infant.smell-mother
+  category: sensation
+  entity: {name: smell-mother, kind: sensation, subkind: olfactory-familiar}
+  semantic: {category: "familiar-scent, identifies-caregiver"}
+  composed_of: [binary.feel, binary.known, binary.same, binary.good, prime.someone]
+  source: "developmental psychology"
+
+# ── Reflexes ────────────────────────────────────────────────────────
+
+- key: infant.rooting
+  category: reflex
+  entity: {name: rooting, kind: reflex, subkind: feeding}
+  semantic: {category: "turn-head-toward-cheek-touch, seeking-feed"}
+  composed_of: [binary.touch, binary.wanted, prime.move, prime.do]
+  source: "developmental psychology"
+
+- key: infant.sucking
+  category: reflex
+  entity: {name: sucking, kind: reflex, subkind: feeding}
+  semantic: {category: "rhythmic-mouth-movement-on-nipple-or-finger"}
+  composed_of: [prime.do, binary.moving, binary.inside, binary.has]
+  source: "developmental psychology"
+
+- key: infant.grasp
+  category: reflex
+  entity: {name: grasp, kind: reflex, subkind: motor}
+  semantic: {category: "fingers-close-on-palm-stimulus"}
+  composed_of: [binary.touch, binary.has, prime.do, prime.part, prime.body]
+  source: "developmental psychology"
+
+- key: infant.startle
+  category: reflex
+  entity: {name: startle, kind: reflex, subkind: moro}
+  semantic: {category: "limb-extension-from-loud-noise-or-falling-sensation"}
+  composed_of: [prime.move, prime.do, binary.unknown, prime.happen]
+  source: "developmental psychology"
+
+# ── Earliest vocalizations / expressions ──────────────────────────
+
+- key: infant.cry
+  category: vocalization
+  entity: {name: cry, kind: vocalization, subkind: distress}
+  semantic: {category: "loud-vocalization-of-discomfort, summons-caregiver"}
+  composed_of: [prime.do, prime.say, binary.feel, binary.bad, prime.very]
+  source: "developmental psychology"
+
+- key: infant.smile-reflex
+  category: expression
+  entity: {name: smile-reflex, kind: expression, subkind: pre-social}
+  semantic: {category: "mouth-curves-up-spontaneously-during-sleep-or-rest"}
+  composed_of: [prime.do, binary.feel, binary.good, prime.part, prime.body]
+  source: "developmental psychology"
+
+- key: infant.coo
+  category: vocalization
+  entity: {name: coo, kind: vocalization, subkind: contented}
+  semantic: {category: "soft-vowel-sound-when-content"}
+  composed_of: [prime.do, prime.say, binary.feel, binary.good, prime.little]
+  source: "developmental psychology"

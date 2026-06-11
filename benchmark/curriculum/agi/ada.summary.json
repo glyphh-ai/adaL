@@ -1,0 +1,14 @@
+{
+  "n_keys": 39429,
+  "n_foundation": 523,
+  "n_domain": 41511,
+  "n_composition_edges": 304126,
+  "n_multi_version_keys": 971,
+  "skipped_foundation_collisions": 24,
+  "by_domain": {
+    "chemistry": 12236,
+    "philosophy": 14689,
+    "law": 14586
+  },
+  "build_seconds": 54.6
+}

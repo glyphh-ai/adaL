@@ -1,0 +1,89 @@
+# Stage 11 — social cognition (24-36 months).
+#
+# The toddler begins to understand that other minds exist and have
+# their own perspectives, beliefs, and feelings. Theory of mind
+# precursors appear; full false-belief understanding comes around 4.
+
+- key: infant.other-as-agent
+  category: cognition
+  entity: {name: other-as-agent, kind: cognition, subkind: theory-of-mind-precursor}
+  semantic: {category: "other-people-do-things-on-purpose-like-me"}
+  composed_of: [binary.other, prime.do, binary.wanted, infant.agency]
+  source: "developmental psychology"
+
+- key: infant.other-has-feelings
+  category: cognition
+  entity: {name: other-has-feelings, kind: cognition, subkind: theory-of-mind-precursor}
+  semantic: {category: "other-people-feel-things-like-i-do"}
+  composed_of: [binary.other, binary.feel, prime.like, binary.self]
+  source: "developmental psychology"
+
+- key: infant.affect-mirroring
+  category: behavior
+  entity: {name: affect-mirroring, kind: behavior, subkind: empathy-precursor}
+  semantic: {category: "feel-distress-when-other-shows-distress, contagion"}
+  composed_of: [binary.other, infant.cry, binary.self, binary.feel, binary.bad, binary.same]
+  source: "developmental psychology"
+
+- key: infant.empathy
+  category: emotion
+  entity: {name: empathy, kind: emotion, subkind: social}
+  semantic: {category: "feel-something-because-other-feels-it, deliberate-response"}
+  composed_of: [binary.other, binary.feel, binary.self, binary.feel, binary.same, prime.because]
+  source: "developmental psychology"
+
+- key: infant.console
+  category: action
+  entity: {name: console, kind: action, subkind: prosocial}
+  semantic: {category: "act-to-relieve-others-distress"}
+  composed_of: [binary.other, binary.feel, binary.bad, binary.self, prime.do, infant.comfort, binary.other]
+  source: "developmental psychology"
+
+- key: infant.help
+  category: action
+  entity: {name: help, kind: action, subkind: prosocial}
+  semantic: {category: "do-something-that-makes-others-task-easier"}
+  composed_of: [binary.other, prime.do, prime.can, prime.not, binary.self, prime.do, binary.because]
+  source: "developmental psychology"
+
+- key: infant.intent-attribution
+  category: cognition
+  entity: {name: intent-attribution, kind: cognition, subkind: theory-of-mind}
+  semantic: {category: "infer-what-other-wants-from-their-actions"}
+  composed_of: [binary.other, prime.do, binary.because, binary.wanted, prime.think]
+  source: "developmental psychology"
+
+- key: infant.attention-to-other-gaze
+  category: cognition
+  entity: {name: attention-to-other-gaze, kind: cognition, subkind: theory-of-mind-precursor}
+  semantic: {category: "what-the-other-is-looking-at-is-what-they-want"}
+  composed_of: [infant.joint-attention, binary.other, binary.see, binary.wanted]
+  source: "developmental psychology"
+
+- key: infant.shared-emotion
+  category: emotion
+  entity: {name: shared-emotion, kind: emotion, subkind: social}
+  semantic: {category: "feel-same-as-others, group-affect"}
+  composed_of: [infant.empathy, prime.people, binary.feel, binary.same, binary.now]
+  source: "developmental psychology"
+
+- key: infant.deception-attempt
+  category: behavior
+  entity: {name: deception-attempt, kind: behavior, subkind: theory-of-mind}
+  semantic: {category: "try-to-make-other-believe-false-thing, late-2s"}
+  composed_of: [binary.other, prime.think, binary.false, binary.self, prime.do, prime.say]
+  source: "developmental psychology"
+
+- key: infant.role-play
+  category: behavior
+  entity: {name: role-play, kind: behavior, subkind: symbolic}
+  semantic: {category: "pretend-to-be-someone-else, requires-mental-flexibility"}
+  composed_of: [binary.self, prime.do, prime.like, binary.other, prime.someone, binary.not, prime.true]
+  source: "developmental psychology"
+
+- key: infant.symbolic-play
+  category: behavior
+  entity: {name: symbolic-play, kind: behavior, subkind: representational}
+  semantic: {category: "banana-as-phone, object-stands-for-another"}
+  composed_of: [infant.object, prime.like, prime.other, prime.something, binary.not, binary.true]
+  source: "developmental psychology"

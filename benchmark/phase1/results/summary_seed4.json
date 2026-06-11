@@ -1,0 +1,176 @@
+{
+  "seed": 4,
+  "n_facts": 480,
+  "semantic_accuracy": 0.8979166666666667,
+  "entity_rate": 1.0,
+  "canonical_rate": 0.8979166666666667,
+  "captured_rate": 0.9291666666666667,
+  "by_type": {
+    "age": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "location": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 54,
+      "captured": 54,
+      "semantic": 54
+    },
+    "job": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "hobby": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "pet": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 32,
+      "captured": 32,
+      "semantic": 32
+    },
+    "color": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "height": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 56,
+      "captured": 60,
+      "semantic": 56
+    },
+    "origin": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 49,
+      "captured": 60,
+      "semantic": 49
+    }
+  },
+  "usage": {
+    "calls": 480,
+    "input_tokens": 120917,
+    "output_tokens": 41686
+  },
+  "cost_usd": 0.3293,
+  "cost_per_fact_usd": 0.000686,
+  "wall_seconds": 75.3,
+  "end_to_end_aggregation": {
+    "count_color_blue": {
+      "truth": 4,
+      "ada": 4
+    },
+    "count_job_engineer": {
+      "truth": 3,
+      "ada": 3
+    },
+    "top5_locations": {
+      "truth": [
+        [
+          "lyon",
+          7
+        ],
+        [
+          "antwerp",
+          6
+        ],
+        [
+          "quito",
+          5
+        ],
+        [
+          "phoenix",
+          4
+        ],
+        [
+          "austin",
+          4
+        ]
+      ],
+      "ada": [
+        [
+          "home",
+          9
+        ],
+        [
+          "antwerp",
+          7
+        ],
+        [
+          "lyon",
+          7
+        ],
+        [
+          "quito",
+          5
+        ],
+        [
+          "phoenix",
+          4
+        ]
+      ]
+    },
+    "top5_colors": {
+      "truth": [
+        [
+          "grey",
+          8
+        ],
+        [
+          "green",
+          8
+        ],
+        [
+          "white",
+          8
+        ],
+        [
+          "yellow",
+          7
+        ],
+        [
+          "black",
+          6
+        ]
+      ],
+      "ada": [
+        [
+          "grey",
+          8
+        ],
+        [
+          "green",
+          8
+        ],
+        [
+          "white",
+          8
+        ],
+        [
+          "yellow",
+          7
+        ],
+        [
+          "black",
+          6
+        ]
+      ]
+    }
+  }
+}

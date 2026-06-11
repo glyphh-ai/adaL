@@ -1,0 +1,594 @@
+# Lexicon — first words a child says, each grounded in BOTH a
+# phoneme sequence (the sound) AND a semantic cluster (the meaning).
+#
+# Design point: closely-related words share many composition keys
+# (so they cluster near each other in vector space); unrelated
+# words share few/no keys (so they sit far apart).
+#
+# mama / milk / warm / hug → all near each other
+# rock / gone / stranger / cold → far from the above
+#
+# This natural separation is what the substrate gets for free from
+# honest compositional encoding.
+
+# ══════════════════════════════════════════════════════════════════
+# Warmth / kinship / caregiver cluster (close in vector space)
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.mama
+  category: word
+  entity: {name: mama, kind: word, subkind: kinship}
+  perceptual:
+    spelling: "mama"
+    pronunciation: [phoneme.m, phoneme.ah, phoneme.m, phoneme.ah]
+    syllables: [syllable.CV, syllable.CV]
+    stress: trochee
+  semantic: {category: "first-word-typical-for-mother"}
+  composed_of: [infant.mother, infant.warm, infant.comfort,
+                infant.smell-mother, infant.hear-mother-voice,
+                infant.coo, infant.smile-reflex, infant.caregiver-bond,
+                phoneme.m, phoneme.ah, binary.same]
+  source: "developmental psychology + lexicon"
+
+- key: lexicon.dada
+  category: word
+  entity: {name: dada, kind: word, subkind: kinship}
+  perceptual:
+    spelling: "dada"
+    pronunciation: [phoneme.d, phoneme.ah, phoneme.d, phoneme.ah]
+    syllables: [syllable.CV, syllable.CV]
+    stress: trochee
+  semantic: {category: "first-word-typical-for-father"}
+  composed_of: [infant.father, infant.warm, infant.comfort,
+                infant.caregiver-bond, phoneme.d, phoneme.ah, binary.same]
+  source: "developmental psychology + lexicon"
+
+- key: lexicon.baby
+  category: word
+  entity: {name: baby, kind: word, subkind: kinship}
+  perceptual:
+    spelling: "baby"
+    pronunciation: [phoneme.b, phoneme.ay, phoneme.b, phoneme.i]
+    syllables: [syllable.CV, syllable.CV]
+    stress: trochee
+  semantic: {category: "young-child, often-self-reference"}
+  composed_of: [binary.self, prime.small, prime.little, prime.live,
+                infant.comfort, phoneme.b, phoneme.ay]
+  source: "developmental psychology + lexicon"
+
+- key: lexicon.hug
+  category: word
+  entity: {name: hug, kind: word, subkind: action-affection}
+  perceptual:
+    spelling: "hug"
+    pronunciation: [phoneme.h, phoneme.cut, phoneme.g]
+    syllables: [syllable.CVC]
+  semantic: {category: "embrace-action-of-warmth-and-comfort"}
+  composed_of: [infant.comfort, infant.touch-soft, infant.warm,
+                infant.caregiver-bond, prime.do, phoneme.h, phoneme.cut]
+  source: "developmental psychology + lexicon"
+
+- key: lexicon.kiss
+  category: word
+  entity: {name: kiss, kind: word, subkind: action-affection}
+  perceptual:
+    spelling: "kiss"
+    pronunciation: [phoneme.k, phoneme.ih, phoneme.s]
+    syllables: [syllable.CVC]
+  semantic: {category: "touch-of-affection-with-lips"}
+  composed_of: [infant.comfort, infant.touch-soft, infant.caregiver-bond,
+                prime.do, prime.part, prime.body, phoneme.k, phoneme.ih]
+  source: "developmental psychology + lexicon"
+
+- key: lexicon.warm
+  category: word
+  entity: {name: warm, kind: word, subkind: sensation-descriptor}
+  perceptual:
+    spelling: "warm"
+    pronunciation: [phoneme.w, phoneme.aw, phoneme.r, phoneme.m]
+    syllables: [syllable.CVCC]
+  semantic: {category: "comfortable-temperature"}
+  composed_of: [infant.warm, binary.feel, binary.good, binary.touch,
+                phoneme.w, phoneme.aw, phoneme.m]
+  source: "lexicon"
+
+# ══════════════════════════════════════════════════════════════════
+# Feeding / sustenance cluster (close to warmth cluster — they overlap)
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.milk
+  category: word
+  entity: {name: milk, kind: word, subkind: food}
+  perceptual:
+    spelling: "milk"
+    pronunciation: [phoneme.m, phoneme.ih, phoneme.l, phoneme.k]
+    syllables: [syllable.CVCC]
+  semantic: {category: "primary-nutrition-from-mother-or-bottle"}
+  composed_of: [infant.milk, infant.taste-sweet, infant.satiety,
+                infant.warm, infant.mother, phoneme.m, phoneme.ih]
+  source: "lexicon"
+
+- key: lexicon.bottle
+  category: word
+  entity: {name: bottle, kind: word, subkind: container}
+  perceptual:
+    spelling: "bottle"
+    pronunciation: [phoneme.b, phoneme.ah, phoneme.t, phoneme.l]
+    syllables: [syllable.CVC, syllable.V]
+    stress: trochee
+  semantic: {category: "container-for-milk-or-liquid"}
+  composed_of: [infant.bottle, infant.milk, infant.satiety,
+                phoneme.b, phoneme.ah, phoneme.t]
+  source: "lexicon"
+
+- key: lexicon.eat
+  category: word
+  entity: {name: eat, kind: word, subkind: action-feeding}
+  perceptual:
+    spelling: "eat"
+    pronunciation: [phoneme.i, phoneme.t]
+    syllables: [syllable.VC]
+  semantic: {category: "put-food-in-mouth-and-swallow"}
+  composed_of: [infant.food, infant.satiety, prime.do, prime.inside,
+                prime.part, prime.body, phoneme.i, phoneme.t]
+  source: "lexicon"
+
+- key: lexicon.drink
+  category: word
+  entity: {name: drink, kind: word, subkind: action-feeding}
+  perceptual:
+    spelling: "drink"
+    pronunciation: [phoneme.d, phoneme.r, phoneme.ih, phoneme.ng, phoneme.k]
+    syllables: [syllable.CCVCC]
+  semantic: {category: "consume-liquid"}
+  composed_of: [infant.thirst, infant.milk, prime.do, prime.inside,
+                phoneme.d, phoneme.r, phoneme.ih]
+  source: "lexicon"
+
+- key: lexicon.more
+  category: word
+  entity: {name: more, kind: word, subkind: request}
+  perceptual:
+    spelling: "more"
+    pronunciation: [phoneme.m, phoneme.aw, phoneme.r]
+    syllables: [syllable.CVC]
+  semantic: {category: "request-additional-amount, often-of-food"}
+  composed_of: [infant.word-more, prime.more, binary.wanted, binary.same,
+                binary.after, phoneme.m, phoneme.aw]
+  source: "lexicon"
+
+# ══════════════════════════════════════════════════════════════════
+# Comfort / distress cluster
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.sleep
+  category: word
+  entity: {name: sleep, kind: word, subkind: state}
+  perceptual:
+    spelling: "sleep"
+    pronunciation: [phoneme.s, phoneme.l, phoneme.i, phoneme.p]
+    syllables: [syllable.CCVC]
+  semantic: {category: "rest-state-eyes-closed-unresponsive"}
+  composed_of: [infant.tired, binary.asleep, binary.not, prime.feel,
+                phoneme.s, phoneme.l, phoneme.i]
+  source: "lexicon"
+
+- key: lexicon.cry
+  category: word
+  entity: {name: cry, kind: word, subkind: vocalization-distress}
+  perceptual:
+    spelling: "cry"
+    pronunciation: [phoneme.k, phoneme.r, phoneme.eye]
+    syllables: [syllable.CCV]
+  semantic: {category: "loud-distress-vocalization"}
+  composed_of: [infant.cry, binary.feel, binary.bad, prime.do, prime.say,
+                phoneme.k, phoneme.r]
+  source: "lexicon"
+
+- key: lexicon.hurt
+  category: word
+  entity: {name: hurt, kind: word, subkind: sensation-pain}
+  perceptual:
+    spelling: "hurt"
+    pronunciation: [phoneme.h, phoneme.er, phoneme.t]
+    syllables: [syllable.CVC]
+  semantic: {category: "pain-felt-in-body"}
+  composed_of: [infant.pain, binary.feel, binary.bad, prime.body,
+                phoneme.h, phoneme.er]
+  source: "lexicon"
+
+# ══════════════════════════════════════════════════════════════════
+# Cold / distant / unfamiliar cluster (FAR from warmth cluster)
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.cold
+  category: word
+  entity: {name: cold, kind: word, subkind: sensation-descriptor}
+  perceptual:
+    spelling: "cold"
+    pronunciation: [phoneme.k, phoneme.oh, phoneme.l, phoneme.d]
+    syllables: [syllable.CVCC]
+  semantic: {category: "uncomfortable-low-temperature"}
+  composed_of: [infant.cold, binary.feel, binary.bad, binary.touch,
+                phoneme.k, phoneme.oh]
+  source: "lexicon"
+
+- key: lexicon.gone
+  category: word
+  entity: {name: gone, kind: word, subkind: state-absence}
+  perceptual:
+    spelling: "gone"
+    pronunciation: [phoneme.g, phoneme.aw, phoneme.n]
+    syllables: [syllable.CVC]
+  semantic: {category: "no-longer-here"}
+  composed_of: [infant.gone, binary.absence, binary.not, binary.here,
+                phoneme.g, phoneme.aw, phoneme.n]
+  source: "lexicon"
+
+# ══════════════════════════════════════════════════════════════════
+# Inert object cluster (FAR from people/warmth — minimal shared keys)
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.rock
+  category: word
+  entity: {name: rock, kind: word, subkind: object-inanimate}
+  perceptual:
+    spelling: "rock"
+    pronunciation: [phoneme.r, phoneme.ah, phoneme.k]
+    syllables: [syllable.CVC]
+  semantic: {category: "hard-mineral-object"}
+  composed_of: [infant.object, infant.touch-firm, binary.not, binary.alive,
+                binary.cannot, prime.move, phoneme.r, phoneme.ah]
+  source: "lexicon"
+
+- key: lexicon.ball
+  category: word
+  entity: {name: ball, kind: word, subkind: object-toy}
+  perceptual:
+    spelling: "ball"
+    pronunciation: [phoneme.b, phoneme.aw, phoneme.l]
+    syllables: [syllable.CVC]
+  semantic: {category: "round-toy-that-rolls"}
+  composed_of: [infant.toy, infant.object, prime.move, binary.has,
+                phoneme.b, phoneme.aw]
+  source: "lexicon"
+
+# ══════════════════════════════════════════════════════════════════
+# Animals (own cluster, near pets-as-comfort, far from inert)
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.doggy
+  category: word
+  entity: {name: doggy, kind: word, subkind: animal}
+  perceptual:
+    spelling: "doggy"
+    pronunciation: [phoneme.d, phoneme.aw, phoneme.g, phoneme.i]
+    syllables: [syllable.CVC, syllable.V]
+    stress: trochee
+  semantic: {category: "dog, common-first-animal-word"}
+  composed_of: [prime.live, infant.warm, prime.move, infant.touch-soft,
+                phoneme.d, phoneme.aw, phoneme.g]
+  source: "lexicon"
+
+- key: lexicon.kitty
+  category: word
+  entity: {name: kitty, kind: word, subkind: animal}
+  perceptual:
+    spelling: "kitty"
+    pronunciation: [phoneme.k, phoneme.ih, phoneme.t, phoneme.i]
+    syllables: [syllable.CVC, syllable.V]
+    stress: trochee
+  semantic: {category: "cat, common-first-animal-word"}
+  composed_of: [prime.live, infant.warm, prime.move, infant.touch-soft,
+                phoneme.k, phoneme.ih]
+  source: "lexicon"
+
+# ══════════════════════════════════════════════════════════════════
+# Self / deixis
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.me
+  category: word
+  entity: {name: me, kind: word, subkind: pronoun}
+  perceptual:
+    spelling: "me"
+    pronunciation: [phoneme.m, phoneme.i]
+    syllables: [syllable.CV]
+  semantic: {category: "first-person-self-reference"}
+  composed_of: [prime.i, binary.self, phoneme.m, phoneme.i]
+  source: "lexicon"
+
+- key: lexicon.you
+  category: word
+  entity: {name: you, kind: word, subkind: pronoun}
+  perceptual:
+    spelling: "you"
+    pronunciation: [phoneme.y, phoneme.u]
+    syllables: [syllable.CV]
+  semantic: {category: "second-person-other"}
+  composed_of: [prime.you, binary.other, phoneme.y, phoneme.u]
+  source: "lexicon"
+
+- key: lexicon.mine
+  category: word
+  entity: {name: mine, kind: word, subkind: possessive}
+  perceptual:
+    spelling: "mine"
+    pronunciation: [phoneme.m, phoneme.eye, phoneme.n]
+    syllables: [syllable.CVC]
+  semantic: {category: "belongs-to-me"}
+  composed_of: [infant.mine, prime.mine, binary.self, binary.has,
+                phoneme.m, phoneme.eye]
+  source: "lexicon"
+
+# ══════════════════════════════════════════════════════════════════
+# Yes / no / questions
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.yes
+  category: word
+  entity: {name: yes, kind: word, subkind: agreement}
+  perceptual:
+    spelling: "yes"
+    pronunciation: [phoneme.y, phoneme.eh, phoneme.s]
+    syllables: [syllable.CVC]
+  semantic: {category: "affirmation, agreement"}
+  composed_of: [infant.word-yes, binary.true, binary.wanted, binary.good,
+                phoneme.y, phoneme.eh]
+  source: "lexicon"
+
+- key: lexicon.no
+  category: word
+  entity: {name: no, kind: word, subkind: refusal}
+  perceptual:
+    spelling: "no"
+    pronunciation: [phoneme.n, phoneme.oh]
+    syllables: [syllable.CV]
+  semantic: {category: "refusal, prohibition, negation"}
+  composed_of: [infant.word-no, prime.not, binary.unwanted, binary.bad,
+                phoneme.n, phoneme.oh]
+  source: "lexicon"
+
+- key: lexicon.what
+  category: word
+  entity: {name: what, kind: word, subkind: question}
+  perceptual:
+    spelling: "what"
+    pronunciation: [phoneme.w, phoneme.cut, phoneme.t]
+    syllables: [syllable.CVC]
+  semantic: {category: "question-asking-what-kind"}
+  composed_of: [infant.question-what, prime.want, prime.know, prime.kind,
+                phoneme.w, phoneme.cut]
+  source: "lexicon"
+
+- key: lexicon.where
+  category: word
+  entity: {name: where, kind: word, subkind: question}
+  perceptual:
+    spelling: "where"
+    pronunciation: [phoneme.w, phoneme.eh, phoneme.r]
+    syllables: [syllable.CVC]
+  semantic: {category: "question-asking-location"}
+  composed_of: [infant.question-where, prime.want, prime.know, prime.where,
+                phoneme.w, phoneme.eh, phoneme.r]
+  source: "lexicon"
+
+- key: lexicon.why
+  category: word
+  entity: {name: why, kind: word, subkind: question}
+  perceptual:
+    spelling: "why"
+    pronunciation: [phoneme.w, phoneme.eye]
+    syllables: [syllable.CV]
+  semantic: {category: "question-asking-cause"}
+  composed_of: [infant.question-why, prime.want, prime.know, prime.because,
+                phoneme.w, phoneme.eye]
+  source: "lexicon"
+
+# ══════════════════════════════════════════════════════════════════
+# Common actions
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.go
+  category: word
+  entity: {name: go, kind: word, subkind: verb-motion}
+  perceptual:
+    spelling: "go"
+    pronunciation: [phoneme.g, phoneme.oh]
+    syllables: [syllable.CV]
+  semantic: {category: "move-away-or-begin-motion"}
+  composed_of: [prime.do, prime.move, binary.far, phoneme.g, phoneme.oh]
+  source: "lexicon"
+
+- key: lexicon.stop
+  category: word
+  entity: {name: stop, kind: word, subkind: verb-cessation}
+  perceptual:
+    spelling: "stop"
+    pronunciation: [phoneme.s, phoneme.t, phoneme.ah, phoneme.p]
+    syllables: [syllable.CCVC]
+  semantic: {category: "cease-motion-or-action"}
+  composed_of: [prime.do, prime.not, prime.move, binary.still,
+                phoneme.s, phoneme.t, phoneme.ah]
+  source: "lexicon"
+
+- key: lexicon.look
+  category: word
+  entity: {name: look, kind: word, subkind: verb-perception}
+  perceptual:
+    spelling: "look"
+    pronunciation: [phoneme.l, phoneme.uh, phoneme.k]
+    syllables: [syllable.CVC]
+  semantic: {category: "direct-eyes-toward, voluntary-seeing"}
+  composed_of: [prime.do, binary.see, binary.wanted, infant.attention,
+                phoneme.l, phoneme.uh, phoneme.k]
+  source: "lexicon"
+
+- key: lexicon.give
+  category: word
+  entity: {name: give, kind: word, subkind: verb-transfer}
+  perceptual:
+    spelling: "give"
+    pronunciation: [phoneme.g, phoneme.ih, phoneme.v]
+    syllables: [syllable.CVC]
+  semantic: {category: "hand-something-to-another-person"}
+  composed_of: [infant.give, prime.do, prime.move, binary.other, binary.has,
+                phoneme.g, phoneme.ih]
+  source: "lexicon"
+
+- key: lexicon.want
+  category: word
+  entity: {name: want, kind: word, subkind: verb-desire}
+  perceptual:
+    spelling: "want"
+    pronunciation: [phoneme.w, phoneme.ah, phoneme.n, phoneme.t]
+    syllables: [syllable.CVCC]
+  semantic: {category: "desire-something, motivation"}
+  composed_of: [prime.want, binary.wanted, binary.self, phoneme.w, phoneme.ah]
+  source: "lexicon"
+
+# ══════════════════════════════════════════════════════════════════
+# Greeting / closing
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.hi
+  category: word
+  entity: {name: hi, kind: word, subkind: greeting}
+  perceptual:
+    spelling: "hi"
+    pronunciation: [phoneme.h, phoneme.eye]
+    syllables: [syllable.CV]
+  semantic: {category: "informal-greeting"}
+  composed_of: [prime.say, binary.other, binary.now, infant.recognize-face,
+                infant.social-smile, phoneme.h, phoneme.eye]
+  source: "lexicon"
+
+- key: lexicon.bye
+  category: word
+  entity: {name: bye, kind: word, subkind: farewell}
+  perceptual:
+    spelling: "bye"
+    pronunciation: [phoneme.b, phoneme.eye]
+    syllables: [syllable.CV]
+  semantic: {category: "farewell-vocalization"}
+  composed_of: [infant.word-bye, prime.say, binary.after, binary.far,
+                infant.wave, phoneme.b, phoneme.eye]
+  source: "lexicon"
+
+# ══════════════════════════════════════════════════════════════════
+# Counting (low numbers)
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.one
+  category: word
+  entity: {name: one, kind: word, subkind: number}
+  perceptual:
+    spelling: "one"
+    pronunciation: [phoneme.w, phoneme.cut, phoneme.n]
+    syllables: [syllable.CVC]
+  semantic: {category: "spoken-form-of-quantity-1"}
+  composed_of: [number.1, digit.1, prime.one, phoneme.w, phoneme.cut]
+  source: "lexicon"
+
+- key: lexicon.two
+  category: word
+  entity: {name: two, kind: word, subkind: number}
+  perceptual:
+    spelling: "two"
+    pronunciation: [phoneme.t, phoneme.u]
+    syllables: [syllable.CV]
+  semantic: {category: "spoken-form-of-quantity-2"}
+  composed_of: [number.2, digit.2, prime.two, phoneme.t, phoneme.u]
+  source: "lexicon"
+
+- key: lexicon.three
+  category: word
+  entity: {name: three, kind: word, subkind: number}
+  perceptual:
+    spelling: "three"
+    pronunciation: [phoneme.th-voiceless, phoneme.r, phoneme.i]
+    syllables: [syllable.CCV]
+  semantic: {category: "spoken-form-of-quantity-3"}
+  composed_of: [number.3, digit.3, prime.one, prime.two, prime.more,
+                phoneme.th-voiceless, phoneme.r, phoneme.i]
+  source: "lexicon"
+
+# ══════════════════════════════════════════════════════════════════
+# Magnitude / size (these are FAR from kinship cluster)
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.big
+  category: word
+  entity: {name: big, kind: word, subkind: adjective-size}
+  perceptual:
+    spelling: "big"
+    pronunciation: [phoneme.b, phoneme.ih, phoneme.g]
+    syllables: [syllable.CVC]
+  semantic: {category: "large-magnitude"}
+  composed_of: [prime.big, binary.big, phoneme.b, phoneme.ih]
+  source: "lexicon"
+
+- key: lexicon.small
+  category: word
+  entity: {name: small, kind: word, subkind: adjective-size}
+  perceptual:
+    spelling: "small"
+    pronunciation: [phoneme.s, phoneme.m, phoneme.aw, phoneme.l]
+    syllables: [syllable.CCVC]
+  semantic: {category: "limited-magnitude"}
+  composed_of: [prime.small, binary.small, phoneme.s, phoneme.m]
+  source: "lexicon"
+
+# ══════════════════════════════════════════════════════════════════
+# Spatial directions
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.up
+  category: word
+  entity: {name: up, kind: word, subkind: spatial-direction}
+  perceptual:
+    spelling: "up"
+    pronunciation: [phoneme.cut, phoneme.p]
+    syllables: [syllable.VC]
+  semantic: {category: "upward-direction-or-request-to-be-lifted"}
+  composed_of: [infant.word-up, binary.above, prime.move, phoneme.cut, phoneme.p]
+  source: "lexicon"
+
+- key: lexicon.down
+  category: word
+  entity: {name: down, kind: word, subkind: spatial-direction}
+  perceptual:
+    spelling: "down"
+    pronunciation: [phoneme.d, phoneme.ow, phoneme.n]
+    syllables: [syllable.CVC]
+  semantic: {category: "downward-direction"}
+  composed_of: [binary.below, prime.move, phoneme.d, phoneme.ow, phoneme.n]
+  source: "lexicon"
+
+# ══════════════════════════════════════════════════════════════════
+# Body parts (mid-distance from kinship — overlap on body)
+# ══════════════════════════════════════════════════════════════════
+
+- key: lexicon.eye
+  category: word
+  entity: {name: eye, kind: word, subkind: body-part}
+  perceptual:
+    spelling: "eye"
+    pronunciation: [phoneme.eye]
+    syllables: [syllable.V]
+  semantic: {category: "organ-of-vision"}
+  composed_of: [infant.eyes, prime.part, prime.body, binary.see,
+                phoneme.eye]
+  source: "lexicon"
+
+- key: lexicon.hand
+  category: word
+  entity: {name: hand, kind: word, subkind: body-part}
+  perceptual:
+    spelling: "hand"
+    pronunciation: [phoneme.h, phoneme.ae, phoneme.n, phoneme.d]
+    syllables: [syllable.CVCC]
+  semantic: {category: "extremity-for-grasping"}
+  composed_of: [infant.hand, prime.part, prime.body, binary.touch,
+                infant.grasp-voluntary, phoneme.h, phoneme.ae]
+  source: "lexicon"

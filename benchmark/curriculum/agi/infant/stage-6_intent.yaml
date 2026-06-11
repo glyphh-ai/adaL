@@ -1,0 +1,88 @@
+# Stage 6 — intentionality and proto-language (9-12 months).
+#
+# The infant starts treating others as agents with intentions, and
+# uses gestures + vocalizations to communicate before words emerge.
+
+- key: infant.joint-attention
+  category: cognition
+  entity: {name: joint-attention, kind: cognition, subkind: social}
+  semantic: {category: "look-where-other-person-is-looking, share-focus"}
+  composed_of: [binary.see, binary.same, binary.other, prime.someone, infant.attention]
+  source: "developmental psychology"
+
+- key: infant.gaze-follow
+  category: action
+  entity: {name: gaze-follow, kind: action, subkind: social-tracking}
+  semantic: {category: "track-where-someone-else-is-looking"}
+  composed_of: [infant.tracking, prime.someone, binary.see, infant.face]
+  source: "developmental psychology"
+
+- key: infant.point-proto-imperative
+  category: action
+  entity: {name: point-proto-imperative, kind: action, subkind: communicative}
+  semantic: {category: "point-at-thing-wanted, request-via-gesture"}
+  composed_of: [prime.do, prime.move, prime.part, prime.body, binary.this, binary.wanted, prime.someone, prime.do]
+  source: "developmental psychology"
+
+- key: infant.point-proto-declarative
+  category: action
+  entity: {name: point-proto-declarative, kind: action, subkind: communicative}
+  semantic: {category: "point-at-thing-interesting, share-attention"}
+  composed_of: [prime.do, prime.move, prime.part, prime.body, binary.this, prime.see, infant.joint-attention]
+  source: "developmental psychology"
+
+- key: infant.gesture
+  category: action
+  entity: {name: gesture, kind: action, subkind: communicative}
+  semantic: {category: "body-movement-that-conveys-meaning"}
+  composed_of: [prime.do, prime.move, prime.part, prime.body, prime.say, binary.not, prime.words]
+  source: "developmental psychology"
+
+- key: infant.wave
+  category: action
+  entity: {name: wave, kind: action, subkind: communicative}
+  semantic: {category: "open-hand-side-to-side, greeting-or-farewell"}
+  composed_of: [infant.gesture, prime.move, prime.part, prime.body, prime.side, prime.side]
+  source: "developmental psychology"
+
+- key: infant.clap
+  category: action
+  entity: {name: clap, kind: action, subkind: expressive}
+  semantic: {category: "bring-hands-together-repeatedly, often-joy"}
+  composed_of: [infant.gesture, infant.hand, binary.touch, binary.same, infant.hand, binary.feel, binary.good]
+  source: "developmental psychology"
+
+- key: infant.request
+  category: cognition
+  entity: {name: request, kind: cognition, subkind: communicative}
+  semantic: {category: "use-gesture-or-sound-to-ask-for-something"}
+  composed_of: [binary.wanted, prime.someone, prime.do, infant.point-proto-imperative, infant.cause-effect]
+  source: "developmental psychology"
+
+- key: infant.imitation-action
+  category: action
+  entity: {name: imitation-action, kind: action, subkind: social-learning}
+  semantic: {category: "copy-action-someone-else-just-did"}
+  composed_of: [prime.do, binary.same, prime.someone, prime.do, prime.do, binary.after]
+  source: "developmental psychology"
+
+- key: infant.recognize-name
+  category: cognition
+  entity: {name: recognize-name, kind: cognition, subkind: linguistic-receptive}
+  semantic: {category: "respond-to-own-name-being-called"}
+  composed_of: [binary.hear, prime.words, binary.self, prime.someone, prime.say, binary.feel]
+  source: "developmental psychology"
+
+- key: infant.understand-no
+  category: cognition
+  entity: {name: understand-no, kind: cognition, subkind: linguistic-receptive}
+  semantic: {category: "comprehend-word-no-as-prohibition"}
+  composed_of: [binary.hear, prime.not, prime.someone, prime.say, binary.cannot]
+  source: "developmental psychology"
+
+- key: infant.proto-word
+  category: vocalization
+  entity: {name: proto-word, kind: vocalization, subkind: linguistic}
+  semantic: {category: "consistent-sound-used-for-consistent-thing, pre-word"}
+  composed_of: [prime.do, prime.say, binary.same, binary.same, prime.something]
+  source: "developmental psychology"

@@ -1,0 +1,178 @@
+{
+  "seed": 10,
+  "n_facts": 480,
+  "semantic_accuracy": 1.0,
+  "entity_rate": 1.0,
+  "canonical_rate": 1.0,
+  "captured_rate": 1.0,
+  "spurious_fill_rate": 0.04583333333333333,
+  "clean_rate": 0.9541666666666667,
+  "by_type": {
+    "age": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "location": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "job": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "hobby": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "pet": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "color": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "height": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "origin": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    }
+  },
+  "usage": {
+    "calls": 480,
+    "input_tokens": 339317,
+    "output_tokens": 35671
+  },
+  "cost_usd": 0.5177,
+  "cost_per_fact_usd": 0.001078,
+  "wall_seconds": 64.8,
+  "end_to_end_aggregation": {
+    "count_color_blue": {
+      "truth": 2,
+      "ada": 2
+    },
+    "count_job_engineer": {
+      "truth": 2,
+      "ada": 2
+    },
+    "top5_locations": {
+      "truth": [
+        [
+          "calgary",
+          5
+        ],
+        [
+          "boston",
+          4
+        ],
+        [
+          "york",
+          4
+        ],
+        [
+          "tokyo",
+          4
+        ],
+        [
+          "stockholm",
+          4
+        ]
+      ],
+      "ada": [
+        [
+          "calgary",
+          5
+        ],
+        [
+          "boston",
+          4
+        ],
+        [
+          "york",
+          4
+        ],
+        [
+          "tokyo",
+          4
+        ],
+        [
+          "stockholm",
+          4
+        ]
+      ]
+    },
+    "top5_colors": {
+      "truth": [
+        [
+          "pink",
+          9
+        ],
+        [
+          "purple",
+          8
+        ],
+        [
+          "black",
+          8
+        ],
+        [
+          "green",
+          7
+        ],
+        [
+          "brown",
+          5
+        ]
+      ],
+      "ada": [
+        [
+          "pink",
+          9
+        ],
+        [
+          "purple",
+          8
+        ],
+        [
+          "black",
+          8
+        ],
+        [
+          "green",
+          7
+        ],
+        [
+          "brown",
+          5
+        ]
+      ]
+    }
+  }
+}

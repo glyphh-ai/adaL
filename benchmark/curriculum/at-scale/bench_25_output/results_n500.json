@@ -1,0 +1,214 @@
+{
+  "n_persons": 500,
+  "n_facts": 10000,
+  "n_pass": 25,
+  "n_total": 25,
+  "mean_query_ms": 0.86883544921875,
+  "per_category": {
+    "Aggregation": [
+      5,
+      5
+    ],
+    "Distribution": [
+      5,
+      5
+    ],
+    "Negation": [
+      3,
+      3
+    ],
+    "Intersection": [
+      5,
+      5
+    ],
+    "Comparison": [
+      3,
+      3
+    ],
+    "Rank": [
+      2,
+      2
+    ],
+    "Refusal": [
+      2,
+      2
+    ]
+  },
+  "results": [
+    {
+      "qid": "agg.blue",
+      "ok": true,
+      "truth": "50",
+      "ada": "50",
+      "ms": 19.01078224182129
+    },
+    {
+      "qid": "agg.engineer",
+      "ok": true,
+      "truth": "20",
+      "ada": "20",
+      "ms": 0.024318695068359375
+    },
+    {
+      "qid": "agg.austin",
+      "ok": true,
+      "truth": "11",
+      "ada": "11",
+      "ms": 0.02384185791015625
+    },
+    {
+      "qid": "agg.chess",
+      "ok": true,
+      "truth": "53",
+      "ada": "53",
+      "ms": 0.022411346435546875
+    },
+    {
+      "qid": "agg.dog",
+      "ok": true,
+      "truth": "57",
+      "ada": "57",
+      "ms": 0.021219253540039062
+    },
+    {
+      "qid": "dist.top5_cities",
+      "ok": true,
+      "truth": "[('Quito', 23), ('Denver', 23), ('Istanbul', 23), ('Warsaw', 23), ('Lyon', 21)]",
+      "ada": "[('Quito', 23), ('Denver', 23), ('Istanbul', 23), ('Warsaw', 23), ('Lyon', 21)]",
+      "ms": 0.133514404296875
+    },
+    {
+      "qid": "dist.top5_colors",
+      "ok": true,
+      "truth": "[('red', 53), ('pink', 52), ('white', 50), ('blue', 50), ('green', 48)]",
+      "ada": "[('red', 53), ('pink', 52), ('white', 50), ('blue', 50), ('green', 48)]",
+      "ms": 0.09441375732421875
+    },
+    {
+      "qid": "dist.top5_jobs",
+      "ok": true,
+      "truth": "[('doctor', 33), ('writer', 33), ('scientist', 32), ('chef', 32), ('carpenter', 31)]",
+      "ada": "[('doctor', 33), ('writer', 33), ('scientist', 32), ('chef', 32), ('carpenter', 31)]",
+      "ms": 0.07915496826171875
+    },
+    {
+      "qid": "dist.top5_hobbies",
+      "ok": true,
+      "truth": "[('photography', 55), ('running', 54), ('chess', 53), ('music', 48), ('knitting', 45)]",
+      "ada": "[('photography', 55), ('running', 54), ('chess', 53), ('music', 48), ('knitting', 45)]",
+      "ms": 0.11181831359863281
+    },
+    {
+      "qid": "dist.top5_pets",
+      "ok": true,
+      "truth": "[('hamster', 89), ('fish', 79), ('rabbit', 75), ('cat', 66), ('bird', 63)]",
+      "ada": "[('hamster', 89), ('fish', 79), ('rabbit', 75), ('cat', 66), ('bird', 63)]",
+      "ms": 0.072479248046875
+    },
+    {
+      "qid": "neg.not_blue",
+      "ok": true,
+      "truth": "450",
+      "ada": "450",
+      "ms": 0.027179718017578125
+    },
+    {
+      "qid": "neg.not_austin",
+      "ok": true,
+      "truth": "489",
+      "ada": "489",
+      "ms": 0.02384185791015625
+    },
+    {
+      "qid": "neg.not_engineer",
+      "ok": true,
+      "truth": "480",
+      "ada": "480",
+      "ms": 0.022172927856445312
+    },
+    {
+      "qid": "int.blue_aus_chess",
+      "ok": true,
+      "truth": "[]",
+      "ada": "[]",
+      "ms": 0.30994415283203125
+    },
+    {
+      "qid": "int.blue_engineer",
+      "ok": true,
+      "truth": "[]",
+      "ada": "[]",
+      "ms": 0.2739429473876953
+    },
+    {
+      "qid": "int.red_austin",
+      "ok": true,
+      "truth": "['Jika96', 'Kara291', 'Quyu443', 'Waka469']",
+      "ada": "['Jika96', 'Kara291', 'Quyu443', 'Waka469']",
+      "ms": 0.2319812774658203
+    },
+    {
+      "qid": "int.blue_eng_austin",
+      "ok": true,
+      "truth": "[]",
+      "ada": "[]",
+      "ms": 0.2694129943847656
+    },
+    {
+      "qid": "int.blue_eng_aus_chess",
+      "ok": true,
+      "truth": "[]",
+      "ada": "[]",
+      "ms": 0.23627281188964844
+    },
+    {
+      "qid": "cmp.eng_vs_doc",
+      "ok": true,
+      "truth": "-13",
+      "ada": "-13",
+      "ms": 0.06771087646484375
+    },
+    {
+      "qid": "cmp.top1_top2_city",
+      "ok": true,
+      "truth": "0",
+      "ada": "0",
+      "ms": 0.06198883056640625
+    },
+    {
+      "qid": "cmp.blue_aus_vs_ber",
+      "ok": true,
+      "truth": "1",
+      "ada": "1",
+      "ms": 0.46181678771972656
+    },
+    {
+      "qid": "rank.austin",
+      "ok": true,
+      "truth": "29",
+      "ada": "29",
+      "ms": 0.05817413330078125
+    },
+    {
+      "qid": "rank.engineer",
+      "ok": true,
+      "truth": "16",
+      "ada": "16",
+      "ms": 0.05984306335449219
+    },
+    {
+      "qid": "refuse.fake_hobby",
+      "ok": true,
+      "truth": "0",
+      "ada": "0",
+      "ms": 0.021457672119140625
+    },
+    {
+      "qid": "refuse.no_buildings",
+      "ok": true,
+      "truth": "None",
+      "ada": "None",
+      "ms": 0.0011920928955078125
+    }
+  ]
+}

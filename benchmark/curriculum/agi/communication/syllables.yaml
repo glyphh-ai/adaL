@@ -1,0 +1,88 @@
+# Syllable structure templates.
+#
+# A syllable in English has an optional onset, a mandatory nucleus
+# (vowel/diphthong), and an optional coda.  ~7 templates cover ~95%
+# of English syllables.
+
+- key: syllable.V
+  category: syllable-template
+  entity: {name: V, kind: syllable-template, subkind: simple}
+  semantic: {category: "vowel-only, e.g.-uh, ah, eye"}
+  composed_of: [phonotactic.nucleus-required, prime.one]
+  source: "english phonology"
+
+- key: syllable.CV
+  category: syllable-template
+  entity: {name: CV, kind: syllable-template, subkind: open}
+  semantic: {category: "consonant-then-vowel, e.g.-no, see, go, ma"}
+  composed_of: [phonotactic.onset-single, phonotactic.nucleus-required, prime.before]
+  source: "english phonology"
+
+- key: syllable.VC
+  category: syllable-template
+  entity: {name: VC, kind: syllable-template, subkind: closed}
+  semantic: {category: "vowel-then-consonant, e.g.-it, on, at"}
+  composed_of: [phonotactic.nucleus-required, phonotactic.coda-single, prime.after]
+  source: "english phonology"
+
+- key: syllable.CVC
+  category: syllable-template
+  entity: {name: CVC, kind: syllable-template, subkind: most-common}
+  semantic: {category: "consonant-vowel-consonant, the-most-common-english-syllable, e.g.-cat-dog-run"}
+  composed_of: [phonotactic.onset-single, phonotactic.nucleus-required,
+                phonotactic.coda-single]
+  source: "english phonology"
+
+- key: syllable.CCVC
+  category: syllable-template
+  entity: {name: CCVC, kind: syllable-template, subkind: complex-onset}
+  semantic: {category: "two-consonant-cluster-onset, e.g.-stop, slip, plan"}
+  composed_of: [phonotactic.onset-s-stop, phonotactic.onset-stop-liquid,
+                phonotactic.nucleus-required, phonotactic.coda-single]
+  source: "english phonology"
+
+- key: syllable.CVCC
+  category: syllable-template
+  entity: {name: CVCC, kind: syllable-template, subkind: complex-coda}
+  semantic: {category: "consonant-vowel-cluster, e.g.-jump, hand, land"}
+  composed_of: [phonotactic.onset-single, phonotactic.nucleus-required,
+                phonotactic.coda-cluster]
+  source: "english phonology"
+
+- key: syllable.CCVCC
+  category: syllable-template
+  entity: {name: CCVCC, kind: syllable-template, subkind: complex}
+  semantic: {category: "cluster-on-both-sides, e.g.-stomp, plant, strict"}
+  composed_of: [phonotactic.onset-s-stop, phonotactic.nucleus-required,
+                phonotactic.coda-cluster]
+  source: "english phonology"
+
+# ── Stress ────────────────────────────────────────────────────────
+
+- key: syllable.stressed
+  category: syllable-property
+  entity: {name: stressed, kind: syllable-property}
+  semantic: {category: "louder-longer-clearer-vowel, primary-stress"}
+  composed_of: [binary.continuous, prime.very, prime.more, prime.say]
+  source: "english phonology"
+
+- key: syllable.unstressed
+  category: syllable-property
+  entity: {name: unstressed, kind: syllable-property}
+  semantic: {category: "quieter-shorter-vowel-often-becomes-schwa"}
+  composed_of: [prime.little, prime.short_time, phoneme.schwa, prime.say]
+  source: "english phonology"
+
+- key: syllable.trochee
+  category: stress-pattern
+  entity: {name: trochee, kind: stress-pattern}
+  semantic: {category: "stressed-unstressed, the-default-english-foot, e.g.-MA-ma, MO-ther, HAP-py"}
+  composed_of: [syllable.stressed, syllable.unstressed, prime.before, prime.after]
+  source: "english phonology"
+
+- key: syllable.iamb
+  category: stress-pattern
+  entity: {name: iamb, kind: stress-pattern}
+  semantic: {category: "unstressed-stressed, less-common-english, e.g.-a-WAY, be-LOW"}
+  composed_of: [syllable.unstressed, syllable.stressed, prime.before, prime.after]
+  source: "english phonology"

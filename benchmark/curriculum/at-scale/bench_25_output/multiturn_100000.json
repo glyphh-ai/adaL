@@ -1,0 +1,74 @@
+{
+  "protocol_turns": 100000,
+  "results": [
+    {
+      "system": "Ada",
+      "n_pass": 50000,
+      "n_query": 50000,
+      "accuracy": 1.0,
+      "by_gap": {
+        "501+": [
+          49998,
+          49998
+        ],
+        "251-500": [
+          2,
+          2
+        ]
+      },
+      "mean_query_ms": 0.002683734893798828,
+      "mean_fact_ms": 17.650108995437623
+    },
+    {
+      "system": "LLM-200K",
+      "budget_facts": 8000,
+      "n_pass": 8255,
+      "n_query": 50000,
+      "accuracy": 0.1651,
+      "by_gap": {
+        "501+": [
+          8253,
+          49998
+        ],
+        "251-500": [
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "system": "LLM-Sonnet-1M",
+      "budget_facts": 40000,
+      "n_pass": 40070,
+      "n_query": 50000,
+      "accuracy": 0.8014,
+      "by_gap": {
+        "501+": [
+          40068,
+          49998
+        ],
+        "251-500": [
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "system": "Memory-10K",
+      "budget_facts": 400,
+      "n_pass": 413,
+      "n_query": 50000,
+      "accuracy": 0.00826,
+      "by_gap": {
+        "501+": [
+          411,
+          49998
+        ],
+        "251-500": [
+          2,
+          2
+        ]
+      }
+    }
+  ]
+}

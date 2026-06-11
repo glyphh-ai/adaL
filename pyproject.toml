@@ -1,0 +1,92 @@
+[build-system]
+requires = ["setuptools>=69.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "glyphh-ada"
+version = "0.7.0"
+description = "Ada — schema-on-write memory for LLMs. Facts in prose, answers exact, beliefs versioned, refusals honest."
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Glyphh AI LLC", email = "support@glyphh.ai"},
+    {name = "Chris Timmerman", email = "chris.timmerman@glyphh.ai"},
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+# Core dependencies — SQLite only, no Postgres/Docker needed.
+dependencies = [
+    "pyyaml>=6.0",
+    "httpx>=0.24.0",
+    "pyjwt[crypto]>=2.8.0",
+    "python-dotenv>=1.0.0",
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.23.0",
+    "python-multipart>=0.0.6",
+    "sqlalchemy[asyncio]>=2.0.0",
+    "aiosqlite>=0.19.0",
+    "alembic>=1.12.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "psutil>=5.9.0",
+    "mcp>=1.26.0",
+    "anthropic>=0.40.0",
+]
+
+[project.optional-dependencies]
+telemetry = [
+    "prometheus-client>=0.17.0",
+    "opentelemetry-api>=1.20.0",
+    "opentelemetry-sdk>=1.20.0",
+    "opentelemetry-instrumentation-fastapi>=0.41b0",
+    "opentelemetry-exporter-otlp>=1.20.0",
+]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "hypothesis>=6.82.0",
+    "black>=23.7.0",
+    "isort>=5.12.0",
+    "mypy>=1.5.0",
+    "ruff>=0.0.285",
+]
+
+[project.scripts]
+ada = "ada.tui.cli:main"
+
+[project.urls]
+Repository = "https://github.com/timmetim/ada"
+
+[tool.setuptools.packages.find]
+# ada* — SDK + CLI + server entry point (ada/server.py)
+# The remaining packages are the server-side runtime bundled for `ada dev`
+include = ["ada*", "domains*", "api*", "infrastructure*", "shared*", "scripts*"]
+
+[tool.setuptools.package-data]
+"ada" = []
+"ada.intent" = ["data/*.json", "data/*.jsonl", "data/packs/*.json"]
+"ada.state" = ["data/*.json", "data/packs/*.json"]
+"ada.memory" = ["lessons/*.jsonl", "foundation/*.yaml", "foundation/*.pkl.gz"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+
+[tool.ruff.lint.per-file-ignores]
+# App wiring imports after app/Base creation are intentional.
+"ada/server.py" = ["E402"]
+"domains/models/db_models.py" = ["E402"]

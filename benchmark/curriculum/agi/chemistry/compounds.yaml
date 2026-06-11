@@ -1,0 +1,260 @@
+# Compounds — molecules composed of elements + bonds + groups.
+# Each entry traces its composition all the way to layer-0 primes
+# through the elements/bonds/groups lattice.
+
+- key: compound.water
+  category: compound
+  entity: {name: water, kind: compound, subkind: inorganic}
+  perceptual: {color: colorless, temperature: liquid-at-stp}
+  quantitative: {magnitude: "18.015", unit: g-per-mol}
+  semantic: {category: "H2O, polar-molecule, universal-solvent, bent-geometry"}
+  relational: {predicate: hydrogen-bonds, object: self}
+  composed_of: [element.hydrogen, element.oxygen, bond.covalent, bond.hydrogen]
+  source: "general chemistry"
+
+- key: compound.methane
+  category: compound
+  entity: {name: methane, kind: compound, subkind: hydrocarbon}
+  perceptual: {color: colorless, temperature: gas-at-stp}
+  quantitative: {magnitude: "16.043", unit: g-per-mol}
+  semantic: {category: "CH4, simplest-alkane, tetrahedral, nonpolar"}
+  composed_of: [element.carbon, element.hydrogen, group.methyl, bond.covalent]
+  source: "organic chemistry"
+
+- key: compound.ammonia
+  category: compound
+  entity: {name: ammonia, kind: compound, subkind: inorganic}
+  perceptual: {color: colorless, temperature: gas-at-stp}
+  quantitative: {magnitude: "17.031", unit: g-per-mol}
+  semantic: {category: "NH3, basic, pyramidal-geometry, hydrogen-bonds"}
+  composed_of: [element.nitrogen, element.hydrogen, bond.covalent, bond.hydrogen]
+  source: "general chemistry"
+
+- key: compound.carbon-dioxide
+  category: compound
+  entity: {name: carbon-dioxide, kind: compound, subkind: inorganic}
+  perceptual: {color: colorless, temperature: gas-at-stp}
+  quantitative: {magnitude: "44.009", unit: g-per-mol}
+  semantic: {category: "CO2, linear, nonpolar, greenhouse-gas, product-of-combustion"}
+  composed_of: [element.carbon, element.oxygen, bond.double-covalent, group.carbonyl]
+  source: "general chemistry"
+
+- key: compound.carbon-monoxide
+  category: compound
+  entity: {name: carbon-monoxide, kind: compound, subkind: inorganic}
+  perceptual: {color: colorless, temperature: gas-at-stp}
+  quantitative: {magnitude: "28.010", unit: g-per-mol}
+  semantic: {category: "CO, toxic, binds-hemoglobin, triple-bonded"}
+  composed_of: [element.carbon, element.oxygen, bond.triple-covalent]
+  source: "general chemistry"
+
+- key: compound.methanol
+  category: compound
+  entity: {name: methanol, kind: compound, subkind: alcohol}
+  perceptual: {color: colorless, temperature: liquid-at-stp}
+  quantitative: {magnitude: "32.042", unit: g-per-mol}
+  semantic: {category: "CH3OH, simplest-alcohol, toxic, polar"}
+  relational: {predicate: parent-class, object: alcohol}
+  composed_of: [group.methyl, group.hydroxyl, bond.covalent, bond.hydrogen]
+  source: "organic chemistry"
+
+- key: compound.ethanol
+  category: compound
+  entity: {name: ethanol, kind: compound, subkind: alcohol}
+  perceptual: {color: colorless, temperature: liquid-at-stp}
+  quantitative: {magnitude: "46.069", unit: g-per-mol}
+  semantic: {category: "C2H5OH, drinking-alcohol, polar, hydrogen-bonds"}
+  relational: {predicate: parent-class, object: alcohol}
+  composed_of: [element.carbon, group.methyl, group.hydroxyl, bond.covalent, bond.hydrogen]
+  source: "organic chemistry"
+
+- key: compound.acetic-acid
+  category: compound
+  entity: {name: acetic-acid, kind: compound, subkind: carboxylic-acid}
+  perceptual: {color: colorless, temperature: liquid-at-stp}
+  quantitative: {magnitude: "60.052", unit: g-per-mol}
+  semantic: {category: "CH3COOH, vinegar, weak-acid, hydrogen-bonds"}
+  relational: {predicate: parent-class, object: carboxylic-acid}
+  composed_of: [group.methyl, group.carboxyl, bond.covalent, bond.hydrogen]
+  source: "organic chemistry"
+
+- key: compound.formaldehyde
+  category: compound
+  entity: {name: formaldehyde, kind: compound, subkind: aldehyde}
+  perceptual: {color: colorless, temperature: gas-at-stp}
+  quantitative: {magnitude: "30.026", unit: g-per-mol}
+  semantic: {category: "HCHO, simplest-aldehyde, toxic, preservative"}
+  composed_of: [element.hydrogen, group.carbonyl, group.aldehyde, bond.covalent]
+  source: "organic chemistry"
+
+- key: compound.acetone
+  category: compound
+  entity: {name: acetone, kind: compound, subkind: ketone}
+  perceptual: {color: colorless, temperature: liquid-at-stp}
+  quantitative: {magnitude: "58.080", unit: g-per-mol}
+  semantic: {category: "CH3COCH3, simplest-ketone, solvent, volatile"}
+  composed_of: [group.methyl, group.ketone, group.carbonyl, bond.covalent]
+  source: "organic chemistry"
+
+- key: compound.glucose
+  category: compound
+  entity: {name: glucose, kind: compound, subkind: sugar}
+  perceptual: {color: white, temperature: solid-at-stp}
+  quantitative: {magnitude: "180.156", unit: g-per-mol}
+  semantic: {category: "C6H12O6, monosaccharide, hexose, energy-currency-of-life"}
+  composed_of: [element.carbon, element.hydrogen, element.oxygen, group.hydroxyl, group.aldehyde, bond.covalent, bond.hydrogen]
+  source: "biochemistry"
+
+- key: compound.sucrose
+  category: compound
+  entity: {name: sucrose, kind: compound, subkind: sugar}
+  perceptual: {color: white, temperature: solid-at-stp}
+  quantitative: {magnitude: "342.297", unit: g-per-mol}
+  semantic: {category: "C12H22O11, disaccharide, table-sugar, glucose-fructose-linked"}
+  composed_of: [compound.glucose, group.hydroxyl, group.ether, bond.covalent]
+  source: "biochemistry"
+
+- key: compound.sodium-chloride
+  category: compound
+  entity: {name: sodium-chloride, kind: compound, subkind: salt}
+  perceptual: {color: white, temperature: solid-at-stp}
+  quantitative: {magnitude: "58.443", unit: g-per-mol}
+  semantic: {category: "NaCl, table-salt, ionic-crystal, dissolves-in-water"}
+  composed_of: [element.sodium, element.chlorine, bond.ionic]
+  source: "general chemistry"
+
+- key: compound.calcium-carbonate
+  category: compound
+  entity: {name: calcium-carbonate, kind: compound, subkind: salt}
+  perceptual: {color: white, temperature: solid-at-stp}
+  quantitative: {magnitude: "100.087", unit: g-per-mol}
+  semantic: {category: "CaCO3, limestone-chalk-marble, bones-shells, insoluble"}
+  composed_of: [element.calcium, element.carbon, element.oxygen, bond.ionic, bond.covalent, bond.double-covalent]
+  source: "general chemistry"
+
+- key: compound.sulfuric-acid
+  category: compound
+  entity: {name: sulfuric-acid, kind: compound, subkind: strong-acid}
+  perceptual: {color: colorless, temperature: liquid-at-stp}
+  quantitative: {magnitude: "98.079", unit: g-per-mol}
+  semantic: {category: "H2SO4, strong-diprotic-acid, dehydrating, industrial-workhorse"}
+  composed_of: [element.hydrogen, element.sulfur, element.oxygen, group.hydroxyl, bond.covalent, bond.double-covalent]
+  source: "general chemistry"
+
+- key: compound.hydrochloric-acid
+  category: compound
+  entity: {name: hydrochloric-acid, kind: compound, subkind: strong-acid}
+  perceptual: {color: colorless, temperature: liquid-at-stp}
+  quantitative: {magnitude: "36.461", unit: g-per-mol}
+  semantic: {category: "HCl, strong-monoprotic-acid, stomach-acid"}
+  composed_of: [element.hydrogen, element.chlorine, bond.covalent]
+  source: "general chemistry"
+
+- key: compound.sodium-hydroxide
+  category: compound
+  entity: {name: sodium-hydroxide, kind: compound, subkind: strong-base}
+  perceptual: {color: white, temperature: solid-at-stp}
+  quantitative: {magnitude: "39.997", unit: g-per-mol}
+  semantic: {category: "NaOH, lye, strong-base, caustic"}
+  composed_of: [element.sodium, group.hydroxyl, bond.ionic]
+  source: "general chemistry"
+
+- key: compound.ethane
+  category: compound
+  entity: {name: ethane, kind: compound, subkind: hydrocarbon}
+  perceptual: {color: colorless, temperature: gas-at-stp}
+  quantitative: {magnitude: "30.070", unit: g-per-mol}
+  semantic: {category: "C2H6, alkane, two-carbons-single-bonded"}
+  composed_of: [group.methyl, bond.covalent]
+  source: "organic chemistry"
+
+- key: compound.ethylene
+  category: compound
+  entity: {name: ethylene, kind: compound, subkind: hydrocarbon}
+  perceptual: {color: colorless, temperature: gas-at-stp}
+  quantitative: {magnitude: "28.054", unit: g-per-mol}
+  semantic: {category: "C2H4, simplest-alkene, plant-ripening-hormone, plastics-feedstock"}
+  composed_of: [element.carbon, element.hydrogen, bond.covalent, bond.double-covalent]
+  source: "organic chemistry"
+
+- key: compound.benzene
+  category: compound
+  entity: {name: benzene, kind: compound, subkind: aromatic}
+  perceptual: {color: colorless, temperature: liquid-at-stp}
+  quantitative: {magnitude: "78.114", unit: g-per-mol}
+  semantic: {category: "C6H6, aromatic-ring, delocalized-pi-electrons, carcinogenic"}
+  composed_of: [element.carbon, element.hydrogen, bond.covalent, bond.double-covalent]
+  source: "organic chemistry"
+
+- key: compound.glycine
+  category: compound
+  entity: {name: glycine, kind: compound, subkind: amino-acid}
+  perceptual: {color: white, temperature: solid-at-stp}
+  quantitative: {magnitude: "75.067", unit: g-per-mol}
+  semantic: {category: "C2H5NO2, simplest-amino-acid, achiral, neurotransmitter"}
+  relational: {predicate: parent-class, object: amino-acid}
+  composed_of: [group.amino, group.carboxyl, group.methyl, bond.covalent, bond.hydrogen]
+  source: "biochemistry"
+
+- key: compound.alanine
+  category: compound
+  entity: {name: alanine, kind: compound, subkind: amino-acid}
+  perceptual: {color: white, temperature: solid-at-stp}
+  quantitative: {magnitude: "89.094", unit: g-per-mol}
+  semantic: {category: "C3H7NO2, amino-acid, hydrophobic-side-chain"}
+  relational: {predicate: parent-class, object: amino-acid}
+  composed_of: [group.amino, group.carboxyl, group.methyl, element.carbon, bond.covalent, bond.hydrogen]
+  source: "biochemistry"
+
+- key: compound.atp
+  category: compound
+  entity: {name: ATP, kind: compound, subkind: nucleotide}
+  perceptual: {color: white, temperature: solid-at-stp}
+  quantitative: {magnitude: "507.181", unit: g-per-mol}
+  semantic: {category: "adenosine-triphosphate, energy-currency, drives-metabolism"}
+  composed_of: [group.phosphate, element.carbon, element.nitrogen, element.oxygen, element.hydrogen, bond.covalent, bond.hydrogen]
+  source: "biochemistry"
+
+- key: compound.dna
+  category: compound
+  entity: {name: DNA, kind: compound, subkind: nucleic-acid}
+  perceptual: {color: colorless, temperature: solid-at-stp}
+  semantic: {category: "deoxyribonucleic-acid, double-helix, genetic-information, A-T-C-G-bases"}
+  composed_of: [group.phosphate, group.hydroxyl, element.carbon, element.nitrogen, element.oxygen, element.hydrogen, bond.covalent, bond.hydrogen]
+  source: "biochemistry"
+
+- key: compound.iron-oxide
+  category: compound
+  entity: {name: iron-oxide, kind: compound, subkind: oxide}
+  perceptual: {color: reddish-brown, temperature: solid-at-stp}
+  quantitative: {magnitude: "159.688", unit: g-per-mol}
+  semantic: {category: "Fe2O3, rust, oxidation-product-of-iron"}
+  composed_of: [element.iron, element.oxygen, bond.ionic, color.red]
+  source: "general chemistry"
+
+- key: compound.copper-sulfate
+  category: compound
+  entity: {name: copper-sulfate, kind: compound, subkind: salt}
+  perceptual: {color: blue, temperature: solid-at-stp}
+  quantitative: {magnitude: "159.609", unit: g-per-mol}
+  semantic: {category: "CuSO4, blue-crystals-when-hydrated, fungicide"}
+  composed_of: [element.copper, element.sulfur, element.oxygen, bond.ionic, bond.double-covalent]
+  source: "general chemistry"
+
+- key: compound.silicon-dioxide
+  category: compound
+  entity: {name: silicon-dioxide, kind: compound, subkind: oxide}
+  perceptual: {color: colorless, temperature: solid-at-stp}
+  quantitative: {magnitude: "60.083", unit: g-per-mol}
+  semantic: {category: "SiO2, quartz-sand-glass, covalent-network-solid, hard"}
+  composed_of: [element.silicon, element.oxygen, bond.covalent, bond.double-covalent]
+  source: "general chemistry"
+
+- key: compound.hydrogen-peroxide
+  category: compound
+  entity: {name: hydrogen-peroxide, kind: compound, subkind: inorganic}
+  perceptual: {color: colorless, temperature: liquid-at-stp}
+  quantitative: {magnitude: "34.014", unit: g-per-mol}
+  semantic: {category: "H2O2, oxidizer, bleach, decomposes-to-water-and-oxygen"}
+  composed_of: [element.hydrogen, element.oxygen, bond.covalent, bond.hydrogen]
+  source: "general chemistry"

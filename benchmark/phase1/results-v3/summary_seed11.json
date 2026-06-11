@@ -1,0 +1,178 @@
+{
+  "seed": 11,
+  "n_facts": 480,
+  "semantic_accuracy": 0.9979166666666667,
+  "entity_rate": 1.0,
+  "canonical_rate": 0.9979166666666667,
+  "captured_rate": 1.0,
+  "spurious_fill_rate": 0.03958333333333333,
+  "clean_rate": 0.9583333333333334,
+  "by_type": {
+    "age": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "location": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "job": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "hobby": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "pet": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "color": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 59,
+      "captured": 60,
+      "semantic": 59
+    },
+    "height": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "origin": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    }
+  },
+  "usage": {
+    "calls": 480,
+    "input_tokens": 339267,
+    "output_tokens": 35717
+  },
+  "cost_usd": 0.5179,
+  "cost_per_fact_usd": 0.001079,
+  "wall_seconds": 64.3,
+  "end_to_end_aggregation": {
+    "count_color_blue": {
+      "truth": 8,
+      "ada": 7
+    },
+    "count_job_engineer": {
+      "truth": 7,
+      "ada": 7
+    },
+    "top5_locations": {
+      "truth": [
+        [
+          "lyon",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ],
+        [
+          "istanbul",
+          4
+        ],
+        [
+          "warsaw",
+          4
+        ],
+        [
+          "lagos",
+          4
+        ]
+      ],
+      "ada": [
+        [
+          "lyon",
+          4
+        ],
+        [
+          "eugene",
+          4
+        ],
+        [
+          "istanbul",
+          4
+        ],
+        [
+          "warsaw",
+          4
+        ],
+        [
+          "lagos",
+          4
+        ]
+      ]
+    },
+    "top5_colors": {
+      "truth": [
+        [
+          "grey",
+          9
+        ],
+        [
+          "blue",
+          8
+        ],
+        [
+          "white",
+          7
+        ],
+        [
+          "pink",
+          6
+        ],
+        [
+          "brown",
+          6
+        ]
+      ],
+      "ada": [
+        [
+          "grey",
+          9
+        ],
+        [
+          "white",
+          7
+        ],
+        [
+          "blue",
+          7
+        ],
+        [
+          "pink",
+          6
+        ],
+        [
+          "brown",
+          6
+        ]
+      ]
+    }
+  }
+}

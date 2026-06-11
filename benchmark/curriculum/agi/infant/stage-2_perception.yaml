@@ -1,0 +1,96 @@
+# Stage 2 — early perceptual achievements (3-6 months).
+#
+# The infant's perceptual system organizes raw sensations into
+# attended, tracked, and recognized patterns. Face preference becomes
+# face recognition; tracking becomes anticipation.
+
+- key: infant.attention
+  category: perception
+  entity: {name: attention, kind: perception, subkind: selective}
+  semantic: {category: "select-one-thing-from-many-stimuli"}
+  composed_of: [binary.see, prime.this, prime.not, prime.other]
+  source: "developmental psychology"
+
+- key: infant.tracking
+  category: perception
+  entity: {name: tracking, kind: perception, subkind: visual}
+  semantic: {category: "follow-moving-thing-with-eyes"}
+  composed_of: [infant.see-motion, prime.do, prime.move, prime.part, prime.body]
+  source: "developmental psychology"
+
+- key: infant.habituation
+  category: perception
+  entity: {name: habituation, kind: perception, subkind: novelty}
+  semantic: {category: "stop-responding-to-repeated-stimulus"}
+  composed_of: [binary.same, binary.after, prime.not, prime.feel]
+  source: "developmental psychology"
+
+- key: infant.novelty
+  category: perception
+  entity: {name: novelty, kind: perception, subkind: novelty}
+  semantic: {category: "respond-strongly-to-new-stimulus"}
+  composed_of: [binary.different, binary.unknown, prime.feel, prime.very]
+  source: "developmental psychology"
+
+- key: infant.recognize-face
+  category: perception
+  entity: {name: recognize-face, kind: perception, subkind: visual-categorical}
+  semantic: {category: "see-face-and-know-which-face"}
+  composed_of: [infant.see-face, binary.known, binary.same]
+  source: "developmental psychology"
+
+- key: infant.recognize-voice
+  category: perception
+  entity: {name: recognize-voice, kind: perception, subkind: auditory-categorical}
+  semantic: {category: "hear-voice-and-know-whose-voice"}
+  composed_of: [infant.hear-voice, binary.known, binary.same]
+  source: "developmental psychology"
+
+- key: infant.social-smile
+  category: expression
+  entity: {name: social-smile, kind: expression, subkind: social}
+  semantic: {category: "smile-IN-RESPONSE-to-seeing-face, not-reflexive"}
+  composed_of: [infant.recognize-face, prime.do, binary.feel, binary.good, binary.because]
+  source: "developmental psychology"
+
+- key: infant.laugh
+  category: vocalization
+  entity: {name: laugh, kind: vocalization, subkind: joy}
+  semantic: {category: "rhythmic-vocalization-of-pleasure"}
+  composed_of: [prime.do, prime.say, binary.feel, binary.good, prime.very]
+  source: "developmental psychology"
+
+- key: infant.babble
+  category: vocalization
+  entity: {name: babble, kind: vocalization, subkind: pre-linguistic}
+  semantic: {category: "consonant-vowel-sounds, practice-for-speech"}
+  composed_of: [prime.do, prime.say, prime.many, prime.words, binary.not, prime.true]
+  source: "developmental psychology"
+
+- key: infant.reach
+  category: action
+  entity: {name: reach, kind: action, subkind: motor}
+  semantic: {category: "extend-hand-toward-wanted-thing"}
+  composed_of: [prime.do, prime.move, prime.part, prime.body, binary.wanted, prime.far]
+  source: "developmental psychology"
+
+- key: infant.grasp-voluntary
+  category: action
+  entity: {name: grasp-voluntary, kind: action, subkind: motor}
+  semantic: {category: "intentional-closing-of-hand-on-target"}
+  composed_of: [infant.grasp, binary.wanted, prime.do]
+  source: "developmental psychology"
+
+- key: infant.bring-to-mouth
+  category: action
+  entity: {name: bring-to-mouth, kind: action, subkind: exploratory}
+  semantic: {category: "put-held-object-in-mouth-to-feel"}
+  composed_of: [prime.do, prime.move, binary.inside, prime.part, prime.body, binary.touch]
+  source: "developmental psychology"
+
+- key: infant.imitation-mouth
+  category: action
+  entity: {name: imitation-mouth, kind: action, subkind: social}
+  semantic: {category: "copy-mouth-movement-of-caregiver"}
+  composed_of: [prime.do, binary.same, prime.someone, prime.do, prime.move, prime.part, prime.body]
+  source: "developmental psychology"

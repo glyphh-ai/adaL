@@ -1,0 +1,64 @@
+{
+  "scale": "1M",
+  "seed": 1,
+  "n_facts": 1037500,
+  "systems": {
+    "ada": {
+      "accuracy": 0.9333333333333333,
+      "latency_p50_ms": 1647.9,
+      "latency_p95_ms": 5508.6,
+      "engine_ms": {
+        "count": 331.55620796605945,
+        "distribution": 322.4128750152886,
+        "intersection": 61.299209017306566,
+        "lookup": 0.000125030055642128
+      },
+      "cost_per_query_usd": 0.000738,
+      "ingest_seconds": 8.1,
+      "ingest_errors": 0,
+      "query_seconds": 22.9
+    },
+    "eav_sql": {
+      "accuracy": 0.85,
+      "latency_p50_ms": 2177.3,
+      "latency_p95_ms": 4842.8,
+      "engine_ms": {
+        "count": 163.67587493732572,
+        "distribution": 238.5577909881249,
+        "intersection": 311.95962498895824,
+        "lookup": 113.42241696547717
+      },
+      "cost_per_query_usd": 0.000932,
+      "ingest_seconds": 5286.3,
+      "ingest_errors": 0,
+      "query_seconds": 25.0
+    },
+    "rag_minilm": {
+      "accuracy": 0.2833333333333333,
+      "latency_p50_ms": 1342.2,
+      "latency_p95_ms": 1821.7,
+      "engine_ms": {
+        "retrieval_top8": 114.86224993132055
+      },
+      "cost_per_query_usd": 0.000239,
+      "ingest_seconds": 222.4,
+      "ingest_errors": 0,
+      "query_seconds": 17.2
+    },
+    "kuzu_cypher": {
+      "accuracy": 0.9166666666666666,
+      "latency_p50_ms": 1570.5,
+      "latency_p95_ms": 3053.3,
+      "engine_ms": {
+        "count": 14.49695904739201,
+        "distribution": 20.876624970696867,
+        "intersection": 22.272791946306825,
+        "lookup": 0.31220808159559965
+      },
+      "cost_per_query_usd": 0.00054,
+      "ingest_seconds": 4.9,
+      "ingest_errors": 0,
+      "query_seconds": 19.2
+    }
+  }
+}

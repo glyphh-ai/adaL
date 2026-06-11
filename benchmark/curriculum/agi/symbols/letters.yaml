@@ -1,0 +1,214 @@
+# Letters of the English alphabet, A-Z.
+#
+# Each letter is a visual symbol you see, a name you say, and a
+# bridge to one or more phonemes (the sounds it can represent).
+# Successive letters compose through the previous + binary.after,
+# encoding alphabetical order as traversable structure.
+
+- key: letter.a
+  category: letter
+  entity: {name: a, kind: letter, subkind: vowel}
+  perceptual: {symbol: "A", spoken: "ay"}
+  semantic: {category: "first-letter, vowel"}
+  composed_of: [prime.something, binary.see, prime.say, prime.kind, prime.one, prime.words]
+  source: "english orthography"
+
+- key: letter.b
+  category: letter
+  entity: {name: b, kind: letter, subkind: consonant}
+  perceptual: {symbol: "B", spoken: "bee"}
+  semantic: {category: "second-letter, consonant"}
+  composed_of: [letter.a, binary.after]
+  source: "english orthography"
+
+- key: letter.c
+  category: letter
+  entity: {name: c, kind: letter, subkind: consonant}
+  perceptual: {symbol: "C", spoken: "see"}
+  semantic: {category: "third-letter, consonant"}
+  composed_of: [letter.b, binary.after]
+  source: "english orthography"
+
+- key: letter.d
+  category: letter
+  entity: {name: d, kind: letter, subkind: consonant}
+  perceptual: {symbol: "D", spoken: "dee"}
+  semantic: {category: "fourth-letter, consonant"}
+  composed_of: [letter.c, binary.after]
+  source: "english orthography"
+
+- key: letter.e
+  category: letter
+  entity: {name: e, kind: letter, subkind: vowel}
+  perceptual: {symbol: "E", spoken: "ee"}
+  semantic: {category: "fifth-letter, vowel"}
+  composed_of: [letter.d, binary.after]
+  source: "english orthography"
+
+- key: letter.f
+  category: letter
+  entity: {name: f, kind: letter, subkind: consonant}
+  perceptual: {symbol: "F", spoken: "ef"}
+  semantic: {category: "sixth-letter, consonant"}
+  composed_of: [letter.e, binary.after]
+  source: "english orthography"
+
+- key: letter.g
+  category: letter
+  entity: {name: g, kind: letter, subkind: consonant}
+  perceptual: {symbol: "G", spoken: "gee"}
+  semantic: {category: "seventh-letter, consonant"}
+  composed_of: [letter.f, binary.after]
+  source: "english orthography"
+
+- key: letter.h
+  category: letter
+  entity: {name: h, kind: letter, subkind: consonant}
+  perceptual: {symbol: "H", spoken: "aitch"}
+  semantic: {category: "eighth-letter, consonant"}
+  composed_of: [letter.g, binary.after]
+  source: "english orthography"
+
+- key: letter.i
+  category: letter
+  entity: {name: i, kind: letter, subkind: vowel}
+  perceptual: {symbol: "I", spoken: "eye"}
+  semantic: {category: "ninth-letter, vowel"}
+  composed_of: [letter.h, binary.after]
+  source: "english orthography"
+
+- key: letter.j
+  category: letter
+  entity: {name: j, kind: letter, subkind: consonant}
+  perceptual: {symbol: "J", spoken: "jay"}
+  semantic: {category: "tenth-letter, consonant"}
+  composed_of: [letter.i, binary.after]
+  source: "english orthography"
+
+- key: letter.k
+  category: letter
+  entity: {name: k, kind: letter, subkind: consonant}
+  perceptual: {symbol: "K", spoken: "kay"}
+  semantic: {category: "eleventh-letter, consonant"}
+  composed_of: [letter.j, binary.after]
+  source: "english orthography"
+
+- key: letter.l
+  category: letter
+  entity: {name: l, kind: letter, subkind: consonant}
+  perceptual: {symbol: "L", spoken: "el"}
+  semantic: {category: "twelfth-letter, consonant"}
+  composed_of: [letter.k, binary.after]
+  source: "english orthography"
+
+- key: letter.m
+  category: letter
+  entity: {name: m, kind: letter, subkind: consonant}
+  perceptual: {symbol: "M", spoken: "em"}
+  semantic: {category: "thirteenth-letter, consonant-nasal"}
+  composed_of: [letter.l, binary.after]
+  source: "english orthography"
+
+- key: letter.n
+  category: letter
+  entity: {name: n, kind: letter, subkind: consonant}
+  perceptual: {symbol: "N", spoken: "en"}
+  semantic: {category: "fourteenth-letter, consonant-nasal"}
+  composed_of: [letter.m, binary.after]
+  source: "english orthography"
+
+- key: letter.o
+  category: letter
+  entity: {name: o, kind: letter, subkind: vowel}
+  perceptual: {symbol: "O", spoken: "oh"}
+  semantic: {category: "fifteenth-letter, vowel"}
+  composed_of: [letter.n, binary.after]
+  source: "english orthography"
+
+- key: letter.p
+  category: letter
+  entity: {name: p, kind: letter, subkind: consonant}
+  perceptual: {symbol: "P", spoken: "pee"}
+  semantic: {category: "sixteenth-letter, consonant"}
+  composed_of: [letter.o, binary.after]
+  source: "english orthography"
+
+- key: letter.q
+  category: letter
+  entity: {name: q, kind: letter, subkind: consonant}
+  perceptual: {symbol: "Q", spoken: "cue"}
+  semantic: {category: "seventeenth-letter, consonant, usually-followed-by-u"}
+  composed_of: [letter.p, binary.after]
+  source: "english orthography"
+
+- key: letter.r
+  category: letter
+  entity: {name: r, kind: letter, subkind: consonant}
+  perceptual: {symbol: "R", spoken: "ar"}
+  semantic: {category: "eighteenth-letter, consonant"}
+  composed_of: [letter.q, binary.after]
+  source: "english orthography"
+
+- key: letter.s
+  category: letter
+  entity: {name: s, kind: letter, subkind: consonant}
+  perceptual: {symbol: "S", spoken: "es"}
+  semantic: {category: "nineteenth-letter, consonant"}
+  composed_of: [letter.r, binary.after]
+  source: "english orthography"
+
+- key: letter.t
+  category: letter
+  entity: {name: t, kind: letter, subkind: consonant}
+  perceptual: {symbol: "T", spoken: "tee"}
+  semantic: {category: "twentieth-letter, consonant"}
+  composed_of: [letter.s, binary.after]
+  source: "english orthography"
+
+- key: letter.u
+  category: letter
+  entity: {name: u, kind: letter, subkind: vowel}
+  perceptual: {symbol: "U", spoken: "you"}
+  semantic: {category: "twenty-first-letter, vowel"}
+  composed_of: [letter.t, binary.after]
+  source: "english orthography"
+
+- key: letter.v
+  category: letter
+  entity: {name: v, kind: letter, subkind: consonant}
+  perceptual: {symbol: "V", spoken: "vee"}
+  semantic: {category: "twenty-second-letter, consonant"}
+  composed_of: [letter.u, binary.after]
+  source: "english orthography"
+
+- key: letter.w
+  category: letter
+  entity: {name: w, kind: letter, subkind: consonant}
+  perceptual: {symbol: "W", spoken: "double-you"}
+  semantic: {category: "twenty-third-letter, consonant"}
+  composed_of: [letter.v, binary.after]
+  source: "english orthography"
+
+- key: letter.x
+  category: letter
+  entity: {name: x, kind: letter, subkind: consonant}
+  perceptual: {symbol: "X", spoken: "ex"}
+  semantic: {category: "twenty-fourth-letter, consonant"}
+  composed_of: [letter.w, binary.after]
+  source: "english orthography"
+
+- key: letter.y
+  category: letter
+  entity: {name: y, kind: letter, subkind: semi-vowel}
+  perceptual: {symbol: "Y", spoken: "why"}
+  semantic: {category: "twenty-fifth-letter, sometimes-vowel-sometimes-consonant"}
+  composed_of: [letter.x, binary.after]
+  source: "english orthography"
+
+- key: letter.z
+  category: letter
+  entity: {name: z, kind: letter, subkind: consonant}
+  perceptual: {symbol: "Z", spoken: "zee"}
+  semantic: {category: "twenty-sixth-letter, consonant, last-letter"}
+  composed_of: [letter.y, binary.after]
+  source: "english orthography"

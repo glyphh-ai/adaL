@@ -1,0 +1,85 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+/lib/
+/lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+*.sqlite3
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model weights (downloaded at runtime — NOT the models/ source dir)
+*.bin
+*.safetensors
+
+# Hypothesis test cache
+.hypothesis/
+
+# Ada engine (embedded SDK) — track the package, ignore caches
+ada/__pycache__/
+ada/**/__pycache__/
+
+corpus.json
+
+# Phase 1 transient artifacts
+benchmark/curriculum/agi/chemistry/.phase1_cache/
+benchmark/curriculum/agi/chemistry/.phase1_extract_cache/
+benchmark/curriculum/agi/chemistry/.corpus_cache/
+benchmark/curriculum/agi/chemistry/.phase1_extract_cache_oldprompt/
+.venv-bench/

@@ -1,0 +1,359 @@
+# English phonemes — atomic units of speech sound.
+#
+# A phoneme is something you HEAR and SAY. Each entry carries enough
+# acoustic info (formant frequencies for vowels, articulation for
+# consonants) that downstream code can synthesize a tone for it.
+# This is the *audio anchor* layer — the bridge from labels in a
+# YAML to actual perceivable sound.
+#
+# 44 phonemes covering General American English:
+#   12 monophthong vowels
+#    5 diphthong vowels
+#   24 consonants
+#    3 semi-vowels / approximants
+
+# ══════════════════════════════════════════════════════════════════
+# Vowels (monophthongs) — characterized by F1 and F2 formant freqs
+# ══════════════════════════════════════════════════════════════════
+
+- key: phoneme.i
+  category: phoneme
+  entity: {name: i, kind: phoneme, subkind: vowel-high-front}
+  perceptual: {ipa: "i", spelling: "ee", audio: {f1: 270, f2: 2290, type: vowel}}
+  semantic: {category: "high-front-tense-vowel, as-in-beat"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.one, prime.like, prime.little, prime.inside]
+  source: "english phonetics"
+
+- key: phoneme.ih
+  category: phoneme
+  entity: {name: ih, kind: phoneme, subkind: vowel-high-front}
+  perceptual: {ipa: "ɪ", spelling: "i", audio: {f1: 390, f2: 1990, type: vowel}}
+  semantic: {category: "high-front-lax-vowel, as-in-bit"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.one]
+  source: "english phonetics"
+
+- key: phoneme.eh
+  category: phoneme
+  entity: {name: eh, kind: phoneme, subkind: vowel-mid-front}
+  perceptual: {ipa: "ɛ", spelling: "e", audio: {f1: 530, f2: 1840, type: vowel}}
+  semantic: {category: "mid-front-vowel, as-in-bet"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.one]
+  source: "english phonetics"
+
+- key: phoneme.ae
+  category: phoneme
+  entity: {name: ae, kind: phoneme, subkind: vowel-low-front}
+  perceptual: {ipa: "æ", spelling: "a", audio: {f1: 660, f2: 1720, type: vowel}}
+  semantic: {category: "low-front-vowel, as-in-cat"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.one]
+  source: "english phonetics"
+
+- key: phoneme.ah
+  category: phoneme
+  entity: {name: ah, kind: phoneme, subkind: vowel-low-back}
+  perceptual: {ipa: "ɑ", spelling: "o/a", audio: {f1: 730, f2: 1090, type: vowel}}
+  semantic: {category: "low-back-vowel, as-in-father"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.one, prime.big]
+  source: "english phonetics"
+
+- key: phoneme.aw
+  category: phoneme
+  entity: {name: aw, kind: phoneme, subkind: vowel-low-back-rounded}
+  perceptual: {ipa: "ɔ", spelling: "aw", audio: {f1: 570, f2: 840, type: vowel}}
+  semantic: {category: "low-back-rounded-vowel, as-in-thought"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.one]
+  source: "english phonetics"
+
+- key: phoneme.uh
+  category: phoneme
+  entity: {name: uh, kind: phoneme, subkind: vowel-mid-back-lax}
+  perceptual: {ipa: "ʊ", spelling: "oo", audio: {f1: 440, f2: 1020, type: vowel}}
+  semantic: {category: "high-back-lax-vowel, as-in-book"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.one]
+  source: "english phonetics"
+
+- key: phoneme.u
+  category: phoneme
+  entity: {name: u, kind: phoneme, subkind: vowel-high-back}
+  perceptual: {ipa: "u", spelling: "oo", audio: {f1: 300, f2: 870, type: vowel}}
+  semantic: {category: "high-back-tense-vowel, as-in-boot"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.one, prime.inside]
+  source: "english phonetics"
+
+- key: phoneme.cut
+  category: phoneme
+  entity: {name: cut, kind: phoneme, subkind: vowel-mid-central}
+  perceptual: {ipa: "ʌ", spelling: "u", audio: {f1: 640, f2: 1190, type: vowel}}
+  semantic: {category: "mid-central-vowel, as-in-cut"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.one]
+  source: "english phonetics"
+
+- key: phoneme.schwa
+  category: phoneme
+  entity: {name: schwa, kind: phoneme, subkind: vowel-central-unstressed}
+  perceptual: {ipa: "ə", spelling: "a/e/i/o/u", audio: {f1: 500, f2: 1500, type: vowel}}
+  semantic: {category: "neutral-unstressed-vowel, as-in-about"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.little]
+  source: "english phonetics"
+
+- key: phoneme.er
+  category: phoneme
+  entity: {name: er, kind: phoneme, subkind: vowel-rhotic}
+  perceptual: {ipa: "ɜr", spelling: "er", audio: {f1: 490, f2: 1350, type: vowel-rhotic}}
+  semantic: {category: "r-colored-vowel, as-in-bird"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.one]
+  source: "english phonetics"
+
+# ══════════════════════════════════════════════════════════════════
+# Vowels (diphthongs) — two vowel positions in sequence
+# ══════════════════════════════════════════════════════════════════
+
+- key: phoneme.ay
+  category: phoneme
+  entity: {name: ay, kind: phoneme, subkind: diphthong}
+  perceptual: {ipa: "eɪ", spelling: "ay/a-e", audio: {start_f1: 530, start_f2: 1840, end_f1: 390, end_f2: 1990, type: diphthong}}
+  semantic: {category: "diphthong-as-in-bay"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.two, prime.after]
+  source: "english phonetics"
+
+- key: phoneme.eye
+  category: phoneme
+  entity: {name: eye, kind: phoneme, subkind: diphthong}
+  perceptual: {ipa: "aɪ", spelling: "i/y", audio: {start_f1: 660, start_f2: 1720, end_f1: 390, end_f2: 1990, type: diphthong}}
+  semantic: {category: "diphthong-as-in-buy"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.two, prime.after]
+  source: "english phonetics"
+
+- key: phoneme.oy
+  category: phoneme
+  entity: {name: oy, kind: phoneme, subkind: diphthong}
+  perceptual: {ipa: "ɔɪ", spelling: "oy/oi", audio: {start_f1: 570, start_f2: 840, end_f1: 390, end_f2: 1990, type: diphthong}}
+  semantic: {category: "diphthong-as-in-boy"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.two, prime.after]
+  source: "english phonetics"
+
+- key: phoneme.ow
+  category: phoneme
+  entity: {name: ow, kind: phoneme, subkind: diphthong}
+  perceptual: {ipa: "aʊ", spelling: "ow/ou", audio: {start_f1: 660, start_f2: 1720, end_f1: 440, end_f2: 1020, type: diphthong}}
+  semantic: {category: "diphthong-as-in-cow"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.two, prime.after]
+  source: "english phonetics"
+
+- key: phoneme.oh
+  category: phoneme
+  entity: {name: oh, kind: phoneme, subkind: diphthong}
+  perceptual: {ipa: "oʊ", spelling: "o/oa", audio: {start_f1: 570, start_f2: 840, end_f1: 440, end_f2: 1020, type: diphthong}}
+  semantic: {category: "diphthong-as-in-go"}
+  composed_of: [binary.hear, prime.say, prime.kind, prime.two, prime.after]
+  source: "english phonetics"
+
+# ══════════════════════════════════════════════════════════════════
+# Consonants — plosives, fricatives, affricates, nasals, approximants
+# ══════════════════════════════════════════════════════════════════
+
+# ── Voiceless plosives ────────────────────────────────────────────
+
+- key: phoneme.p
+  category: phoneme
+  entity: {name: p, kind: phoneme, subkind: consonant-plosive-voiceless}
+  perceptual: {ipa: "p", spelling: "p", audio: {manner: stop, place: bilabial, voiced: false, type: consonant}}
+  semantic: {category: "voiceless-bilabial-plosive, as-in-pat"}
+  composed_of: [binary.hear, prime.say, binary.touch, binary.brief, binary.not, binary.continuous]
+  source: "english phonetics"
+
+- key: phoneme.t
+  category: phoneme
+  entity: {name: t, kind: phoneme, subkind: consonant-plosive-voiceless}
+  perceptual: {ipa: "t", spelling: "t", audio: {manner: stop, place: alveolar, voiced: false, type: consonant}}
+  semantic: {category: "voiceless-alveolar-plosive, as-in-top"}
+  composed_of: [binary.hear, prime.say, binary.touch, binary.brief, binary.not, binary.continuous]
+  source: "english phonetics"
+
+- key: phoneme.k
+  category: phoneme
+  entity: {name: k, kind: phoneme, subkind: consonant-plosive-voiceless}
+  perceptual: {ipa: "k", spelling: "k/c", audio: {manner: stop, place: velar, voiced: false, type: consonant}}
+  semantic: {category: "voiceless-velar-plosive, as-in-cat"}
+  composed_of: [binary.hear, prime.say, binary.touch, binary.brief, binary.not, binary.continuous]
+  source: "english phonetics"
+
+# ── Voiced plosives ───────────────────────────────────────────────
+
+- key: phoneme.b
+  category: phoneme
+  entity: {name: b, kind: phoneme, subkind: consonant-plosive-voiced}
+  perceptual: {ipa: "b", spelling: "b", audio: {manner: stop, place: bilabial, voiced: true, type: consonant}}
+  semantic: {category: "voiced-bilabial-plosive, as-in-bat"}
+  composed_of: [binary.hear, prime.say, binary.touch, binary.brief]
+  source: "english phonetics"
+
+- key: phoneme.d
+  category: phoneme
+  entity: {name: d, kind: phoneme, subkind: consonant-plosive-voiced}
+  perceptual: {ipa: "d", spelling: "d", audio: {manner: stop, place: alveolar, voiced: true, type: consonant}}
+  semantic: {category: "voiced-alveolar-plosive, as-in-dog"}
+  composed_of: [binary.hear, prime.say, binary.touch, binary.brief]
+  source: "english phonetics"
+
+- key: phoneme.g
+  category: phoneme
+  entity: {name: g, kind: phoneme, subkind: consonant-plosive-voiced}
+  perceptual: {ipa: "ɡ", spelling: "g", audio: {manner: stop, place: velar, voiced: true, type: consonant}}
+  semantic: {category: "voiced-velar-plosive, as-in-go"}
+  composed_of: [binary.hear, prime.say, binary.touch, binary.brief]
+  source: "english phonetics"
+
+# ── Voiceless fricatives ──────────────────────────────────────────
+
+- key: phoneme.f
+  category: phoneme
+  entity: {name: f, kind: phoneme, subkind: consonant-fricative-voiceless}
+  perceptual: {ipa: "f", spelling: "f", audio: {manner: fricative, place: labiodental, voiced: false, type: consonant}}
+  semantic: {category: "voiceless-labiodental-fricative, as-in-fat"}
+  composed_of: [binary.hear, prime.say, binary.continuous, binary.not, binary.touch]
+  source: "english phonetics"
+
+- key: phoneme.th-voiceless
+  category: phoneme
+  entity: {name: th-voiceless, kind: phoneme, subkind: consonant-fricative-voiceless}
+  perceptual: {ipa: "θ", spelling: "th", audio: {manner: fricative, place: dental, voiced: false, type: consonant}}
+  semantic: {category: "voiceless-dental-fricative, as-in-thin"}
+  composed_of: [binary.hear, prime.say, binary.continuous, binary.not, binary.touch]
+  source: "english phonetics"
+
+- key: phoneme.s
+  category: phoneme
+  entity: {name: s, kind: phoneme, subkind: consonant-fricative-voiceless}
+  perceptual: {ipa: "s", spelling: "s", audio: {manner: fricative, place: alveolar, voiced: false, type: consonant}}
+  semantic: {category: "voiceless-alveolar-fricative, as-in-sit"}
+  composed_of: [binary.hear, prime.say, binary.continuous, binary.not, binary.touch]
+  source: "english phonetics"
+
+- key: phoneme.sh
+  category: phoneme
+  entity: {name: sh, kind: phoneme, subkind: consonant-fricative-voiceless}
+  perceptual: {ipa: "ʃ", spelling: "sh", audio: {manner: fricative, place: postalveolar, voiced: false, type: consonant}}
+  semantic: {category: "voiceless-postalveolar-fricative, as-in-shoe"}
+  composed_of: [binary.hear, prime.say, binary.continuous, binary.not, binary.touch]
+  source: "english phonetics"
+
+- key: phoneme.h
+  category: phoneme
+  entity: {name: h, kind: phoneme, subkind: consonant-fricative-voiceless}
+  perceptual: {ipa: "h", spelling: "h", audio: {manner: fricative, place: glottal, voiced: false, type: consonant}}
+  semantic: {category: "voiceless-glottal-fricative, as-in-hat"}
+  composed_of: [binary.hear, prime.say, binary.continuous]
+  source: "english phonetics"
+
+# ── Voiced fricatives ─────────────────────────────────────────────
+
+- key: phoneme.v
+  category: phoneme
+  entity: {name: v, kind: phoneme, subkind: consonant-fricative-voiced}
+  perceptual: {ipa: "v", spelling: "v", audio: {manner: fricative, place: labiodental, voiced: true, type: consonant}}
+  semantic: {category: "voiced-labiodental-fricative, as-in-vat"}
+  composed_of: [binary.hear, prime.say, binary.continuous]
+  source: "english phonetics"
+
+- key: phoneme.th-voiced
+  category: phoneme
+  entity: {name: th-voiced, kind: phoneme, subkind: consonant-fricative-voiced}
+  perceptual: {ipa: "ð", spelling: "th", audio: {manner: fricative, place: dental, voiced: true, type: consonant}}
+  semantic: {category: "voiced-dental-fricative, as-in-this"}
+  composed_of: [binary.hear, prime.say, binary.continuous]
+  source: "english phonetics"
+
+- key: phoneme.z
+  category: phoneme
+  entity: {name: z, kind: phoneme, subkind: consonant-fricative-voiced}
+  perceptual: {ipa: "z", spelling: "z", audio: {manner: fricative, place: alveolar, voiced: true, type: consonant}}
+  semantic: {category: "voiced-alveolar-fricative, as-in-zoo"}
+  composed_of: [binary.hear, prime.say, binary.continuous]
+  source: "english phonetics"
+
+- key: phoneme.zh
+  category: phoneme
+  entity: {name: zh, kind: phoneme, subkind: consonant-fricative-voiced}
+  perceptual: {ipa: "ʒ", spelling: "s/zh", audio: {manner: fricative, place: postalveolar, voiced: true, type: consonant}}
+  semantic: {category: "voiced-postalveolar-fricative, as-in-measure"}
+  composed_of: [binary.hear, prime.say, binary.continuous]
+  source: "english phonetics"
+
+# ── Affricates ────────────────────────────────────────────────────
+
+- key: phoneme.ch
+  category: phoneme
+  entity: {name: ch, kind: phoneme, subkind: consonant-affricate-voiceless}
+  perceptual: {ipa: "tʃ", spelling: "ch", audio: {manner: affricate, place: postalveolar, voiced: false, type: consonant}}
+  semantic: {category: "voiceless-postalveolar-affricate, as-in-chip"}
+  composed_of: [phoneme.t, phoneme.sh, binary.after]
+  source: "english phonetics"
+
+- key: phoneme.j
+  category: phoneme
+  entity: {name: j, kind: phoneme, subkind: consonant-affricate-voiced}
+  perceptual: {ipa: "dʒ", spelling: "j/g", audio: {manner: affricate, place: postalveolar, voiced: true, type: consonant}}
+  semantic: {category: "voiced-postalveolar-affricate, as-in-jet"}
+  composed_of: [phoneme.d, phoneme.zh, binary.after]
+  source: "english phonetics"
+
+# ── Nasals ────────────────────────────────────────────────────────
+
+- key: phoneme.m
+  category: phoneme
+  entity: {name: m, kind: phoneme, subkind: consonant-nasal}
+  perceptual: {ipa: "m", spelling: "m", audio: {manner: nasal, place: bilabial, voiced: true, type: consonant}}
+  semantic: {category: "voiced-bilabial-nasal, as-in-man"}
+  composed_of: [binary.hear, prime.say, binary.continuous, prime.inside, prime.part, prime.body]
+  source: "english phonetics"
+
+- key: phoneme.n
+  category: phoneme
+  entity: {name: n, kind: phoneme, subkind: consonant-nasal}
+  perceptual: {ipa: "n", spelling: "n", audio: {manner: nasal, place: alveolar, voiced: true, type: consonant}}
+  semantic: {category: "voiced-alveolar-nasal, as-in-no"}
+  composed_of: [binary.hear, prime.say, binary.continuous, prime.inside, prime.part, prime.body]
+  source: "english phonetics"
+
+- key: phoneme.ng
+  category: phoneme
+  entity: {name: ng, kind: phoneme, subkind: consonant-nasal}
+  perceptual: {ipa: "ŋ", spelling: "ng", audio: {manner: nasal, place: velar, voiced: true, type: consonant}}
+  semantic: {category: "voiced-velar-nasal, as-in-sing"}
+  composed_of: [binary.hear, prime.say, binary.continuous, prime.inside, prime.part, prime.body]
+  source: "english phonetics"
+
+# ── Approximants / semi-vowels ───────────────────────────────────
+
+- key: phoneme.w
+  category: phoneme
+  entity: {name: w, kind: phoneme, subkind: consonant-approximant}
+  perceptual: {ipa: "w", spelling: "w", audio: {manner: approximant, place: bilabial, voiced: true, type: consonant}}
+  semantic: {category: "voiced-bilabial-approximant, as-in-we"}
+  composed_of: [binary.hear, prime.say, binary.continuous]
+  source: "english phonetics"
+
+- key: phoneme.y
+  category: phoneme
+  entity: {name: y, kind: phoneme, subkind: consonant-approximant}
+  perceptual: {ipa: "j", spelling: "y", audio: {manner: approximant, place: palatal, voiced: true, type: consonant}}
+  semantic: {category: "voiced-palatal-approximant, as-in-yes"}
+  composed_of: [binary.hear, prime.say, binary.continuous]
+  source: "english phonetics"
+
+- key: phoneme.l
+  category: phoneme
+  entity: {name: l, kind: phoneme, subkind: consonant-lateral}
+  perceptual: {ipa: "l", spelling: "l", audio: {manner: lateral, place: alveolar, voiced: true, type: consonant}}
+  semantic: {category: "voiced-alveolar-lateral, as-in-let"}
+  composed_of: [binary.hear, prime.say, binary.continuous]
+  source: "english phonetics"
+
+- key: phoneme.r
+  category: phoneme
+  entity: {name: r, kind: phoneme, subkind: consonant-rhotic}
+  perceptual: {ipa: "ɹ", spelling: "r", audio: {manner: approximant, place: postalveolar, voiced: true, type: consonant}}
+  semantic: {category: "voiced-postalveolar-approximant, as-in-red"}
+  composed_of: [binary.hear, prime.say, binary.continuous]
+  source: "english phonetics"

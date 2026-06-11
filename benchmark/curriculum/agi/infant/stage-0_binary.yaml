@@ -1,0 +1,442 @@
+# Stage 0 — binary cognitive distinctions (pre-sensory).
+#
+# These are the on/off contrasts the brain encodes BEFORE specific
+# sensations are categorized. Every higher-level concept (sensations,
+# categories, emotions) decomposes through these binaries down to NSM
+# primes.
+#
+# Pattern: for every prime that names a state, there is a binary
+# distinction between "in that state" vs "not in that state." This
+# layer makes those distinctions first-class.
+
+# ── Negation / causation (logical primitives) ─────────────────────
+
+- key: binary.not
+  category: binary
+  entity: {name: not, kind: binary, subkind: logical-negation}
+  semantic: {category: "the-opposite, what-isn't"}
+  composed_of: [prime.not]
+  source: "developmental psychology"
+
+- key: binary.because
+  category: binary
+  entity: {name: because, kind: binary, subkind: logical-causation}
+  semantic: {category: "this-happened-because-of-that"}
+  composed_of: [prime.because]
+  source: "developmental psychology"
+
+- key: binary.if
+  category: binary
+  entity: {name: if, kind: binary, subkind: logical-conditional}
+  semantic: {category: "in-the-case-that-this-then-that"}
+  composed_of: [prime.if]
+  source: "developmental psychology"
+
+- key: binary.maybe
+  category: binary
+  entity: {name: maybe, kind: binary, subkind: logical-uncertainty}
+  semantic: {category: "this-might-or-might-not"}
+  composed_of: [prime.maybe]
+  source: "developmental psychology"
+
+# ── Existence / presence ────────────────────────────────────────────
+
+- key: binary.presence
+  category: binary
+  entity: {name: presence, kind: binary, subkind: existence}
+  semantic: {category: "something-is-there"}
+  composed_of: [prime.there_is, prime.something]
+  source: "developmental psychology"
+
+- key: binary.absence
+  category: binary
+  entity: {name: absence, kind: binary, subkind: existence}
+  semantic: {category: "nothing-is-there"}
+  composed_of: [prime.not, prime.there_is]
+  source: "developmental psychology"
+
+- key: binary.has
+  category: binary
+  entity: {name: has, kind: binary, subkind: possession}
+  semantic: {category: "thing-is-held-or-possessed"}
+  composed_of: [prime.have, prime.something]
+  source: "developmental psychology"
+
+- key: binary.lacks
+  category: binary
+  entity: {name: lacks, kind: binary, subkind: possession}
+  semantic: {category: "thing-is-not-held"}
+  composed_of: [prime.not, prime.have]
+  source: "developmental psychology"
+
+# ── Identity / sameness ─────────────────────────────────────────────
+
+- key: binary.same
+  category: binary
+  entity: {name: same, kind: binary, subkind: identity}
+  semantic: {category: "matches-something-else"}
+  composed_of: [prime.the_same]
+  source: "developmental psychology"
+
+- key: binary.different
+  category: binary
+  entity: {name: different, kind: binary, subkind: identity}
+  semantic: {category: "does-not-match"}
+  composed_of: [prime.not, prime.the_same, prime.other]
+  source: "developmental psychology"
+
+- key: binary.this
+  category: binary
+  entity: {name: this, kind: binary, subkind: deixis}
+  semantic: {category: "the-one-being-referred-to"}
+  composed_of: [prime.this]
+  source: "developmental psychology"
+
+- key: binary.that
+  category: binary
+  entity: {name: that, kind: binary, subkind: deixis}
+  semantic: {category: "the-other-one"}
+  composed_of: [prime.other, prime.not, prime.this]
+  source: "developmental psychology"
+
+# ── Self / other ────────────────────────────────────────────────────
+
+- key: binary.self
+  category: binary
+  entity: {name: self, kind: binary, subkind: agent}
+  semantic: {category: "the-one-doing-the-experiencing"}
+  composed_of: [prime.i, prime.body]
+  source: "developmental psychology"
+
+- key: binary.other
+  category: binary
+  entity: {name: other, kind: binary, subkind: agent}
+  semantic: {category: "not-the-self, another-being"}
+  composed_of: [prime.someone, prime.not, prime.i]
+  source: "developmental psychology"
+
+# ── Valence (approach / avoid) ─────────────────────────────────────
+
+- key: binary.good
+  category: binary
+  entity: {name: good, kind: binary, subkind: valence}
+  semantic: {category: "approach-this, pleasant-stimulus"}
+  composed_of: [prime.good]
+  source: "developmental psychology"
+
+- key: binary.bad
+  category: binary
+  entity: {name: bad, kind: binary, subkind: valence}
+  semantic: {category: "avoid-this, unpleasant-stimulus"}
+  composed_of: [prime.bad]
+  source: "developmental psychology"
+
+- key: binary.wanted
+  category: binary
+  entity: {name: wanted, kind: binary, subkind: motivation}
+  semantic: {category: "drive-toward-acquisition"}
+  composed_of: [prime.want]
+  source: "developmental psychology"
+
+- key: binary.unwanted
+  category: binary
+  entity: {name: unwanted, kind: binary, subkind: motivation}
+  semantic: {category: "drive-toward-rejection"}
+  composed_of: [prime.not, prime.want]
+  source: "developmental psychology"
+
+# ── Magnitude (more/less, big/small) ───────────────────────────────
+
+- key: binary.one
+  category: binary
+  entity: {name: one, kind: binary, subkind: quantity}
+  semantic: {category: "single-instance"}
+  composed_of: [prime.one]
+  source: "developmental psychology"
+
+- key: binary.many
+  category: binary
+  entity: {name: many, kind: binary, subkind: quantity}
+  semantic: {category: "more-than-one"}
+  composed_of: [prime.many, prime.not, prime.one]
+  source: "developmental psychology"
+
+- key: binary.more
+  category: binary
+  entity: {name: more, kind: binary, subkind: comparison}
+  semantic: {category: "greater-amount-than-before"}
+  composed_of: [prime.more]
+  source: "developmental psychology"
+
+- key: binary.less
+  category: binary
+  entity: {name: less, kind: binary, subkind: comparison}
+  semantic: {category: "smaller-amount-than-before"}
+  composed_of: [prime.not, prime.more, prime.little]
+  source: "developmental psychology"
+
+- key: binary.big
+  category: binary
+  entity: {name: big, kind: binary, subkind: magnitude}
+  semantic: {category: "large-extent"}
+  composed_of: [prime.big]
+  source: "developmental psychology"
+
+- key: binary.small
+  category: binary
+  entity: {name: small, kind: binary, subkind: magnitude}
+  semantic: {category: "limited-extent"}
+  composed_of: [prime.small]
+  source: "developmental psychology"
+
+# ── Time (now / not-now, before / after) ───────────────────────────
+
+- key: binary.now
+  category: binary
+  entity: {name: now, kind: binary, subkind: time}
+  semantic: {category: "this-moment, present"}
+  composed_of: [prime.now]
+  source: "developmental psychology"
+
+- key: binary.not-now
+  category: binary
+  entity: {name: not-now, kind: binary, subkind: time}
+  semantic: {category: "not-this-moment"}
+  composed_of: [prime.not, prime.now]
+  source: "developmental psychology"
+
+- key: binary.before
+  category: binary
+  entity: {name: before, kind: binary, subkind: time}
+  semantic: {category: "earlier-than-now"}
+  composed_of: [prime.before]
+  source: "developmental psychology"
+
+- key: binary.after
+  category: binary
+  entity: {name: after, kind: binary, subkind: time}
+  semantic: {category: "later-than-now"}
+  composed_of: [prime.after]
+  source: "developmental psychology"
+
+- key: binary.continuous
+  category: binary
+  entity: {name: continuous, kind: binary, subkind: time}
+  semantic: {category: "happening-during-extended-period"}
+  composed_of: [prime.long_time, prime.happen]
+  source: "developmental psychology"
+
+- key: binary.brief
+  category: binary
+  entity: {name: brief, kind: binary, subkind: time}
+  semantic: {category: "happening-in-a-moment"}
+  composed_of: [prime.moment, prime.short_time]
+  source: "developmental psychology"
+
+# ── Space (here / there, near / far) ───────────────────────────────
+
+- key: binary.here
+  category: binary
+  entity: {name: here, kind: binary, subkind: space}
+  semantic: {category: "at-this-location, near-self"}
+  composed_of: [prime.here, prime.near]
+  source: "developmental psychology"
+
+- key: binary.there
+  category: binary
+  entity: {name: there, kind: binary, subkind: space}
+  semantic: {category: "at-another-location"}
+  composed_of: [prime.where, prime.other, prime.not, prime.here]
+  source: "developmental psychology"
+
+- key: binary.near
+  category: binary
+  entity: {name: near, kind: binary, subkind: space}
+  semantic: {category: "close-to-self"}
+  composed_of: [prime.near]
+  source: "developmental psychology"
+
+- key: binary.far
+  category: binary
+  entity: {name: far, kind: binary, subkind: space}
+  semantic: {category: "distant-from-self"}
+  composed_of: [prime.far]
+  source: "developmental psychology"
+
+- key: binary.above
+  category: binary
+  entity: {name: above, kind: binary, subkind: space}
+  semantic: {category: "higher-than-reference"}
+  composed_of: [prime.above]
+  source: "developmental psychology"
+
+- key: binary.below
+  category: binary
+  entity: {name: below, kind: binary, subkind: space}
+  semantic: {category: "lower-than-reference"}
+  composed_of: [prime.below]
+  source: "developmental psychology"
+
+- key: binary.inside
+  category: binary
+  entity: {name: inside, kind: binary, subkind: space}
+  semantic: {category: "contained-within-boundary"}
+  composed_of: [prime.inside]
+  source: "developmental psychology"
+
+- key: binary.outside
+  category: binary
+  entity: {name: outside, kind: binary, subkind: space}
+  semantic: {category: "beyond-boundary"}
+  composed_of: [prime.not, prime.inside, prime.side]
+  source: "developmental psychology"
+
+# ── Movement / stillness ───────────────────────────────────────────
+
+- key: binary.moving
+  category: binary
+  entity: {name: moving, kind: binary, subkind: motion}
+  semantic: {category: "changing-position"}
+  composed_of: [prime.move]
+  source: "developmental psychology"
+
+- key: binary.still
+  category: binary
+  entity: {name: still, kind: binary, subkind: motion}
+  semantic: {category: "not-changing-position"}
+  composed_of: [prime.not, prime.move]
+  source: "developmental psychology"
+
+# ── Modality (can / cannot) ───────────────────────────────────────
+
+- key: binary.can
+  category: binary
+  entity: {name: can, kind: binary, subkind: modality}
+  semantic: {category: "ability-or-possibility-exists"}
+  composed_of: [prime.can]
+  source: "developmental psychology"
+
+- key: binary.cannot
+  category: binary
+  entity: {name: cannot, kind: binary, subkind: modality}
+  semantic: {category: "ability-or-possibility-absent"}
+  composed_of: [prime.not, prime.can]
+  source: "developmental psychology"
+
+# ── Epistemic (known / unknown) ────────────────────────────────────
+
+- key: binary.known
+  category: binary
+  entity: {name: known, kind: binary, subkind: epistemic}
+  semantic: {category: "information-is-held"}
+  composed_of: [prime.know]
+  source: "developmental psychology"
+
+- key: binary.unknown
+  category: binary
+  entity: {name: unknown, kind: binary, subkind: epistemic}
+  semantic: {category: "information-is-absent"}
+  composed_of: [prime.not, prime.know]
+  source: "developmental psychology"
+
+- key: binary.true
+  category: binary
+  entity: {name: true, kind: binary, subkind: epistemic}
+  semantic: {category: "matches-reality"}
+  composed_of: [prime.true]
+  source: "developmental psychology"
+
+- key: binary.false
+  category: binary
+  entity: {name: false, kind: binary, subkind: epistemic}
+  semantic: {category: "does-not-match-reality"}
+  composed_of: [prime.not, prime.true]
+  source: "developmental psychology"
+
+# ── Vitality (alive / dead, awake / asleep) ───────────────────────
+
+- key: binary.alive
+  category: binary
+  entity: {name: alive, kind: binary, subkind: vitality}
+  semantic: {category: "living-being-state"}
+  composed_of: [prime.live]
+  source: "developmental psychology"
+
+- key: binary.not-alive
+  category: binary
+  entity: {name: not-alive, kind: binary, subkind: vitality}
+  semantic: {category: "no-longer-or-never-living"}
+  composed_of: [prime.die, prime.not, prime.live]
+  source: "developmental psychology"
+
+- key: binary.awake
+  category: binary
+  entity: {name: awake, kind: binary, subkind: vitality}
+  semantic: {category: "responsive-to-environment"}
+  composed_of: [prime.feel, prime.can, prime.see, prime.hear]
+  source: "developmental psychology"
+
+- key: binary.asleep
+  category: binary
+  entity: {name: asleep, kind: binary, subkind: vitality}
+  semantic: {category: "not-responsive, not-active"}
+  composed_of: [prime.not, prime.feel, prime.not, prime.do]
+  source: "developmental psychology"
+
+# ── Sensation channels (open / closed) ────────────────────────────
+
+- key: binary.see
+  category: binary
+  entity: {name: see, kind: binary, subkind: channel-visual}
+  semantic: {category: "visual-input-present"}
+  composed_of: [prime.see]
+  source: "developmental psychology"
+
+- key: binary.not-see
+  category: binary
+  entity: {name: not-see, kind: binary, subkind: channel-visual}
+  semantic: {category: "no-visual-input"}
+  composed_of: [prime.not, prime.see]
+  source: "developmental psychology"
+
+- key: binary.hear
+  category: binary
+  entity: {name: hear, kind: binary, subkind: channel-auditory}
+  semantic: {category: "auditory-input-present"}
+  composed_of: [prime.hear]
+  source: "developmental psychology"
+
+- key: binary.not-hear
+  category: binary
+  entity: {name: not-hear, kind: binary, subkind: channel-auditory}
+  semantic: {category: "no-auditory-input"}
+  composed_of: [prime.not, prime.hear]
+  source: "developmental psychology"
+
+- key: binary.touch
+  category: binary
+  entity: {name: touch, kind: binary, subkind: channel-tactile}
+  semantic: {category: "tactile-input-present"}
+  composed_of: [prime.touch]
+  source: "developmental psychology"
+
+- key: binary.not-touch
+  category: binary
+  entity: {name: not-touch, kind: binary, subkind: channel-tactile}
+  semantic: {category: "no-tactile-input"}
+  composed_of: [prime.not, prime.touch]
+  source: "developmental psychology"
+
+- key: binary.feel
+  category: binary
+  entity: {name: feel, kind: binary, subkind: channel-interoceptive}
+  semantic: {category: "internal-state-detected"}
+  composed_of: [prime.feel]
+  source: "developmental psychology"
+
+- key: binary.numb
+  category: binary
+  entity: {name: numb, kind: binary, subkind: channel-interoceptive}
+  semantic: {category: "no-internal-state-detected"}
+  composed_of: [prime.not, prime.feel]
+  source: "developmental psychology"

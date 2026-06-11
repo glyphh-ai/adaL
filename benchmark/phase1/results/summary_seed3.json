@@ -1,0 +1,176 @@
+{
+  "seed": 3,
+  "n_facts": 480,
+  "semantic_accuracy": 0.8875,
+  "entity_rate": 1.0,
+  "canonical_rate": 0.8875,
+  "captured_rate": 0.9333333333333333,
+  "by_type": {
+    "age": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "location": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 53,
+      "captured": 53,
+      "semantic": 53
+    },
+    "job": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "hobby": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "pet": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 34,
+      "captured": 35,
+      "semantic": 34
+    },
+    "color": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "height": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 53,
+      "captured": 60,
+      "semantic": 53
+    },
+    "origin": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 46,
+      "captured": 60,
+      "semantic": 46
+    }
+  },
+  "usage": {
+    "calls": 480,
+    "input_tokens": 120920,
+    "output_tokens": 42556
+  },
+  "cost_usd": 0.3337,
+  "cost_per_fact_usd": 0.000695,
+  "wall_seconds": 96.9,
+  "end_to_end_aggregation": {
+    "count_color_blue": {
+      "truth": 5,
+      "ada": 5
+    },
+    "count_job_engineer": {
+      "truth": 3,
+      "ada": 3
+    },
+    "top5_locations": {
+      "truth": [
+        [
+          "zurich",
+          5
+        ],
+        [
+          "oslo",
+          5
+        ],
+        [
+          "calgary",
+          4
+        ],
+        [
+          "kyoto",
+          4
+        ],
+        [
+          "york",
+          4
+        ]
+      ],
+      "ada": [
+        [
+          "home",
+          14
+        ],
+        [
+          "zurich",
+          6
+        ],
+        [
+          "york",
+          6
+        ],
+        [
+          "oslo",
+          6
+        ],
+        [
+          "boston",
+          5
+        ]
+      ]
+    },
+    "top5_colors": {
+      "truth": [
+        [
+          "white",
+          8
+        ],
+        [
+          "purple",
+          7
+        ],
+        [
+          "green",
+          6
+        ],
+        [
+          "black",
+          6
+        ],
+        [
+          "brown",
+          6
+        ]
+      ],
+      "ada": [
+        [
+          "white",
+          8
+        ],
+        [
+          "purple",
+          7
+        ],
+        [
+          "green",
+          6
+        ],
+        [
+          "black",
+          6
+        ],
+        [
+          "brown",
+          6
+        ]
+      ]
+    }
+  }
+}

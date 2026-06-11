@@ -1,0 +1,178 @@
+{
+  "seed": 13,
+  "n_facts": 480,
+  "semantic_accuracy": 0.9958333333333333,
+  "entity_rate": 1.0,
+  "canonical_rate": 0.9958333333333333,
+  "captured_rate": 1.0,
+  "spurious_fill_rate": 0.03125,
+  "clean_rate": 0.9645833333333333,
+  "by_type": {
+    "age": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "location": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "job": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "hobby": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "pet": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "color": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 58,
+      "captured": 60,
+      "semantic": 58
+    },
+    "height": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "origin": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    }
+  },
+  "usage": {
+    "calls": 480,
+    "input_tokens": 339309,
+    "output_tokens": 35658
+  },
+  "cost_usd": 0.5176,
+  "cost_per_fact_usd": 0.001078,
+  "wall_seconds": 63.7,
+  "end_to_end_aggregation": {
+    "count_color_blue": {
+      "truth": 5,
+      "ada": 5
+    },
+    "count_job_engineer": {
+      "truth": 1,
+      "ada": 1
+    },
+    "top5_locations": {
+      "truth": [
+        [
+          "helsinki",
+          4
+        ],
+        [
+          "warsaw",
+          4
+        ],
+        [
+          "antwerp",
+          3
+        ],
+        [
+          "phoenix",
+          3
+        ],
+        [
+          "denver",
+          3
+        ]
+      ],
+      "ada": [
+        [
+          "helsinki",
+          4
+        ],
+        [
+          "warsaw",
+          4
+        ],
+        [
+          "antwerp",
+          3
+        ],
+        [
+          "phoenix",
+          3
+        ],
+        [
+          "denver",
+          3
+        ]
+      ]
+    },
+    "top5_colors": {
+      "truth": [
+        [
+          "brown",
+          9
+        ],
+        [
+          "red",
+          9
+        ],
+        [
+          "pink",
+          7
+        ],
+        [
+          "green",
+          6
+        ],
+        [
+          "orange",
+          5
+        ]
+      ],
+      "ada": [
+        [
+          "brown",
+          9
+        ],
+        [
+          "red",
+          9
+        ],
+        [
+          "pink",
+          7
+        ],
+        [
+          "green",
+          5
+        ],
+        [
+          "orange",
+          5
+        ]
+      ]
+    }
+  }
+}

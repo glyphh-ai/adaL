@@ -1,0 +1,75 @@
+# Functional groups — building blocks of organic chemistry.
+# Each composes from elements + bonds.
+
+- key: group.hydroxyl
+  category: functional-group
+  entity: {name: hydroxyl, kind: functional-group}
+  semantic: {category: "OH-group, defines-alcohols"}
+  relational: {predicate: parent-class, object: alcohol}
+  composed_of: [element.oxygen, element.hydrogen, bond.covalent, bond.hydrogen]
+  source: "organic chemistry"
+
+- key: group.carbonyl
+  category: functional-group
+  entity: {name: carbonyl, kind: functional-group}
+  semantic: {category: "C=O-double-bond, in-ketones-aldehydes-esters-acids"}
+  composed_of: [element.carbon, element.oxygen, bond.double-covalent]
+  source: "organic chemistry"
+
+- key: group.carboxyl
+  category: functional-group
+  entity: {name: carboxyl, kind: functional-group}
+  semantic: {category: "COOH-group, defines-carboxylic-acids, acidic"}
+  relational: {predicate: parent-class, object: carboxylic-acid}
+  composed_of: [group.carbonyl, group.hydroxyl, bond.covalent]
+  source: "organic chemistry"
+
+- key: group.amino
+  category: functional-group
+  entity: {name: amino, kind: functional-group}
+  semantic: {category: "NH2-group, defines-amines, basic"}
+  relational: {predicate: parent-class, object: amine}
+  composed_of: [element.nitrogen, element.hydrogen, bond.covalent]
+  source: "organic chemistry"
+
+- key: group.methyl
+  category: functional-group
+  entity: {name: methyl, kind: functional-group}
+  semantic: {category: "CH3-group, simplest-alkyl"}
+  composed_of: [element.carbon, element.hydrogen, bond.covalent]
+  source: "organic chemistry"
+
+- key: group.phosphate
+  category: functional-group
+  entity: {name: phosphate, kind: functional-group}
+  semantic: {category: "PO4-group, in-DNA-ATP-phospholipids"}
+  composed_of: [element.phosphorus, element.oxygen, bond.covalent, bond.double-covalent]
+  source: "biochemistry"
+
+- key: group.ester
+  category: functional-group
+  entity: {name: ester, kind: functional-group}
+  semantic: {category: "COO-group-linking-two-carbons, from-acid-plus-alcohol"}
+  composed_of: [group.carbonyl, element.oxygen, bond.covalent]
+  source: "organic chemistry"
+
+- key: group.ether
+  category: functional-group
+  entity: {name: ether, kind: functional-group}
+  semantic: {category: "C-O-C-linkage"}
+  composed_of: [element.carbon, element.oxygen, bond.covalent]
+  source: "organic chemistry"
+
+- key: group.aldehyde
+  category: functional-group
+  entity: {name: aldehyde, kind: functional-group}
+  semantic: {category: "CHO-group-at-end-of-chain"}
+  composed_of: [group.carbonyl, element.hydrogen, bond.covalent]
+  source: "organic chemistry"
+
+- key: group.ketone
+  category: functional-group
+  entity: {name: ketone, kind: functional-group}
+  semantic: {category: "C=O-between-two-carbons"}
+  composed_of: [group.carbonyl, element.carbon, bond.covalent]
+  source: "organic chemistry"

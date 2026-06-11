@@ -1,0 +1,95 @@
+# Stage 8 — first words and naming (12-18 months).
+#
+# Around the first birthday, the infant maps sound patterns to
+# specific referents. Words are productions of recognized categories.
+
+- key: infant.word
+  category: linguistic
+  entity: {name: word, kind: linguistic, subkind: lexical-item}
+  semantic: {category: "sound-pattern-that-refers-to-something"}
+  composed_of: [prime.say, prime.words, binary.this, prime.something, binary.same, binary.same]
+  source: "developmental psychology"
+
+- key: infant.naming
+  category: cognition
+  entity: {name: naming, kind: cognition, subkind: linguistic-productive}
+  semantic: {category: "use-word-to-refer-to-thing"}
+  composed_of: [infant.word, prime.say, prime.kind, prime.something, binary.this]
+  source: "developmental psychology"
+
+- key: infant.word-mama
+  category: word
+  entity: {name: word-mama, kind: word, subkind: kinship}
+  semantic: {category: "spoken-form-referring-to-mother"}
+  composed_of: [infant.naming, infant.mother, prime.say]
+  source: "developmental psychology"
+
+- key: infant.word-dada
+  category: word
+  entity: {name: word-dada, kind: word, subkind: kinship}
+  semantic: {category: "spoken-form-referring-to-father"}
+  composed_of: [infant.naming, infant.father, prime.say]
+  source: "developmental psychology"
+
+- key: infant.word-yes
+  category: word
+  entity: {name: word-yes, kind: word, subkind: agreement}
+  semantic: {category: "assent, affirmation"}
+  composed_of: [prime.say, binary.true, binary.wanted, binary.good]
+  source: "developmental psychology"
+
+- key: infant.word-no
+  category: word
+  entity: {name: word-no, kind: word, subkind: refusal}
+  semantic: {category: "refusal, prohibition, negation"}
+  composed_of: [prime.say, prime.not, binary.unwanted, binary.bad]
+  source: "developmental psychology"
+
+- key: infant.word-more
+  category: word
+  entity: {name: word-more, kind: word, subkind: request}
+  semantic: {category: "request-additional-amount, often-of-food"}
+  composed_of: [prime.say, prime.more, binary.wanted, binary.same, binary.after]
+  source: "developmental psychology"
+
+- key: infant.word-mine
+  category: word
+  entity: {name: word-mine, kind: word, subkind: possessive}
+  semantic: {category: "claim-of-possession"}
+  composed_of: [prime.say, prime.mine, binary.has, binary.self]
+  source: "developmental psychology"
+
+- key: infant.word-up
+  category: word
+  entity: {name: word-up, kind: word, subkind: spatial-request}
+  semantic: {category: "request-to-be-lifted-or-direction-up"}
+  composed_of: [prime.say, binary.above, binary.wanted, prime.move]
+  source: "developmental psychology"
+
+- key: infant.word-bye
+  category: word
+  entity: {name: word-bye, kind: word, subkind: social}
+  semantic: {category: "farewell-vocalization, often-with-wave"}
+  composed_of: [prime.say, infant.wave, prime.someone, binary.far, binary.after]
+  source: "developmental psychology"
+
+- key: infant.over-extension
+  category: error
+  entity: {name: over-extension, kind: cognitive-error, subkind: linguistic}
+  semantic: {category: "use-word-too-broadly, all-dogs-cats-cows-are-doggy"}
+  composed_of: [infant.naming, prime.many, prime.like, prime.the_same, binary.different]
+  source: "developmental psychology"
+
+- key: infant.under-extension
+  category: error
+  entity: {name: under-extension, kind: cognitive-error, subkind: linguistic}
+  semantic: {category: "use-word-too-narrowly, only-our-dog-is-doggy"}
+  composed_of: [infant.naming, binary.this, prime.one, binary.not, prime.other]
+  source: "developmental psychology"
+
+- key: infant.holophrase
+  category: linguistic
+  entity: {name: holophrase, kind: linguistic, subkind: single-word-sentence}
+  semantic: {category: "one-word-conveys-full-meaning, depends-on-context"}
+  composed_of: [infant.word, prime.one, prime.say, prime.many, binary.this, binary.wanted]
+  source: "developmental psychology"

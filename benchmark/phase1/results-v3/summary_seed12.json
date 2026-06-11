@@ -1,0 +1,178 @@
+{
+  "seed": 12,
+  "n_facts": 480,
+  "semantic_accuracy": 0.9979166666666667,
+  "entity_rate": 1.0,
+  "canonical_rate": 0.9979166666666667,
+  "captured_rate": 1.0,
+  "spurious_fill_rate": 0.03333333333333333,
+  "clean_rate": 0.9645833333333333,
+  "by_type": {
+    "age": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "location": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "job": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "hobby": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "pet": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "color": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 59,
+      "captured": 60,
+      "semantic": 59
+    },
+    "height": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "origin": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    }
+  },
+  "usage": {
+    "calls": 480,
+    "input_tokens": 339382,
+    "output_tokens": 35793
+  },
+  "cost_usd": 0.5183,
+  "cost_per_fact_usd": 0.00108,
+  "wall_seconds": 64.6,
+  "end_to_end_aggregation": {
+    "count_color_blue": {
+      "truth": 2,
+      "ada": 2
+    },
+    "count_job_engineer": {
+      "truth": 2,
+      "ada": 2
+    },
+    "top5_locations": {
+      "truth": [
+        [
+          "denver",
+          6
+        ],
+        [
+          "quito",
+          4
+        ],
+        [
+          "chicago",
+          4
+        ],
+        [
+          "riga",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ]
+      ],
+      "ada": [
+        [
+          "denver",
+          6
+        ],
+        [
+          "quito",
+          4
+        ],
+        [
+          "chicago",
+          4
+        ],
+        [
+          "riga",
+          4
+        ],
+        [
+          "vienna",
+          4
+        ]
+      ]
+    },
+    "top5_colors": {
+      "truth": [
+        [
+          "orange",
+          8
+        ],
+        [
+          "black",
+          7
+        ],
+        [
+          "green",
+          7
+        ],
+        [
+          "pink",
+          6
+        ],
+        [
+          "white",
+          6
+        ]
+      ],
+      "ada": [
+        [
+          "orange",
+          8
+        ],
+        [
+          "black",
+          7
+        ],
+        [
+          "green",
+          7
+        ],
+        [
+          "pink",
+          6
+        ],
+        [
+          "white",
+          6
+        ]
+      ]
+    }
+  }
+}

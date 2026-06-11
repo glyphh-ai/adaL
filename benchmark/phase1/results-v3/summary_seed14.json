@@ -1,0 +1,178 @@
+{
+  "seed": 14,
+  "n_facts": 480,
+  "semantic_accuracy": 0.9979166666666667,
+  "entity_rate": 1.0,
+  "canonical_rate": 0.9979166666666667,
+  "captured_rate": 1.0,
+  "spurious_fill_rate": 0.03333333333333333,
+  "clean_rate": 0.9645833333333333,
+  "by_type": {
+    "age": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "location": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "job": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "hobby": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "pet": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "color": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 59,
+      "captured": 60,
+      "semantic": 59
+    },
+    "height": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    },
+    "origin": {
+      "n": 60,
+      "entity": 60,
+      "canonical": 60,
+      "captured": 60,
+      "semantic": 60
+    }
+  },
+  "usage": {
+    "calls": 480,
+    "input_tokens": 339276,
+    "output_tokens": 35514
+  },
+  "cost_usd": 0.5168,
+  "cost_per_fact_usd": 0.001077,
+  "wall_seconds": 62.3,
+  "end_to_end_aggregation": {
+    "count_color_blue": {
+      "truth": 6,
+      "ada": 6
+    },
+    "count_job_engineer": {
+      "truth": 4,
+      "ada": 4
+    },
+    "top5_locations": {
+      "truth": [
+        [
+          "quito",
+          5
+        ],
+        [
+          "lyon",
+          5
+        ],
+        [
+          "paris",
+          4
+        ],
+        [
+          "boston",
+          4
+        ],
+        [
+          "kyoto",
+          4
+        ]
+      ],
+      "ada": [
+        [
+          "quito",
+          5
+        ],
+        [
+          "lyon",
+          5
+        ],
+        [
+          "paris",
+          4
+        ],
+        [
+          "boston",
+          4
+        ],
+        [
+          "kyoto",
+          4
+        ]
+      ]
+    },
+    "top5_colors": {
+      "truth": [
+        [
+          "orange",
+          7
+        ],
+        [
+          "grey",
+          7
+        ],
+        [
+          "pink",
+          7
+        ],
+        [
+          "blue",
+          6
+        ],
+        [
+          "green",
+          6
+        ]
+      ],
+      "ada": [
+        [
+          "orange",
+          7
+        ],
+        [
+          "grey",
+          7
+        ],
+        [
+          "pink",
+          7
+        ],
+        [
+          "blue",
+          6
+        ],
+        [
+          "green",
+          6
+        ]
+      ]
+    }
+  }
+}

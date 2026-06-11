@@ -1,0 +1,75 @@
+# Stage 9 — possession and self-recognition (18-24 months).
+#
+# A pivotal cognitive achievement: the infant recognizes itself as a
+# distinct agent with claims on objects. The "mine" concept marks
+# the transition from sensorimotor to early symbolic cognition.
+
+- key: infant.possession
+  category: concept
+  entity: {name: possession, kind: concept, subkind: ownership}
+  semantic: {category: "thing-belongs-to-someone"}
+  composed_of: [binary.has, prime.someone, binary.same, binary.continuous]
+  source: "developmental psychology"
+
+- key: infant.mine
+  category: concept
+  entity: {name: mine, kind: concept, subkind: self-possession}
+  semantic: {category: "this-belongs-to-me, defended-from-others"}
+  composed_of: [infant.possession, binary.self, prime.mine, binary.unwanted, binary.other]
+  source: "developmental psychology"
+
+- key: infant.yours
+  category: concept
+  entity: {name: yours, kind: concept, subkind: other-possession}
+  semantic: {category: "this-belongs-to-you, the-other-person"}
+  composed_of: [infant.possession, prime.you, binary.has, binary.other]
+  source: "developmental psychology"
+
+- key: infant.share
+  category: action
+  entity: {name: share, kind: action, subkind: prosocial}
+  semantic: {category: "let-other-use-something-of-mine, late-emerging"}
+  composed_of: [infant.mine, binary.other, prime.can, prime.have, binary.brief]
+  source: "developmental psychology"
+
+- key: infant.self-recognition
+  category: cognition
+  entity: {name: self-recognition, kind: cognition, subkind: self-awareness}
+  semantic: {category: "recognize-own-image-in-mirror, rouge-test"}
+  composed_of: [binary.self, binary.see, binary.same, binary.known, infant.face]
+  source: "Lewis & Brooks-Gunn 1979"
+
+- key: infant.self-name
+  category: cognition
+  entity: {name: self-name, kind: cognition, subkind: linguistic-self}
+  semantic: {category: "respond-to-own-name, refer-to-self-by-name"}
+  composed_of: [binary.self, infant.word, prime.say, prime.someone, binary.same]
+  source: "developmental psychology"
+
+- key: infant.agency
+  category: concept
+  entity: {name: agency, kind: concept, subkind: self-as-cause}
+  semantic: {category: "I-make-things-happen, I-am-a-cause"}
+  composed_of: [binary.self, prime.do, prime.happen, infant.cause-effect]
+  source: "developmental psychology"
+
+- key: infant.autonomy-seeking
+  category: behavior
+  entity: {name: autonomy-seeking, kind: behavior, subkind: self-assertion}
+  semantic: {category: "do-it-myself, reject-help, terrible-twos-onset"}
+  composed_of: [binary.self, prime.do, prime.not, binary.other, prime.do]
+  source: "developmental psychology"
+
+- key: infant.preference
+  category: cognition
+  entity: {name: preference, kind: cognition, subkind: choice}
+  semantic: {category: "want-this-not-that, stable-individual-tastes"}
+  composed_of: [binary.self, binary.wanted, binary.this, prime.not, binary.that]
+  source: "developmental psychology"
+
+- key: infant.choice
+  category: action
+  entity: {name: choice, kind: action, subkind: decision}
+  semantic: {category: "pick-one-of-multiple-options-offered"}
+  composed_of: [prime.do, binary.this, prime.not, binary.that, binary.wanted, binary.self]
+  source: "developmental psychology"
