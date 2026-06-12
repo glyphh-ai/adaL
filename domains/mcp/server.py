@@ -245,6 +245,58 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                 },
             ),
             Tool(
+                name="merge_candidates",
+                description=(
+                    "Deterministic entity-alias proposals: name-alike "
+                    "pairs (misspelling distance or containment) with "
+                    "shared slot-value evidence and conflicts. Read-only "
+                    "— ada never merges on its own; the operator decides."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "limit": {"type": "integer", "default": 25},
+                        "space": {"type": "string"},
+                    },
+                },
+            ),
+            Tool(
+                name="merge",
+                description=(
+                    "Merge entity `source` into `target`: slot rows are "
+                    "re-pointed and universal references rewritten; the "
+                    "original sentences stay verbatim as receipts. "
+                    "dry_run defaults TRUE — counts only until confirmed."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "source": {"type": "string"},
+                        "target": {"type": "string"},
+                        "dry_run": {"type": "boolean", "default": True},
+                        "space": {"type": "string"},
+                    },
+                    "required": ["source", "target"],
+                },
+            ),
+            Tool(
+                name="inspect",
+                description=(
+                    "The anatomy of one fact: content, entity, speaker, "
+                    "timestamps, key and full version chain, and every "
+                    "universal-schema slot it fills. Look up by key "
+                    "(returns the current belief) or thought_id."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "key": {"type": "string"},
+                        "thought_id": {"type": "string"},
+                        "space": {"type": "string"},
+                    },
+                },
+            ),
+            Tool(
                 name="archive",
                 description=(
                     "Archive every current fact belonging to entities "
@@ -363,6 +415,12 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
             return await _handle_entities(brain, args)
         if name == "archive":
             return await _handle_archive(brain, args)
+        if name == "merge_candidates":
+            return await _handle_merge_candidates(brain, args)
+        if name == "merge":
+            return await _handle_merge(brain, args)
+        if name == "inspect":
+            return await _handle_inspect(brain, args)
         if name == "consolidate":
             return await _handle_consolidate(brain, args)
         if name == "stats":
@@ -653,6 +711,105 @@ async def _handle_consolidate(brain, args: dict) -> CallToolResult:
         return _ok(report)
     except Exception as e:
         logger.error("consolidate failed: %s", e, exc_info=True)
+        return _err(str(e))
+
+
+async def _handle_merge_candidates(brain, args: dict) -> CallToolResult:
+    from ada.memory.consolidate import merge_candidates
+    try:
+        store, _ = _space(brain, args)
+        cands = await merge_candidates(brain._session_factory,
+                                       space_id=store.space_id,
+                                       limit=int(args.get("limit", 25)))
+        return _ok({"space": store.space_id, "count": len(cands),
+                    "candidates": cands})
+    except Exception as e:
+        logger.error("merge_candidates failed: %s", e, exc_info=True)
+        return _err(str(e))
+
+
+async def _handle_merge(brain, args: dict) -> CallToolResult:
+    from ada.memory.consolidate import merge_entities
+    try:
+        store, _ = _space(brain, args)
+        report = await merge_entities(
+            brain._session_factory, space_id=store.space_id,
+            source=args.get("source") or "", target=args.get("target") or "",
+            dry_run=bool(args.get("dry_run", True)))
+        if report.get("error"):
+            return _err(report["error"])
+        if not report["dry_run"]:
+            await _reload_memory_space(brain, store)
+        return _ok(report)
+    except Exception as e:
+        logger.error("merge failed: %s", e, exc_info=True)
+        return _err(str(e))
+
+
+async def _handle_inspect(brain, args: dict) -> CallToolResult:
+    from sqlalchemy import select as _select
+    from domains.models.db_models import AdaThought
+    key = (args.get("key") or "").strip()
+    tid = (args.get("thought_id") or "").strip()
+    if not key and not tid:
+        return _err("inspect needs a key or a thought_id")
+    try:
+        store, _ = _space(brain, args)
+        sf = brain._session_factory
+        chain: list = []
+        if key:
+            hist = await _maybe(store.history(key))
+            if not hist:
+                return _err(f"no such key: {key}")
+            chain = hist
+            row = hist[-1]  # current belief
+            content, speaker = row.content, row.speaker
+            created, meta = row.created_at, row.metadata
+            tid = row.thought_id
+        else:
+            async with sf() as s:
+                db_row = (await s.execute(_select(AdaThought).where(
+                    AdaThought.thought_id == tid))).scalar_one_or_none()
+            if db_row is None:
+                return _err(f"no such thought: {tid}")
+            content, speaker = db_row.content, db_row.speaker
+            created, meta = db_row.created_at, dict(db_row.extra_data or {})
+            k = meta.get("_key")
+            if k:
+                key = k
+                chain = await _maybe(store.history(k))
+        from datetime import datetime, timezone
+        u = meta.get("_universal") or {}
+        slots = []
+        entity = None
+        for layer, roles in u.items():
+            if not isinstance(roles, dict):
+                continue
+            for role, v in roles.items():
+                if v is None or not str(v).strip():
+                    continue
+                slots.append({"layer": layer, "role": role, "value": str(v)})
+        ent = u.get("entity")
+        if isinstance(ent, dict) and ent.get("name"):
+            entity = str(ent["name"]).strip().lower()
+        return _ok({
+            "thought_id": tid,
+            "space": store.space_id,
+            "content": content,
+            "entity": entity,
+            "speaker": speaker,
+            "created_at": datetime.fromtimestamp(
+                created, tz=timezone.utc).isoformat() if created else None,
+            "key": key or None,
+            "version": meta.get("_version"),
+            "versions": len(chain) or None,
+            "chain": [{"version": t.metadata.get("_version"),
+                       "content": t.content, "thought_id": t.thought_id}
+                      for t in chain] or None,
+            "slots": slots,
+        })
+    except Exception as e:
+        logger.error("inspect failed: %s", e, exc_info=True)
         return _err(str(e))
 
 

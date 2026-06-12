@@ -677,6 +677,8 @@ function cmdHelp() {
     L([s("space ", "primary"), s("<id>", "calm"), s("              switch space", "faint")]),
     L([s("me ", "primary"), s("<name>", "calm"), s("                who my/I resolve to when you ask", "faint")]),
     L([s("consolidate ", "primary"), s("[dry]", "faint"), s("        offline maintenance: re-enrich · resolve identity · archive typo-dups", "faint")]),
+    L([s("fact ", "primary"), s("<key>", "calm"), s("              the anatomy of a fact — slots, chain, provenance", "faint")]),
+    L([s("merges", "primary"), s("                   alias proposals; confirm with ", "faint"), s("merge <a> => <b> confirm", "calm")]),
     L([s("logout", "primary")]),
     L([s("receipts over adjectives — every answer cites a key, a version.", "faint")], 0),
   ]);
@@ -866,6 +868,96 @@ async function run(raw) {
     else if (verb === "history") await cmdHistory(rest);
     else if (verb === "stats") await cmdStats();
     else if (verb === "space") await cmdSpace(rest);
+    else if (verb === "fact") {
+      const k = rest.trim().toLowerCase();
+      if (!k) { block([L([s("usage: fact <key>   — the anatomy of a fact", "faint")])]); }
+      else {
+        const f = await tool("inspect", { key: k, space: state.space });
+        const lines = [
+          L([s("what is a fact — ", "muted"), s(f.key || f.thought_id, "calm")], 0),
+          L([s("“" + f.content + "”", "text")]),
+          L([s("entity ", "faint"), s(f.entity || "—", "calm"),
+             s("   speaker ", "faint"), s(f.speaker || "—", "text"),
+             s("   told ", "faint"), s((f.created_at || "—").slice(0, 16), "text")]),
+        ];
+        if (f.key) {
+          lines.push(L([s("key ", "faint"), s(f.key, "calm"),
+                        s("  ·  v" + f.version + " of " + f.versions, "accent"),
+                        s("  ·  durable", "faint")]));
+        }
+        if (f.slots && f.slots.length) {
+          lines.push(L([s("slots — what the schema heard:", "muted")]));
+          for (const sl of f.slots) {
+            lines.push(L([s((sl.layer + "." + sl.role).padEnd(26), "faint"),
+                          s(sl.value, "calm")]));
+          }
+        } else {
+          lines.push(L([s("no universal slots — consolidate can re-enrich this fact", "signal")]));
+        }
+        if (f.chain && f.chain.length > 1) {
+          lines.push(L([s("belief over time:", "muted")]));
+          f.chain.forEach((v, i) => {
+            const latest = i === f.chain.length - 1;
+            lines.push(L([s(("v" + v.version).padEnd(4), latest ? "accent" : "faint"),
+                          s(v.content, latest ? "text" : "muted"),
+                          latest ? s("   ← current belief", "faint") : s("", "faint")]));
+          });
+        }
+        state.focusKey = f.key;
+        block(lines);
+        renderGrid();
+      }
+    }
+    else if (verb === "merges") {
+      const r = await tool("merge_candidates", { space: state.space });
+      if (!r.count) {
+        block([L([s("no alias candidates — every entity name stands alone", "muted")], 0)]);
+      } else {
+        const lines = [L([s(r.count + " alias proposal" + (r.count === 1 ? "" : "s")
+          + " — ada proposes, you decide:", "muted")], 0)];
+        for (const c of r.candidates) {
+          lines.push(L([s(c.a, "calm"), s("  ≈  ", "faint"), s(c.b, "calm"),
+                        s("   score " + c.score, "accent")]));
+          if (c.shared.length) {
+            lines.push(L([s("shared: " + c.shared.slice(0, 3).join(" · ")
+              + (c.shared.length > 3 ? " · +" + (c.shared.length - 3) : ""), "faint")]));
+          }
+          if (c.conflicts.length) {
+            lines.push(L([s("conflicts: " + c.conflicts.join(" · "), "signal")]));
+          }
+          lines.push(L([s("merge with:  merge " + c.a + " => " + c.b
+            + "   (" + c.b + " absorbs " + c.a + "; swap to keep " + c.a + ")", "faint")]));
+        }
+        block(lines);
+      }
+    }
+    else if (verb === "merge") {
+      // merge <source> => <target> [confirm] — arrow keeps multi-word
+      // entity names unambiguous
+      let body = rest.trim().toLowerCase();
+      const confirm = /\bconfirm$/.test(body);
+      if (confirm) body = body.replace(/\s*confirm$/, "");
+      const m = body.split(/\s*(?:=>|->|→)\s*/);
+      const source = (m[0] || "").trim(), target = (m[1] || "").trim();
+      if (!source || !target) {
+        block([L([s("usage: merge <source> => <target> [confirm]   — target absorbs source", "faint")])]);
+      } else {
+        const r = await tool("merge", { source, target, space: state.space,
+                                        dry_run: !confirm });
+        if (!confirm) {
+          block([L([s("would merge ", "muted"), s(source, "calm"),
+                    s(" → ", "faint"), s(target, "calm"),
+                    s("  ·  " + r.facts + " facts re-pointed", "accent")]),
+                 L([s("nothing changed — run  merge " + source + " => " + target
+                    + " confirm  to do it", "faint")])]);
+        } else {
+          block([L([s("merged ", "muted"), s(source, "calm"), s(" → ", "faint"),
+                    s(target, "calm"), s("  ·  " + r.facts + " facts", "accent"),
+                    s("  ·  sentences kept verbatim", "faint")])]);
+          await refreshGrid();
+        }
+      }
+    }
     else if (verb === "consolidate") {
       const dry = /^dry/.test(rest);
       const args = { space: state.space, dry_run: dry };

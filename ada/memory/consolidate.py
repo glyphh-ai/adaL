@@ -176,3 +176,126 @@ async def consolidate(
                 "%d duplicates archived", space_id, report["re_enriched"],
                 report["identity_resolved"], len(report["duplicates_archived"]))
     return report
+
+
+# ── Entity alias merging — proposals, never auto-merge ────────────────
+#
+# Detection is deterministic (name similarity + shared slot evidence)
+# and only ever PROPOSES. Merging is an operator decision: ada refuses
+# to guess that two names are one entity.
+
+async def _entity_profiles_db(session_factory, space_id: str) -> dict:
+    """entity -> {'layer.role=value', ...} over current rows."""
+    from collections import defaultdict as dd
+    from domains.models.db_models import FactSlot
+    async with session_factory() as s:
+        r = await s.execute(
+            select(FactSlot.entity, FactSlot.layer, FactSlot.role,
+                   FactSlot.value)
+            .where(FactSlot.space_id == space_id,
+                   FactSlot.is_current == 1,
+                   FactSlot.entity.isnot(None)))
+        rows = r.all()
+    profiles: dict = dd(set)
+    for entity, layer, role, value in rows:
+        if layer != "_meta":
+            profiles[entity].add(f"{layer}.{role}={value}")
+    return dict(profiles)
+
+
+def _names_alike(a: str, b: str) -> bool:
+    """Misspelling-distance OR containment ('bob' in 'bob smith')."""
+    if min(len(a), len(b)) >= _MIN_TOKEN_LEN and _edit_distance(a, b) <= _MAX_EDIT:
+        return True
+    ta, tb = set(a.split()), set(b.split())
+    return bool(ta and tb) and (ta <= tb or tb <= ta) and a != b
+
+
+async def merge_candidates(session_factory, space_id: str = "main",
+                           limit: int = 25) -> list[dict]:
+    """Deterministic alias proposals: name-alike entity pairs with
+    their shared-value evidence and conflicts. Read-only."""
+    profiles = await _entity_profiles_db(session_factory, space_id)
+    names = sorted(profiles)
+    out = []
+    for i, a in enumerate(names):
+        for b in names[i + 1:]:
+            if not _names_alike(a, b):
+                continue
+            # exclude self-referential slot values (entity.name=a etc.)
+            pa = {v for v in profiles[a] if not v.startswith("entity.name=")}
+            pb = {v for v in profiles[b] if not v.startswith("entity.name=")}
+            shared = sorted(pa & pb)
+            # conflict: same single-valued slot, different values
+            slots_a = {v.split("=", 1)[0]: v for v in pa}
+            slots_b = {v.split("=", 1)[0]: v for v in pb}
+            conflicts = sorted(
+                f"{slots_a[k]} vs {slots_b[k].split('=', 1)[1]}"
+                for k in slots_a.keys() & slots_b.keys()
+                if slots_a[k] != slots_b[k])
+            out.append({
+                "a": a, "b": b,
+                "shared": shared, "conflicts": conflicts,
+                "score": round(len(shared) / max(1, len(pa | pb)), 3),
+            })
+    out.sort(key=lambda c: (-len(c["shared"]), len(c["conflicts"])))
+    return out[:limit]
+
+
+async def merge_entities(session_factory, space_id: str, source: str,
+                         target: str, dry_run: bool = True) -> dict:
+    """Merge `source` into `target`: re-point slot rows and rewrite
+    universal entity references. Content stays verbatim — the original
+    sentence is a receipt; only the structured identity changes."""
+    from sqlalchemy import update
+    from domains.models.db_models import AdaThought, FactSlot
+    source, target = source.strip().lower(), target.strip().lower()
+    if not source or not target or source == target:
+        return {"error": "merge needs two different entity names"}
+
+    async with session_factory() as s:
+        r = await s.execute(
+            select(FactSlot.thought_id).distinct()
+            .where(FactSlot.space_id == space_id,
+                   FactSlot.entity == source))
+        ids = [row[0] for row in r.all()]
+    report = {"space": space_id, "source": source, "target": target,
+              "facts": len(ids), "dry_run": dry_run}
+    if dry_run or not ids:
+        if dry_run:
+            report["note"] = ("dry run — nothing changed; confirm to merge")
+        return report
+
+    async with session_factory() as s:
+        await s.execute(update(FactSlot)
+                        .where(FactSlot.space_id == space_id,
+                               FactSlot.entity == source)
+                        .values(entity=target))
+        r = await s.execute(select(AdaThought).where(
+            AdaThought.thought_id.in_(ids)))
+        for row in r.scalars().all():
+            import copy
+            # deep copy: mutating shared nested dicts in place would
+            # defeat SQLAlchemy's JSON change detection
+            meta = copy.deepcopy(dict(row.extra_data or {}))
+            u = meta.get("_universal")
+            if not isinstance(u, dict):
+                continue
+            changed = False
+            ent = u.get("entity")
+            if isinstance(ent, dict) and \
+                    str(ent.get("name", "")).strip().lower() == source:
+                ent["name"] = target
+                changed = True
+            rel = u.get("relational")
+            if isinstance(rel, dict):
+                for k in ("subject", "object", "possessor", "agent"):
+                    if str(rel.get(k, "")).strip().lower() == source:
+                        rel[k] = target
+                        changed = True
+            if changed:
+                row.extra_data = meta
+        await s.commit()
+    logger.info("merged entity %r into %r (%d facts)", source, target,
+                len(ids))
+    return report

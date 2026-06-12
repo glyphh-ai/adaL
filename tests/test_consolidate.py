@@ -42,6 +42,76 @@ async def _seed(sf, rows):
         await s.commit()
 
 
+def test_merge_candidates_and_merge(tmp_path):
+    async def run():
+        from ada.memory.consolidate import merge_candidates, merge_entities
+        sf = await _make_db(tmp_path)
+        await _seed(sf, [
+            ("bob lives in austin",
+             {"_universal": {"entity": {"name": "bob"},
+                             "spatial": {"location": "austin"}}}),
+            ("bob smith works as an engineer",
+             {"_universal": {"entity": {"name": "bob smith"},
+                             "spatial": {"location": "austin"},
+                             "relational": {"subject": "bob smith",
+                                            "predicate": "works_as",
+                                            "object": "engineer"}}}),
+            ("rena lives in denver",
+             {"_universal": {"entity": {"name": "rena"},
+                             "spatial": {"location": "denver"}}}),
+        ])
+        # slot rows must exist for profiles — build them like save_thought
+        from sqlalchemy import text
+        from ada.memory.thought_persistence import slot_rows
+        from ada.memory.thought_space import StoredThought
+        from domains.models.db_models import AdaThought
+        async with sf() as s:
+            rows = (await s.execute(select(AdaThought))).scalars().all()
+            for r in rows:
+                st = StoredThought(thought_id=r.thought_id, content=r.content,
+                                   speaker=r.speaker, space_id="main",
+                                   metadata=dict(r.extra_data or {}))
+                for sr in slot_rows(st):
+                    await s.execute(text(
+                        "INSERT INTO fact_slots (space_id,thought_id,entity,"
+                        "layer,role,value,predicate,key,version,is_current) "
+                        "VALUES (:space_id,:thought_id,:entity,:layer,:role,"
+                        ":value,:predicate,:key,:version,:is_current)"), sr)
+            await s.commit()
+
+        cands = await merge_candidates(sf)
+        assert len(cands) == 1
+        c = cands[0]
+        assert {c["a"], c["b"]} == {"bob", "bob smith"}
+        assert "spatial.location=austin" in c["shared"]
+
+        # dry run changes nothing
+        dry = await merge_entities(sf, "main", "bob smith", "bob")
+        assert dry["dry_run"] is True and dry["facts"] == 1
+        from domains.models.db_models import FactSlot
+        async with sf() as s:
+            left = (await s.execute(select(FactSlot).where(
+                FactSlot.entity == "bob smith"))).scalars().all()
+        assert left
+
+        # confirmed merge: slot rows re-pointed, universal rewritten,
+        # content untouched
+        real = await merge_entities(sf, "main", "bob smith", "bob",
+                                    dry_run=False)
+        assert real["facts"] == 1
+        async with sf() as s:
+            left = (await s.execute(select(FactSlot).where(
+                FactSlot.entity == "bob smith"))).scalars().all()
+            merged = (await s.execute(select(AdaThought).where(
+                AdaThought.thought_id == "t1"))).scalar_one()
+        assert not left
+        assert merged.content == "bob smith works as an engineer"  # verbatim
+        u = merged.extra_data["_universal"]
+        assert u["entity"]["name"] == "bob"
+        assert u["relational"]["subject"] == "bob"
+    asyncio.run(run())
+
+
 def test_consolidate_passes(tmp_path):
     async def run():
         sf = await _make_db(tmp_path)
