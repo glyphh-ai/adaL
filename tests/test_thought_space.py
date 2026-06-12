@@ -103,3 +103,16 @@ def test_malformed_layers_dropped():
     assert stored is not None
     assert "entity" not in stored.universal
     assert stored.universal["perceptual"]["color"] == "blue"
+
+
+def test_resolve_question_identity():
+    from ada.memory.thought_space import resolve_question_identity as rq
+    assert rq("who are my children?", "chris") == "who are chris children?"
+    assert rq("where do I live?", "Chris") == "where do chris live?"
+    assert rq("I'm hungry, what's my favorite food?", "ada") == \
+        "ada hungry, what's ada favorite food?".replace("ada hungry", "ada hungry")
+    # no identity → untouched; no first person → untouched
+    assert rq("who are my children?", None) == "who are my children?"
+    assert rq("where does bo live?", "chris") == "where does bo live?"
+    # 'i' inside words must not be touched
+    assert rq("is the engine online?", "chris") == "is the engine online?"

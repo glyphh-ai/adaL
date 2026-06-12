@@ -407,6 +407,7 @@ body {
 const $ = (id) => document.getElementById(id);
 const state = {
   me: null,
+  identity: null,     // `me <name>` — who first-person questions resolve to
   space: "main",
   facts: [],          // [{key, content, version}]
   unknowns: [],       // [{label, question, asked}] — session-local refusals
@@ -597,6 +598,7 @@ function cmdHelp() {
     L([s("list", "primary"), s("                     every keyed fact ada currently believes", "faint")]),
     L([s("stats", "primary"), s("                    substrate vital signs", "faint")]),
     L([s("space ", "primary"), s("<id>", "calm"), s("              switch space", "faint")]),
+    L([s("me ", "primary"), s("<name>", "calm"), s("                who my/I resolve to when you ask", "faint")]),
     L([s("logout", "primary")]),
     L([s("receipts over adjectives — every answer cites a key, a version.", "faint")], 0),
   ]);
@@ -658,7 +660,12 @@ async function cmdAsk(rest) {
     block([L([s("ask what? e.g.  ask what is acme's status", "faint")], 0)]);
     return;
   }
-  const out = await tool("ask", { question: rest, space: state.space });
+  const args = { question: rest, space: state.space };
+  if (state.identity) args.speaker = state.identity;
+  const out = await tool("ask", args);
+  if (out.resolved_question) {
+    block([L([s("→ " + out.resolved_question, "faint")])]);
+  }
   if (out.refused) {
     const label = rest.toLowerCase().replace(/[^a-z0-9\s.]/g, "")
       .trim().split(/\s+/).slice(0, 4).join(".");
@@ -781,6 +788,18 @@ async function run(raw) {
     else if (verb === "history") await cmdHistory(rest);
     else if (verb === "stats") await cmdStats();
     else if (verb === "space") await cmdSpace(rest);
+    else if (verb === "me") {
+      const name = rest.trim().toLowerCase();
+      if (name) {
+        state.identity = name;
+        block([L([s("you are ", "muted"), s(name, "calm"),
+                  s(" — my/I in questions now resolve to this entity", "faint")])]);
+      } else if (state.identity) {
+        block([L([s("you are ", "muted"), s(state.identity, "calm")])]);
+      } else {
+        block([L([s("usage: me <name>   — who first-person questions resolve to", "faint")])]);
+      }
+    }
     else if (verb === "logout") { await logout(); return; }
     else if (verb === "clear") { $("term").innerHTML = ""; boot_lines(); }
     else if (/\?\s*$/.test(input) || /^(who|what|where|when|why|how|which|is|are|was|were|does|do|did|can|has|have)$/.test(verb)) {

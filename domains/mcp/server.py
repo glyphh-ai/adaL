@@ -81,6 +81,12 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                     "properties": {
                         "question": {"type": "string"},
                         "space": {"type": "string"},
+                        "speaker": {
+                            "type": "string",
+                            "description": "who is asking — first-person "
+                                "tokens (my/i/me) resolve to this entity "
+                                "before retrieval",
+                        },
                     },
                     "required": ["question"],
                 },
@@ -329,16 +335,21 @@ async def _handle_ask(brain, args: dict) -> CallToolResult:
     if not question:
         return _err("Missing 'question' parameter")
     try:
+        from ada.memory.thought_space import resolve_question_identity
         store, _ = _space(brain, args)
         surface = _get_surface(brain, store)
-        a = await surface.ask_async(question)
-        return _ok({
+        resolved = resolve_question_identity(question, args.get("speaker"))
+        a = await surface.ask_async(resolved)
+        out = {
             "question": question, "space": store.space_id,
             "refused": a.refused,
             "confidence": round(a.confidence, 3),
             "fact": a.fact.content if a.fact else None,
             "answer": a.rendered,
-        })
+        }
+        if resolved != question:
+            out["resolved_question"] = resolved
+        return _ok(out)
     except Exception as e:
         logger.error("ask failed: %s", e, exc_info=True)
         return _err(str(e))

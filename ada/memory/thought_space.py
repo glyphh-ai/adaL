@@ -669,5 +669,19 @@ def _resolve_speaker_entity(text: str, clean: dict, speaker_entity: str
     return out
 
 
+def resolve_question_identity(question: str, speaker_entity: str | None) -> str:
+    """Read-time mirror of _resolve_speaker_entity: rewrite first-person
+    tokens in a QUESTION to the known speaker entity, so retrieval can
+    walk the entity chain. "who are my children?" (me=chris) →
+    "who are chris children?". Deterministic; no LLM."""
+    if not speaker_entity:
+        return question
+    me = speaker_entity.strip().lower()
+    if not me:
+        return question
+    return re.sub(r"\b(i'm|i’m|im|i|me|my|mine|myself)\b", me, question,
+                  flags=re.IGNORECASE)
+
+
 # Back-compat alias — the HDC-era name, used by curriculum/benchmark scripts.
 ThoughtGlyphSpace = ThoughtSpace
