@@ -38,6 +38,7 @@ from ada.memory.thought_space import (
 logger = logging.getLogger(__name__)
 
 _CANDIDATE_LIMIT = 400  # recall candidate pool fetched from SQL
+_ENTITY_CAP = 1000      # max names returned by `who`; counts are unbounded
 
 
 class SqlFactStore:
@@ -143,7 +144,7 @@ class SqlFactStore:
         if kind == "refuse":
             return "I don't know."
         if kind == "count":
-            return str(len(await self._entities_where(op["conditions"])))
+            return str(await self._count_entities_where(op["conditions"]))
         if kind == "who":
             names = await self._entities_where(op["conditions"])
             return ", ".join(sorted(names)) if names else "none"
@@ -202,22 +203,72 @@ class SqlFactStore:
             return {row[0] for row in r.all()}
 
     async def _entities_where(self, conditions: dict) -> list[str]:
-        """Entity intersection. A condition on relational.predicate uses
-        containment (verb phrases); values may be lists (ALL required)."""
-        result: set | None = None
+        """Entity intersection done IN SQL via INTERSECT — never fetches
+        full per-condition entity lists into Python. A condition on
+        relational.predicate uses containment; list values require ALL.
+        Returns at most _ENTITY_CAP names (large cohorts answer counts,
+        not name lists; see count vs who in the op layer)."""
+        from domains.models.db_models import FactSlot
+        selects = []
         for lr, v in conditions.items():
             layer, _, role = lr.partition(".")
             values = v if isinstance(v, (list, tuple)) else [v]
             for value in values:
                 value = str(value).strip().lower()
+                q = (select(FactSlot.entity)
+                     .where(FactSlot.space_id == self.space_id,
+                            FactSlot.is_current == 1,
+                            FactSlot.entity.is_not(None)))
                 if lr == "relational.predicate":
-                    ents = await self._entities_predicate(value)
+                    q = q.where(FactSlot.predicate.like(f"%{value}%"))
                 else:
-                    ents = await self._entities_for(layer, role, value)
-                result = ents if result is None else (result & ents)
-                if not result:
-                    return []
-        return sorted(result or [])
+                    q = q.where(FactSlot.layer == layer,
+                                FactSlot.role == role, FactSlot.value == value)
+                selects.append(q)
+        if not selects:
+            return []
+        stmt = selects[0]
+        for q in selects[1:]:
+            stmt = stmt.intersect(q)
+        stmt = stmt.limit(_ENTITY_CAP)
+        async with self._sf() as s:
+            rows = (await s.execute(stmt)).all()
+        return sorted({row[0] for row in rows})
+
+    async def _count_entities_where(self, conditions: dict) -> int:
+        """COUNT of the intersection — never materializes names."""
+        from sqlalchemy import func as _f
+        names = await self._entities_where_subq(conditions)
+        if names is None:
+            return 0
+        async with self._sf() as s:
+            return int((await s.execute(
+                select(_f.count()).select_from(names.subquery()))).scalar() or 0)
+
+    async def _entities_where_subq(self, conditions: dict):
+        from domains.models.db_models import FactSlot
+        selects = []
+        for lr, v in conditions.items():
+            layer, _, role = lr.partition(".")
+            values = v if isinstance(v, (list, tuple)) else [v]
+            for value in values:
+                value = str(value).strip().lower()
+                q = (select(FactSlot.entity)
+                     .where(FactSlot.space_id == self.space_id,
+                            FactSlot.is_current == 1,
+                            FactSlot.entity.is_not(None)))
+                if lr == "relational.predicate":
+                    q = q.where(FactSlot.predicate.like(f"%{value}%"))
+                else:
+                    q = q.where(FactSlot.layer == layer,
+                                FactSlot.role == role, FactSlot.value == value)
+                selects.append(q)
+        if not selects:
+            return None
+        stmt = selects[0]
+        for q in selects[1:]:
+            stmt = stmt.intersect(q)
+        return stmt
 
     async def _entities_predicate(self, needle: str) -> set:
         from domains.models.db_models import FactSlot
