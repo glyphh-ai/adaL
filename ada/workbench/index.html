@@ -282,6 +282,8 @@ body {
 }
 .panel-head h2 { margin: 0; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ada-text-muted); font-weight: 600; }
 .panel-head .count { font-size: 11px; color: var(--ada-text-faint); }
+.panel-search { padding: 10px 14px 0; }
+.panel-search .tok-field { width: 100%; }
 .panel-body { overflow-y: auto; padding: 14px; flex: 1; min-height: 0; }
 
 .slotgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -574,6 +576,9 @@ body {
       <h2>Slot grid</h2>
       <span class="count" id="grid-count">—</span>
     </div>
+    <div class="panel-search">
+      <input id="grid-q" class="tok-field" placeholder="search keys — server-side, newest first" spellcheck="false">
+    </div>
     <div class="panel-body"><div class="slotgrid" id="slotgrid"></div></div>
     <div class="panel-foot">
       Filled slots carry a <b>value</b> and a <b>version</b>. The ring is a fact ada
@@ -681,6 +686,34 @@ function lineEl(parts, indent) {
 }
 const s = (text, t) => ({ text, tone: t });
 
+/* transcript persistence — the chat-session feel. Saved per space,
+   capped, restored on load; `reset` purges it. */
+const _termKey = () => "ada-term-" + state.space;
+let _saveTimer = null;
+function saveTerm() {
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => {
+    const term = $("term");
+    while (term.children.length > 400) term.removeChild(term.firstChild);
+    try { localStorage.setItem(_termKey(), term.innerHTML); } catch {}
+  }, 300);
+}
+function restoreTerm() {
+  let saved = null;
+  try { saved = localStorage.getItem(_termKey()); } catch {}
+  if (saved) {
+    $("term").innerHTML = saved;
+    scrollTerm();
+    return true;
+  }
+  return false;
+}
+function resetTerm() {
+  $("term").innerHTML = "";
+  try { localStorage.removeItem(_termKey()); } catch {}
+  boot_lines();
+}
+
 function echo(input) {
   const div = document.createElement("div");
   div.className = "tline";
@@ -690,6 +723,7 @@ function echo(input) {
   div.appendChild(e);
   $("term").appendChild(div);
   scrollTerm();
+  saveTerm();
 }
 
 function block(lines) {
@@ -701,6 +735,7 @@ function block(lines) {
   for (const ln of lines) wrap.appendChild(lineEl(ln.parts, ln.indent));
   $("term").appendChild(wrap);
   scrollTerm();
+  saveTerm();
 }
 const L = (parts, indent = 1) => ({ parts, indent });
 function scrollTerm() { const t = $("term"); t.scrollTop = t.scrollHeight; }
@@ -740,11 +775,22 @@ function renderGrid(absorbedKey) {
 
 async function refreshGrid(absorbedKey) {
   try {
-    const out = await tool("keys", { space: state.space, limit: 60 });
+    const args = { space: state.space, limit: 60 };
+    const q = $("grid-q").value.trim();
+    if (q) args.q = q;
+    const out = await tool("keys", args);
     state.facts = out.facts || [];
   } catch (e) { /* grid refresh is best-effort */ }
   renderGrid(absorbedKey);
 }
+
+let _gridQTimer = null;
+document.addEventListener("DOMContentLoaded", () => {
+  $("grid-q").addEventListener("input", () => {
+    clearTimeout(_gridQTimer);
+    _gridQTimer = setTimeout(() => refreshGrid(), 250);
+  });
+});
 
 /* ---- the verbs -------------------------------------------------------- */
 
@@ -788,6 +834,7 @@ function cmdHelp() {
     L([s("similar ", "primary"), s("<entity> [k]", "calm"), s("      nearest profiles by exact jaccard, with shared dims", "faint")]),
     L([s("drift ", "primary"), s("<entity> [days]", "calm"), s("    what moved in the window — added · dropped · churned keys", "faint")]),
     L([s("merges", "primary"), s("                   alias proposals; confirm with ", "faint"), s("merge <a> => <b> confirm", "calm")]),
+    L([s("reset", "primary"), s("                    wipe this space's transcript (it persists across reloads)", "faint")]),
     L([s("logout", "primary")]),
     L([s("receipts over adjectives — every answer cites a key, a version.", "faint")], 0),
   ]);
@@ -929,6 +976,8 @@ async function cmdSpace(rest) {
   state.unknowns = [];
   state.focusKey = null;
   $("crumb-space").textContent = id + " space";
+  $("term").innerHTML = "";
+  if (!restoreTerm()) boot_lines();
   block([L([s("switched to space ", "muted"), s(id, "calm")])]);
   await refreshGrid();
 }
@@ -1157,7 +1206,7 @@ async function run(raw) {
       }
     }
     else if (verb === "logout") { await logout(); return; }
-    else if (verb === "clear") { $("term").innerHTML = ""; boot_lines(); }
+    else if (verb === "clear" || verb === "reset") { resetTerm(); }
     else if (/\?\s*$/.test(input) || /^(who|what|where|when|why|how|which|is|are|was|were|does|do|did|can|has|have)$/.test(verb)) {
       // a bare question is an ask — no verb required
       await cmdAsk(input);
@@ -1198,7 +1247,7 @@ async function bootApp() {
   $("who").textContent = state.me.username;
   $("who").onclick = () => run("logout");
   renderHints();
-  boot_lines();
+  if (!restoreTerm()) boot_lines();
   try { await mcpInit(); } catch (e) { /* stateless server may not need it */ }
   await refreshGrid();
   $("cmd").focus();
@@ -1351,9 +1400,16 @@ async function refreshTokens() {
     permSel.appendChild(o);
   }
   permSel.value = "read,write";
-  const expIn = document.createElement("input");
-  expIn.className = "tok-field"; expIn.placeholder = "expires (days)";
-  expIn.style.width = "110px"; expIn.inputMode = "numeric";
+  const expIn = document.createElement("select");
+  expIn.className = "tok-field";
+  for (const [v, l] of [["7", "expires in 7 days"], ["30", "30 days"],
+                        ["90", "90 days"], ["365", "1 year"],
+                        ["", "no expiry"]]) {
+    const o = document.createElement("option");
+    o.value = v; o.textContent = l;
+    expIn.appendChild(o);
+  }
+  expIn.value = "365";
   const spaceIn = document.createElement("input");
   spaceIn.className = "tok-field"; spaceIn.placeholder = "bind to space (optional)";
   spaceIn.style.width = "170px"; spaceIn.spellcheck = false;
@@ -1448,6 +1504,12 @@ async function refreshTokens() {
         const st = document.createElement("span");
         st.className = "revoked"; st.textContent = t.status;
         row.appendChild(st);
+        const del = cureBtn("delete", true, null);
+        del.dataset.label = "delete";
+        armable(del,
+          async () => "delete the record — confirm",
+          async () => { await tool("token_delete", { token: t.id }); await renderList(); });
+        row.appendChild(del);
       }
       card.appendChild(row);
       listWrap.appendChild(card);

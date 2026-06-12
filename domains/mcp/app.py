@@ -27,7 +27,7 @@ _WRITE_TOOLS = {"tell", "tell_raw", "consolidate", "archive", "merge"}
 # Minting or revoking credentials is privilege management, not data
 # writing — a write-permission token must not be able to mint itself
 # an admin successor.
-_ADMIN_TOOLS = {"create_token", "token_revoke"}
+_ADMIN_TOOLS = {"create_token", "token_revoke", "token_delete"}
 
 
 async def _read_body(receive: Receive) -> tuple[bytes, Receive]:

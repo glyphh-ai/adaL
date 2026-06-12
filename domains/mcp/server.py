@@ -217,6 +217,8 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                     "type": "object",
                     "properties": {
                         "limit": {"type": "integer", "default": 60},
+                        "q": {"type": "string",
+                              "description": "narrow to keys containing this"},
                         "space": {"type": "string"},
                     },
                 },
@@ -407,6 +409,20 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                 },
             ),
             Tool(
+                name="token_delete",
+                description=(
+                    "Permanently delete a REVOKED token's record by id or "
+                    "prefix. Active tokens must be revoked first — delete "
+                    "is bookkeeping, revoke is the security action."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {"token": {"type": "string",
+                                             "description": "token id or prefix"}},
+                    "required": ["token"],
+                },
+            ),
+            Tool(
                 name="create_token",
                 description=(
                     "Mint an API token for accessing this MCP server. The raw "
@@ -473,6 +489,8 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
             return await _handle_token_list(brain, args)
         if name == "token_revoke":
             return await _handle_token_revoke(brain, args)
+        if name == "token_delete":
+            return await _handle_token_delete(brain, args)
         return _err(f"Unknown tool: {name}")
 
     return app
@@ -895,9 +913,10 @@ async def _handle_keys(brain, args: dict) -> CallToolResult:
     try:
         store, _ = _space(brain, args)
         limit = int(args.get("limit", 60))
-        facts = await _maybe(store.keyed_facts(limit=limit))
+        q = args.get("q")
+        facts = await _maybe(store.keyed_facts(limit=limit, q=q))
         return _ok({"space": store.space_id, "count": len(facts),
-                    "facts": facts})
+                    "q": q or None, "facts": facts})
     except Exception as e:
         logger.error("keys failed: %s", e, exc_info=True)
         return _err(str(e))
@@ -964,6 +983,43 @@ async def _handle_token_revoke(brain, args: dict) -> CallToolResult:
         return _ok({"revoked": [str(t.id) for t in rows]})
     except Exception as e:
         logger.error("token_revoke failed: %s", e, exc_info=True)
+        return _err(str(e))
+
+
+async def _handle_token_delete(brain, args: dict) -> CallToolResult:
+    from sqlalchemy import or_, select, cast, String
+    from domains.models.db_models import Token
+    needle = (args.get("token") or "").strip()
+    if not needle:
+        return _err("Missing 'token' (id or prefix)")
+    session_factory = getattr(brain, "_session_factory", None)
+    if session_factory is None:
+        return _err("No database session available")
+    conds = [Token.token_prefix == needle[:12],
+             cast(Token.id, String) == needle]
+    try:
+        from uuid import UUID
+        conds.append(Token.id == UUID(needle))
+    except ValueError:
+        pass
+    try:
+        async with session_factory() as session:
+            rows = (await session.execute(
+                select(Token).where(or_(*conds)))).scalars().all()
+            if not rows:
+                return _err(f"No token matching {needle!r}")
+            active = [t for t in rows if t.status == "active"]
+            if active:
+                return _err("Token is still active — revoke it first; "
+                            "delete is bookkeeping, revoke is the "
+                            "security action")
+            deleted = [str(t.id) for t in rows]
+            for t in rows:
+                await session.delete(t)
+            await session.commit()
+        return _ok({"deleted": deleted})
+    except Exception as e:
+        logger.error("token_delete failed: %s", e, exc_info=True)
         return _err(str(e))
 
 

@@ -501,10 +501,14 @@ class ThoughtSpace:
         out.sort(key=lambda e: e["weight"], reverse=True)
         return out[:limit]
 
-    def keyed_facts(self, limit: int = 60) -> list[dict]:
-        """Current belief for every versioned key, newest first."""
+    def keyed_facts(self, limit: int = 60, q: str | None = None) -> list[dict]:
+        """Current belief for every versioned key, newest first. `q`
+        narrows to keys containing it — the grid is a bounded lens."""
         out = []
+        needle = (q or "").strip().lower()
         for key, chain in self._history_by_key.items():
+            if needle and needle not in key.lower():
+                continue
             cur = chain[-1]
             out.append({"key": key, "content": cur.content,
                         "version": cur.metadata.get("_version", len(chain)),

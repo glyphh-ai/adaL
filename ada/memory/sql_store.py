@@ -416,18 +416,21 @@ class SqlFactStore:
         out.sort(key=lambda e: e["weight"], reverse=True)
         return out[:limit]
 
-    async def keyed_facts(self, limit: int = 60) -> list[dict]:
+    async def keyed_facts(self, limit: int = 60,
+                          q: str | None = None) -> list[dict]:
         """Current belief for every versioned key, newest first.
         Keys come from fact_slots (indexed, is_current=1); contents from
-        ada_thoughts by id — same planner-proof shape as _lookup."""
+        ada_thoughts by id — same planner-proof shape as _lookup. `q`
+        narrows to keys containing it before the cap applies."""
         from domains.models.db_models import AdaThought, FactSlot
         async with self._sf() as s:
-            r = await s.execute(
-                select(FactSlot.thought_id).distinct()
-                .where(FactSlot.space_id == self.space_id,
-                       FactSlot.key.isnot(None),
-                       FactSlot.is_current == 1)
-                .limit(limit * 4))
+            stmt = (select(FactSlot.thought_id).distinct()
+                    .where(FactSlot.space_id == self.space_id,
+                           FactSlot.key.isnot(None),
+                           FactSlot.is_current == 1))
+            if q and q.strip():
+                stmt = stmt.where(FactSlot.key.like(f"%{q.strip().lower()}%"))
+            r = await s.execute(stmt.limit(limit * 4))
             ids = [row[0] for row in r.all()]
             if not ids:
                 return []
