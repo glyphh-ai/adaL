@@ -2,3 +2,8 @@ Ada — schema-on-write memory for LLMs
 Copyright 2026 Glyphh AI LLC
 
 Licensed under the Apache License, Version 2.0.
+
+Bundled third-party software:
+- three.js r160 (ada/workbench/vendor/three.module.js)
+  Copyright 2010-2023 Three.js Authors, MIT License
+  https://github.com/mrdoob/three.js

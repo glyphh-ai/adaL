@@ -99,6 +99,26 @@ def test_sql_space_isolation(tmp_path):
     asyncio.run(run())
 
 
+def test_entity_view_parity(tmp_path):
+    """entity_view (the constellation's data source): same entities,
+    slots, and weights from both storage modes."""
+    mem = _fill_memory()
+
+    async def run():
+        store, _ = await _make_sql(tmp_path)
+        await _fill_sql(store)
+        sql_view = await store.entity_view()
+        mem_view = mem.entity_view()
+        as_map = lambda view: {e["name"]: (e["slots"], e["weight"])
+                               for e in view}
+        assert as_map(sql_view) == as_map(mem_view)
+        names = {e["name"] for e in sql_view}
+        assert {"ann", "bo", "cy"} <= names
+        ann = next(e for e in sql_view if e["name"] == "ann")
+        assert ann["slots"]["spatial.location"] == ["boston"]
+    asyncio.run(run())
+
+
 def test_keyed_slotless_fact_survives_restart(tmp_path):
     """A keyed fact whose enrichment produced NO universal slots must
     still appear in keyed_facts — including from a fresh store instance

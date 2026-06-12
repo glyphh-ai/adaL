@@ -265,6 +265,18 @@ async def workbench() -> FileResponse:
     return FileResponse(_WORKBENCH_INDEX, media_type="text/html")
 
 
+@app.get("/workbench/vendor/{filename}", include_in_schema=False)
+async def workbench_vendor(filename: str) -> FileResponse:
+    """Vendored static assets shipped in the wheel (three.js for the
+    constellation view). No directory traversal: exact-name lookup."""
+    path = _WORKBENCH_INDEX.parent / "vendor" / filename
+    if "/" in filename or ".." in filename or not path.is_file():
+        from fastapi import HTTPException
+        raise HTTPException(404, "not found")
+    media = "text/javascript" if filename.endswith(".js") else "application/octet-stream"
+    return FileResponse(path, media_type=media)
+
+
 # MCP routing middleware — intercepts /mcp requests and forwards to the
 # MCP SDK's Streamable HTTP handler. Single endpoint, no org/model.
 from domains.mcp.app import MCPRoutingMiddleware

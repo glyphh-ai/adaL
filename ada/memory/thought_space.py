@@ -483,6 +483,17 @@ class ThoughtSpace:
         """Chronological version chain for a stable key. Empty if none."""
         return list(self._history_by_key.get(key, []))
 
+    def entity_view(self, limit: int = 150) -> list[dict]:
+        """Entity profiles shaped for the constellation: name, slot
+        fills, and weight (total filled values). Heaviest first."""
+        out = []
+        for name, slots in self.entity_profiles().items():
+            flat = {lr: sorted(vals) for lr, vals in slots.items()}
+            out.append({"name": name, "slots": flat,
+                        "weight": sum(len(v) for v in flat.values())})
+        out.sort(key=lambda e: e["weight"], reverse=True)
+        return out[:limit]
+
     def keyed_facts(self, limit: int = 60) -> list[dict]:
         """Current belief for every versioned key, newest first."""
         out = []

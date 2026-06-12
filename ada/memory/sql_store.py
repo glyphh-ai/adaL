@@ -372,6 +372,31 @@ class SqlFactStore:
         thoughts.sort(key=lambda t: t.metadata.get("_version", 1))
         return thoughts
 
+    async def entity_view(self, limit: int = 150) -> list[dict]:
+        """Entity profiles for the constellation — grouped straight off
+        the indexed fact_slots rows. Heaviest first."""
+        from collections import defaultdict as dd
+        from domains.models.db_models import FactSlot
+        async with self._sf() as s:
+            r = await s.execute(
+                select(FactSlot.entity, FactSlot.layer, FactSlot.role,
+                       FactSlot.value)
+                .where(FactSlot.space_id == self.space_id,
+                       FactSlot.is_current == 1,
+                       FactSlot.entity.isnot(None)))
+            rows = r.all()
+        profiles: dict = dd(lambda: dd(set))
+        for entity, layer, role, value in rows:
+            if layer == "_meta":
+                continue
+            profiles[entity][f"{layer}.{role}"].add(value)
+        out = [{"name": name,
+                "slots": {lr: sorted(vals) for lr, vals in slots.items()},
+                "weight": sum(len(v) for v in slots.values())}
+               for name, slots in profiles.items()]
+        out.sort(key=lambda e: e["weight"], reverse=True)
+        return out[:limit]
+
     async def keyed_facts(self, limit: int = 60) -> list[dict]:
         """Current belief for every versioned key, newest first.
         Keys come from fact_slots (indexed, is_current=1); contents from

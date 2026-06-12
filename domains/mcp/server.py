@@ -222,6 +222,22 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                 },
             ),
             Tool(
+                name="entities",
+                description=(
+                    "Entity profiles for a space — every entity with its "
+                    "current slot fills and weight. The constellation "
+                    "view's data source; also what entities_where joins "
+                    "over."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "limit": {"type": "integer", "default": 150},
+                        "space": {"type": "string"},
+                    },
+                },
+            ),
+            Tool(
                 name="stats",
                 description=(
                     "Substrate vital signs: total thoughts, versioned keys, "
@@ -314,6 +330,8 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
             return await _handle_query(brain, args)
         if name == "keys":
             return await _handle_keys(brain, args)
+        if name == "entities":
+            return await _handle_entities(brain, args)
         if name == "consolidate":
             return await _handle_consolidate(brain, args)
         if name == "stats":
@@ -510,6 +528,18 @@ async def _handle_history(brain, args: dict) -> CallToolResult:
         })
     except Exception as e:
         logger.error("history failed: %s", e, exc_info=True)
+        return _err(str(e))
+
+
+async def _handle_entities(brain, args: dict) -> CallToolResult:
+    try:
+        store, _ = _space(brain, args)
+        limit = int(args.get("limit", 150))
+        view = await _maybe(store.entity_view(limit=limit))
+        return _ok({"space": store.space_id, "count": len(view),
+                    "entities": view})
+    except Exception as e:
+        logger.error("entities failed: %s", e, exc_info=True)
         return _err(str(e))
 
 
