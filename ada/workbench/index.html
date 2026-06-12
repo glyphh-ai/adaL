@@ -770,9 +770,13 @@ async function run(raw) {
     else if (verb === "space") await cmdSpace(rest);
     else if (verb === "logout") { await logout(); return; }
     else if (verb === "clear") { $("term").innerHTML = ""; boot_lines(); }
-    else {
+    else if (/\?\s*$/.test(input) || /^(who|what|where|when|why|how|which|is|are|was|were|does|do|did|can|has|have)$/.test(verb)) {
+      // a bare question is an ask — no verb required
+      await cmdAsk(input);
+    } else {
       block([L([s("unknown verb: ", "signal"), s(verb, "text")]),
-             L([s("the workbench speaks: tell · ask · history · list · stats · space   (try `help`)", "faint")])]);
+             L([s("the workbench speaks: tell · ask · history · list · stats · space   (try `help`)", "faint")]),
+             L([s("questions route to ask on their own — just end with ?", "faint")])]);
     }
   } catch (e) {
     if (e && e.auth) { location.reload(); return; }
