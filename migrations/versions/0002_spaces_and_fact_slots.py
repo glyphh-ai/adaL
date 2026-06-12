@@ -42,8 +42,6 @@ def upgrade() -> None:
                     ["space_id", "layer", "role", "value", "is_current"])
     op.create_index("idx_slots_entity", "fact_slots",
                     ["space_id", "entity", "is_current"])
-    op.create_index("idx_slots_entity_lr", "fact_slots",
-                    ["space_id", "entity", "layer", "role"])
     op.create_index("idx_slots_key", "fact_slots",
                     ["space_id", "key", "version"])
     op.create_index("idx_slots_thought", "fact_slots", ["thought_id"])

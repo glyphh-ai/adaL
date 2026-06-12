@@ -115,7 +115,6 @@ class FactSlot(Base):
     __table_args__ = (
         Index("idx_slots_lrv", space_id, layer, role, value, is_current),
         Index("idx_slots_entity", space_id, entity, is_current),
-        Index("idx_slots_entity_lr", space_id, entity, layer, role),
         Index("idx_slots_key", space_id, key, version),
         Index("idx_slots_thought", thought_id),
     )

@@ -95,3 +95,28 @@ ANTHROPIC_API_KEY=... PYTHONPATH=.:benchmark/phase2:benchmark/phase1 \
 
 Raw per-cell metrics and per-question answers: `results/` (v1,
 contaminated at 100K/1M — kept for the record) and `results-v2/`.
+
+## Addendum (2026-06-11): SQL storage mode at 10M rows — measured
+
+The O(N) boundary identified above is now resolved by the SQL storage
+mode (`ADA_STORAGE=sql`): the eight closed ops compiled to fixed,
+parameterized SQL templates over an indexed `fact_slots` table. The 10M
+extrapolation is replaced by measurement (`sql_bench.py`, 1.25M
+entities × 8 slots = 10,000,000 rows, SQLite, 2.0GB on disk):
+
+| | Memory mode @1M (measured) | Memory @10M (extrapolated) | **SQL mode @10M (measured)** |
+|---|---|---|---|
+| Boot | ~9s + ~3GB RAM | minutes + ~25GB | **8 ms, O(1) RAM** |
+| count | 341 ms | ~3.4 s | **6.2 ms** |
+| distribution | 336 ms | ~3.4 s | **97 ms** |
+| intersection (two ~125K-entity conditions) | 66 ms | — | 308 ms (SQL INTERSECT) |
+| point lookup | 0.0 ms (cache) | — | **0.5 ms** |
+
+Two engineering notes kept for the record: the first cut measured
+intersection at 2.4s (per-condition entity sets materialized in Python
+— replaced with SQL INTERSECT, 8×) and lookup at 1.1s (SQLite's planner
+chose the layer/role index and scanned 1.25M rows; the lookup now
+fetches the entity's ~8 rows via the entity index and filters in
+Python — planner-proof, 2200×). Both ops remain fixed templates; the
+no-model-generated-SQL property is unchanged. Memory ↔ SQL parity is
+enforced by tests (identical answers on the same corpus, all ops).

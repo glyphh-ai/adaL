@@ -309,26 +309,29 @@ class SqlFactStore:
             return [(row[0], int(row[1])) for row in (await s.execute(q)).all()]
 
     async def _lookup(self, person: str, slot: str) -> str:
+        """Fetch the entity's slots via the entity index (a handful of
+        rows) and filter layer/role in Python — planner-proof: never
+        lets SQLite choose the layer/role index and scan millions."""
         from domains.models.db_models import FactSlot
         p = str(person).strip().lower()
         layer, _, role = slot.partition(".")
         async with self._sf() as s:
             r = await s.execute(
-                select(FactSlot.value).distinct()
+                select(FactSlot.layer, FactSlot.role, FactSlot.value)
                 .where(FactSlot.space_id == self.space_id,
-                       FactSlot.is_current == 1,
-                       FactSlot.layer == layer, FactSlot.role == role,
-                       FactSlot.entity == p))
-            values = [row[0] for row in r.all()]
-            if not values:  # fuzzy fallback: substring entity match
+                       FactSlot.entity == p,
+                       FactSlot.is_current == 1))
+            rows = r.all()
+            if not rows:  # fuzzy fallback: substring entity match, bounded
                 r = await s.execute(
-                    select(FactSlot.value).distinct()
+                    select(FactSlot.layer, FactSlot.role, FactSlot.value)
                     .where(FactSlot.space_id == self.space_id,
-                           FactSlot.is_current == 1,
-                           FactSlot.layer == layer, FactSlot.role == role,
-                           FactSlot.entity.like(f"%{p}%")))
-                values = [row[0] for row in r.all()]
-        return ", ".join(sorted(values)) if values else "I don't know."
+                           FactSlot.entity.like(f"%{p}%"),
+                           FactSlot.is_current == 1)
+                    .limit(200))
+                rows = r.all()
+        values = sorted({v for la, ro, v in rows if la == layer and ro == role})
+        return ", ".join(values) if values else "I don't know."
 
     async def previous_value(self, person: str, slot: str) -> str | None:
         from domains.models.db_models import FactSlot
