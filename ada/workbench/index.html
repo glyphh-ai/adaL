@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ada · workbench</title>
 <style>:root {
+  color-scheme: dark;
   --ada-signal: #ff5f87;
   --ada-accent: #d787ff;
   --ada-primary: #af87ff;
@@ -243,6 +244,19 @@ body {
 }
 .gate-field::placeholder { color: var(--ada-text-faint); }
 .gate-field:focus { border-color: var(--lead); }
+/* Autofilled credentials: the browser paints its own (white) background
+   over the field. Inset-shadow it back to ink and keep the text theme. */
+.gate-field:-webkit-autofill,
+.gate-field:-webkit-autofill:hover,
+.gate-field:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--ada-ink-sunken) inset;
+  -webkit-text-fill-color: var(--ada-text);
+  caret-color: var(--lead);
+  transition: background-color 600000s 0s;
+}
+.gate-field:autofill {
+  box-shadow: 0 0 0 1000px var(--ada-ink-sunken) inset;
+}
 .gate-btn {
   width: 100%; background: var(--ada-ink-raised);
   border: 1px solid var(--lead); border-radius: var(--ada-radius);
