@@ -23,8 +23,11 @@ _MCP_PATH_RE = re.compile(r"^/mcp(/.*)?$")
 ADA_ORG_ID = "ada"
 
 # Tools that mutate state require write permission; everything else read.
-_WRITE_TOOLS = {"tell", "tell_raw", "create_token", "token_revoke",
-                "consolidate", "archive", "merge"}
+_WRITE_TOOLS = {"tell", "tell_raw", "consolidate", "archive", "merge"}
+# Minting or revoking credentials is privilege management, not data
+# writing — a write-permission token must not be able to mint itself
+# an admin successor.
+_ADMIN_TOOLS = {"create_token", "token_revoke"}
 
 
 async def _read_body(receive: Receive) -> tuple[bytes, Receive]:
@@ -138,12 +141,17 @@ class MCPRoutingMiddleware:
         except Exception:
             pass  # non-JSON bodies fall through as read-level requests
 
+        needs_admin = tool in _ADMIN_TOOLS
         needs_write = tool in _WRITE_TOOLS
-        allowed = (user.can_write(ADA_ORG_ID) if needs_write
-                   else user.can_read(ADA_ORG_ID) or user.can_write(ADA_ORG_ID))
+        if needs_admin:
+            allowed = user.is_admin(ADA_ORG_ID)
+        elif needs_write:
+            allowed = user.can_write(ADA_ORG_ID)
+        else:
+            allowed = user.can_read(ADA_ORG_ID) or user.can_write(ADA_ORG_ID)
         if not allowed:
-            await _deny(send, 403, f"Token lacks "
-                        f"{'write' if needs_write else 'read'} permission")
+            level = "admin" if needs_admin else ("write" if needs_write else "read")
+            await _deny(send, 403, f"Credential lacks {level} permission")
             return None
 
         # Space binding: a token scoped to a space may only touch that space.

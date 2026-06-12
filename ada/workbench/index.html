@@ -353,6 +353,39 @@ body {
 .cure-report { font-size: 12px; color: var(--ada-text-soft); line-height: 1.7; margin-top: 8px; white-space: pre-wrap; }
 .cure-empty { font-size: 12px; color: var(--ada-text-faint); padding: 6px 2px; }
 
+/* ---- tokens view (shares curation card styles) ---- */
+#tok {
+  position: absolute; inset: 0; z-index: 3;
+  background: var(--ada-ink-sunken);
+  display: flex; flex-direction: column; min-height: 0;
+}
+.tok-form { display: grid; grid-template-columns: 1fr auto auto auto auto; gap: 8px; margin-top: 10px; }
+.tok-field {
+  background: var(--ada-ink-sunken); border: 1px solid var(--ada-border);
+  border-radius: 7px; color: var(--ada-text); font-family: var(--ada-mono);
+  font-size: 11.5px; padding: 7px 10px; outline: none; caret-color: var(--lead);
+  min-width: 0;
+}
+.tok-field:focus { border-color: var(--lead); }
+.tok-field::placeholder { color: var(--ada-text-faint); }
+.tok-once {
+  margin-top: 12px; padding: 12px; border-radius: var(--ada-radius);
+  border: 1px solid color-mix(in srgb, var(--ada-signal) 50%, transparent);
+  background: color-mix(in srgb, var(--ada-signal) 8%, var(--ada-ink));
+}
+.tok-once .raw {
+  width: 100%; background: var(--ada-ink-sunken); border: 1px solid var(--ada-border);
+  border-radius: 7px; color: var(--ada-calm); font-family: var(--ada-mono);
+  font-size: 12px; padding: 8px 10px; margin: 8px 0 6px;
+}
+.tok-once .note { font-size: 11px; color: var(--ada-signal); }
+.tok-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.tok-row .prefix { color: var(--ada-calm); font-size: 12.5px; }
+.tok-row .meta { color: var(--ada-text-faint); font-size: 11px; }
+.tok-row .perm { font-size: 10px; color: var(--ada-accent); border: 1px solid color-mix(in srgb, var(--ada-accent) 40%, transparent); border-radius: 5px; padding: 1px 6px; }
+.tok-row .revoked { color: var(--ada-signal); font-size: 11px; }
+.tok-row .spacer { flex: 1; }
+
 /* ---- login / rotation gate ---- */
 .gate {
   height: 100vh; display: flex; align-items: center; justify-content: center;
@@ -480,6 +513,7 @@ body {
     <button class="rail-btn active" title="Terminal" data-view="term" id="rail-term">›_</button>
     <button class="rail-btn" title="Constellation" data-view="viz" id="rail-viz">▦</button>
     <button class="rail-btn" title="Curation" data-view="cure" id="rail-cure">⇄</button>
+    <button class="rail-btn" title="Tokens" data-view="tok" id="rail-tok">✱</button>
     <div class="rail-spacer"></div>
   </nav>
   <header class="topbar">
@@ -519,6 +553,13 @@ body {
         <span class="cure-sub">deterministic proposals — ada proposes, you decide. nothing here runs on its own.</span>
       </div>
       <div class="cure-body" id="cure-body"></div>
+    </div>
+    <div id="tok" class="hidden">
+      <div class="cure-head">
+        <h2>Tokens</h2>
+        <span class="cure-sub">machine credentials for /mcp — shown once at mint, stored as hashes, revocable forever. admin only.</span>
+      </div>
+      <div class="cure-body" id="tok-body"></div>
     </div>
     <div class="term-wrap"><div class="term" id="term"></div></div>
     <div class="hints" id="hints"></div>
@@ -1263,7 +1304,8 @@ $("inputrow").addEventListener("click", () => $("cmd").focus());
 function setView(view) {
   $("viz").classList.toggle("hidden", view !== "viz");
   $("cure").classList.toggle("hidden", view !== "cure");
-  for (const v of ["term", "viz", "cure"]) {
+  $("tok").classList.toggle("hidden", view !== "tok");
+  for (const v of ["term", "viz", "cure", "tok"]) {
     $("rail-" + v).classList.toggle("active", view === v);
   }
   if (view === "viz") {
@@ -1273,7 +1315,145 @@ function setView(view) {
     if (window.closeConstellation) window.closeConstellation();
   }
   if (view === "cure") refreshCuration();
+  if (view === "tok") refreshTokens();
   if (view === "term") $("cmd").focus();
+}
+
+/* ── tokens view: mint once, list always, revoke two-step ──────────── */
+
+async function refreshTokens() {
+  const body = $("tok-body");
+  body.innerHTML = "";
+
+  if (state.me.role !== "admin") {
+    const d = document.createElement("div");
+    d.className = "cure-empty";
+    d.textContent = "minting and revoking tokens requires the admin role — you are "
+      + (state.me.role || "unknown") + ".";
+    body.appendChild(d);
+    return;
+  }
+
+  // ── mint card ──
+  const mint = cureCard();
+  mint.innerHTML = '<div class="row"><span class="pair"><b>mint a token</b> — for agents, pipelines, the control plane</span></div>';
+  const form = document.createElement("div");
+  form.className = "tok-form";
+  const nameIn = document.createElement("input");
+  nameIn.className = "tok-field"; nameIn.placeholder = "name (e.g. claude-desktop, boomi-prod)";
+  nameIn.spellcheck = false;
+  const permSel = document.createElement("select");
+  permSel.className = "tok-field";
+  for (const [v, l] of [["read", "read"], ["read,write", "read + write"],
+                        ["read,write,admin", "admin"]]) {
+    const o = document.createElement("option");
+    o.value = v; o.textContent = l;
+    permSel.appendChild(o);
+  }
+  permSel.value = "read,write";
+  const expIn = document.createElement("input");
+  expIn.className = "tok-field"; expIn.placeholder = "expires (days)";
+  expIn.style.width = "110px"; expIn.inputMode = "numeric";
+  const spaceIn = document.createElement("input");
+  spaceIn.className = "tok-field"; spaceIn.placeholder = "bind to space (optional)";
+  spaceIn.style.width = "170px"; spaceIn.spellcheck = false;
+  const mintBtn = cureBtn("mint", false, async () => {
+    const name = nameIn.value.trim();
+    if (!name) { nameIn.focus(); return; }
+    const args = { name, permissions: permSel.value.split(",") };
+    const days = parseInt(expIn.value, 10);
+    if (!isNaN(days) && days > 0) args.expires_days = days;
+    if (spaceIn.value.trim()) args.model_id = spaceIn.value.trim().toLowerCase();
+    const r = await tool("create_token", args);
+    once.innerHTML = "";
+    const head = document.createElement("div");
+    head.className = "row";
+    head.innerHTML = '<span class="pair"><b></b></span><span class="perm"></span>';
+    head.querySelector("b").textContent = r.name + " · " + r.token_prefix;
+    head.querySelector(".perm").textContent = (r.permissions || []).join("+");
+    once.appendChild(head);
+    const raw = document.createElement("input");
+    raw.className = "raw"; raw.readOnly = true; raw.value = r.token;
+    raw.onclick = () => raw.select();
+    once.appendChild(raw);
+    const noteRow = document.createElement("div");
+    noteRow.className = "row";
+    const note = document.createElement("span");
+    note.className = "note";
+    note.textContent = "store it now — it is not shown again.";
+    noteRow.appendChild(note);
+    noteRow.appendChild(cureBtn("copy", false, async () => {
+      raw.select();
+      try { await navigator.clipboard.writeText(raw.value); note.textContent = "copied — store it now; it is not shown again."; }
+      catch { document.execCommand("copy"); }
+    }));
+    noteRow.appendChild(cureBtn("done — hide it", false, () => { once.classList.add("hidden"); once.innerHTML = ""; }));
+    once.appendChild(noteRow);
+    once.classList.remove("hidden");
+    nameIn.value = ""; expIn.value = ""; spaceIn.value = "";
+    await renderList();
+  });
+  form.appendChild(nameIn); form.appendChild(permSel);
+  form.appendChild(expIn); form.appendChild(spaceIn); form.appendChild(mintBtn);
+  mint.appendChild(form);
+  const once = document.createElement("div");
+  once.className = "tok-once hidden";
+  mint.appendChild(once);
+  body.appendChild(mint);
+
+  // ── list ──
+  const listWrap = document.createElement("div");
+  body.appendChild(listWrap);
+  async function renderList() {
+    listWrap.innerHTML = "";
+    const r = await tool("token_list", {});
+    if (!r.tokens.length) {
+      const d = document.createElement("div");
+      d.className = "cure-empty";
+      d.textContent = "no tokens yet — the /mcp door only opens for the ones you mint.";
+      listWrap.appendChild(d);
+      return;
+    }
+    for (const t of r.tokens) {
+      const card = cureCard();
+      const row = document.createElement("div");
+      row.className = "tok-row";
+      const prefix = document.createElement("span");
+      prefix.className = "prefix"; prefix.textContent = t.prefix || "—";
+      const name = document.createElement("span");
+      name.className = "meta"; name.textContent = t.name;
+      const perm = document.createElement("span");
+      perm.className = "perm"; perm.textContent = (t.permissions || []).join("+");
+      row.appendChild(prefix); row.appendChild(name); row.appendChild(perm);
+      if (t.space) {
+        const sp = document.createElement("span");
+        sp.className = "meta"; sp.textContent = "space: " + t.space;
+        row.appendChild(sp);
+      }
+      const exp = document.createElement("span");
+      exp.className = "meta";
+      exp.textContent = t.expires_at ? "expires " + t.expires_at.slice(0, 10) : "no expiry";
+      row.appendChild(exp);
+      const spacer = document.createElement("span");
+      spacer.className = "spacer";
+      row.appendChild(spacer);
+      if (t.status === "active") {
+        const rev = cureBtn("revoke", true, null);
+        rev.dataset.label = "revoke";
+        armable(rev,
+          async () => "revoke " + (t.prefix || t.name) + " forever — confirm",
+          async () => { await tool("token_revoke", { token: t.id }); await renderList(); });
+        row.appendChild(rev);
+      } else {
+        const st = document.createElement("span");
+        st.className = "revoked"; st.textContent = t.status;
+        row.appendChild(st);
+      }
+      card.appendChild(row);
+      listWrap.appendChild(card);
+    }
+  }
+  await renderList();
 }
 
 /* ── curation view: proposals as cards, every action two-step ──────── */

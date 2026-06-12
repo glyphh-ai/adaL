@@ -925,6 +925,8 @@ async def _handle_token_list(brain, args: dict) -> CallToolResult:
         return _ok({"tokens": [
             {"id": str(t.id), "prefix": t.token_prefix, "name": t.name,
              "permissions": t.permissions, "status": t.status,
+             "space": t.model_id,
+             "created_at": t.created_at.isoformat() if t.created_at else None,
              "expires_at": t.expires_at.isoformat() if t.expires_at else None}
             for t in rows]})
     except Exception as e:
@@ -942,12 +944,17 @@ async def _handle_token_revoke(brain, args: dict) -> CallToolResult:
     session_factory = getattr(brain, "_session_factory", None)
     if session_factory is None:
         return _err("No database session available")
+    conds = [Token.token_prefix == needle[:12],
+             cast(Token.id, String) == needle]
+    try:
+        from uuid import UUID
+        conds.append(Token.id == UUID(needle))  # dashed/undashed both bind
+    except ValueError:
+        pass
     try:
         async with session_factory() as session:
-            rows = (await session.execute(select(Token).where(or_(
-                cast(Token.id, String) == needle,
-                Token.token_prefix == needle[:12],
-            )))).scalars().all()
+            rows = (await session.execute(
+                select(Token).where(or_(*conds)))).scalars().all()
             if not rows:
                 return _err(f"No token matching {needle!r}")
             for t in rows:
