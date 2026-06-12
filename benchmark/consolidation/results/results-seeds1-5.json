@@ -1,0 +1,1582 @@
+[
+  {
+    "seed": 1,
+    "operator": "dmitri",
+    "noop": {
+      "conversational_top1": 0.25,
+      "conversational_top5": 1.0,
+      "control_top1": 0.5,
+      "control_top5": 1.0,
+      "detail": {
+        "conversational": [
+          {
+            "q": "who is my wife?",
+            "gt": [
+              "elliot"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "who are my children?",
+            "gt": [
+              "carson",
+              "milo"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "where do I live?",
+            "gt": [
+              "boston"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "sofia lives in boston"
+          },
+          {
+            "q": "what is my favorite color?",
+            "gt": [
+              "green"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          }
+        ],
+        "control": [
+          {
+            "q": "where does tobias live?",
+            "gt": [
+              "denver"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in denver"
+          },
+          {
+            "q": "what does tobias do?",
+            "gt": [
+              "teacher"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in denver"
+          },
+          {
+            "q": "where does baxter live?",
+            "gt": [
+              "portland"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "baxter lives in portland"
+          },
+          {
+            "q": "what does baxter do?",
+            "gt": [
+              "chef"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "baxter lives in portland"
+          },
+          {
+            "q": "where does rocco live?",
+            "gt": [
+              "tucson"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "rocco lives in tucson"
+          },
+          {
+            "q": "what does rocco do?",
+            "gt": [
+              "lawyer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "rocco lives in tucson"
+          },
+          {
+            "q": "where does wendell live?",
+            "gt": [
+              "savannah"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "wendell lives in savannah"
+          },
+          {
+            "q": "what does wendell do?",
+            "gt": [
+              "carpenter"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "wendell lives in savannah"
+          },
+          {
+            "q": "where does chris live?",
+            "gt": [
+              "boise"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "chris lives in boise"
+          },
+          {
+            "q": "what does chris do?",
+            "gt": [
+              "engineer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "chris lives in boise"
+          }
+        ]
+      }
+    },
+    "consolidation_report": {
+      "re_enriched": 0,
+      "identity_resolved": 2,
+      "questions_skipped": 1,
+      "dups": 1
+    },
+    "consolidated": {
+      "conversational_top1": 0.25,
+      "conversational_top5": 0.75,
+      "control_top1": 0.5,
+      "control_top5": 1.0,
+      "detail": {
+        "conversational": [
+          {
+            "q": "who is my wife?",
+            "gt": [
+              "elliot"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "who are my children?",
+            "gt": [
+              "carson",
+              "milo"
+            ],
+            "top1": false,
+            "top5": false,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "where do I live?",
+            "gt": [
+              "boston"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "i live in boston"
+          },
+          {
+            "q": "what is my favorite color?",
+            "gt": [
+              "green"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          }
+        ],
+        "control": [
+          {
+            "q": "where does tobias live?",
+            "gt": [
+              "denver"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in denver"
+          },
+          {
+            "q": "what does tobias do?",
+            "gt": [
+              "teacher"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in denver"
+          },
+          {
+            "q": "where does baxter live?",
+            "gt": [
+              "portland"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "baxter lives in portland"
+          },
+          {
+            "q": "what does baxter do?",
+            "gt": [
+              "chef"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "baxter lives in portland"
+          },
+          {
+            "q": "where does rocco live?",
+            "gt": [
+              "tucson"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "rocco lives in tucson"
+          },
+          {
+            "q": "what does rocco do?",
+            "gt": [
+              "lawyer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "rocco lives in tucson"
+          },
+          {
+            "q": "where does wendell live?",
+            "gt": [
+              "savannah"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "wendell lives in savannah"
+          },
+          {
+            "q": "what does wendell do?",
+            "gt": [
+              "carpenter"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "wendell lives in savannah"
+          },
+          {
+            "q": "where does chris live?",
+            "gt": [
+              "boise"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "chris lives in boise"
+          },
+          {
+            "q": "what does chris do?",
+            "gt": [
+              "engineer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "chris lives in boise"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "seed": 2,
+    "operator": "omar",
+    "noop": {
+      "conversational_top1": 0.25,
+      "conversational_top5": 1.0,
+      "control_top1": 0.5,
+      "control_top5": 1.0,
+      "detail": {
+        "conversational": [
+          {
+            "q": "who is my wife?",
+            "gt": [
+              "maren"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "who are my children?",
+            "gt": [
+              "milo",
+              "esme"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "where do I live?",
+            "gt": [
+              "denver"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "noor lives in denver"
+          },
+          {
+            "q": "what is my favorite color?",
+            "gt": [
+              "crimson"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          }
+        ],
+        "control": [
+          {
+            "q": "where does lena live?",
+            "gt": [
+              "portland"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "lena lives in portland"
+          },
+          {
+            "q": "what does lena do?",
+            "gt": [
+              "chef"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "lena lives in portland"
+          },
+          {
+            "q": "where does baxter live?",
+            "gt": [
+              "tucson"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "baxter lives in tucson"
+          },
+          {
+            "q": "what does baxter do?",
+            "gt": [
+              "lawyer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "baxter lives in tucson"
+          },
+          {
+            "q": "where does priya live?",
+            "gt": [
+              "savannah"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "priya lives in savannah"
+          },
+          {
+            "q": "what does priya do?",
+            "gt": [
+              "carpenter"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "priya lives in savannah"
+          },
+          {
+            "q": "where does rocco live?",
+            "gt": [
+              "boise"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "rocco lives in boise"
+          },
+          {
+            "q": "what does rocco do?",
+            "gt": [
+              "engineer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "rocco lives in boise"
+          },
+          {
+            "q": "where does callum live?",
+            "gt": [
+              "madison"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "callum lives in madison"
+          },
+          {
+            "q": "what does callum do?",
+            "gt": [
+              "doctor"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "callum lives in madison"
+          }
+        ]
+      }
+    },
+    "consolidation_report": {
+      "re_enriched": 0,
+      "identity_resolved": 2,
+      "questions_skipped": 1,
+      "dups": 1
+    },
+    "consolidated": {
+      "conversational_top1": 0.25,
+      "conversational_top5": 0.75,
+      "control_top1": 0.5,
+      "control_top5": 1.0,
+      "detail": {
+        "conversational": [
+          {
+            "q": "who is my wife?",
+            "gt": [
+              "maren"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "who are my children?",
+            "gt": [
+              "milo",
+              "esme"
+            ],
+            "top1": false,
+            "top5": false,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "where do I live?",
+            "gt": [
+              "denver"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "i live in denver"
+          },
+          {
+            "q": "what is my favorite color?",
+            "gt": [
+              "crimson"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          }
+        ],
+        "control": [
+          {
+            "q": "where does lena live?",
+            "gt": [
+              "portland"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "lena lives in portland"
+          },
+          {
+            "q": "what does lena do?",
+            "gt": [
+              "chef"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "lena lives in portland"
+          },
+          {
+            "q": "where does baxter live?",
+            "gt": [
+              "tucson"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "baxter lives in tucson"
+          },
+          {
+            "q": "what does baxter do?",
+            "gt": [
+              "lawyer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "baxter lives in tucson"
+          },
+          {
+            "q": "where does priya live?",
+            "gt": [
+              "savannah"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "priya lives in savannah"
+          },
+          {
+            "q": "what does priya do?",
+            "gt": [
+              "carpenter"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "priya lives in savannah"
+          },
+          {
+            "q": "where does rocco live?",
+            "gt": [
+              "boise"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "rocco lives in boise"
+          },
+          {
+            "q": "what does rocco do?",
+            "gt": [
+              "engineer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "rocco lives in boise"
+          },
+          {
+            "q": "where does callum live?",
+            "gt": [
+              "madison"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "callum lives in madison"
+          },
+          {
+            "q": "what does callum do?",
+            "gt": [
+              "doctor"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "callum lives in madison"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "seed": 3,
+    "operator": "priya",
+    "noop": {
+      "conversational_top1": 0.25,
+      "conversational_top5": 1.0,
+      "control_top1": 0.5,
+      "control_top5": 1.0,
+      "detail": {
+        "conversational": [
+          {
+            "q": "who is my wife?",
+            "gt": [
+              "tasha"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "who are my children?",
+            "gt": [
+              "esme",
+              "atlas"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "where do I live?",
+            "gt": [
+              "portland"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "felix lives in portland"
+          },
+          {
+            "q": "what is my favorite color?",
+            "gt": [
+              "violet"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          }
+        ],
+        "control": [
+          {
+            "q": "where does marco live?",
+            "gt": [
+              "tucson"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "marco lives in tucson"
+          },
+          {
+            "q": "what does marco do?",
+            "gt": [
+              "lawyer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "marco lives in tucson"
+          },
+          {
+            "q": "where does lena live?",
+            "gt": [
+              "savannah"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "lena lives in savannah"
+          },
+          {
+            "q": "what does lena do?",
+            "gt": [
+              "carpenter"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "lena lives in savannah"
+          },
+          {
+            "q": "where does tobias live?",
+            "gt": [
+              "boise"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in boise"
+          },
+          {
+            "q": "what does tobias do?",
+            "gt": [
+              "engineer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in boise"
+          },
+          {
+            "q": "where does callum live?",
+            "gt": [
+              "madison"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "callum lives in madison"
+          },
+          {
+            "q": "what does callum do?",
+            "gt": [
+              "doctor"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "callum lives in madison"
+          },
+          {
+            "q": "where does ivy live?",
+            "gt": [
+              "raleigh"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "ivy lives in raleigh"
+          },
+          {
+            "q": "what does ivy do?",
+            "gt": [
+              "teacher"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "ivy lives in raleigh"
+          }
+        ]
+      }
+    },
+    "consolidation_report": {
+      "re_enriched": 0,
+      "identity_resolved": 2,
+      "questions_skipped": 1,
+      "dups": 2
+    },
+    "consolidated": {
+      "conversational_top1": 0.25,
+      "conversational_top5": 0.75,
+      "control_top1": 0.5,
+      "control_top5": 1.0,
+      "detail": {
+        "conversational": [
+          {
+            "q": "who is my wife?",
+            "gt": [
+              "tasha"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "who are my children?",
+            "gt": [
+              "esme",
+              "atlas"
+            ],
+            "top1": false,
+            "top5": false,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "where do I live?",
+            "gt": [
+              "portland"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "i live in portland"
+          },
+          {
+            "q": "what is my favorite color?",
+            "gt": [
+              "violet"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          }
+        ],
+        "control": [
+          {
+            "q": "where does marco live?",
+            "gt": [
+              "tucson"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "marco lives in tucson"
+          },
+          {
+            "q": "what does marco do?",
+            "gt": [
+              "lawyer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "marco lives in tucson"
+          },
+          {
+            "q": "where does lena live?",
+            "gt": [
+              "savannah"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "lena lives in savannah"
+          },
+          {
+            "q": "what does lena do?",
+            "gt": [
+              "carpenter"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "lena lives in savannah"
+          },
+          {
+            "q": "where does tobias live?",
+            "gt": [
+              "boise"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in boise"
+          },
+          {
+            "q": "what does tobias do?",
+            "gt": [
+              "engineer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in boise"
+          },
+          {
+            "q": "where does callum live?",
+            "gt": [
+              "madison"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "callum lives in madison"
+          },
+          {
+            "q": "what does callum do?",
+            "gt": [
+              "doctor"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "callum lives in madison"
+          },
+          {
+            "q": "where does ivy live?",
+            "gt": [
+              "raleigh"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "ivy lives in raleigh"
+          },
+          {
+            "q": "what does ivy do?",
+            "gt": [
+              "teacher"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "ivy lives in raleigh"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "seed": 4,
+    "operator": "baxter",
+    "noop": {
+      "conversational_top1": 0.25,
+      "conversational_top5": 1.0,
+      "control_top1": 0.5,
+      "control_top5": 1.0,
+      "detail": {
+        "conversational": [
+          {
+            "q": "who is my wife?",
+            "gt": [
+              "quinn"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "who are my children?",
+            "gt": [
+              "atlas",
+              "juniper"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "where do I live?",
+            "gt": [
+              "tucson"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "lena lives in tucson"
+          },
+          {
+            "q": "what is my favorite color?",
+            "gt": [
+              "amber"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          }
+        ],
+        "control": [
+          {
+            "q": "where does rocco live?",
+            "gt": [
+              "savannah"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "rocco lives in savannah"
+          },
+          {
+            "q": "what does rocco do?",
+            "gt": [
+              "carpenter"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "rocco lives in savannah"
+          },
+          {
+            "q": "where does sofia live?",
+            "gt": [
+              "boise"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "sofia lives in boise"
+          },
+          {
+            "q": "what does sofia do?",
+            "gt": [
+              "engineer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "sofia lives in boise"
+          },
+          {
+            "q": "where does noor live?",
+            "gt": [
+              "madison"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "noor lives in madison"
+          },
+          {
+            "q": "what does noor do?",
+            "gt": [
+              "doctor"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "noor lives in madison"
+          },
+          {
+            "q": "where does tobias live?",
+            "gt": [
+              "raleigh"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in raleigh"
+          },
+          {
+            "q": "what does tobias do?",
+            "gt": [
+              "teacher"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in raleigh"
+          },
+          {
+            "q": "where does celine live?",
+            "gt": [
+              "omaha"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "celine lives in omaha"
+          },
+          {
+            "q": "what does celine do?",
+            "gt": [
+              "chef"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "celine lives in omaha"
+          }
+        ]
+      }
+    },
+    "consolidation_report": {
+      "re_enriched": 0,
+      "identity_resolved": 2,
+      "questions_skipped": 1,
+      "dups": 1
+    },
+    "consolidated": {
+      "conversational_top1": 0.25,
+      "conversational_top5": 0.75,
+      "control_top1": 0.5,
+      "control_top5": 1.0,
+      "detail": {
+        "conversational": [
+          {
+            "q": "who is my wife?",
+            "gt": [
+              "quinn"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "who are my children?",
+            "gt": [
+              "atlas",
+              "juniper"
+            ],
+            "top1": false,
+            "top5": false,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "where do I live?",
+            "gt": [
+              "tucson"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "i live in tucson"
+          },
+          {
+            "q": "what is my favorite color?",
+            "gt": [
+              "amber"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          }
+        ],
+        "control": [
+          {
+            "q": "where does rocco live?",
+            "gt": [
+              "savannah"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "rocco lives in savannah"
+          },
+          {
+            "q": "what does rocco do?",
+            "gt": [
+              "carpenter"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "rocco lives in savannah"
+          },
+          {
+            "q": "where does sofia live?",
+            "gt": [
+              "boise"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "sofia lives in boise"
+          },
+          {
+            "q": "what does sofia do?",
+            "gt": [
+              "engineer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "sofia lives in boise"
+          },
+          {
+            "q": "where does noor live?",
+            "gt": [
+              "madison"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "noor lives in madison"
+          },
+          {
+            "q": "what does noor do?",
+            "gt": [
+              "doctor"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "noor lives in madison"
+          },
+          {
+            "q": "where does tobias live?",
+            "gt": [
+              "raleigh"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in raleigh"
+          },
+          {
+            "q": "what does tobias do?",
+            "gt": [
+              "teacher"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in raleigh"
+          },
+          {
+            "q": "where does celine live?",
+            "gt": [
+              "omaha"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "celine lives in omaha"
+          },
+          {
+            "q": "what does celine do?",
+            "gt": [
+              "chef"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "celine lives in omaha"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "seed": 5,
+    "operator": "june",
+    "noop": {
+      "conversational_top1": 0.25,
+      "conversational_top5": 1.0,
+      "control_top1": 0.5,
+      "control_top5": 1.0,
+      "detail": {
+        "conversational": [
+          {
+            "q": "who is my wife?",
+            "gt": [
+              "rosa"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "who are my children?",
+            "gt": [
+              "juniper",
+              "ozzy"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "where do I live?",
+            "gt": [
+              "savannah"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "sofia lives in savannah"
+          },
+          {
+            "q": "what is my favorite color?",
+            "gt": [
+              "teal"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          }
+        ],
+        "control": [
+          {
+            "q": "where does wendell live?",
+            "gt": [
+              "boise"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "wendell lives in boise"
+          },
+          {
+            "q": "what does wendell do?",
+            "gt": [
+              "engineer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "wendell lives in boise"
+          },
+          {
+            "q": "where does lena live?",
+            "gt": [
+              "madison"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "lena lives in madison"
+          },
+          {
+            "q": "what does lena do?",
+            "gt": [
+              "doctor"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "lena lives in madison"
+          },
+          {
+            "q": "where does tobias live?",
+            "gt": [
+              "raleigh"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in raleigh"
+          },
+          {
+            "q": "what does tobias do?",
+            "gt": [
+              "teacher"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in raleigh"
+          },
+          {
+            "q": "where does noor live?",
+            "gt": [
+              "omaha"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "noor lives in omaha"
+          },
+          {
+            "q": "what does noor do?",
+            "gt": [
+              "chef"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "noor lives in omaha"
+          },
+          {
+            "q": "where does baxter live?",
+            "gt": [
+              "austin"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "baxter lives in austin"
+          },
+          {
+            "q": "what does baxter do?",
+            "gt": [
+              "lawyer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "baxter lives in austin"
+          }
+        ]
+      }
+    },
+    "consolidation_report": {
+      "re_enriched": 0,
+      "identity_resolved": 2,
+      "questions_skipped": 1,
+      "dups": 2
+    },
+    "consolidated": {
+      "conversational_top1": 0.25,
+      "conversational_top5": 0.75,
+      "control_top1": 0.5,
+      "control_top5": 0.9,
+      "detail": {
+        "conversational": [
+          {
+            "q": "who is my wife?",
+            "gt": [
+              "rosa"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "who are my children?",
+            "gt": [
+              "juniper",
+              "ozzy"
+            ],
+            "top1": false,
+            "top5": false,
+            "refused": true,
+            "fact": null
+          },
+          {
+            "q": "where do I live?",
+            "gt": [
+              "savannah"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "i live in savannah"
+          },
+          {
+            "q": "what is my favorite color?",
+            "gt": [
+              "teal"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": true,
+            "fact": null
+          }
+        ],
+        "control": [
+          {
+            "q": "where does wendell live?",
+            "gt": [
+              "boise"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "wendell lives in boise"
+          },
+          {
+            "q": "what does wendell do?",
+            "gt": [
+              "engineer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "wendell lives in boise"
+          },
+          {
+            "q": "where does lena live?",
+            "gt": [
+              "madison"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "lena lives in madison"
+          },
+          {
+            "q": "what does lena do?",
+            "gt": [
+              "doctor"
+            ],
+            "top1": false,
+            "top5": false,
+            "refused": false,
+            "fact": "lena lives in madison"
+          },
+          {
+            "q": "where does tobias live?",
+            "gt": [
+              "raleigh"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in raleigh"
+          },
+          {
+            "q": "what does tobias do?",
+            "gt": [
+              "teacher"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "tobias lives in raleigh"
+          },
+          {
+            "q": "where does noor live?",
+            "gt": [
+              "omaha"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "noor lives in omaha"
+          },
+          {
+            "q": "what does noor do?",
+            "gt": [
+              "chef"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "noor lives in omaha"
+          },
+          {
+            "q": "where does baxter live?",
+            "gt": [
+              "austin"
+            ],
+            "top1": true,
+            "top5": true,
+            "refused": false,
+            "fact": "baxter lives in austin"
+          },
+          {
+            "q": "what does baxter do?",
+            "gt": [
+              "lawyer"
+            ],
+            "top1": false,
+            "top5": true,
+            "refused": false,
+            "fact": "baxter lives in austin"
+          }
+        ]
+      }
+    }
+  }
+]

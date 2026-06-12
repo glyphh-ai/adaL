@@ -76,5 +76,13 @@ fall.
 
 ## Amendments
 
-None yet. Any harness fix after first results → note here, fresh seeds
-(6–10), both old and new numbers kept.
+**A1 (2026-06-12, after seeds 1–5).** Value pools (10 cities, 6 colors,
+6 jobs) were smaller than the persona count (20), so token-presence
+grading produced false positives: the no-op arm was credited for
+"sofia lives in boston" on the operator's "where do I live?" because
+sofia shares the operator's city. The consolidated arm's genuinely
+correct grounding ("i live in boston") scored the same — ambiguity
+masked a real difference. Fix: every persona's city/color/job is
+unique within a seed (pools expanded to 20). Fresh seeds 6–10; the
+seed 1–5 numbers are kept in results/results-seeds1-5.json for the
+record. No change to conditions, grading rule, or win/kill bars.
