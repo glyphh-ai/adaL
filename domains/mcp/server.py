@@ -230,6 +230,27 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                 inputSchema={"type": "object", "properties": {}},
             ),
             Tool(
+                name="consolidate",
+                description=(
+                    "Offline maintenance pass over a space: re-enrich "
+                    "slotless facts, retroactively resolve first-person "
+                    "facts to the operator's entity (`me`), archive "
+                    "near-duplicate misspellings (newer wins). "
+                    "Deterministic, never in the answer path. dry_run "
+                    "previews without writing."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "space": {"type": "string"},
+                        "me": {"type": "string",
+                               "description": "operator identity for "
+                                   "retroactive first-person resolution"},
+                        "dry_run": {"type": "boolean", "default": False},
+                    },
+                },
+            ),
+            Tool(
                 name="token_list",
                 description=(
                     "List API tokens for this server (prefix, name, "
@@ -293,6 +314,8 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
             return await _handle_query(brain, args)
         if name == "keys":
             return await _handle_keys(brain, args)
+        if name == "consolidate":
+            return await _handle_consolidate(brain, args)
         if name == "stats":
             return await _handle_stats(brain, args)
         if name == "create_token":
@@ -487,6 +510,35 @@ async def _handle_history(brain, args: dict) -> CallToolResult:
         })
     except Exception as e:
         logger.error("history failed: %s", e, exc_info=True)
+        return _err(str(e))
+
+
+async def _handle_consolidate(brain, args: dict) -> CallToolResult:
+    from ada.memory.consolidate import consolidate
+    space_id = args.get("space") or "main"
+    dry_run = bool(args.get("dry_run", False))
+    try:
+        report = await consolidate(
+            brain._session_factory, space_id=space_id,
+            me=args.get("me"), enricher=brain._enricher, dry_run=dry_run)
+        if not dry_run:
+            # Memory-mode spaces hold stale state in RAM — rebuild from
+            # the consolidated DB. (SQL mode reads the DB directly.)
+            store = brain.space(space_id)
+            if not getattr(store, "is_sql", False):
+                from ada.memory.thought_persistence import load_thoughts
+                from ada.memory.thought_space import ThoughtSpace
+                fresh = ThoughtSpace(enricher=brain._enricher,
+                                     space_id=space_id)
+                await load_thoughts(brain._session_factory, fresh,
+                                    space_id=space_id)
+                brain._spaces[space_id] = fresh
+                if brain._cognitive.thought_space is store:
+                    brain._cognitive._space = fresh  # property is read-only
+            _surface_cache.pop((id(brain), space_id), None)
+        return _ok(report)
+    except Exception as e:
+        logger.error("consolidate failed: %s", e, exc_info=True)
         return _err(str(e))
 
 

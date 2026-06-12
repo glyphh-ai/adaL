@@ -599,6 +599,7 @@ function cmdHelp() {
     L([s("stats", "primary"), s("                    substrate vital signs", "faint")]),
     L([s("space ", "primary"), s("<id>", "calm"), s("              switch space", "faint")]),
     L([s("me ", "primary"), s("<name>", "calm"), s("                who my/I resolve to when you ask", "faint")]),
+    L([s("consolidate ", "primary"), s("[dry]", "faint"), s("        offline maintenance: re-enrich · resolve identity · archive typo-dups", "faint")]),
     L([s("logout", "primary")]),
     L([s("receipts over adjectives — every answer cites a key, a version.", "faint")], 0),
   ]);
@@ -788,6 +789,29 @@ async function run(raw) {
     else if (verb === "history") await cmdHistory(rest);
     else if (verb === "stats") await cmdStats();
     else if (verb === "space") await cmdSpace(rest);
+    else if (verb === "consolidate") {
+      const dry = /^dry/.test(rest);
+      const args = { space: state.space, dry_run: dry };
+      if (state.identity) args.me = state.identity;
+      const r = await tool("consolidate", args);
+      const lines = [L([s(dry ? "consolidation preview · " : "consolidated · ", "muted"),
+                        s(r.scanned + " facts scanned", "calm")], 0)];
+      lines.push(L([s("re-enriched ", "faint"), s(String(r.re_enriched), "calm"),
+                    s("   identity-resolved ", "faint"), s(String(r.identity_resolved), "calm"),
+                    s("   questions skipped ", "faint"), s(String(r.questions_skipped), "faint")]));
+      for (const d of r.duplicates_archived) {
+        lines.push(L([s("archived ", "signal"), s(d.archived, "muted"),
+                      s("  ⇒ kept ", "faint"), s(d.kept, "text")]));
+      }
+      if (!r.duplicates_archived.length) {
+        lines.push(L([s("no near-duplicates found", "faint")]));
+      }
+      if (!state.identity) {
+        lines.push(L([s("tip: set `me <name>` first so first-person facts resolve to you", "faint")]));
+      }
+      block(lines);
+      if (!dry) await refreshGrid();
+    }
     else if (verb === "me") {
       const name = rest.trim().toLowerCase();
       if (name) {

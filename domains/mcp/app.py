@@ -23,7 +23,8 @@ _MCP_PATH_RE = re.compile(r"^/mcp(/.*)?$")
 ADA_ORG_ID = "ada"
 
 # Tools that mutate state require write permission; everything else read.
-_WRITE_TOOLS = {"tell", "tell_raw", "create_token", "token_revoke"}
+_WRITE_TOOLS = {"tell", "tell_raw", "create_token", "token_revoke",
+                "consolidate"}
 
 
 async def _read_body(receive: Receive) -> tuple[bytes, Receive]:

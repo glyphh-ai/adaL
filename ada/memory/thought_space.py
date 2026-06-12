@@ -659,12 +659,14 @@ def _resolve_speaker_entity(text: str, clean: dict, speaker_entity: str
     name = (ent or {}).get("name", "").strip().lower() if isinstance(ent, dict) else ""
     # If the extracted subject IS a first-person token (or absent), it's
     # the speaker.
-    if name in _FIRST_PERSON or name in ("", "user", "me", "i"):
+    _PLACEHOLDERS = ("", "user", "speaker", "me", "i")
+    if name in _FIRST_PERSON or name in _PLACEHOLDERS:
         out.setdefault("entity", {})["name"] = me
     rel = out.get("relational")
     if isinstance(rel, dict):
         for r in ("subject", "possessor", "agent"):
-            if str(rel.get(r, "")).strip().lower() in _FIRST_PERSON:
+            v = str(rel.get(r, "")).strip().lower()
+            if v in _FIRST_PERSON or v in ("user", "speaker"):
                 rel[r] = me
     return out
 

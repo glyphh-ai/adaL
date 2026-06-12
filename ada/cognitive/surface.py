@@ -133,7 +133,7 @@ class CognitiveSurface:
         q_content = _tokenize(question)
         bridges: list[str] = []
         seen = set(q_content)
-        for r in results[:2]:
+        for r in results[:3]:
             u = r.thought.universal
             names = [(u.get("entity") or {}).get("name")]
             rel = u.get("relational") or {}
