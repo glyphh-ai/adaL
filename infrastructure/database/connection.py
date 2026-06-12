@@ -82,7 +82,7 @@ async def init_db() -> None:
 
     # ── SQLite: set pragmas and create tables directly, skip Alembic ──────────
     if _is_sqlite:
-        from domains.models.db_models import Token, AdaThought  # noqa: F401
+        from domains.models.db_models import Token, AdaThought, FactSlot  # noqa: F401
         async with engine.begin() as conn:
             # WAL mode persists on the database file — only needs to be set once
             # but is safe to re-run. Enables concurrent readers + single writer.
@@ -122,7 +122,7 @@ async def init_db() -> None:
     # Fallback: create tables directly if migrations didn't run
     if not migrations_applied:
         logger.info("Falling back to Base.metadata.create_all()")
-        from domains.models.db_models import Token, AdaThought  # noqa: F401
+        from domains.models.db_models import Token, AdaThought, FactSlot  # noqa: F401
         try:
             async with engine.begin() as conn:
                 await conn.run_sync(Base.metadata.create_all)

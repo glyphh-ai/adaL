@@ -200,10 +200,19 @@ def _parse_conditions(body: str) -> dict | None:
     return conditions or None
 
 
+# Session state: current space + identity, injected into every call.
+_SESSION = {"space": "main", "me": None}
+
+
 def _call(backend, tool: str, args: dict) -> dict:
-    """Backend call wrapped in the braille spinner (server round-trips
-    can take a second when the LLM renderer is involved)."""
+    """Backend call wrapped in the braille spinner. Injects the session's
+    current space (and speaker identity on writes) automatically."""
     from ada.tui.cli import _BrailleSpinner
+    args = dict(args)
+    if _SESSION["space"] != "main" and "space" not in args:
+        args["space"] = _SESSION["space"]
+    if tool == "tell" and _SESSION["me"] and "speaker" not in args:
+        args["speaker"] = _SESSION["me"]
     spinner = _BrailleSpinner()
     spinner.start()
     try:
@@ -252,6 +261,41 @@ def run_repl(url: str, banner: bool = True) -> None:
             break
         if raw in ("help", "?"):
             print(HELP)
+            continue
+
+        if raw == "space" or raw.startswith("space "):
+            parts = raw.split()
+            if len(parts) > 1:
+                _SESSION["space"] = parts[1]
+                print(f"  {D}switched to space:{R} {parts[1]}")
+            else:
+                print(f"  {D}current space:{R} {_SESSION['space']}")
+            continue
+
+        if raw == "me" or raw.startswith("me "):
+            parts = raw.split(maxsplit=1)
+            if len(parts) > 1:
+                _SESSION["me"] = parts[1].strip().lower()
+                print(f"  {D}you are:{R} {_SESSION['me']} "
+                      f"{D}(your 'I/my' facts attach to this identity){R}")
+            else:
+                print(f"  {D}identity:{R} {_SESSION['me'] or '(unset)'}")
+            continue
+
+        if raw == "config" or raw.startswith("config "):
+            parts = raw.split()
+            if len(parts) == 1:
+                r = _call(backend, "stats", {})
+                mode = r.get("storage", "memory") if isinstance(r, dict) else "memory"
+                print(f"  {D}storage mode :{R} {mode}")
+                print(f"  {D}current space:{R} {_SESSION['space']}")
+                print(f"  {D}identity     :{R} {_SESSION['me'] or '(unset)'}")
+                print(f"  {D}(storage mode is server-side: set ADA_STORAGE="
+                      f"sql and restart){R}")
+            elif parts[1].startswith("storage="):
+                print(f"  {PINK}storage mode is a server setting.{R} "
+                      f"{D}Set ADA_STORAGE={parts[1][8:]} in the environment "
+                      f"and restart the server.{R}")
             continue
 
         if raw == "stats":

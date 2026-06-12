@@ -43,6 +43,7 @@ class User:
     email: Optional[str] = None
     token_type: str = "token"  # token or local
     tier: str = "free"
+    allowed_space: Optional[str] = None  # None = all spaces; else bound to one
 
     def has_permission(self, org_id: str, permission: Permission) -> bool:
         """Check if user has permission for org."""
@@ -131,6 +132,7 @@ class AuthService:
             org_permissions=org_permissions,
             org_id=db_token.org_id,
             token_type="token",
+            allowed_space=db_token.model_id,  # model_id column carries the space binding
         )
 
     def _hash_token(self, token: str) -> str:

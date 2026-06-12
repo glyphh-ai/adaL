@@ -70,6 +70,57 @@ def _tokenize(text: str) -> list[str]:
     ]
 
 
+
+
+def score_thought(stored: "StoredThought", q_tokens: set,
+                  q_struct=None) -> tuple[float, dict]:
+    """Deterministic lexical score of one stored thought against query
+    tokens (+ optional structured triple). Shared by the in-memory and
+    SQL stores so both modes rank identically."""
+    t_tokens = set(_tokenize(stored.content))
+    slot_tokens: set[str] = set()
+    for roles in stored.universal.values():
+        if not isinstance(roles, dict):
+            continue
+        for v in roles.values():
+            slot_tokens.update(_tokenize(str(v)))
+    all_tokens = t_tokens | slot_tokens
+
+    matched: dict[str, float] = {}
+
+    def _set_cosine(target: set) -> float:
+        if not target:
+            return 0.0
+        return len(q_tokens & target) / ((len(q_tokens) * len(target)) ** 0.5)
+
+    token_sim = max(_set_cosine(t_tokens), _set_cosine(all_tokens))
+    if token_sim:
+        matched["tokens"] = token_sim
+
+    slot_hits = len(q_tokens & slot_tokens)
+    slot_sim = slot_hits / len(q_tokens) if q_tokens else 0.0
+    if slot_sim:
+        matched["slots"] = slot_sim
+
+    struct_bonus = 0.0
+    s_struct = stored.metadata.get("_structured")
+    if (
+        q_struct is not None and s_struct is not None
+        and getattr(q_struct, "is_structured", lambda: False)()
+        and getattr(s_struct, "is_structured", lambda: False)()
+    ):
+        if q_struct.predicate and q_struct.predicate == s_struct.predicate:
+            struct_bonus += 1.0
+        if q_struct.subject and q_struct.subject == s_struct.subject:
+            struct_bonus += 0.5
+        if q_struct.topic and q_struct.topic == s_struct.topic:
+            struct_bonus += 0.3
+    if struct_bonus:
+        matched["structured"] = struct_bonus
+
+    return token_sim * 0.5 + slot_sim * 0.2 + struct_bonus * 0.5, matched
+
+
 # ── Stored thought ────────────────────────────────────────────────────────
 
 @dataclass
@@ -85,6 +136,7 @@ class StoredThought:
     thought_id: str
     content: str
     speaker: str
+    space_id: str = "main"
     created_at: float = field(default_factory=time.time)
     last_accessed: float = field(default_factory=time.time)
     access_count: int = 0
@@ -122,11 +174,13 @@ class ThoughtSpace:
             read path never calls an LLM.
     """
 
-    def __init__(self, enricher: object | None = None, **_compat: Any) -> None:
+    def __init__(self, enricher: object | None = None,
+                 space_id: str = "main", **_compat: Any) -> None:
         # **_compat swallows legacy constructor args (primitives=, encoder=,
         # with_foundation=) from the HDC era so old call sites don't crash.
         if _compat:
             logger.debug("ThoughtSpace ignoring legacy args: %s", sorted(_compat))
+        self.space_id = space_id
         self._enricher = enricher
         self._thoughts: dict[str, StoredThought] = {}
         self._absorbed_texts: set[str] = set()  # dedup
@@ -147,6 +201,7 @@ class ThoughtSpace:
         speaker: str = "incoming",
         metadata: dict[str, Any] | None = None,
         key: str | None = None,
+        speaker_entity: str | None = None,
     ) -> StoredThought | None:
         """Store a natural-language fact.
 
@@ -171,7 +226,10 @@ class ThoughtSpace:
                 if callable(universal):
                     mapped = universal(text)
                     if mapped:
-                        meta["_universal"] = _sanitize_universal(mapped)
+                        clean = _sanitize_universal(mapped)
+                        if speaker_entity:
+                            clean = _resolve_speaker_entity(text, clean, speaker_entity)
+                        meta["_universal"] = clean
                 meta["_structured"] = self._enricher.enrich(text)
             except Exception:
                 logger.warning("enricher failed for %r", text[:50], exc_info=True)
@@ -244,6 +302,7 @@ class ThoughtSpace:
             thought_id=thought_id,
             content=text,
             speaker=speaker,
+            space_id=self.space_id,
             metadata=meta,
         )
         self._thoughts[thought_id] = stored
@@ -424,6 +483,18 @@ class ThoughtSpace:
         """Chronological version chain for a stable key. Empty if none."""
         return list(self._history_by_key.get(key, []))
 
+    def previous_value(self, person: str, slot: str) -> str | None:
+        """The value this person's slot held BEFORE the latest change."""
+        p = str(person).strip().lower()
+        layer, _, role = slot.partition(".")
+        for key, chain in self._history_by_key.items():
+            if not key.startswith(p + ".") or len(chain) < 2:
+                continue
+            prev_v = (chain[-2].universal.get(layer) or {}).get(role)
+            if prev_v is not None:
+                return str(prev_v)
+        return None
+
     # ── Lexical recall ───────────────────────────────────────────────────
 
     def recall(
@@ -468,72 +539,19 @@ class ThoughtSpace:
             if stored.speaker in exclude_speakers:
                 continue  # derived utterances don't ground answers
             if stored.content.strip().endswith("?"):
-                continue  # questions are requests, not facts — they
-                          # never ground an answer (also neutralizes
-                          # legacy stored-question pollution)
+                continue  # questions are requests, not facts
             if stored.content.strip().lower().rstrip("?.! ") == q_norm:
                 continue  # don't recall the question itself
-
-            # Superseded versions are history, not current belief — only
-            # the latest version of a keyed fact is recallable. The full
-            # chain stays reachable via history(key).
             key = stored.metadata.get("_key")
             if key is not None:
                 chain = self._history_by_key.get(key)
                 if chain and chain[-1].thought_id != stored.thought_id:
-                    continue
+                    continue  # superseded versions are history
 
-            t_tokens = set(_tokenize(stored.content))
-            slot_tokens: set[str] = set()
-            for roles in stored.universal.values():
-                for v in roles.values():
-                    slot_tokens.update(_tokenize(str(v)))
-            all_tokens = t_tokens | slot_tokens
-
-            matched: dict[str, float] = {}
-
-            # 1. Token overlap (set cosine). Slot values may only help a
-            # match, never dilute it: score against content tokens and
-            # content+slot tokens, keep the better.
-            def _set_cosine(target: set) -> float:
-                if not target:
-                    return 0.0
-                return len(q_tokens & target) / (
-                    (len(q_tokens) * len(target)) ** 0.5)
-            token_sim = max(_set_cosine(t_tokens), _set_cosine(all_tokens))
-            if token_sim:
-                matched["tokens"] = token_sim
-
-            # 2. Slot-value hits.
-            slot_hits = len(q_tokens & slot_tokens)
-            slot_sim = slot_hits / len(q_tokens)
-            if slot_sim:
-                matched["slots"] = slot_sim
-
-            # 3. Structured predicate/subject match.
-            struct_bonus = 0.0
-            s_struct = stored.metadata.get("_structured")
-            if (
-                q_struct is not None and s_struct is not None
-                and getattr(q_struct, "is_structured", lambda: False)()
-                and getattr(s_struct, "is_structured", lambda: False)()
-            ):
-                if q_struct.predicate and q_struct.predicate == s_struct.predicate:
-                    struct_bonus += 1.0
-                if q_struct.subject and q_struct.subject == s_struct.subject:
-                    struct_bonus += 0.5
-                if q_struct.topic and q_struct.topic == s_struct.topic:
-                    struct_bonus += 0.3
-            if struct_bonus:
-                matched["structured"] = struct_bonus
-
-            score = token_sim * 0.5 + slot_sim * 0.2 + struct_bonus * 0.5
+            score, matched = score_thought(stored, q_tokens, q_struct)
             if score >= min_similarity:
                 results.append(RecallResult(
-                    thought=stored,
-                    global_similarity=score,
-                    matched=matched,
-                ))
+                    thought=stored, global_similarity=score, matched=matched))
 
         results.sort(key=lambda r: r.global_similarity, reverse=True)
         for r in results[:top_k]:
@@ -608,6 +626,36 @@ def _sanitize_universal(facts: dict[str, dict[str, str]]) -> dict[str, dict[str,
         if kept:
             clean[layer] = kept
     return clean
+
+
+
+_FIRST_PERSON = {"i", "me", "my", "mine", "myself", "i'm", "im"}
+
+
+def _resolve_speaker_entity(text: str, clean: dict, speaker_entity: str
+                            ) -> dict:
+    """Rewrite first-person references to the known speaker entity.
+
+    "i am married to brandi" (speaker=chris) → entity.name=chris.
+    Only fires when the sentence actually uses a first-person token, so
+    third-person facts are untouched. Deterministic; no LLM."""
+    toks = set(_tokenize(text)) | {t for t in text.lower().split()}
+    if not (_FIRST_PERSON & toks):
+        return clean
+    me = speaker_entity.strip().lower()
+    out = {k: dict(v) if isinstance(v, dict) else v for k, v in clean.items()}
+    ent = out.get("entity")
+    name = (ent or {}).get("name", "").strip().lower() if isinstance(ent, dict) else ""
+    # If the extracted subject IS a first-person token (or absent), it's
+    # the speaker.
+    if name in _FIRST_PERSON or name in ("", "user", "me", "i"):
+        out.setdefault("entity", {})["name"] = me
+    rel = out.get("relational")
+    if isinstance(rel, dict):
+        for r in ("subject", "possessor", "agent"):
+            if str(rel.get(r, "")).strip().lower() in _FIRST_PERSON:
+                rel[r] = me
+    return out
 
 
 # Back-compat alias — the HDC-era name, used by curriculum/benchmark scripts.

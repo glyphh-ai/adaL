@@ -45,15 +45,8 @@ def execute_op(space: ThoughtSpace, op: dict) -> str:
         return ", ".join(sorted(prof[slot]))
 
     if kind == "prev":
-        p = _norm(op["person"])
-        layer, _, role = op["slot"].partition(".")
-        for key, chain in space._history_by_key.items():
-            if not key.startswith(p + ".") or len(chain) < 2:
-                continue
-            prev_v = (chain[-2].universal.get(layer) or {}).get(role)
-            if prev_v is not None:
-                return str(prev_v)
-        return "I don't know."
+        prev_v = space.previous_value(op["person"], op["slot"])
+        return str(prev_v) if prev_v is not None else "I don't know."
 
     if kind == "count":
         return str(len(space.entities_where(op["conditions"])))

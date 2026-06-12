@@ -40,7 +40,13 @@ Three pieces, each independently inspectable:
    v3… with the full chain queryable via `history`. `ada/memory/thought_space.py`.
 
 3. **Storage** — SQLite by default (`~/.ada/ada.db`, zero setup). Point
-   `DATABASE_URL` at Postgres and the runtime switches backends.
+   `DATABASE_URL` at Postgres and the runtime switches backends. Two
+   engine modes: **memory** (default — in-process indexes, 0–sub-ms ops,
+   loads the corpus into RAM at boot) and **sql** (`ADA_STORAGE=sql` —
+   the eight closed ops compiled to fixed SQL templates over an indexed
+   `fact_slots` table; O(1) boot, O(1) RAM, for 10M+-fact corpora). The
+   LLM only ever picks an op and fills values — no model-generated SQL
+   exists, so the runaway-query class is excluded by construction.
 
 Facts arrive two ways: **`tell_raw`** takes pre-structured slot fills with
 no LLM in the path; **`tell`** takes natural language — with an Anthropic
@@ -154,6 +160,25 @@ ada setup claude            # auto-configure Claude Code
 ada setup                   # print config snippets for Claude Desktop / Cursor / any MCP client
 ```
 
+### Spaces (multi-tenant scoping)
+
+Every fact lives in a **space** (default `main`). Pass `space` to any
+MCP tool to read/write an isolated space — facts, counts, and version
+chains never cross. In the REPL, `space <name>` switches the session's
+active space. A token can be **bound to one space** (its `model_id`
+column): a space-bound token is rejected (403) on any other space, so
+each team or engagement gets a token that can only touch its own
+memory. This scoping lives in the open runtime — self-hosted
+multi-team works without any hosted control plane.
+
+### Identity (first-person facts)
+
+Tell Ada who you are (`me chris` in the REPL, or `speaker` on the
+`tell` tool) and first-person statements resolve to your entity at
+write time: "I am married to Brandi" stores under `entity=chris`, so
+"who is my wife?" becomes an exact entity join. Third-person facts are
+untouched. Deterministic, no LLM.
+
 ### Authentication
 
 Set `ADA_AUTH_REQUIRED=true` and every `/mcp` request needs
@@ -191,6 +216,7 @@ encrypted in `~/.ada/vault` (`ada setup key`).
 | `DATABASE_URL` | SQLite at `~/.ada/ada.db` | `postgresql://…` switches to the Postgres backend |
 | `HOST` | `0.0.0.0` | Server bind address |
 | `PORT` | `8002` | Server port |
+| `ADA_STORAGE` | `memory` | `memory` (in-RAM indexes) or `sql` (fact_slots-backed, O(1) boot for 10M+ facts) |
 | `ADA_AUTH_REQUIRED` | `false` | Require Bearer tokens on `/mcp` (set `true` for any non-local deployment) |
 | `JWT_SECRET_KEY` | — | JWT validation secret (token auth) |
 | `ENABLE_DOCS` | `false` | Enable `/docs` and `/redoc` |

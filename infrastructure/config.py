@@ -27,6 +27,13 @@ class Settings(BaseSettings):
                     "postgresql://… → Postgres backend.",
     )
 
+    # Storage engine: "memory" (in-process indexes, default) or "sql"
+    # (fact_slots-backed, O(1) boot, for very large corpora).
+    storage_mode: str = Field(
+        default="memory", description="memory | sql",
+        validation_alias=AliasChoices("ADA_STORAGE", "ADA_STORAGE_MODE"),
+    )
+
     # Auth — when true, /mcp requires a Bearer token (ada token create).
     auth_required: bool = Field(
         default=False, description="Require tokens on /mcp",

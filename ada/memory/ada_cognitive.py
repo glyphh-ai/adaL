@@ -130,6 +130,7 @@ class AdaCognitive:
         self._recall_threshold = recall_threshold
         self._system_prompt = system_prompt
         self._space = thought_space or ThoughtSpace()
+        self._speaker_entity = None  # set via set_identity for I/my resolution
         self._router = _Router()
         self._conversation = Conversation(
             system_prompt=system_prompt,
@@ -152,16 +153,22 @@ class AdaCognitive:
 
     # ── Core API ──────────────────────────────────────────────────────────
 
+    def set_identity(self, name: str | None) -> None:
+        """Who 'I/my' refers to in incoming statements (None to clear)."""
+        self._speaker_entity = name.strip().lower() if name else None
+
     def absorb(self, text: str, speaker: str = "incoming"):
         """Absorb input sentence by sentence.
 
         Returns the last StoredThought (or None if nothing absorbed).
         """
         last = None
+        ent = self._speaker_entity if speaker == "incoming" else None
         for sentence in _split_sentences(text):
             if len(sentence) < 2:
                 continue
-            result = self._space.absorb(sentence, speaker=speaker)
+            result = self._space.absorb(sentence, speaker=speaker,
+                                        speaker_entity=ent)
             if result is not None:
                 last = result
         return last

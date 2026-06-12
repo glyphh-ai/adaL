@@ -96,6 +96,8 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                     "properties": {
                         "text": {"type": "string"},
                         "key": {"type": "string"},
+                        "space": {"type": "string", "description": "space id (default 'main')"},
+                        "speaker": {"type": "string"},
                     },
                     "required": ["text"],
                 },
@@ -127,6 +129,7 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                             "description": "Optional human-readable label "
                                 "(synthesized from facts if omitted).",
                         },
+                        "space": {"type": "string", "description": "space id (default 'main')"},
                     },
                     "required": ["facts"],
                 },
@@ -143,6 +146,7 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                     "properties": {
                         "query": {"type": "string"},
                         "top_k": {"type": "integer", "default": 5},
+                        "space": {"type": "string"},
                     },
                     "required": ["query"],
                 },
@@ -155,7 +159,8 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                 ),
                 inputSchema={
                     "type": "object",
-                    "properties": {"key": {"type": "string"}},
+                    "properties": {"key": {"type": "string"},
+                                   "space": {"type": "string"}},
                     "required": ["key"],
                 },
             ),
@@ -188,6 +193,7 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                         "b": {"type": "string"},
                         "k": {"type": "integer", "default": 5},
                         "predicate_contains": {"type": "string"},
+                        "space": {"type": "string"},
                     },
                     "required": ["op"],
                 },
@@ -257,13 +263,13 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
         if name == "tell_raw":
             return await _handle_tell_raw(brain, args)
         if name == "recall":
-            return _handle_recall(brain, args)
+            return await _handle_recall(brain, args)
         if name == "history":
-            return _handle_history(brain, args)
+            return await _handle_history(brain, args)
         if name == "query":
-            return _handle_query(brain, args)
+            return await _handle_query(brain, args)
         if name == "stats":
-            return _handle_stats(brain, args)
+            return await _handle_stats(brain, args)
         if name == "create_token":
             return await _handle_create_token(brain, args)
         if name == "token_list":
@@ -329,6 +335,21 @@ async def _persist_now(brain, stored) -> bool:
         return False
 
 
+def _space(brain, args: dict):
+    """Resolve the target space store. `space` arg selects it; default 'main'.
+    Returns (store, is_sql)."""
+    space_id = args.get("space") or "main"
+    store = brain.space(space_id)
+    return store, getattr(store, "is_sql", False)
+
+
+async def _maybe(value):
+    """Await coroutines, pass through plain values — so handlers work
+    against both the sync ThoughtSpace and the async SqlFactStore."""
+    import inspect
+    return await value if inspect.isawaitable(value) else value
+
+
 async def _handle_tell_raw(brain, args: dict) -> CallToolResult:
     facts = args.get("facts") or {}
     key = args.get("key")
@@ -336,14 +357,14 @@ async def _handle_tell_raw(brain, args: dict) -> CallToolResult:
     if not facts or not isinstance(facts, dict):
         return _err("Missing or invalid 'facts' parameter (must be dict)")
     try:
-        space = brain._cognitive.thought_space
-        stored = space.tell_raw(facts=facts, key=key, text=text, speaker="curriculum")
+        store, is_sql = _space(brain, args)
+        stored = await _maybe(store.tell_raw(facts=facts, key=key, text=text,
+                                             speaker="curriculum"))
         if stored is None:
             return _ok({"told": False, "reason": "duplicate or empty"})
-        durable = await _persist_now(brain, stored)
+        durable = True if is_sql else await _persist_now(brain, stored)
         return _ok({
-            "told": True,
-            "durable": durable,
+            "told": True, "durable": durable, "space": store.space_id,
             "thought_id": stored.thought_id,
             "version": stored.metadata.get("_version"),
             "key": stored.metadata.get("_key"),
@@ -360,14 +381,14 @@ async def _handle_tell(brain, args: dict) -> CallToolResult:
     if not text:
         return _err("Missing 'text' parameter")
     try:
-        space = brain._cognitive.thought_space
-        stored = space.absorb(text, key=key)
+        store, is_sql = _space(brain, args)
+        speaker = args.get("speaker") or "incoming"
+        stored = await _maybe(store.absorb(text, key=key, speaker=speaker))
         if stored is None:
             return _ok({"told": False, "reason": "duplicate"})
-        durable = await _persist_now(brain, stored)
+        durable = True if is_sql else await _persist_now(brain, stored)
         return _ok({
-            "told": True,
-            "durable": durable,
+            "told": True, "durable": durable, "space": store.space_id,
             "thought_id": stored.thought_id,
             "version": stored.metadata.get("_version"),
             "key": stored.metadata.get("_key"),
@@ -377,11 +398,16 @@ async def _handle_tell(brain, args: dict) -> CallToolResult:
         return _err(str(e))
 
 
-def _handle_query(brain, args: dict) -> CallToolResult:
+async def _handle_query(brain, args: dict) -> CallToolResult:
     from ada.cognitive.ops import execute_op
     try:
-        answer = execute_op(brain._cognitive.thought_space, args)
-        return _ok({"op": args.get("op"), "answer": answer})
+        store, is_sql = _space(brain, args)
+        op = {k: v for k, v in args.items() if k != "space"}
+        if is_sql:
+            answer = await store.execute_op(op)
+        else:
+            answer = execute_op(store, op)
+        return _ok({"op": args.get("op"), "space": store.space_id, "answer": answer})
     except (ValueError, KeyError) as e:
         return _err(f"bad query op: {e}")
     except Exception as e:
@@ -389,22 +415,20 @@ def _handle_query(brain, args: dict) -> CallToolResult:
         return _err(str(e))
 
 
-def _handle_recall(brain, args: dict) -> CallToolResult:
+async def _handle_recall(brain, args: dict) -> CallToolResult:
     query = args.get("query", "")
     top_k = int(args.get("top_k", 5))
     if not query:
         return _err("Missing 'query' parameter")
     try:
-        space = brain._cognitive.thought_space
-        results = space.recall(query, top_k=top_k)
+        store, _ = _space(brain, args)
+        results = await _maybe(store.recall(query, top_k=top_k))
         return _ok({
-            "query": query,
+            "query": query, "space": store.space_id,
             "results": [
-                {
-                    "content": r.thought.content,
-                    "similarity": round(float(r.global_similarity), 3),
-                    "key": r.thought.metadata.get("_key"),
-                }
+                {"content": r.thought.content,
+                 "similarity": round(float(r.global_similarity), 3),
+                 "key": r.thought.metadata.get("_key")}
                 for r in results
             ],
         })
@@ -413,21 +437,18 @@ def _handle_recall(brain, args: dict) -> CallToolResult:
         return _err(str(e))
 
 
-def _handle_history(brain, args: dict) -> CallToolResult:
+async def _handle_history(brain, args: dict) -> CallToolResult:
     key = args.get("key", "")
     if not key:
         return _err("Missing 'key' parameter")
     try:
-        hist = brain._cognitive.thought_space.history(key)
+        store, _ = _space(brain, args)
+        hist = await _maybe(store.history(key))
         return _ok({
-            "key": key,
-            "versions": len(hist),
+            "key": key, "space": store.space_id, "versions": len(hist),
             "chain": [
-                {
-                    "version": h.metadata.get("_version"),
-                    "content": h.content,
-                    "thought_id": h.thought_id,
-                }
+                {"version": h.metadata.get("_version"), "content": h.content,
+                 "thought_id": h.thought_id}
                 for h in hist
             ],
         })
@@ -436,9 +457,10 @@ def _handle_history(brain, args: dict) -> CallToolResult:
         return _err(str(e))
 
 
-def _handle_stats(brain, args: dict) -> CallToolResult:
+async def _handle_stats(brain, args: dict) -> CallToolResult:
     try:
-        return _ok(brain._cognitive.thought_space.stats())
+        store, _ = _space(brain, args)
+        return _ok(await _maybe(store.stats()))
     except Exception as e:
         logger.error("stats failed: %s", e, exc_info=True)
         return _err(str(e))

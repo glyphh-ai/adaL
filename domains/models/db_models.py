@@ -70,6 +70,7 @@ class AdaThought(Base):
     __tablename__ = "ada_thoughts"
 
     thought_id = Column(String(64), primary_key=True)
+    space_id = Column(String(64), nullable=False, default="main", index=True)
     content = Column(Text, nullable=False)
     speaker = Column(String(50), nullable=False, default="incoming")
     access_count = Column(Integer, default=0, nullable=False)
@@ -85,3 +86,35 @@ class AdaThought(Base):
 
     def __repr__(self) -> str:
         return f"<AdaThought({self.thought_id}, '{self.content[:30]}')>"
+
+
+class FactSlot(Base):
+    """
+    One row per filled universal-schema slot — the SQL query surface.
+
+    Maintained at write time alongside ada_thoughts. The closed op set
+    compiles to fixed templates over this table; `predicate` is
+    denormalized from relational.predicate so shared slots
+    (relational.object holds jobs AND hobbies AND pets) can be
+    disambiguated without a self-join.
+    """
+    __tablename__ = "fact_slots"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    space_id = Column(String(64), nullable=False, default="main")
+    thought_id = Column(String(64), nullable=False)
+    entity = Column(String(255), nullable=True)     # normalized entity name
+    layer = Column(String(32), nullable=False)
+    role = Column(String(32), nullable=False)
+    value = Column(Text, nullable=False)            # normalized lowercase
+    predicate = Column(String(255), nullable=True)  # relational.predicate, normalized
+    key = Column(String(255), nullable=True)
+    version = Column(Integer, default=1, nullable=False)
+    is_current = Column(Integer, default=1, nullable=False)
+
+    __table_args__ = (
+        Index("idx_slots_lrv", space_id, layer, role, value, is_current),
+        Index("idx_slots_entity", space_id, entity, is_current),
+        Index("idx_slots_key", space_id, key, version),
+        Index("idx_slots_thought", thought_id),
+    )

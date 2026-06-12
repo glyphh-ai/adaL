@@ -43,20 +43,47 @@ class Brain:
         llm: AdaLLM,
         session_factory: Any,
         enricher: Any = None,
+        storage_mode: str = "memory",
     ):
         self._llm = llm
         self._session_factory = session_factory
+        self._enricher = enricher
+        self._storage_mode = storage_mode
 
-        # Cognitive infrastructure
+        # Space registry: name -> store. "main" always exists. Memory
+        # mode stores are ThoughtSpace; sql mode stores are SqlFactStore.
+        self._spaces: dict = {}
+        main = self._make_space("main")
+
+        # Cognitive infrastructure (the chat pipeline runs on the main
+        # in-memory space; sql mode keeps main in memory for chat and
+        # uses sql stores for the MCP fact tools on other spaces).
         from ada.memory.thought_space import ThoughtSpace
-        self._cognitive = AdaCognitive(
-            thought_space=ThoughtSpace(enricher=enricher),
-        )
+        chat_space = main if isinstance(main, ThoughtSpace) else ThoughtSpace(enricher=enricher)
+        self._cognitive = AdaCognitive(thought_space=chat_space)
+        if not isinstance(main, ThoughtSpace):
+            self._spaces["main"] = chat_space  # chat + main fact tools share it
         self._thought_process = None  # lazy init
         self._persist_queue: list = []  # write queue for background persistence
 
         # Seed Ada's identity
         self._seed_memories()
+
+    def _make_space(self, space_id: str):
+        """Create a store for a space according to the storage mode."""
+        if self._storage_mode == "sql":
+            from ada.memory.sql_store import SqlFactStore
+            store = SqlFactStore(self._session_factory, space_id=space_id,
+                                 enricher=self._enricher)
+        else:
+            from ada.memory.thought_space import ThoughtSpace
+            store = ThoughtSpace(enricher=self._enricher, space_id=space_id)
+        self._spaces[space_id] = store
+        return store
+
+    def space(self, space_id: str = "main"):
+        """Get (or lazily create) a space's store."""
+        return self._spaces.get(space_id) or self._make_space(space_id)
 
     # ── Seed memories ──────────────────────────────────────────────────
 

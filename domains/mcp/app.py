@@ -131,6 +131,19 @@ class MCPRoutingMiddleware:
             await _deny(send, 403, f"Token lacks "
                         f"{'write' if needs_write else 'read'} permission")
             return None
+
+        # Space binding: a token scoped to a space may only touch that space.
+        bound = getattr(user, "allowed_space", None)
+        if bound:
+            try:
+                requested = (parsed.get("params") or {}).get("arguments", {}).get("space", "main")
+            except Exception:
+                requested = "main"
+            if requested != bound:
+                await _deny(send, 403,
+                            f"Token is bound to space '{bound}', cannot access "
+                            f"'{requested}'")
+                return None
         return replay
 
     def _get_origin(self, scope: Scope) -> Optional[str]:

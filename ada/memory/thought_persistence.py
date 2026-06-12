@@ -27,6 +27,46 @@ from ada.memory.thought_space import StoredThought, ThoughtSpace
 logger = logging.getLogger(__name__)
 
 
+def slot_rows(thought: "StoredThought") -> list[dict]:
+    """Decompose a thought's universal slots into fact_slots rows.
+    The single source of the slot-row shape — used by save_thought and
+    any backfill."""
+    u = thought.metadata.get("_universal") or {}
+    if not isinstance(u, dict):
+        return []
+    entity = None
+    ent = u.get("entity")
+    if isinstance(ent, dict) and ent.get("name"):
+        entity = str(ent["name"]).strip().lower()
+    rel = u.get("relational")
+    predicate = None
+    if isinstance(rel, dict):
+        if not entity and rel.get("subject"):
+            entity = str(rel["subject"]).strip().lower()
+        if rel.get("predicate"):
+            predicate = str(rel["predicate"]).strip().lower()
+    rows = []
+    for layer, roles in u.items():
+        if not isinstance(roles, dict):
+            continue
+        for role, v in roles.items():
+            if v is None or not str(v).strip():
+                continue
+            rows.append({
+                "space_id": getattr(thought, "space_id", "main"),
+                "thought_id": thought.thought_id,
+                "entity": entity,
+                "layer": layer,
+                "role": role,
+                "value": str(v).strip().lower(),
+                "predicate": predicate,
+                "key": thought.metadata.get("_key"),
+                "version": thought.metadata.get("_version", 1),
+                "is_current": 1,
+            })
+    return rows
+
+
 def _json_safe_meta(meta: dict) -> dict:
     """Drop values that aren't JSON-serializable."""
     safe: dict[str, Any] = {}
@@ -56,8 +96,9 @@ async def count_thoughts(session_factory: Any) -> int:
         return int(result.scalar() or 0)
 
 
-async def load_thoughts(session_factory: Any, space: ThoughtSpace) -> int:
-    """Load all non-archived thoughts from the DB into `space`.
+async def load_thoughts(session_factory: Any, space: ThoughtSpace,
+                        space_id: str = "main") -> int:
+    """Load one space's non-archived thoughts from the DB into `space`.
 
     Restores the in-memory store, the dedup set, and the versioned-concept
     history chains. Returns the count loaded.
@@ -66,7 +107,8 @@ async def load_thoughts(session_factory: Any, space: ThoughtSpace) -> int:
 
     async with session_factory() as session:
         result = await session.execute(
-            select(AdaThought).where(AdaThought.archived == 0)
+            select(AdaThought).where(AdaThought.archived == 0,
+                                     AdaThought.space_id == space_id)
         )
         rows = result.scalars().all()
 
@@ -110,12 +152,19 @@ async def load_thoughts(session_factory: Any, space: ThoughtSpace) -> int:
 
 
 async def save_thought(session_factory: Any, thought: StoredThought) -> None:
-    """Persist a thought (content + structured metadata)."""
-    from domains.models.db_models import AdaThought
+    """Persist a thought (content + metadata) and its fact_slots rows.
 
+    A new version of a key marks the prior versions' slot rows
+    is_current=0 in the same transaction — SQL-mode reads answer over
+    current belief without recomputation."""
+    from sqlalchemy import delete as sa_delete
+    from domains.models.db_models import AdaThought, FactSlot
+
+    space_id = getattr(thought, "space_id", "main")
     async with session_factory() as session:
         row = AdaThought(
             thought_id=thought.thought_id,
+            space_id=space_id,
             content=thought.content,
             speaker=thought.speaker,
             access_count=thought.access_count,
@@ -125,6 +174,22 @@ async def save_thought(session_factory: Any, thought: StoredThought) -> None:
             archived=0,
         )
         await session.merge(row)  # upsert by primary key — idempotent re-saves
+
+        # Idempotent slot write: replace this thought's rows.
+        await session.execute(
+            sa_delete(FactSlot).where(FactSlot.thought_id == thought.thought_id))
+        for sr in slot_rows(thought):
+            session.add(FactSlot(**sr))
+
+        key = thought.metadata.get("_key")
+        version = thought.metadata.get("_version", 1)
+        if key is not None and version > 1:
+            await session.execute(
+                update(FactSlot)
+                .where(FactSlot.space_id == space_id,
+                       FactSlot.key == key,
+                       FactSlot.version < version)
+                .values(is_current=0))
         await session.commit()
 
 
