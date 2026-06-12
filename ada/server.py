@@ -61,6 +61,11 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     await init_db()
     logger.info("Memory banks online")
 
+    # Workbench login: seed root/root (forced rotation) on first boot
+    from domains.auth.users import ensure_default_admin
+    async with async_session_maker() as session:
+        await ensure_default_admin(session)
+
     # ── Initialize Ada's LLM ────────────────────────────────────────────
     from domains.brain.llm import AdaLLM
 
@@ -239,8 +244,9 @@ def _is_allowed_origin(origin: str) -> bool:
 
 
 # Import and include routers
-from api.routes import health_router, tokens_router
+from api.routes import auth_router, health_router, tokens_router
 
+app.include_router(auth_router)
 app.include_router(health_router)
 app.include_router(tokens_router)
 

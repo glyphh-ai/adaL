@@ -138,6 +138,31 @@ class AuthService:
     def _hash_token(self, token: str) -> str:
         return hashlib.sha256(token.encode()).hexdigest()
 
+    async def validate_session(self, raw_session: str) -> User:
+        """Validate a workbench session cookie and return the same User
+        the token path produces — one enforcement path for both
+        principals. Sessions pending a forced password rotation are
+        rejected here: until root rotates, only /auth works."""
+        from domains.auth.users import ROLE_PERMISSIONS, validate_session
+
+        from infrastructure.database import async_session_maker
+        async with async_session_maker() as session:
+            resolved = await validate_session(session, raw_session)
+            if resolved is None:
+                raise AuthenticationException("Invalid or expired session")
+            sess, wb_user = resolved
+            if wb_user is not None and wb_user.must_change_password:
+                raise AuthenticationException(
+                    "Password change required before anything else")
+            permissions = {Permission(p)
+                           for p in ROLE_PERMISSIONS.get(sess.role, ["read"])}
+            return User(
+                user_id=f"session:{sess.username}",
+                org_permissions={"*": permissions},
+                token_type="session",
+                allowed_space=sess.allowed_space,
+            )
+
     async def check_access(
         self,
         user: User,

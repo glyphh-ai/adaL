@@ -59,6 +59,52 @@ class Token(Base):
         return f"<Token(id={self.id}, org_id={self.org_id}, status={self.status})>"
 
 
+class WorkbenchUser(Base):
+    """
+    Human login for the workbench (the management UI).
+
+    Users are the human principal; tokens are the machine principal.
+    Both resolve onto the same permission layer. First boot seeds
+    root/root with must_change_password=1 — the workbench refuses to
+    render anything else until the password is rotated.
+    """
+    __tablename__ = "users"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
+    username = Column(String(64), nullable=False, unique=True)
+    password_hash = Column(String(255), nullable=False)
+    role = Column(String(16), nullable=False, default="admin")  # admin | member | viewer
+    allowed_space = Column(String(64), nullable=True)  # None = all spaces
+    must_change_password = Column(Integer, nullable=False, default=0)
+    status = Column(String(16), nullable=False, default="active")
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    last_login_at = Column(DateTime, nullable=True)
+
+    def __repr__(self) -> str:
+        return f"<WorkbenchUser({self.username}, role={self.role})>"
+
+
+class WorkbenchSession(Base):
+    """
+    Browser session for a workbench login.
+
+    Stored as SHA-256 hashes — the raw session token lives only in the
+    httponly cookie. user_id is nullable so the control plane can mint
+    short-lived space-scoped sessions with no local user behind them.
+    """
+    __tablename__ = "sessions"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
+    token_hash = Column(String(255), nullable=False, unique=True)
+    user_id = Column(String(36), nullable=True, index=True)
+    username = Column(String(64), nullable=False)  # denormalized for display
+    role = Column(String(16), nullable=False, default="admin")
+    allowed_space = Column(String(64), nullable=True)
+    expires_at = Column(DateTime, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    revoked_at = Column(DateTime, nullable=True)
+
+
 class AdaThought(Base):
     """
     Ada's persistent thought memory.

@@ -97,22 +97,35 @@ class MCPRoutingMiddleware:
                 return v[7:] if v.lower().startswith("bearer ") else v
         return None
 
+    def _session_cookie(self, scope: Scope) -> Optional[str]:
+        for key, value in scope.get("headers", []):
+            if key == b"cookie":
+                for part in value.decode("latin-1").split(";"):
+                    name, _, val = part.strip().partition("=")
+                    if name == "ada_session":
+                        return val
+        return None
+
     async def _authorize(self, scope: Scope, receive: Receive,
                          send: Send) -> Optional[Receive]:
-        """Enforce token auth. Returns a (replaying) receive on success,
-        None after having sent a 401/403 denial."""
+        """Enforce auth — bearer token (machine principal) or workbench
+        session cookie (human principal); both resolve to the same User.
+        Returns a (replaying) receive on success, None after having sent
+        a 401/403 denial."""
         token = self._bearer(scope)
-        if not token:
+        cookie = None if token else self._session_cookie(scope)
+        if not token and not cookie:
             await _deny(send, 401, "Authentication required: pass "
                         "'Authorization: Bearer <token>' (mint one with "
-                        "`ada token create`)")
+                        "`ada token create`) or log in to the workbench")
             return None
 
         auth = self._auth_getter()
         try:
-            user = await auth.validate_token(token)
+            user = (await auth.validate_token(token) if token
+                    else await auth.validate_session(cookie))
         except Exception:
-            await _deny(send, 401, "Invalid, expired, or revoked token")
+            await _deny(send, 401, "Invalid, expired, or revoked credential")
             return None
 
         body, replay = await _read_body(receive)
