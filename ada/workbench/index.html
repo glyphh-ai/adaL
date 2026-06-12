@@ -1246,9 +1246,9 @@ document.querySelectorAll(".rail-btn").forEach((b) => {
    schema-on-write memory, not a graph. */
 import * as THREE from "/workbench/vendor/three.module.js";
 
+// the nine circles of the mark, verbatim (ring color last)
 const PALETTE = ["#ff5f87", "#e570a1", "#cc81ba", "#d47cb2", "#b292d4",
-                 "#a19ee5", "#aa98dc", "#90a9f6", "#87afff", "#d787ff",
-                 "#af87ff"];
+                 "#a19ee5", "#aa98dc", "#90a9f6", "#87afff"];
 const hashColor = (name) => {
   let h = 0;
   for (const c of name) h = (h * 31 + c.charCodeAt(0)) >>> 0;
@@ -1258,12 +1258,13 @@ const hashColor = (name) => {
 let C = null;  // constellation runtime state
 
 function dotTexture() {
+  // a solid disc with a soft edge — the mark's circles, not a glow
   const cv = document.createElement("canvas");
   cv.width = cv.height = 64;
   const g = cv.getContext("2d").createRadialGradient(32, 32, 0, 32, 32, 32);
   g.addColorStop(0, "rgba(255,255,255,1)");
-  g.addColorStop(0.25, "rgba(255,255,255,.85)");
-  g.addColorStop(0.6, "rgba(255,255,255,.18)");
+  g.addColorStop(0.62, "rgba(255,255,255,1)");
+  g.addColorStop(0.74, "rgba(255,255,255,.35)");
   g.addColorStop(1, "rgba(255,255,255,0)");
   const ctx = cv.getContext("2d");
   ctx.fillStyle = g;
@@ -1463,10 +1464,11 @@ function buildScene(entities) {
   const sprites = [];
   nodes.forEach((n, i) => {
     const color = n.kind === "entity" ? hashColor(n.name) : "#6b5f8a";
+    // normal blending keeps the brand colors true — additive washed
+    // everything toward white glow
     const m = new THREE.SpriteMaterial({ map: C.tex, color,
       transparent: true, depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      opacity: n.kind === "entity" ? 0.95 : 0.45 });
+      opacity: n.kind === "entity" ? 1.0 : 0.5 });
     const s = new THREE.Sprite(m);
     const size = n.kind === "entity"
       ? 5 + 3.2 * Math.sqrt(Math.min(n.weight, 40))
@@ -1644,8 +1646,8 @@ async function openConstellation() {
         ? n.name + " " + Object.values(n.slots).flat().join(" ")
         : n.name;
       const match = !q || hay.toLowerCase().includes(q);
-      s.material.opacity = match ? (n.kind === "entity" ? 0.95 : 0.45)
-                                 : 0.06;
+      s.material.opacity = match ? (n.kind === "entity" ? 1.0 : 0.5)
+                                 : 0.07;
       if (match && q) hits++;
       s.userData._match = match;
     }
