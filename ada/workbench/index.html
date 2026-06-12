@@ -448,6 +448,10 @@ body {
           <option value="500">500</option>
           <option value="1500">1500</option>
         </select>
+        <select class="viz-limit" id="viz-layout" title="hubs: force layout through shared values · similarity: SVD on the exact profile vectors — alike profiles sit together">
+          <option value="hubs">hubs</option>
+          <option value="sim">similarity</option>
+        </select>
         <button class="viz-btn" id="viz-apply">load</button>
         <button class="viz-btn danger hidden" id="viz-archive">archive scope</button>
       </div>
@@ -1295,6 +1299,97 @@ function parseScope(text) {
   return Object.keys(conditions).length ? conditions : null;
 }
 
+// ── similarity layout — truncated SVD on the exact profile vectors ──
+// Each entity is a sparse binary vector over slot=value dimensions
+// (the same representation drift will measure). Three principal
+// components become x/y/z, so alike profiles sit together and the
+// axes are interpretable weighted slot combinations — primitive math,
+// no random projections.
+function similarityPositions(nodes, links) {
+  const entIdx = [];
+  nodes.forEach((n, i) => { if (n.kind === "entity") entIdx.push(i); });
+  const N = entIdx.length;
+  const dims = new Map();
+  const rows = entIdx.map((i) => {
+    const cols = [];
+    for (const [lr, vals] of Object.entries(nodes[i].slots)) {
+      for (const v of vals) {
+        const k = lr + "=" + v;
+        if (!dims.has(k)) dims.set(k, dims.size);
+        cols.push(dims.get(k));
+      }
+    }
+    return cols;
+  });
+  const D = dims.size;
+  const mean = new Float64Array(D);
+  rows.forEach((cols) => cols.forEach((j) => { mean[j] += 1 / N; }));
+
+  // power iteration on the centered data, one component at a time
+  const comps = [];
+  const project = (v) => {        // u = Xc v  (length N)
+    let mv = 0;
+    for (let j = 0; j < D; j++) mv += mean[j] * v[j];
+    return rows.map((cols) => {
+      let dot = -mv;
+      for (const j of cols) dot += v[j];
+      return dot;
+    });
+  };
+  for (let c = 0; c < 3; c++) {
+    let v = new Float64Array(D);
+    for (let j = 0; j < D; j++) v[j] = Math.sin(7919 * (j + 1) * (c + 1));
+    for (let it = 0; it < 40; it++) {
+      const u = project(v);
+      const w = new Float64Array(D);
+      let usum = 0;
+      for (const ui of u) usum += ui;
+      rows.forEach((cols, i) => { for (const j of cols) w[j] += u[i]; });
+      for (let j = 0; j < D; j++) w[j] -= mean[j] * usum;
+      for (const prev of comps) {  // deflate
+        let d = 0;
+        for (let j = 0; j < D; j++) d += w[j] * prev[j];
+        for (let j = 0; j < D; j++) w[j] -= d * prev[j];
+      }
+      let norm = 0;
+      for (let j = 0; j < D; j++) norm += w[j] * w[j];
+      norm = Math.sqrt(norm) || 1;
+      for (let j = 0; j < D; j++) w[j] /= norm;
+      v = w;
+    }
+    comps.push(v);
+  }
+  // entity coords = projections, normalized per axis to a fixed spread
+  const coords = comps.map((v) => project(v));
+  const SPREAD = 70;
+  coords.forEach((axis) => {
+    let s = 0;
+    for (const x of axis) s += x * x;
+    const std = Math.sqrt(s / Math.max(1, N)) || 1;
+    for (let i = 0; i < N; i++) axis[i] = (axis[i] / std) * SPREAD * 0.5;
+  });
+  const pos = nodes.map((_, i) => [0, 0, 0]);
+  entIdx.forEach((ni, r) => {
+    // deterministic jitter breaks ties on degenerate cohorts
+    pos[ni] = [coords[0][r] + Math.sin(r * 13.7) * 2,
+               coords[1][r] + Math.cos(r * 9.1) * 2,
+               coords[2][r] + Math.sin(r * 5.3) * 2];
+  });
+  // value hubs sit at the centroid of their members
+  const byId = new Map(nodes.map((n, i) => [n.id, i]));
+  const acc = new Map();
+  for (const [a, b] of links) {
+    const ia = byId.get(a), ib = byId.get(b);
+    if (!acc.has(ib)) acc.set(ib, [0, 0, 0, 0]);
+    const t = acc.get(ib);
+    t[0] += pos[ia][0]; t[1] += pos[ia][1]; t[2] += pos[ia][2]; t[3] += 1;
+  }
+  for (const [i, t] of acc) {
+    if (t[3]) pos[i] = [t[0] / t[3], t[1] / t[3], t[2] / t[3]];
+  }
+  return pos;
+}
+
 function buildScene(entities) {
   // rebuildable: everything lives in one group, disposed on reload
   if (C.group) {
@@ -1305,7 +1400,9 @@ function buildScene(entities) {
     });
   }
   const { nodes, links } = buildGraph(entities);
-  const pos = layout(nodes, links);
+  const mode = document.getElementById("viz-layout").value;
+  const pos = mode === "sim" ? similarityPositions(nodes, links)
+                             : layout(nodes, links);
   const group = new THREE.Group();
   const sprites = [];
   nodes.forEach((n, i) => {
@@ -1347,7 +1444,8 @@ async function loadScope() {
   if (conditions) args.conditions = conditions;
   const out = await tool("entities", args);
   C.conditions = conditions;
-  buildScene(out.entities || []);
+  C.lastEntities = out.entities || [];
+  buildScene(C.lastEntities);
   document.getElementById("viz-count").textContent = conditions
     ? out.count + " entities match the scope"
     : out.count + " entities · top by weight";
@@ -1512,6 +1610,9 @@ async function openConstellation() {
     if (e.key === "Enter") loadScope();
   });
   document.getElementById("viz-limit").addEventListener("change", loadScope);
+  document.getElementById("viz-layout").addEventListener("change", () => {
+    if (C.lastEntities) buildScene(C.lastEntities);
+  });
   document.getElementById("viz-archive").addEventListener("click", archiveScope);
 
   C.resize = () => {
