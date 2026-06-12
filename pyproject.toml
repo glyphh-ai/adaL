@@ -67,7 +67,7 @@ dev = [
 ada = "ada.tui.cli:main"
 
 [project.urls]
-Repository = "https://github.com/timmetim/ada"
+Repository = "https://github.com/glyphh-ai/adaL"
 
 [tool.setuptools.packages.find]
 # ada* — SDK + CLI + server entry point (ada/server.py)
@@ -76,6 +76,7 @@ include = ["ada*", "domains*", "api*", "infrastructure*", "shared*", "scripts*"]
 
 [tool.setuptools.package-data]
 "ada" = []
+"ada.workbench" = ["*.html"]
 "ada.intent" = ["data/*.json", "data/*.jsonl", "data/packs/*.json"]
 "ada.state" = ["data/*.json", "data/packs/*.json"]
 "ada.memory" = ["lessons/*.jsonl", "foundation/*.yaml", "foundation/*.pkl.gz"]

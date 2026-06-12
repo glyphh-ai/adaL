@@ -99,6 +99,75 @@ def test_sql_space_isolation(tmp_path):
     asyncio.run(run())
 
 
+def test_keyed_slotless_fact_survives_restart(tmp_path):
+    """A keyed fact whose enrichment produced NO universal slots must
+    still appear in keyed_facts — including from a fresh store instance
+    (the restart case). Guards the _meta marker row."""
+    async def run():
+        store, sf = await _make_sql(tmp_path)
+        await store.absorb("The Acme engagement is in discovery.",
+                           key="acme.status")
+        await store.absorb("The Acme engagement is now active.",
+                           key="acme.status")
+        # same DB, fresh store — what a server restart sees
+        fresh = SqlFactStore(sf, space_id="main")
+        facts = await fresh.keyed_facts()
+        assert [f["key"] for f in facts] == ["acme.status"]
+        assert facts[0]["version"] == 2
+        assert "active" in facts[0]["content"]
+        h = await fresh.history("acme.status")
+        assert [t.metadata["_version"] for t in h] == [1, 2]
+    asyncio.run(run())
+
+
+def test_sql_recall_never_surfaces_superseded(tmp_path):
+    """A superseded version must not come back from recall even when
+    the CURRENT version shares no tokens with the query — the max
+    version is authoritative, not candidate-relative."""
+    async def run():
+        store, _ = await _make_sql(tmp_path)
+        await store.absorb("The Acme engagement is now active.",
+                           key="acme.status")
+        await store.absorb("The renewal just closed.", key="acme.status")
+        # query matches v1's tokens only; v1 is superseded → no keyed hit
+        results = await store.recall("acme engagement", top_k=5)
+        keyed = [r for r in results
+                 if r.thought.metadata.get("_key") == "acme.status"]
+        assert all("renewal" in r.thought.content for r in keyed), \
+            [r.thought.content for r in keyed]
+    asyncio.run(run())
+
+
+def test_keyed_facts_parity(tmp_path):
+    """keys (the workbench slot grid): current belief per key, both modes."""
+    mem = ThoughtSpace()
+    mem.tell_raw(facts={"entity": {"name": "Carol"},
+                        "spatial": {"location": "Austin"}}, key="carol.loc")
+    mem.tell_raw(facts={"entity": {"name": "Carol"},
+                        "spatial": {"location": "Denver"}}, key="carol.loc")
+    mem.tell_raw(facts={"entity": {"name": "Dan"},
+                        "quantitative": {"age": "40"}}, key="dan.age")
+    mem.tell_raw(facts={"entity": {"name": "Eve"}})  # unkeyed → not listed
+
+    async def run():
+        store, _ = await _make_sql(tmp_path)
+        await store.tell_raw(facts={"entity": {"name": "Carol"},
+                                    "spatial": {"location": "Austin"}}, key="carol.loc")
+        await store.tell_raw(facts={"entity": {"name": "Carol"},
+                                    "spatial": {"location": "Denver"}}, key="carol.loc")
+        await store.tell_raw(facts={"entity": {"name": "Dan"},
+                                    "quantitative": {"age": "40"}}, key="dan.age")
+        await store.tell_raw(facts={"entity": {"name": "Eve"}})
+
+        for facts in (mem.keyed_facts(), await store.keyed_facts()):
+            by_key = {f["key"]: f for f in facts}
+            assert set(by_key) == {"carol.loc", "dan.age"}
+            assert by_key["carol.loc"]["version"] == 2
+            assert "denver" in by_key["carol.loc"]["content"].lower()
+            assert by_key["dan.age"]["version"] == 1
+    asyncio.run(run())
+
+
 # ── Speaker-entity resolution ─────────────────────────────────────────
 
 def test_speaker_resolution_memory():

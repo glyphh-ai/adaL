@@ -63,6 +63,7 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                     "properties": {
                         "input": {"type": "string"},
                         "top_k": {"type": "integer", "default": 8},
+                        "space": {"type": "string"},
                     },
                     "required": ["input"],
                 },
@@ -79,6 +80,7 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                     "type": "object",
                     "properties": {
                         "question": {"type": "string"},
+                        "space": {"type": "string"},
                     },
                     "required": ["question"],
                 },
@@ -199,6 +201,21 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                 },
             ),
             Tool(
+                name="keys",
+                description=(
+                    "Current belief for every versioned key in a space, "
+                    "newest first — the workbench slot grid. Superseded "
+                    "versions excluded; use `history` for the chain."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "limit": {"type": "integer", "default": 60},
+                        "space": {"type": "string"},
+                    },
+                },
+            ),
+            Tool(
                 name="stats",
                 description=(
                     "Substrate vital signs: total thoughts, versioned keys, "
@@ -255,9 +272,9 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
         args = arguments or {}
 
         if name == "think":
-            return _handle_think(brain, args)
+            return await _handle_think(brain, args)
         if name == "ask":
-            return _handle_ask(brain, args)
+            return await _handle_ask(brain, args)
         if name == "tell":
             return await _handle_tell(brain, args)
         if name == "tell_raw":
@@ -268,6 +285,8 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
             return await _handle_history(brain, args)
         if name == "query":
             return await _handle_query(brain, args)
+        if name == "keys":
+            return await _handle_keys(brain, args)
         if name == "stats":
             return await _handle_stats(brain, args)
         if name == "create_token":
@@ -283,19 +302,21 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
 
 # ── handlers ────────────────────────────────────────────────────────
 
-def _handle_think(brain, args: dict) -> CallToolResult:
+async def _handle_think(brain, args: dict) -> CallToolResult:
     input_text = args.get("input", "")
     top_k = int(args.get("top_k", 8))
     if not input_text:
         return _err("Missing 'input' parameter")
     try:
-        surface = _get_surface(brain)
-        act = surface.think(input_text, top_k=top_k)
+        store, _ = _space(brain, args)
+        results = await _maybe(store.recall(input_text, top_k=top_k,
+                                            exclude_speakers=("ada",)))
         return _ok({
-            "input": input_text,
+            "input": input_text, "space": store.space_id,
             "activated": [
-                {"content": t.content, "similarity": round(s, 3)}
-                for t, s in zip(act.thoughts, act.similarities)
+                {"content": r.thought.content,
+                 "similarity": round(float(r.global_similarity), 3)}
+                for r in results
             ],
         })
     except Exception as e:
@@ -303,15 +324,16 @@ def _handle_think(brain, args: dict) -> CallToolResult:
         return _err(str(e))
 
 
-def _handle_ask(brain, args: dict) -> CallToolResult:
+async def _handle_ask(brain, args: dict) -> CallToolResult:
     question = args.get("question", "")
     if not question:
         return _err("Missing 'question' parameter")
     try:
-        surface = _get_surface(brain)
-        a = surface.ask(question)
+        store, _ = _space(brain, args)
+        surface = _get_surface(brain, store)
+        a = await surface.ask_async(question)
         return _ok({
-            "question": question,
+            "question": question, "space": store.space_id,
             "refused": a.refused,
             "confidence": round(a.confidence, 3),
             "fact": a.fact.content if a.fact else None,
@@ -457,6 +479,18 @@ async def _handle_history(brain, args: dict) -> CallToolResult:
         return _err(str(e))
 
 
+async def _handle_keys(brain, args: dict) -> CallToolResult:
+    try:
+        store, _ = _space(brain, args)
+        limit = int(args.get("limit", 60))
+        facts = await _maybe(store.keyed_facts(limit=limit))
+        return _ok({"space": store.space_id, "count": len(facts),
+                    "facts": facts})
+    except Exception as e:
+        logger.error("keys failed: %s", e, exc_info=True)
+        return _err(str(e))
+
+
 async def _handle_stats(brain, args: dict) -> CallToolResult:
     try:
         store, _ = _space(brain, args)
@@ -570,17 +604,19 @@ async def _handle_create_token(brain, args: dict) -> CallToolResult:
 _surface_cache: dict = {}
 
 
-def _get_surface(brain):
-    """Build a CognitiveSurface over the Brain's existing thought-space."""
-    if id(brain) in _surface_cache:
-        return _surface_cache[id(brain)]
+def _get_surface(brain, store=None):
+    """Build a CognitiveSurface over a space's store (default: the
+    brain's main space). One surface per (brain, space) — the renderer
+    is shared, the retrieval target isn't."""
+    if store is None:
+        store = brain.space("main")
+    cache_key = (id(brain), store.space_id)
+    if cache_key in _surface_cache:
+        return _surface_cache[cache_key]
     from ada.cognitive.generate import build_llm_renderer
     from ada.cognitive.surface import CognitiveSurface
-    surface = CognitiveSurface(
-        space=brain._cognitive.thought_space,
-        renderer=build_llm_renderer(),
-    )
-    _surface_cache[id(brain)] = surface
+    surface = CognitiveSurface(space=store, renderer=build_llm_renderer())
+    _surface_cache[cache_key] = surface
     return surface
 
 

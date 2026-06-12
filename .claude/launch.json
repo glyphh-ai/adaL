@@ -1,0 +1,16 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ada-workbench",
+      "runtimeExecutable": ".venv/bin/python",
+      "runtimeArgs": ["-m", "uvicorn", "ada.server:app", "--port", "8004"],
+      "env": {
+        "HOME": "/tmp/ada-wb-smoke",
+        "ADA_AUTH_REQUIRED": "true",
+        "ADA_STORAGE": "sql"
+      },
+      "port": 8004
+    }
+  ]
+}

@@ -90,6 +90,7 @@ def _print_config(host: str, port: int) -> None:
     has_key = bool(os.environ.get("ANTHROPIC_API_KEY"))
 
     print(f"  {D}MCP{R}    http://{display_host}:{port}/mcp")
+    print(f"  {D}Web{R}    http://{display_host}:{port} {D}(first login root/root — you'll be asked to change it){R}")
     print(f"  {D}Tools{R}  think · ask · tell · query · history · stats")
     print(f"  {D}LLM{R}    {model}")
     if has_key:

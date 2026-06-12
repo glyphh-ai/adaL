@@ -95,38 +95,68 @@ class CognitiveSurface:
         answer still grounds in stated facts only.
         """
         results = self.space.recall(question, top_k=top_chains, exclude_speakers=("ada",))
-
-        # ── hop 2: entity-expanded recall ─────────────────────────────
-        # Bridge entities come from hop-1 facts' entity-bearing slots
-        # only (entity.name, relational subject/object/possessor), and
-        # the hop-2 query is FOCUSED: question content + bridge names.
-        # A wordy expansion dilutes its own match.
         if results:
-            from ada.memory.thought_space import _tokenize
-            q_content = _tokenize(question)
-            bridges: list[str] = []
-            seen = set(q_content)
-            for r in results[:2]:
-                u = r.thought.universal
-                names = [(u.get("entity") or {}).get("name")]
-                rel = u.get("relational") or {}
-                names += [rel.get(k) for k in ("subject", "object", "possessor")]
-                for name in names:
-                    if not name:
-                        continue
-                    for tok in _tokenize(str(name)):
-                        if tok not in seen:
-                            bridges.append(tok)
-                            seen.add(tok)
-            if bridges:
-                hop2 = self.space.recall(
-                    " ".join(q_content + bridges[:4]),
-                    top_k=top_chains, exclude_speakers=("ada",))
-                known = {r.thought.thought_id for r in results}
-                results = sorted(
-                    results + [r for r in hop2 if r.thought.thought_id not in known],
-                    key=lambda r: r.global_similarity, reverse=True)[:top_chains]
+            hop2_query = self._hop2_query(question, results)
+            if hop2_query:
+                hop2 = self.space.recall(hop2_query, top_k=top_chains,
+                                         exclude_speakers=("ada",))
+                results = self._merge(results, hop2, top_chains)
+        return self._finalize(question, results)
 
+    async def ask_async(self, question: str, top_chains: int = 5) -> Answer:
+        """ask() over a store whose recall may be async (SqlFactStore).
+        Same algorithm, awaited recalls — one retrieval discipline for
+        both storage modes."""
+        import inspect
+
+        async def _recall(q):
+            r = self.space.recall(q, top_k=top_chains, exclude_speakers=("ada",))
+            return await r if inspect.isawaitable(r) else r
+
+        results = await _recall(question)
+        if results:
+            hop2_query = self._hop2_query(question, results)
+            if hop2_query:
+                results = self._merge(results, await _recall(hop2_query),
+                                      top_chains)
+        return self._finalize(question, results)
+
+    # ── hop 2: entity-expanded recall ─────────────────────────────────
+    # Bridge entities come from hop-1 facts' entity-bearing slots only
+    # (entity.name, relational subject/object/possessor), and the hop-2
+    # query is FOCUSED: question content + bridge names. A wordy
+    # expansion dilutes its own match.
+
+    @staticmethod
+    def _hop2_query(question: str, results) -> str | None:
+        from ada.memory.thought_space import _tokenize
+        q_content = _tokenize(question)
+        bridges: list[str] = []
+        seen = set(q_content)
+        for r in results[:2]:
+            u = r.thought.universal
+            names = [(u.get("entity") or {}).get("name")]
+            rel = u.get("relational") or {}
+            names += [rel.get(k) for k in ("subject", "object", "possessor")]
+            for name in names:
+                if not name:
+                    continue
+                for tok in _tokenize(str(name)):
+                    if tok not in seen:
+                        bridges.append(tok)
+                        seen.add(tok)
+        if not bridges:
+            return None
+        return " ".join(q_content + bridges[:4])
+
+    @staticmethod
+    def _merge(results, hop2, top_chains: int):
+        known = {r.thought.thought_id for r in results}
+        return sorted(
+            results + [r for r in hop2 if r.thought.thought_id not in known],
+            key=lambda r: r.global_similarity, reverse=True)[:top_chains]
+
+    def _finalize(self, question: str, results) -> Answer:
         if not results:
             return Answer(question=question, refused=True, rendered="I don't know.")
 

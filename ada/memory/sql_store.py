@@ -372,6 +372,34 @@ class SqlFactStore:
         thoughts.sort(key=lambda t: t.metadata.get("_version", 1))
         return thoughts
 
+    async def keyed_facts(self, limit: int = 60) -> list[dict]:
+        """Current belief for every versioned key, newest first.
+        Keys come from fact_slots (indexed, is_current=1); contents from
+        ada_thoughts by id — same planner-proof shape as _lookup."""
+        from domains.models.db_models import AdaThought, FactSlot
+        async with self._sf() as s:
+            r = await s.execute(
+                select(FactSlot.thought_id).distinct()
+                .where(FactSlot.space_id == self.space_id,
+                       FactSlot.key.isnot(None),
+                       FactSlot.is_current == 1)
+                .limit(limit * 4))
+            ids = [row[0] for row in r.all()]
+            if not ids:
+                return []
+            r = await s.execute(
+                select(AdaThought).where(AdaThought.thought_id.in_(ids)))
+            rows = r.scalars().all()
+        out = []
+        for row in rows:
+            meta = row.extra_data or {}
+            if meta.get("_key"):
+                out.append({"key": meta["_key"], "content": row.content,
+                            "version": meta.get("_version", 1),
+                            "created_at": row.created_at})
+        out.sort(key=lambda d: d["created_at"], reverse=True)
+        return out[:limit]
+
     async def recall(self, query: str, top_k: int = 5,
                      exclude_speakers: tuple = ()) -> list[RecallResult]:
         """Candidates from SQL (slot-value matches + content LIKE per
@@ -415,12 +443,26 @@ class SqlFactStore:
             except Exception:
                 q_struct = None
 
-        # latest version per key wins (current belief)
+        # latest version per key wins (current belief). The max version
+        # must be AUTHORITATIVE (from fact_slots), not relative to the
+        # lexical candidates — a newer version that shares no tokens
+        # with the query would otherwise let its superseded predecessor
+        # leak back in as the answer.
         latest: dict[str, int] = defaultdict(int)
         for row in rows:
             k = (row.extra_data or {}).get("_key")
             if k:
                 latest[k] = max(latest[k], (row.extra_data or {}).get("_version", 1))
+        if latest:
+            from domains.models.db_models import FactSlot
+            async with self._sf() as s:
+                r = await s.execute(
+                    select(FactSlot.key, func.max(FactSlot.version))
+                    .where(FactSlot.space_id == self.space_id,
+                           FactSlot.key.in_(list(latest)))
+                    .group_by(FactSlot.key))
+                for key, maxv in r.all():
+                    latest[key] = max(latest[key], int(maxv or 1))
 
         results: list[RecallResult] = []
         for row in rows:

@@ -483,6 +483,17 @@ class ThoughtSpace:
         """Chronological version chain for a stable key. Empty if none."""
         return list(self._history_by_key.get(key, []))
 
+    def keyed_facts(self, limit: int = 60) -> list[dict]:
+        """Current belief for every versioned key, newest first."""
+        out = []
+        for key, chain in self._history_by_key.items():
+            cur = chain[-1]
+            out.append({"key": key, "content": cur.content,
+                        "version": cur.metadata.get("_version", len(chain)),
+                        "created_at": cur.created_at})
+        out.sort(key=lambda d: d["created_at"], reverse=True)
+        return out[:limit]
+
     def previous_value(self, person: str, slot: str) -> str | None:
         """The value this person's slot held BEFORE the latest change."""
         p = str(person).strip().lower()

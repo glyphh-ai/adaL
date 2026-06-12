@@ -33,7 +33,7 @@ def slot_rows(thought: "StoredThought") -> list[dict]:
     any backfill."""
     u = thought.metadata.get("_universal") or {}
     if not isinstance(u, dict):
-        return []
+        u = {}
     entity = None
     ent = u.get("entity")
     if isinstance(ent, dict) and ent.get("name"):
@@ -64,6 +64,24 @@ def slot_rows(thought: "StoredThought") -> list[dict]:
                 "version": thought.metadata.get("_version", 1),
                 "is_current": 1,
             })
+    # A keyed thought whose enrichment produced no slots still needs a
+    # row — otherwise the indexed key listing (keyed_facts) and
+    # supersession can't see it. The _meta layer can't collide with
+    # universal-schema layers, so the closed ops ignore it by
+    # construction.
+    if not rows and thought.metadata.get("_key"):
+        rows.append({
+            "space_id": getattr(thought, "space_id", "main"),
+            "thought_id": thought.thought_id,
+            "entity": None,
+            "layer": "_meta",
+            "role": "key",
+            "value": str(thought.metadata["_key"]).lower(),
+            "predicate": None,
+            "key": thought.metadata.get("_key"),
+            "version": thought.metadata.get("_version", 1),
+            "is_current": 1,
+        })
     return rows
 
 

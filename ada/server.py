@@ -251,6 +251,20 @@ app.include_router(health_router)
 app.include_router(tokens_router)
 
 
+# ── Workbench — the management UI, served at / ──────────────────────────────
+from fastapi.responses import FileResponse
+
+from ada.workbench import INDEX as _WORKBENCH_INDEX
+
+
+@app.get("/", include_in_schema=False)
+async def workbench() -> FileResponse:
+    """The workbench: log in (root/root on first boot — rotation is
+    forced), then manage facts, history chains, and spaces over the
+    same MCP contract every client uses."""
+    return FileResponse(_WORKBENCH_INDEX, media_type="text/html")
+
+
 # MCP routing middleware — intercepts /mcp requests and forwards to the
 # MCP SDK's Streamable HTTP handler. Single endpoint, no org/model.
 from domains.mcp.app import MCPRoutingMiddleware

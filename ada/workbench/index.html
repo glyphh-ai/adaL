@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ada · workbench</title>
+<style>:root {
+  --ada-signal: #ff5f87;
+  --ada-accent: #d787ff;
+  --ada-primary: #af87ff;
+  --ada-calm: #87afff;
+  --ada-ink: #16121f;
+  --ada-ink-raised: #241e33;
+  --ada-ink-sunken: #0e0b15;
+  --ada-border: #2c2540;
+  --ada-text: #f2effb;
+  --ada-text-soft: #c9c2e0;
+  --ada-text-muted: #9a92b3;
+  --ada-text-faint: #6b6480;
+  --ada-radius: 10px;
+  --ada-radius-lg: 14px;
+  --ada-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+</style>
+<style>/* ada-app.css — workbench shell on top of tokens.css */
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--ada-ink-sunken);
+  color: var(--ada-text);
+  font-family: var(--ada-mono);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+#root { height: 100vh; }
+
+:root {
+  --lead: var(--ada-primary);
+  --rail-w: 64px;
+  --panel-w: 360px;
+  --row-gap: 1.85;
+}
+
+.tone-text   { color: var(--ada-text); }
+.tone-soft   { color: var(--ada-text-soft); }
+.tone-muted  { color: var(--ada-text-muted); }
+.tone-faint  { color: var(--ada-text-faint); }
+.tone-calm   { color: var(--ada-calm); }
+.tone-accent { color: var(--ada-accent); }
+.tone-signal { color: var(--ada-signal); }
+.tone-primary{ color: var(--ada-primary); }
+
+/* ---- app frame ---- */
+.app {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: var(--rail-w) 1fr var(--panel-w);
+  grid-template-rows: 52px 1fr;
+  grid-template-areas: "rail topbar topbar" "rail main panel";
+  position: relative;
+}
+/* faint dot-matrix field behind everything */
+.app::before, .gate::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: radial-gradient(var(--ada-border) 1px, transparent 1.4px);
+  background-size: 22px 22px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---- rail ---- */
+.rail {
+  grid-area: rail;
+  background: var(--ada-ink);
+  border-right: 1px solid var(--ada-border);
+  display: flex; flex-direction: column; align-items: center;
+  padding: 14px 0; gap: 6px; z-index: 2;
+}
+.rail .mark { width: 34px; height: 34px; margin-bottom: 12px; }
+.rail-btn {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: grid; place-items: center;
+  color: var(--ada-text-faint); cursor: pointer;
+  border: 1px solid transparent; background: transparent;
+  font-family: var(--ada-mono); font-size: 17px;
+  transition: color .15s, background .15s, border-color .15s;
+}
+.rail-btn:hover { color: var(--ada-text-soft); background: var(--ada-ink-raised); }
+.rail-btn.active { color: var(--lead); border-color: var(--ada-border); background: var(--ada-ink-raised); }
+.rail-spacer { flex: 1; }
+
+/* ---- topbar ---- */
+.topbar {
+  grid-area: topbar;
+  background: var(--ada-ink);
+  border-bottom: 1px solid var(--ada-border);
+  display: flex; align-items: center; gap: 16px;
+  padding: 0 20px; z-index: 2;
+}
+.topbar .wm { height: 22px; }
+.topbar .crumb { color: var(--ada-text-faint); font-size: 12px; letter-spacing: .04em; }
+.topbar .crumb b { color: var(--ada-text-soft); font-weight: 500; }
+.topbar .status {
+  margin-left: auto; display: flex; align-items: center; gap: 14px;
+  font-size: 12px; color: var(--ada-text-faint);
+}
+.status .pip { color: var(--ada-calm); }
+.status .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ada-calm); display: inline-block; box-shadow: 0 0 8px var(--ada-calm); }
+.status .ring { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--ada-signal); display: inline-block; }
+.status .who { color: var(--ada-text-muted); cursor: pointer; }
+.status .who:hover { color: var(--ada-text); }
+
+/* ---- main / terminal ---- */
+.main { grid-area: main; min-width: 0; display: flex; flex-direction: column; z-index: 1; }
+.term-wrap { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 18px 22px 0; }
+.term {
+  flex: 1; min-height: 0; overflow-y: auto;
+  font-size: 13.5px; line-height: var(--row-gap);
+  padding-bottom: 14px;
+}
+.term::-webkit-scrollbar { width: 10px; }
+.term::-webkit-scrollbar-thumb { background: var(--ada-border); border-radius: 6px; border: 3px solid var(--ada-ink-sunken); }
+
+.tline { white-space: pre-wrap; word-break: break-word; }
+.tline.indent { padding-left: 18px; }
+.prompt-tag { color: var(--lead); }
+.prompt-caret { color: var(--ada-text-faint); }
+
+.echo { color: var(--ada-text); }
+
+.block-in { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .block-in { animation: ada-fade .28s ease; }
+}
+@keyframes ada-fade { from { transform: translateY(4px); } }
+
+/* input row */
+.inputrow {
+  display: flex; align-items: center; gap: 8px;
+  border-top: 1px solid var(--ada-border);
+  padding: 12px 22px; background: var(--ada-ink-sunken);
+}
+.inputrow .tag { color: var(--lead); font-size: 13.5px; }
+.inputrow .gt { color: var(--ada-text-faint); }
+.cmd-input {
+  flex: 1; background: transparent; border: none; outline: none;
+  color: var(--ada-text); font-family: var(--ada-mono); font-size: 13.5px;
+  caret-color: var(--lead);
+}
+.cmd-input::placeholder { color: var(--ada-text-faint); }
+.blink { animation: blink 1.05s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* hint chips */
+.hints { display: flex; gap: 8px; padding: 0 22px 12px; flex-wrap: wrap; background: var(--ada-ink-sunken); }
+.chip {
+  font-size: 11.5px; color: var(--ada-text-muted);
+  background: var(--ada-ink-raised); border: 1px solid var(--ada-border);
+  border-radius: 7px; padding: 5px 10px; cursor: pointer;
+  font-family: var(--ada-mono);
+  transition: color .14s, border-color .14s;
+}
+.chip:hover { color: var(--ada-text); border-color: var(--lead); }
+.chip b { color: var(--lead); font-weight: 500; }
+
+/* ---- facts panel ---- */
+.panel {
+  grid-area: panel;
+  background: var(--ada-ink);
+  border-left: 1px solid var(--ada-border);
+  display: flex; flex-direction: column; min-height: 0; z-index: 2;
+}
+.panel-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px 12px; border-bottom: 1px solid var(--ada-border);
+}
+.panel-head h2 { margin: 0; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ada-text-muted); font-weight: 600; }
+.panel-head .count { font-size: 11px; color: var(--ada-text-faint); }
+.panel-body { overflow-y: auto; padding: 14px; flex: 1; }
+.panel-body::-webkit-scrollbar { width: 10px; }
+.panel-body::-webkit-scrollbar-thumb { background: var(--ada-border); border-radius: 6px; border: 3px solid var(--ada-ink); }
+
+.slotgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.slot {
+  background: var(--ada-ink-raised); border: 1px solid var(--ada-border);
+  border-radius: 12px; padding: 12px; cursor: pointer;
+  display: flex; flex-direction: column; gap: 7px; min-height: 84px;
+  transition: border-color .15s, transform .15s;
+  position: relative; overflow: hidden;
+}
+.slot:hover { border-color: var(--lead); transform: translateY(-1px); }
+.slot.focus { border-color: var(--lead); box-shadow: inset 0 0 0 1px var(--lead); }
+.slot .k { font-size: 10.5px; color: var(--ada-text-faint); letter-spacing: .02em; }
+.slot .val { font-size: 13px; color: var(--ada-calm); line-height: 1.3; word-break: break-word;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.slot .ver {
+  align-self: flex-start; margin-top: auto;
+  font-size: 10px; color: var(--ada-accent);
+  border: 1px solid color-mix(in srgb, var(--ada-accent) 40%, transparent);
+  border-radius: 5px; padding: 1px 6px;
+}
+.slot.empty { border-style: dashed; cursor: pointer; justify-content: center; align-items: center; }
+.slot.empty .ring { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--ada-signal); margin-bottom: 4px; }
+.slot.empty .k { color: var(--ada-text-faint); text-align: center; }
+.slot.empty .label { font-size: 10px; color: var(--ada-signal); text-align: center; }
+
+/* absorb pop */
+.slot.absorbed { animation: absorb .5s ease; }
+@keyframes absorb {
+  0% { box-shadow: inset 0 0 0 2px var(--ada-accent); }
+  100% { box-shadow: inset 0 0 0 0 transparent; }
+}
+
+.panel-foot {
+  border-top: 1px solid var(--ada-border); padding: 12px 16px;
+  font-size: 11px; color: var(--ada-text-faint); line-height: 1.6;
+}
+.panel-foot b { color: var(--ada-text-muted); font-weight: 500; }
+
+/* ---- login / rotation gate ---- */
+.gate {
+  height: 100vh; display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.gate-card {
+  width: 360px; background: var(--ada-ink);
+  border: 1px solid var(--ada-border); border-radius: var(--ada-radius-lg);
+  padding: 30px 28px 26px; z-index: 1;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.gate-card .mark { width: 44px; height: 44px; margin: 0 auto 2px; }
+.gate-card h1 { margin: 0; font-size: 13px; font-weight: 500; text-align: center;
+  color: var(--ada-text-soft); letter-spacing: .08em; }
+.gate-card .sub { font-size: 11.5px; color: var(--ada-text-faint); text-align: center;
+  line-height: 1.6; margin-top: -6px; }
+.gate-field {
+  width: 100%; background: var(--ada-ink-sunken);
+  border: 1px solid var(--ada-border); border-radius: var(--ada-radius);
+  color: var(--ada-text); font-family: var(--ada-mono); font-size: 13px;
+  padding: 10px 12px; outline: none; caret-color: var(--lead);
+}
+.gate-field::placeholder { color: var(--ada-text-faint); }
+.gate-field:focus { border-color: var(--lead); }
+.gate-btn {
+  width: 100%; background: var(--ada-ink-raised);
+  border: 1px solid var(--lead); border-radius: var(--ada-radius);
+  color: var(--ada-text); font-family: var(--ada-mono); font-size: 13px;
+  padding: 10px 12px; cursor: pointer;
+  transition: background .15s;
+}
+.gate-btn:hover { background: color-mix(in srgb, var(--lead) 18%, var(--ada-ink-raised)); }
+.gate-err { font-size: 11.5px; color: var(--ada-signal); text-align: center; min-height: 16px; }
+.gate-note { font-size: 10.5px; color: var(--ada-text-faint); text-align: center; line-height: 1.6; }
+.gate-note b { color: var(--ada-signal); font-weight: 500; }
+.hidden { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .block-in, .slot.absorbed, .blink { animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<svg class="hidden" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ada-mark" viewBox="0 0 96 96">
+    <rect width="96" height="96" rx="22" fill="#16121f"></rect>
+    <circle cx="26" cy="26" r="7" fill="#ff5f87"></circle><circle cx="48" cy="26" r="7" fill="#e570a1"></circle><circle cx="70" cy="26" r="7" fill="#cc81ba"></circle>
+    <circle cx="26" cy="48" r="7" fill="#d47cb2"></circle><circle cx="48" cy="48" r="7" fill="#b292d4"></circle><circle cx="70" cy="48" r="7" fill="#a19ee5"></circle>
+    <circle cx="26" cy="70" r="7" fill="#aa98dc"></circle><circle cx="48" cy="70" r="7" fill="#90a9f6"></circle>
+    <circle cx="70" cy="70" r="7" fill="none" stroke="#87afff" stroke-width="2"></circle>
+  </symbol>
+  <symbol id="ada-wordmark" viewBox="0 0 232 102">
+    <g>
+    <circle cx="25" cy="38" r="5" fill="#f66590"></circle><circle cx="38" cy="38" r="5" fill="#ee6a98"></circle><circle cx="51" cy="38" r="5" fill="#e570a1"></circle>
+    <circle cx="64" cy="51" r="5" fill="#dd76a9"></circle>
+    <circle cx="25" cy="64" r="5" fill="#f66590"></circle><circle cx="38" cy="64" r="5" fill="#ee6a98"></circle><circle cx="51" cy="64" r="5" fill="#e570a1"></circle><circle cx="64" cy="64" r="5" fill="#dd76a9"></circle>
+    <circle cx="12" cy="77" r="5" fill="#ff5f87"></circle><circle cx="64" cy="77" r="5" fill="#dd76a9"></circle>
+    <circle cx="25" cy="90" r="5" fill="#f66590"></circle><circle cx="38" cy="90" r="5" fill="#ee6a98"></circle><circle cx="51" cy="90" r="5" fill="#e570a1"></circle><circle cx="64" cy="90" r="5" fill="#dd76a9"></circle>
+    </g>
+    <g>
+    <circle cx="142" cy="12" r="5" fill="#b292d4"></circle>
+    <circle cx="142" cy="25" r="5" fill="#b292d4"></circle>
+    <circle cx="103" cy="38" r="5" fill="#cc81ba"></circle><circle cx="116" cy="38" r="5" fill="#c387c3"></circle><circle cx="129" cy="38" r="5" fill="#bb8dcb"></circle>
+    <circle cx="90" cy="51" r="5" fill="#d47cb2"></circle><circle cx="142" cy="51" r="5" fill="#b292d4"></circle>
+    <circle cx="90" cy="64" r="5" fill="#d47cb2"></circle><circle cx="142" cy="64" r="5" fill="#b292d4"></circle>
+    <circle cx="90" cy="77" r="5" fill="#d47cb2"></circle><circle cx="142" cy="77" r="5" fill="#b292d4"></circle>
+    <circle cx="103" cy="90" r="5" fill="#cc81ba"></circle><circle cx="116" cy="90" r="5" fill="#c387c3"></circle><circle cx="129" cy="90" r="5" fill="#bb8dcb"></circle><circle cx="142" cy="90" r="5" fill="#b292d4"></circle>
+    </g>
+    <g>
+    <circle cx="181" cy="38" r="5" fill="#a19ee5"></circle><circle cx="194" cy="38" r="5" fill="#99a3ed"></circle><circle cx="207" cy="38" r="5" fill="#90a9f6"></circle>
+    <circle cx="220" cy="51" r="5" fill="#87afff"></circle>
+    <circle cx="181" cy="64" r="5" fill="#a19ee5"></circle><circle cx="194" cy="64" r="5" fill="#99a3ed"></circle><circle cx="207" cy="64" r="5" fill="#90a9f6"></circle><circle cx="220" cy="64" r="5" fill="#87afff"></circle>
+    <circle cx="168" cy="77" r="5" fill="#aa98dc"></circle><circle cx="220" cy="77" r="5" fill="#87afff"></circle>
+    <circle cx="181" cy="90" r="5" fill="#a19ee5"></circle><circle cx="194" cy="90" r="5" fill="#99a3ed"></circle><circle cx="207" cy="90" r="5" fill="#90a9f6"></circle><circle cx="220" cy="90" r="5" fill="#87afff"></circle>
+    </g>
+  </symbol>
+</svg>
+
+<!-- login -->
+<div id="gate-login" class="gate hidden">
+  <form class="gate-card" id="login-form">
+    <svg class="mark"><use href="#ada-mark"/></svg>
+    <h1>ada · workbench</h1>
+    <div class="sub">facts, not opinions. log in to manage this runtime.</div>
+    <input class="gate-field" id="login-user" placeholder="username" autocomplete="username" spellcheck="false">
+    <input class="gate-field" id="login-pass" placeholder="password" type="password" autocomplete="current-password">
+    <div class="gate-err" id="login-err"></div>
+    <button class="gate-btn" type="submit">log in</button>
+    <div class="gate-note" id="login-note"></div>
+  </form>
+</div>
+
+<!-- forced rotation -->
+<div id="gate-rotate" class="gate hidden">
+  <form class="gate-card" id="rotate-form">
+    <svg class="mark"><use href="#ada-mark"/></svg>
+    <h1>rotate your password</h1>
+    <div class="sub">default credentials are a known fact.<br>ada refuses to run on one.</div>
+    <input class="gate-field" id="rot-current" placeholder="current password" type="password" autocomplete="current-password">
+    <input class="gate-field" id="rot-new" placeholder="new password (8+ chars)" type="password" autocomplete="new-password">
+    <input class="gate-field" id="rot-confirm" placeholder="confirm new password" type="password" autocomplete="new-password">
+    <div class="gate-err" id="rotate-err"></div>
+    <button class="gate-btn" type="submit">rotate &amp; continue</button>
+  </form>
+</div>
+
+<!-- workbench -->
+<div id="app" class="app hidden">
+  <nav class="rail">
+    <svg class="mark"><use href="#ada-mark"/></svg>
+    <button class="rail-btn active" title="Terminal" data-cmd="">›_</button>
+    <button class="rail-btn" title="Facts" data-cmd="list">▦</button>
+    <button class="rail-btn" title="History" data-draft="history ">⟲</button>
+    <button class="rail-btn" title="Ask" data-draft="ask ">○</button>
+    <div class="rail-spacer"></div>
+    <button class="rail-btn" title="Stats" data-cmd="stats">⚙</button>
+  </nav>
+  <header class="topbar">
+    <svg class="wm" viewBox="0 0 232 102" style="width:50px"><use href="#ada-wordmark"/></svg>
+    <span class="crumb">memory · <b id="crumb-space">main space</b></span>
+    <div class="status">
+      <span><span class="dot"></span> durable</span>
+      <span class="pip" id="pip-facts">— facts</span>
+      <span><span class="ring"></span> <span id="pip-empty">0 empty slots</span></span>
+      <span class="who" id="who" title="log out">—</span>
+    </div>
+  </header>
+  <div class="main">
+    <div class="term-wrap"><div class="term" id="term"></div></div>
+    <div class="hints" id="hints"></div>
+    <div class="inputrow" id="inputrow">
+      <span class="tag">ada</span><span class="gt">&gt;</span>
+      <input class="cmd-input" id="cmd" spellcheck="false" autocomplete="off"
+             placeholder="tell · ask · history · list   —  type a command">
+    </div>
+  </div>
+  <aside class="panel">
+    <div class="panel-head">
+      <h2>Slot grid</h2>
+      <span class="count" id="grid-count">—</span>
+    </div>
+    <div class="panel-body"><div class="slotgrid" id="slotgrid"></div></div>
+    <div class="panel-foot">
+      Filled slots carry a <b>value</b> and a <b>version</b>. The ring is a fact ada
+      was asked for and refused to guess. Fill it: <b>tell key=&lt;key&gt; &lt;value&gt;</b>.
+    </div>
+  </aside>
+</div>
+
+<script>
+"use strict";
+/* ada workbench — vanilla client over /auth + /mcp.
+   The terminal speaks the same public contract as every MCP client;
+   auth rides the ada_session cookie the runtime issued at login. */
+
+const $ = (id) => document.getElementById(id);
+const state = {
+  me: null,
+  space: "main",
+  facts: [],          // [{key, content, version}]
+  unknowns: [],       // [{label, question, asked}] — session-local refusals
+  hist: [], histIdx: 0,
+  mcpSession: null,
+  focusKey: null,
+};
+
+/* ---- MCP client ------------------------------------------------------ */
+
+async function mcp(method, params) {
+  const headers = { "content-type": "application/json",
+                    "accept": "application/json" };
+  if (state.mcpSession) headers["mcp-session-id"] = state.mcpSession;
+  const r = await fetch("/mcp", { method: "POST", headers,
+    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) });
+  const sid = r.headers.get("mcp-session-id");
+  if (sid) state.mcpSession = sid;
+  if (r.status === 401) throw { auth: true };
+  const text = await r.text();
+  if (!text) return null;
+  const body = JSON.parse(text);
+  if (body.error) throw new Error(body.error.message || "mcp error");
+  return body;
+}
+
+async function mcpInit() {
+  await mcp("initialize", { protocolVersion: "2024-11-05", capabilities: {},
+    clientInfo: { name: "ada-workbench", version: "0.1" } });
+  await mcp("notifications/initialized", {});
+}
+
+async function tool(name, args) {
+  const body = await mcp("tools/call", { name, arguments: args || {} });
+  const text = body.result?.content?.[0]?.text ?? "{}";
+  let out;
+  try { out = JSON.parse(text); } catch { out = { answer: text }; }
+  if (out && out.error) throw new Error(out.error);
+  return out;
+}
+
+/* ---- terminal rendering ---------------------------------------------- */
+
+const tone = (t) => "tone-" + (t || "text");
+function lineEl(parts, indent) {
+  const div = document.createElement("div");
+  div.className = "tline" + (indent ? " indent" : "");
+  for (const p of (Array.isArray(parts) ? parts : [parts])) {
+    const span = document.createElement("span");
+    span.className = tone(p.tone);
+    span.textContent = p.text;
+    div.appendChild(span);
+  }
+  return div;
+}
+const s = (text, t) => ({ text, tone: t });
+
+function echo(input) {
+  const div = document.createElement("div");
+  div.className = "tline";
+  div.innerHTML = '<span class="prompt-tag">ada</span><span class="prompt-caret">&gt; </span>';
+  const e = document.createElement("span");
+  e.className = "echo"; e.textContent = input;
+  div.appendChild(e);
+  $("term").appendChild(div);
+  scrollTerm();
+}
+
+function block(lines) {
+  const wrap = document.createElement("div");
+  wrap.className = "block-in";
+  for (const ln of lines) wrap.appendChild(lineEl(ln.parts, ln.indent));
+  $("term").appendChild(wrap);
+  scrollTerm();
+}
+const L = (parts, indent = 1) => ({ parts, indent });
+function scrollTerm() { const t = $("term"); t.scrollTop = t.scrollHeight; }
+
+/* ---- slot grid -------------------------------------------------------- */
+
+function renderGrid(absorbedKey) {
+  const grid = $("slotgrid");
+  grid.innerHTML = "";
+  for (const f of state.facts) {
+    const d = document.createElement("div");
+    d.className = "slot" + (state.focusKey === f.key ? " focus" : "")
+                + (absorbedKey === f.key ? " absorbed" : "");
+    d.title = "history " + f.key;
+    d.innerHTML = '<div class="k"></div><div class="val"></div><div class="ver"></div>';
+    d.querySelector(".k").textContent = f.key;
+    d.querySelector(".val").textContent = f.content;
+    d.querySelector(".ver").textContent = "v" + f.version;
+    d.onclick = () => run("history " + f.key);
+    grid.appendChild(d);
+  }
+  for (const u of state.unknowns) {
+    const d = document.createElement("div");
+    d.className = "slot empty" + (state.focusKey === u.label ? " focus" : "");
+    d.title = "ask again";
+    d.innerHTML = '<span class="ring"></span><div class="k"></div><div class="label">I don\'t know</div>';
+    d.querySelector(".k").textContent = u.label;
+    d.onclick = () => run("ask " + u.question);
+    grid.appendChild(d);
+  }
+  $("grid-count").textContent =
+    state.facts.length + " filled · " + state.unknowns.length + " empty";
+  $("pip-facts").textContent = state.facts.length + " facts";
+  $("pip-empty").textContent = state.unknowns.length
+    + (state.unknowns.length === 1 ? " empty slot" : " empty slots");
+}
+
+async function refreshGrid(absorbedKey) {
+  try {
+    const out = await tool("keys", { space: state.space, limit: 60 });
+    state.facts = out.facts || [];
+  } catch (e) { /* grid refresh is best-effort */ }
+  renderGrid(absorbedKey);
+}
+
+/* ---- the verbs -------------------------------------------------------- */
+
+const HINTS = [
+  { html: "<b>tell</b> key=acme.status The engagement is active.", cmd: "tell key=acme.status The engagement is active." },
+  { html: "<b>ask</b> a question", draft: "ask " },
+  { html: "<b>history</b> a key", draft: "history " },
+  { html: "<b>list</b>", cmd: "list" },
+  { html: "<b>help</b>", cmd: "help" },
+];
+
+function renderHints() {
+  const h = $("hints");
+  h.innerHTML = "";
+  for (const it of HINTS) {
+    const b = document.createElement("button");
+    b.className = "chip";
+    b.innerHTML = it.html;
+    b.onclick = () => {
+      if (it.cmd) run(it.cmd);
+      else { $("cmd").value = it.draft; }
+      $("cmd").focus();
+    };
+    h.appendChild(b);
+  }
+}
+
+function cmdHelp() {
+  block([
+    L([s("commands — the workbench speaks these verbs:", "muted")], 0),
+    L([s("tell ", "primary"), s("key=", "faint"), s("<key> ", "calm"), s("<text>", "text"), s("    record a fact (new key, or a new version)", "faint")]),
+    L([s("tell ", "primary"), s("<text>", "text"), s("              record an unkeyed fact", "faint")]),
+    L([s("ask  ", "primary"), s("<question>", "text"), s("          retrieve — or refuse if unknown", "faint")]),
+    L([s("history ", "primary"), s("<key>", "calm"), s("           every version, oldest first", "faint")]),
+    L([s("list", "primary"), s("                     every keyed fact ada currently believes", "faint")]),
+    L([s("stats", "primary"), s("                    substrate vital signs", "faint")]),
+    L([s("space ", "primary"), s("<id>", "calm"), s("              switch space", "faint")]),
+    L([s("logout", "primary")]),
+    L([s("receipts over adjectives — every answer cites a key, a version.", "faint")], 0),
+  ]);
+}
+
+async function cmdList() {
+  const out = await tool("keys", { space: state.space, limit: 60 });
+  state.facts = out.facts || [];
+  const lines = [L([s(state.facts.length + " keyed facts held · "
+    + state.unknowns.length + " empty slot" + (state.unknowns.length === 1 ? "" : "s"), "muted")], 0)];
+  for (const f of state.facts) {
+    lines.push(L([s(f.key.padEnd(20), "calm"), s(f.content, "text"),
+                  s("  · v" + f.version, "accent")]));
+  }
+  for (const u of state.unknowns) {
+    lines.push(L([s(u.label.padEnd(20), "faint"), s("— empty slot, never guessed", "signal")]));
+  }
+  block(lines);
+  renderGrid();
+}
+
+async function cmdTell(rest) {
+  let key = null, text = rest;
+  const m = rest.match(/^key=(\S+)\s+([\s\S]+)$/);
+  if (m) { key = m[1].toLowerCase(); text = m[2].trim(); }
+  if (!text) {
+    block([L([s("usage: tell [key=<key>] <text>", "signal")]),
+           L([s("e.g.  tell key=acme.status The renewal closed.", "faint")])]);
+    return;
+  }
+  const prev = key ? state.facts.find((f) => f.key === key) : null;
+  const args = { text, space: state.space, speaker: state.me.username };
+  if (key) args.key = key;
+  const out = await tool("tell", args);
+  if (!out.told) {
+    block([L([s("not absorbed — " + (out.reason || "duplicate"), "muted")])]);
+    return;
+  }
+  const v = out.version || 1;
+  const lines = [L([s("absorbed ", "muted"), s("v" + v, "accent"),
+    s(v === 1 && key ? " · new slot filled" : "", "faint"),
+    s(" · durable ", "faint"), s(out.durable ? "✓" : "(queued)", "calm")])];
+  if (prev && v > 1) {
+    lines.push(L([s("v" + prev.version + ": " + prev.content, "faint"),
+                  s("  →  ", "faint"), s("v" + v + ": " + text, "accent")]));
+  }
+  block(lines);
+  if (key) {
+    state.unknowns = state.unknowns.filter((u) => u.label !== key);
+    state.focusKey = key;
+    await refreshGrid(key);
+  } else {
+    await refreshGrid();
+  }
+}
+
+async function cmdAsk(rest) {
+  if (!rest) {
+    block([L([s("ask what? e.g.  ask what is acme's status", "faint")], 0)]);
+    return;
+  }
+  const out = await tool("ask", { question: rest, space: state.space });
+  if (out.refused) {
+    const label = rest.toLowerCase().replace(/[^a-z0-9\s.]/g, "")
+      .trim().split(/\s+/).slice(0, 4).join(".");
+    let u = state.unknowns.find((x) => x.question === rest);
+    if (u) u.asked += 1;
+    else { u = { label, question: rest, asked: 1 }; state.unknowns.push(u); }
+    state.focusKey = u.label;
+    block([
+      L([s("I don't know.", "signal"), s("   — empty slot, not a guess", "faint")]),
+      L([s("asked " + u.asked + "× · still unanswered", "faint")]),
+      L([s("fill it with:  tell key=<your.key> <value>", "faint")]),
+    ]);
+    renderGrid();
+    return;
+  }
+  const lines = [L([s(out.answer || out.fact || "", "calm")])];
+  const cite = [];
+  if (out.fact && out.fact !== out.answer) cite.push(s(out.fact + " · ", "faint"));
+  cite.push(s("confidence " + (out.confidence ?? "—"), "faint"));
+  lines.push(L(cite));
+  block(lines);
+}
+
+async function cmdHistory(rest) {
+  const key = rest.trim().toLowerCase();
+  if (!key) { block([L([s("usage: history <key>", "signal")])]); return; }
+  const out = await tool("history", { key, space: state.space });
+  if (!out.chain || !out.chain.length) {
+    const u = state.unknowns.find((x) => x.label === key);
+    if (u) {
+      block([L([s(key, "faint"), s("  — empty slot. no versions, no history.", "signal")]),
+             L([s("asked " + u.asked + "× · answered 0×", "faint")])]);
+      return;
+    }
+    block([L([s("no such key: ", "signal"), s(key, "text")]),
+           L([s("try `list` to see what ada holds.", "faint")])]);
+    return;
+  }
+  state.focusKey = key;
+  const n = out.chain.length;
+  const lines = [L([s(key, "calm"), s("  " + n + " version" + (n > 1 ? "s" : ""), "muted")])];
+  out.chain.forEach((v, i) => {
+    const latest = i === n - 1;
+    lines.push(L([
+      s(("v" + v.version).padEnd(4), latest ? "accent" : "faint"),
+      s(v.content, latest ? "text" : "muted"),
+      latest ? s("   ← current belief", "faint") : s("", "faint"),
+    ]));
+  });
+  block(lines);
+  renderGrid();
+}
+
+async function cmdStats() {
+  const out = await tool("stats", { space: state.space });
+  const lines = [L([s("substrate vital signs · " + state.space, "muted")], 0)];
+  for (const [k, v] of Object.entries(out)) {
+    lines.push(L([s(String(k).padEnd(24), "calm"),
+                  s(typeof v === "object" ? JSON.stringify(v) : String(v), "text")]));
+  }
+  block(lines);
+}
+
+async function cmdSpace(rest) {
+  const id = rest.trim();
+  if (!id) { block([L([s("usage: space <id>   (now: " + state.space + ")", "faint")])]); return; }
+  if (state.me.allowed_space && state.me.allowed_space !== id) {
+    block([L([s("this login is bound to space '" + state.me.allowed_space + "'", "signal")])]);
+    return;
+  }
+  state.space = id;
+  state.unknowns = [];
+  state.focusKey = null;
+  $("crumb-space").textContent = id + " space";
+  block([L([s("switched to space ", "muted"), s(id, "calm")])]);
+  await refreshGrid();
+}
+
+async function logout() {
+  try { await fetch("/auth/logout", { method: "POST" }); } catch {}
+  location.reload();
+}
+
+/* ---- dispatcher -------------------------------------------------------- */
+
+let busy = false;
+async function run(raw) {
+  const input = raw.trim();
+  if (!input || busy) return;
+  echo(input);
+  state.hist.push(input);
+  state.histIdx = state.hist.length;
+  const sp = input.indexOf(" ");
+  const verb = (sp < 0 ? input : input.slice(0, sp)).toLowerCase();
+  const rest = sp < 0 ? "" : input.slice(sp + 1).trim();
+  busy = true;
+  try {
+    if (verb === "help" || verb === "?") cmdHelp();
+    else if (verb === "list") await cmdList();
+    else if (verb === "tell") await cmdTell(rest);
+    else if (verb === "ask") await cmdAsk(rest);
+    else if (verb === "history") await cmdHistory(rest);
+    else if (verb === "stats") await cmdStats();
+    else if (verb === "space") await cmdSpace(rest);
+    else if (verb === "logout") { await logout(); return; }
+    else if (verb === "clear") { $("term").innerHTML = ""; boot_lines(); }
+    else {
+      block([L([s("unknown verb: ", "signal"), s(verb, "text")]),
+             L([s("the workbench speaks: tell · ask · history · list · stats · space   (try `help`)", "faint")])]);
+    }
+  } catch (e) {
+    if (e && e.auth) { location.reload(); return; }
+    block([L([s(String(e.message || e), "signal")])]);
+  } finally {
+    busy = false;
+  }
+}
+
+/* ---- boot -------------------------------------------------------------- */
+
+function boot_lines() {
+  block([
+    L([s("ada", "primary"), s(" · fact memory · " + state.space + " space", "muted")], 0),
+    L([s("I hold facts, not opinions. tell me things; ask me back; I cite the version.", "faint")], 0),
+    L([s("when no fact maps to your question, I say “I don’t know” — the empty slot, not a guess.", "faint")], 0),
+    L([s("type  help  for the verbs, or tap a suggestion below.", "faint")], 0),
+  ]);
+}
+
+async function bootApp() {
+  $("gate-login").classList.add("hidden");
+  $("gate-rotate").classList.add("hidden");
+  $("app").classList.remove("hidden");
+  if (state.me.allowed_space) {
+    state.space = state.me.allowed_space;
+  }
+  $("crumb-space").textContent = state.space + " space";
+  $("who").textContent = state.me.username;
+  $("who").onclick = () => run("logout");
+  renderHints();
+  boot_lines();
+  try { await mcpInit(); } catch (e) { /* stateless server may not need it */ }
+  await refreshGrid();
+  $("cmd").focus();
+}
+
+/* ---- gates -------------------------------------------------------------- */
+
+function showLogin(note) {
+  $("app").classList.add("hidden");
+  $("gate-rotate").classList.add("hidden");
+  $("gate-login").classList.remove("hidden");
+  $("login-note").innerHTML = note || "";
+  $("login-user").focus();
+}
+
+function showRotate() {
+  $("gate-login").classList.add("hidden");
+  $("gate-rotate").classList.remove("hidden");
+  $("rot-current").focus();
+}
+
+$("login-form").onsubmit = async (e) => {
+  e.preventDefault();
+  $("login-err").textContent = "";
+  try {
+    const r = await fetch("/auth/login", {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ username: $("login-user").value.trim(),
+                             password: $("login-pass").value }),
+    });
+    const body = await r.json();
+    if (!r.ok) { $("login-err").textContent = body.detail || "login failed"; return; }
+    state.me = body;
+    $("login-pass").value = "";
+    if (body.must_change_password) showRotate();
+    else bootApp();
+  } catch (err) {
+    $("login-err").textContent = "runtime unreachable";
+  }
+};
+
+$("rotate-form").onsubmit = async (e) => {
+  e.preventDefault();
+  $("rotate-err").textContent = "";
+  if ($("rot-new").value !== $("rot-confirm").value) {
+    $("rotate-err").textContent = "passwords don't match"; return;
+  }
+  try {
+    const r = await fetch("/auth/change-password", {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ current_password: $("rot-current").value,
+                             new_password: $("rot-new").value }),
+    });
+    const body = await r.json();
+    if (!r.ok) { $("rotate-err").textContent = body.detail || "rotation failed"; return; }
+    state.me.must_change_password = false;
+    bootApp();
+  } catch (err) {
+    $("rotate-err").textContent = "runtime unreachable";
+  }
+};
+
+/* ---- input wiring -------------------------------------------------------- */
+
+$("cmd").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    const v = $("cmd").value;
+    $("cmd").value = "";
+    run(v);
+  } else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    if (state.histIdx > 0) state.histIdx -= 1;
+    $("cmd").value = state.hist[state.histIdx] || "";
+  } else if (e.key === "ArrowDown") {
+    e.preventDefault();
+    if (state.histIdx < state.hist.length - 1) {
+      state.histIdx += 1;
+      $("cmd").value = state.hist[state.histIdx];
+    } else { state.histIdx = state.hist.length; $("cmd").value = ""; }
+  }
+});
+$("term").addEventListener("click", () => $("cmd").focus());
+$("inputrow").addEventListener("click", () => $("cmd").focus());
+document.querySelectorAll(".rail-btn").forEach((b) => {
+  b.addEventListener("click", () => {
+    if (b.dataset.cmd) run(b.dataset.cmd);
+    else if (b.dataset.draft !== undefined) $("cmd").value = b.dataset.draft;
+    $("cmd").focus();
+  });
+});
+
+/* ---- entry -------------------------------------------------------------- */
+
+(async function main() {
+  try {
+    const r = await fetch("/auth/me");
+    if (r.ok) {
+      state.me = await r.json();
+      if (state.me.must_change_password) showRotate();
+      else bootApp();
+      return;
+    }
+  } catch {}
+  showLogin();
+})();
+</script>
+</body></html>

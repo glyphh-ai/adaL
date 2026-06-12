@@ -55,14 +55,15 @@ class Brain:
         self._spaces: dict = {}
         main = self._make_space("main")
 
-        # Cognitive infrastructure (the chat pipeline runs on the main
-        # in-memory space; sql mode keeps main in memory for chat and
-        # uses sql stores for the MCP fact tools on other spaces).
+        # Cognitive infrastructure: the chat pipeline always runs on an
+        # in-memory space. In sql mode that chat space is seed-only and
+        # SEPARATE — the fact tools' "main" stays the SqlFactStore, so
+        # facts told over MCP are durable and visible across restarts.
+        # (The old overwrite here sent main-space tells to the chat
+        # space: present in RAM, gone from reads after a restart.)
         from ada.memory.thought_space import ThoughtSpace
         chat_space = main if isinstance(main, ThoughtSpace) else ThoughtSpace(enricher=enricher)
         self._cognitive = AdaCognitive(thought_space=chat_space)
-        if not isinstance(main, ThoughtSpace):
-            self._spaces["main"] = chat_space  # chat + main fact tools share it
         self._thought_process = None  # lazy init
         self._persist_queue: list = []  # write queue for background persistence
 
