@@ -133,6 +133,29 @@ body {
   position: absolute; bottom: 12px; left: 16px;
   font-size: 11px; color: var(--ada-text-faint);
 }
+.viz-scope {
+  position: absolute; top: 56px; left: 16px; display: flex; gap: 8px;
+  align-items: center; width: min(640px, calc(100% - 300px));
+}
+.viz-scope-in {
+  flex: 1; background: color-mix(in srgb, var(--ada-ink) 86%, transparent);
+  border: 1px solid var(--ada-border); border-radius: var(--ada-radius);
+  color: var(--ada-text); font-family: var(--ada-mono); font-size: 11.5px;
+  padding: 8px 12px; outline: none; caret-color: var(--lead);
+  backdrop-filter: blur(6px);
+}
+.viz-scope-in:focus { border-color: var(--lead); }
+.viz-scope-in::placeholder { color: var(--ada-text-faint); }
+.viz-limit, .viz-btn {
+  background: var(--ada-ink-raised); border: 1px solid var(--ada-border);
+  border-radius: 7px; color: var(--ada-text-muted);
+  font-family: var(--ada-mono); font-size: 11.5px; padding: 7px 10px;
+  cursor: pointer;
+}
+.viz-btn:hover { color: var(--ada-text); border-color: var(--lead); }
+.viz-btn.danger { color: var(--ada-signal); }
+.viz-btn.danger:hover { border-color: var(--ada-signal); }
+.viz-btn.confirm { background: color-mix(in srgb, var(--ada-signal) 22%, var(--ada-ink-raised)); color: var(--ada-text); border-color: var(--ada-signal); }
 .viz-count {
   position: absolute; top: 24px; left: 330px;
   font-size: 11px; color: var(--ada-text-muted);
@@ -416,9 +439,20 @@ body {
   </header>
   <div class="main">
     <div id="viz" class="hidden">
-      <input class="viz-search" id="viz-search" placeholder="search entities and values — Enter flies to the match" spellcheck="false">
+      <input class="viz-search" id="viz-search" placeholder="search loaded entities — Enter flies to the match" spellcheck="false">
+      <div class="viz-scope">
+        <input class="viz-scope-in" id="viz-scope" spellcheck="false"
+               placeholder="scope: spatial.location=boston, relational.object=engineer  (empty = top by weight)">
+        <select class="viz-limit" id="viz-limit">
+          <option value="150">150</option>
+          <option value="500">500</option>
+          <option value="1500">1500</option>
+        </select>
+        <button class="viz-btn" id="viz-apply">load</button>
+        <button class="viz-btn danger hidden" id="viz-archive">archive scope</button>
+      </div>
       <span class="viz-count" id="viz-count"></span>
-      <div class="viz-hint">drag to orbit · scroll to zoom · click a dot for its profile — the joins entities_where computes, drawn</div>
+      <div class="viz-hint">drag to orbit · scroll to zoom · click a dot for its profile — a bounded lens over the store, never a full dump</div>
     </div>
     <div class="term-wrap"><div class="term" id="term"></div></div>
     <div class="hints" id="hints"></div>
@@ -1153,26 +1187,38 @@ function layout(nodes, links, ticks = 220) {
   return pos;
 }
 
-async function openConstellation() {
-  const host = document.getElementById("viz");
-  if (C) { C.active = true; C.resize(); return; }
+function parseScope(text) {
+  // "spatial.location=boston, relational.object=engineer" → conditions;
+  // a repeated slot becomes a list (ALL must hold — same as query/who)
+  const conditions = {};
+  for (const part of text.split(/[,·;]+/)) {
+    const [lr, ...rest] = part.split("=");
+    const value = rest.join("=").trim();
+    const key = (lr || "").trim();
+    if (!key || !value || !key.includes(".")) continue;
+    if (conditions[key] === undefined) conditions[key] = value;
+    else if (Array.isArray(conditions[key])) conditions[key].push(value);
+    else conditions[key] = [conditions[key], value];
+  }
+  return Object.keys(conditions).length ? conditions : null;
+}
 
-  // `tool` and `state` are global lexical bindings from the app script
-  const out = await tool("entities", { space: state.space, limit: 150 });
-  const { nodes, links } = buildGraph(out.entities || []);
+function buildScene(entities) {
+  // rebuildable: everything lives in one group, disposed on reload
+  if (C.group) {
+    C.scene.remove(C.group);
+    C.group.traverse((o) => {
+      if (o.material) o.material.dispose();
+      if (o.geometry) o.geometry.dispose();
+    });
+  }
+  const { nodes, links } = buildGraph(entities);
   const pos = layout(nodes, links);
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 4000);
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  host.appendChild(renderer.domElement);
-
-  const tex = dotTexture();
+  const group = new THREE.Group();
   const sprites = [];
   nodes.forEach((n, i) => {
     const color = n.kind === "entity" ? hashColor(n.name) : "#6b5f8a";
-    const m = new THREE.SpriteMaterial({ map: tex, color,
+    const m = new THREE.SpriteMaterial({ map: C.tex, color,
       transparent: true, depthWrite: false,
       blending: THREE.AdditiveBlending,
       opacity: n.kind === "entity" ? 0.95 : 0.45 });
@@ -1183,18 +1229,88 @@ async function openConstellation() {
     s.scale.setScalar(size);
     s.position.set(...pos[i]);
     s.userData = n;
-    scene.add(s);
+    group.add(s);
     sprites.push(s);
   });
-
   const lpos = [];
   const idx = new Map(nodes.map((n, i) => [n.id, i]));
   for (const [a, b] of links) lpos.push(...pos[idx.get(a)], ...pos[idx.get(b)]);
   const lgeo = new THREE.BufferGeometry();
   lgeo.setAttribute("position", new THREE.Float32BufferAttribute(lpos, 3));
-  scene.add(new THREE.LineSegments(lgeo, new THREE.LineBasicMaterial({
+  group.add(new THREE.LineSegments(lgeo, new THREE.LineBasicMaterial({
     color: "#5a4d80", transparent: true, opacity: 0.22,
     blending: THREE.AdditiveBlending })));
+  C.scene.add(group);
+  C.group = group;
+  C.sprites = sprites;
+  C.clearSelect();
+  C.applySearch();
+}
+
+async function loadScope() {
+  // `tool` and `state` are global lexical bindings from the app script
+  const conditions = parseScope(document.getElementById("viz-scope").value);
+  const limit = parseInt(document.getElementById("viz-limit").value, 10);
+  const args = { space: state.space, limit };
+  if (conditions) args.conditions = conditions;
+  const out = await tool("entities", args);
+  C.conditions = conditions;
+  buildScene(out.entities || []);
+  document.getElementById("viz-count").textContent = conditions
+    ? out.count + " entities match the scope"
+    : out.count + " entities · top by weight";
+  const archBtn = document.getElementById("viz-archive");
+  archBtn.classList.toggle("hidden", !conditions);
+  archBtn.classList.remove("confirm");
+  archBtn.textContent = "archive scope";
+  C.armedArchive = null;
+}
+
+async function archiveScope() {
+  // two-step: first click runs the dry run and arms the button with
+  // the exact counts; second click (within 12s) actually archives
+  if (!C.conditions) return;
+  const btn = document.getElementById("viz-archive");
+  if (!C.armedArchive) {
+    const dry = await tool("archive", { conditions: C.conditions,
+                                        space: state.space, dry_run: true });
+    if (!dry.facts) { btn.textContent = "nothing to archive"; return; }
+    C.armedArchive = dry;
+    btn.classList.add("confirm");
+    btn.textContent = "archive " + dry.facts + " facts of "
+      + dry.entities_matched + " entities — confirm";
+    setTimeout(() => {
+      if (C.armedArchive) {
+        C.armedArchive = null;
+        btn.classList.remove("confirm");
+        btn.textContent = "archive scope";
+      }
+    }, 12000);
+    return;
+  }
+  const r = await tool("archive", { conditions: C.conditions,
+                                    space: state.space, dry_run: false });
+  C.armedArchive = null;
+  await loadScope();
+  document.getElementById("viz-count").textContent =
+    "archived " + r.facts + " facts of " + r.entities_matched + " entities";
+  refreshGrid();
+}
+
+async function openConstellation() {
+  const host = document.getElementById("viz");
+  if (C) { C.active = true; C.resize(); return; }
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 4000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  host.appendChild(renderer.domElement);
+
+  C = { active: true, scene, camera, renderer, tex: dotTexture(),
+        group: null, sprites: [], conditions: null, armedArchive: null,
+        flyTo: null, labelFor: null,
+        clearSelect: () => {}, applySearch: () => {}, resize: () => {} };
 
   // orbit state
   const orbit = { theta: 0.6, phi: 1.1, dist: 230, target: new THREE.Vector3() };
@@ -1228,9 +1344,10 @@ async function openConstellation() {
   const ray = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
   let card = null, label = null;
-  const clearSelect = () => {
+  C.clearSelect = () => {
     if (card) { card.remove(); card = null; }
     if (label) { label.remove(); label = null; }
+    C.labelFor = null;
   };
   renderer.domElement.addEventListener("click", (e) => {
     if (drag && drag.moved) return;
@@ -1238,8 +1355,8 @@ async function openConstellation() {
     mouse.set(((e.clientX - r.left) / r.width) * 2 - 1,
               -((e.clientY - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(mouse, camera);
-    const hits = ray.intersectObjects(sprites);
-    clearSelect();
+    const hits = ray.intersectObjects(C.sprites);
+    C.clearSelect();
     if (!hits.length) return;
     const n = hits[0].object.userData;
     card = document.createElement("div");
@@ -1267,17 +1384,15 @@ async function openConstellation() {
     label.textContent = n.name;
     host.appendChild(label);
     C.labelFor = hits[0].object;
-    // glide toward the picked node
     C.flyTo = hits[0].object.position.clone();
   });
 
-  // search
+  // search over the LOADED scope (server-side scoping is the load bar)
   const searchEl = document.getElementById("viz-search");
-  const countEl = document.getElementById("viz-count");
-  const applySearch = () => {
+  C.applySearch = () => {
     const q = searchEl.value.trim().toLowerCase();
     let hits = 0;
-    for (const s of sprites) {
+    for (const s of C.sprites) {
       const n = s.userData;
       const hay = n.kind === "entity"
         ? n.name + " " + Object.values(n.slots).flat().join(" ")
@@ -1288,26 +1403,35 @@ async function openConstellation() {
       if (match && q) hits++;
       s.userData._match = match;
     }
-    countEl.textContent = q ? hits + " match" + (hits === 1 ? "" : "es") : "";
+    if (q) document.getElementById("viz-count").textContent =
+      hits + " match" + (hits === 1 ? "" : "es");
   };
-  searchEl.addEventListener("input", applySearch);
+  searchEl.addEventListener("input", C.applySearch);
   searchEl.addEventListener("keydown", (e) => {
     if (e.key !== "Enter") return;
-    const best = sprites.find((s) => s.userData._match && s.userData.kind === "entity")
-              || sprites.find((s) => s.userData._match);
+    const best = C.sprites.find((s) => s.userData._match && s.userData.kind === "entity")
+              || C.sprites.find((s) => s.userData._match);
     if (best) C.flyTo = best.position.clone();
   });
 
-  const resize = () => {
+  // scope controls
+  document.getElementById("viz-apply").addEventListener("click", loadScope);
+  document.getElementById("viz-scope").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") loadScope();
+  });
+  document.getElementById("viz-limit").addEventListener("change", loadScope);
+  document.getElementById("viz-archive").addEventListener("click", archiveScope);
+
+  C.resize = () => {
     const w = host.clientWidth, h = host.clientHeight;
     renderer.setSize(w, h);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
   };
-  addEventListener("resize", resize);
+  addEventListener("resize", C.resize);
+  C.resize();
 
-  C = { active: true, resize, flyTo: null, labelFor: null };
-  resize();
+  await loadScope();
 
   const tick = () => {
     requestAnimationFrame(tick);

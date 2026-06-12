@@ -233,8 +233,37 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                     "type": "object",
                     "properties": {
                         "limit": {"type": "integer", "default": 150},
+                        "conditions": {
+                            "type": "object",
+                            "description": "scope to entities matching ALL "
+                                "{'layer.role': value} conditions (same "
+                                "semantics as query/who) — the lens for "
+                                "stores too big to draw whole",
+                        },
                         "space": {"type": "string"},
                     },
+                },
+            ),
+            Tool(
+                name="archive",
+                description=(
+                    "Archive every current fact belonging to entities "
+                    "matching ALL conditions — cohort-level data change, "
+                    "bounded by the same capped entity intersection as "
+                    "query/who. dry_run defaults TRUE and returns counts "
+                    "only; pass dry_run=false to actually archive. "
+                    "Archived facts leave recall/ops but stay in the "
+                    "database. There is no archive-everything: conditions "
+                    "are required."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "conditions": {"type": "object"},
+                        "dry_run": {"type": "boolean", "default": True},
+                        "space": {"type": "string"},
+                    },
+                    "required": ["conditions"],
                 },
             ),
             Tool(
@@ -332,6 +361,8 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
             return await _handle_keys(brain, args)
         if name == "entities":
             return await _handle_entities(brain, args)
+        if name == "archive":
+            return await _handle_archive(brain, args)
         if name == "consolidate":
             return await _handle_consolidate(brain, args)
         if name == "stats":
@@ -535,11 +566,77 @@ async def _handle_entities(brain, args: dict) -> CallToolResult:
     try:
         store, _ = _space(brain, args)
         limit = int(args.get("limit", 150))
-        view = await _maybe(store.entity_view(limit=limit))
+        conditions = args.get("conditions") or None
+        view = await _maybe(store.entity_view(limit=limit,
+                                              conditions=conditions))
         return _ok({"space": store.space_id, "count": len(view),
-                    "entities": view})
+                    "scoped": bool(conditions), "entities": view})
     except Exception as e:
         logger.error("entities failed: %s", e, exc_info=True)
+        return _err(str(e))
+
+
+async def _reload_memory_space(brain, store) -> None:
+    """After an at-rest mutation, a memory-mode space must reload from
+    the DB (SQL mode reads it directly)."""
+    if getattr(store, "is_sql", False):
+        _surface_cache.pop((id(brain), store.space_id), None)
+        return
+    from ada.memory.thought_persistence import load_thoughts
+    from ada.memory.thought_space import ThoughtSpace
+    fresh = ThoughtSpace(enricher=brain._enricher, space_id=store.space_id)
+    await load_thoughts(brain._session_factory, fresh,
+                        space_id=store.space_id)
+    brain._spaces[store.space_id] = fresh
+    if brain._cognitive.thought_space is store:
+        brain._cognitive._space = fresh  # property is read-only
+    _surface_cache.pop((id(brain), store.space_id), None)
+
+
+async def _handle_archive(brain, args: dict) -> CallToolResult:
+    from sqlalchemy import select, update
+    from domains.models.db_models import AdaThought, FactSlot
+    conditions = args.get("conditions")
+    if not conditions or not isinstance(conditions, dict):
+        return _err("archive requires non-empty 'conditions' — "
+                    "there is no archive-everything")
+    dry = bool(args.get("dry_run", True))
+    try:
+        store, is_sql = _space(brain, args)
+        if is_sql:
+            names = await store._entities_where(conditions)
+        else:
+            names = await _maybe(store.entities_where(conditions))
+        sf = brain._session_factory
+        ids: list = []
+        if names:
+            async with sf() as s:
+                r = await s.execute(
+                    select(FactSlot.thought_id).distinct()
+                    .where(FactSlot.space_id == store.space_id,
+                           FactSlot.is_current == 1,
+                           FactSlot.entity.in_(list(names))))
+                ids = [row[0] for row in r.all()]
+        payload = {"space": store.space_id, "conditions": conditions,
+                   "entities_matched": len(names), "facts": len(ids),
+                   "dry_run": dry}
+        if dry:
+            payload["note"] = ("dry run — nothing changed; call with "
+                               "dry_run=false to archive")
+            return _ok(payload)
+        if ids:
+            async with sf() as s:
+                await s.execute(update(AdaThought)
+                                .where(AdaThought.thought_id.in_(ids))
+                                .values(archived=1))
+                await s.execute(update(FactSlot)
+                                .where(FactSlot.thought_id.in_(ids))
+                                .values(is_current=0))
+                await s.commit()
+            await _reload_memory_space(brain, store)
+        return _ok(payload)
+    except Exception as e:
+        logger.error("archive failed: %s", e, exc_info=True)
         return _err(str(e))
 
 
@@ -552,20 +649,7 @@ async def _handle_consolidate(brain, args: dict) -> CallToolResult:
             brain._session_factory, space_id=space_id,
             me=args.get("me"), enricher=brain._enricher, dry_run=dry_run)
         if not dry_run:
-            # Memory-mode spaces hold stale state in RAM — rebuild from
-            # the consolidated DB. (SQL mode reads the DB directly.)
-            store = brain.space(space_id)
-            if not getattr(store, "is_sql", False):
-                from ada.memory.thought_persistence import load_thoughts
-                from ada.memory.thought_space import ThoughtSpace
-                fresh = ThoughtSpace(enricher=brain._enricher,
-                                     space_id=space_id)
-                await load_thoughts(brain._session_factory, fresh,
-                                    space_id=space_id)
-                brain._spaces[space_id] = fresh
-                if brain._cognitive.thought_space is store:
-                    brain._cognitive._space = fresh  # property is read-only
-            _surface_cache.pop((id(brain), space_id), None)
+            await _reload_memory_space(brain, brain.space(space_id))
         return _ok(report)
     except Exception as e:
         logger.error("consolidate failed: %s", e, exc_info=True)

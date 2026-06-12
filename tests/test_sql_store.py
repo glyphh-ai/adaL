@@ -119,6 +119,28 @@ def test_entity_view_parity(tmp_path):
     asyncio.run(run())
 
 
+def test_entity_view_scoped_parity(tmp_path):
+    """Scoped entity_view (the constellation lens): conditions narrow
+    the cohort identically in both modes; the cohort is bounded before
+    profile rows are fetched."""
+    mem = _fill_memory()
+
+    async def run():
+        store, _ = await _make_sql(tmp_path)
+        await _fill_sql(store)
+        cond = {"spatial.location": "boston"}
+        sql_view = await store.entity_view(conditions=cond)
+        mem_view = mem.entity_view(conditions=cond)
+        assert {e["name"] for e in sql_view} == {"ann", "bo"}
+        assert {e["name"] for e in mem_view} == {"ann", "bo"}
+        # limit applies to the scoped cohort
+        assert len(await store.entity_view(conditions=cond, limit=1)) == 1
+        # empty scope is a structural ∅, not an error
+        assert await store.entity_view(
+            conditions={"spatial.location": "nowhere"}) == []
+    asyncio.run(run())
+
+
 def test_keyed_slotless_fact_survives_restart(tmp_path):
     """A keyed fact whose enrichment produced NO universal slots must
     still appear in keyed_facts — including from a fresh store instance

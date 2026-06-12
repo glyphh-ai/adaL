@@ -483,11 +483,18 @@ class ThoughtSpace:
         """Chronological version chain for a stable key. Empty if none."""
         return list(self._history_by_key.get(key, []))
 
-    def entity_view(self, limit: int = 150) -> list[dict]:
+    def entity_view(self, limit: int = 150,
+                    conditions: dict | None = None) -> list[dict]:
         """Entity profiles shaped for the constellation: name, slot
-        fills, and weight (total filled values). Heaviest first."""
+        fills, and weight (total filled values). Heaviest first.
+        `conditions` scopes through entities_where — the constellation
+        is a lens over a bounded cohort, never a full dump."""
+        profiles = self.entity_profiles()
+        if conditions:
+            names = set(self.entities_where(conditions))
+            profiles = {n: s for n, s in profiles.items() if n in names}
         out = []
-        for name, slots in self.entity_profiles().items():
+        for name, slots in profiles.items():
             flat = {lr: sorted(vals) for lr, vals in slots.items()}
             out.append({"name": name, "slots": flat,
                         "weight": sum(len(v) for v in flat.values())})

@@ -372,18 +372,37 @@ class SqlFactStore:
         thoughts.sort(key=lambda t: t.metadata.get("_version", 1))
         return thoughts
 
-    async def entity_view(self, limit: int = 150) -> list[dict]:
-        """Entity profiles for the constellation — grouped straight off
-        the indexed fact_slots rows. Heaviest first."""
+    async def entity_view(self, limit: int = 150,
+                          conditions: dict | None = None) -> list[dict]:
+        """Entity profiles for the constellation. The cohort is bounded
+        BEFORE any profile rows are fetched: conditions go through the
+        same SQL INTERSECT as entities_where (capped); without
+        conditions, a single GROUP BY picks the top entities by row
+        count. Profile rows then come off the entity index for that
+        cohort only — never a full-table dump."""
         from collections import defaultdict as dd
         from domains.models.db_models import FactSlot
         async with self._sf() as s:
+            if conditions:
+                names = (await self._entities_where(conditions))[:limit]
+            else:
+                r = await s.execute(
+                    select(FactSlot.entity, func.count())
+                    .where(FactSlot.space_id == self.space_id,
+                           FactSlot.is_current == 1,
+                           FactSlot.entity.isnot(None))
+                    .group_by(FactSlot.entity)
+                    .order_by(func.count().desc())
+                    .limit(limit))
+                names = [row[0] for row in r.all()]
+            if not names:
+                return []
             r = await s.execute(
                 select(FactSlot.entity, FactSlot.layer, FactSlot.role,
                        FactSlot.value)
                 .where(FactSlot.space_id == self.space_id,
                        FactSlot.is_current == 1,
-                       FactSlot.entity.isnot(None)))
+                       FactSlot.entity.in_(names)))
             rows = r.all()
         profiles: dict = dd(lambda: dd(set))
         for entity, layer, role, value in rows:
