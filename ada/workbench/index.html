@@ -744,6 +744,15 @@ async function logout() {
 
 /* ---- dispatcher -------------------------------------------------------- */
 
+// spinner vocabulary — Ada Lovelace's world
+const LOVELACE = [
+  "weaving", "tabulating", "computing", "annotating", "enumerating",
+  "consulting note g", "punching cards", "working the loom",
+  "carrying the one", "summing bernoullis", "turning the mill",
+  "reading the store", "poetical science", "tracing the algorithm",
+  "minding the engine", "translating menabrea",
+];
+
 let busy = false;
 async function run(raw) {
   const input = raw.trim();
@@ -758,6 +767,10 @@ async function run(raw) {
   const pending = document.createElement("div");
   pending.className = "tline indent";
   pending.appendChild(spinnerEl());
+  const word = document.createElement("span");
+  word.className = "tone-faint";
+  word.textContent = " " + LOVELACE[Math.floor(Math.random() * LOVELACE.length)] + "...";
+  pending.appendChild(word);
   $("term").appendChild(pending);
   scrollTerm();
   try {
