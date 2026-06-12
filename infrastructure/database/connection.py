@@ -90,6 +90,7 @@ async def init_db() -> None:
             await conn.execute(text("PRAGMA busy_timeout = 5000"))
             await conn.execute(text("PRAGMA foreign_keys = ON"))
             await conn.run_sync(Base.metadata.create_all)
+            await _sqlite_upgrade(conn)
         logger.info("SQLite: database tables created, WAL mode enabled")
         return
 
@@ -129,6 +130,57 @@ async def init_db() -> None:
             logger.info("Database tables created via metadata.create_all()")
         except Exception as e:
             logger.error(f"Failed to create tables via metadata.create_all(): {e}")
+
+
+async def _sqlite_upgrade(conn) -> None:
+    """Lightweight in-place upgrades for existing SQLite databases.
+    create_all only creates NEW tables — columns added to existing
+    tables (e.g. ada_thoughts.space_id, migration 0002) must be ALTERed
+    here. Idempotent."""
+    cols = [row[1] for row in
+            (await conn.execute(text("PRAGMA table_info(ada_thoughts)"))).all()]
+    if cols and "space_id" not in cols:
+        await conn.execute(text(
+            "ALTER TABLE ada_thoughts ADD COLUMN space_id VARCHAR(64) "
+            "NOT NULL DEFAULT 'main'"))
+        await conn.execute(text(
+            "CREATE INDEX IF NOT EXISTS ix_ada_thoughts_space_id "
+            "ON ada_thoughts (space_id)"))
+        logger.info("SQLite upgrade: added ada_thoughts.space_id")
+
+    # Backfill fact_slots from existing thoughts' metadata when the
+    # slots table is empty but thoughts exist (pre-0002 databases).
+    n_slots = (await conn.execute(
+        text("SELECT COUNT(*) FROM fact_slots"))).scalar() or 0
+    n_thoughts = (await conn.execute(
+        text("SELECT COUNT(*) FROM ada_thoughts WHERE archived = 0"))).scalar() or 0
+    if n_slots == 0 and n_thoughts > 0:
+        import json as _json
+        from ada.memory.thought_persistence import slot_rows
+        from ada.memory.thought_space import StoredThought
+        rows = (await conn.execute(text(
+            "SELECT thought_id, space_id, content, speaker, extra_data "
+            "FROM ada_thoughts WHERE archived = 0"))).all()
+        inserted = 0
+        for tid, space_id, content, speaker, extra in rows:
+            meta = extra if isinstance(extra, dict) else _json.loads(extra or "{}")
+            stored = StoredThought(thought_id=tid, content=content,
+                                   speaker=speaker, space_id=space_id or "main",
+                                   metadata=meta or {})
+            for sr in slot_rows(stored):
+                await conn.execute(text(
+                    "INSERT INTO fact_slots (space_id,thought_id,entity,layer,"
+                    "role,value,predicate,key,version,is_current) VALUES "
+                    "(:space_id,:thought_id,:entity,:layer,:role,:value,"
+                    ":predicate,:key,:version,:is_current)"), sr)
+                inserted += 1
+        # supersede old versions
+        await conn.execute(text(
+            "UPDATE fact_slots SET is_current=0 WHERE key IS NOT NULL AND "
+            "version < (SELECT MAX(version) FROM fact_slots f2 "
+            "WHERE f2.key = fact_slots.key AND f2.space_id = fact_slots.space_id)"))
+        logger.info(f"SQLite upgrade: backfilled {inserted} fact_slots rows "
+                    f"from {n_thoughts} existing thoughts")
 
 
 async def close_db() -> None:
