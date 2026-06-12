@@ -43,23 +43,27 @@ body {
 }
 
 /* ---- scrollbars: slim, purple, everywhere something scrolls ---- */
-.term, .panel-body, .rail, .viz-card {
+.term, .panel-body, .rail, .viz-card, .cure-body {
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--ada-primary) 45%, transparent) transparent;
 }
 .term::-webkit-scrollbar, .panel-body::-webkit-scrollbar,
-.rail::-webkit-scrollbar, .viz-card::-webkit-scrollbar { width: 6px; }
+.rail::-webkit-scrollbar, .viz-card::-webkit-scrollbar,
+.cure-body::-webkit-scrollbar { width: 6px; }
 .term::-webkit-scrollbar-track, .panel-body::-webkit-scrollbar-track,
-.rail::-webkit-scrollbar-track, .viz-card::-webkit-scrollbar-track {
+.rail::-webkit-scrollbar-track, .viz-card::-webkit-scrollbar-track,
+.cure-body::-webkit-scrollbar-track {
   background: transparent;
 }
 .term::-webkit-scrollbar-thumb, .panel-body::-webkit-scrollbar-thumb,
-.rail::-webkit-scrollbar-thumb, .viz-card::-webkit-scrollbar-thumb {
+.rail::-webkit-scrollbar-thumb, .viz-card::-webkit-scrollbar-thumb,
+.cure-body::-webkit-scrollbar-thumb {
   background: color-mix(in srgb, var(--ada-primary) 40%, transparent);
   border-radius: 999px;
 }
 .term::-webkit-scrollbar-thumb:hover, .panel-body::-webkit-scrollbar-thumb:hover,
-.rail::-webkit-scrollbar-thumb:hover, .viz-card::-webkit-scrollbar-thumb:hover {
+.rail::-webkit-scrollbar-thumb:hover, .viz-card::-webkit-scrollbar-thumb:hover,
+.cure-body::-webkit-scrollbar-thumb:hover {
   background: color-mix(in srgb, var(--ada-primary) 75%, transparent);
 }
 
@@ -317,6 +321,38 @@ body {
 }
 .panel-foot b { color: var(--ada-text-muted); font-weight: 500; }
 
+/* ---- curation view ---- */
+#cure {
+  position: absolute; inset: 0; z-index: 3;
+  background: var(--ada-ink-sunken);
+  display: flex; flex-direction: column; min-height: 0;
+}
+.cure-head {
+  padding: 18px 22px 12px; border-bottom: 1px solid var(--ada-border);
+  display: flex; align-items: baseline; gap: 14px;
+}
+.cure-head h2 { margin: 0; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ada-text-muted); font-weight: 600; }
+.cure-sub { font-size: 11px; color: var(--ada-text-faint); }
+.cure-body { flex: 1; min-height: 0; overflow-y: auto; padding: 16px 22px; display: flex; flex-direction: column; gap: 12px; }
+.cure-card {
+  background: var(--ada-ink-raised); border: 1px solid var(--ada-border);
+  border-radius: var(--ada-radius-lg); padding: 14px 16px;
+}
+.cure-card .row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.cure-card .pair { font-size: 13.5px; color: var(--ada-calm); }
+.cure-card .pair b { color: var(--ada-text); font-weight: 500; }
+.cure-card .score { font-size: 11px; color: var(--ada-accent); border: 1px solid color-mix(in srgb, var(--ada-accent) 40%, transparent); border-radius: 5px; padding: 1px 6px; }
+.cure-card .sect { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ada-text-faint); margin-top: 10px; }
+.cure-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.cure-chip {
+  font-size: 11px; color: var(--ada-text-soft); background: var(--ada-ink);
+  border: 1px solid var(--ada-border); border-radius: 6px; padding: 3px 8px;
+}
+.cure-chip.conflict { color: var(--ada-signal); border-color: color-mix(in srgb, var(--ada-signal) 45%, transparent); }
+.cure-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.cure-report { font-size: 12px; color: var(--ada-text-soft); line-height: 1.7; margin-top: 8px; white-space: pre-wrap; }
+.cure-empty { font-size: 12px; color: var(--ada-text-faint); padding: 6px 2px; }
+
 /* ---- login / rotation gate ---- */
 .gate {
   height: 100vh; display: flex; align-items: center; justify-content: center;
@@ -443,6 +479,7 @@ body {
     <svg class="mark"><use href="#ada-mark"/></svg>
     <button class="rail-btn active" title="Terminal" data-view="term" id="rail-term">›_</button>
     <button class="rail-btn" title="Constellation" data-view="viz" id="rail-viz">▦</button>
+    <button class="rail-btn" title="Curation" data-view="cure" id="rail-cure">⇄</button>
     <button class="rail-btn" title="History" data-draft="history ">⟲</button>
     <button class="rail-btn" title="Ask" data-draft="ask ">○</button>
     <div class="rail-spacer"></div>
@@ -478,6 +515,13 @@ body {
       </div>
       <span class="viz-count" id="viz-count"></span>
       <div class="viz-hint">drag to orbit · scroll to zoom · click a dot for its profile — a bounded lens over the store, never a full dump</div>
+    </div>
+    <div id="cure" class="hidden">
+      <div class="cure-head">
+        <h2>Curation</h2>
+        <span class="cure-sub">deterministic proposals — ada proposes, you decide. nothing here runs on its own.</span>
+      </div>
+      <div class="cure-body" id="cure-body"></div>
     </div>
     <div class="term-wrap"><div class="term" id="term"></div></div>
     <div class="hints" id="hints"></div>
@@ -1220,16 +1264,192 @@ $("cmd").addEventListener("keydown", (e) => {
 $("term").addEventListener("click", () => $("cmd").focus());
 $("inputrow").addEventListener("click", () => $("cmd").focus());
 function setView(view) {
-  const viz = view === "viz";
-  $("viz").classList.toggle("hidden", !viz);
-  $("rail-viz").classList.toggle("active", viz);
-  $("rail-term").classList.toggle("active", !viz);
-  if (viz) {
+  $("viz").classList.toggle("hidden", view !== "viz");
+  $("cure").classList.toggle("hidden", view !== "cure");
+  for (const v of ["term", "viz", "cure"]) {
+    $("rail-" + v).classList.toggle("active", view === v);
+  }
+  if (view === "viz") {
     if (window.openConstellation) window.openConstellation();
     $("viz-search").focus();
   } else {
     if (window.closeConstellation) window.closeConstellation();
-    $("cmd").focus();
+  }
+  if (view === "cure") refreshCuration();
+  if (view === "term") $("cmd").focus();
+}
+
+/* ── curation view: proposals as cards, every action two-step ──────── */
+
+function cureCard() {
+  const d = document.createElement("div");
+  d.className = "cure-card";
+  return d;
+}
+
+function cureBtn(label, danger, onClick) {
+  const b = document.createElement("button");
+  b.className = "viz-btn" + (danger ? " danger" : "");
+  b.textContent = label;
+  b.onclick = onClick;
+  return b;
+}
+
+function armable(btn, dryRun, doRun) {
+  // first click: dry run, button shows exact counts; second confirms
+  let armed = false, timer = null;
+  btn.onclick = async () => {
+    if (!armed) {
+      const label = await dryRun();
+      if (!label) return;
+      btn.classList.add("confirm");
+      btn.textContent = label;
+      armed = true;
+      timer = setTimeout(() => {
+        armed = false;
+        btn.classList.remove("confirm");
+        btn.textContent = btn.dataset.label;
+      }, 12000);
+      return;
+    }
+    clearTimeout(timer);
+    armed = false;
+    btn.classList.remove("confirm");
+    btn.textContent = btn.dataset.label;
+    await doRun();
+  };
+}
+
+async function refreshCuration() {
+  const body = $("cure-body");
+  body.innerHTML = "";
+
+  // ── maintenance card ──
+  const mc = cureCard();
+  mc.innerHTML = '<div class="row"><span class="pair"><b>consolidate</b> — offline maintenance</span></div>'
+    + '<div class="cure-report">re-enrich slotless facts · resolve first-person identity'
+    + (state.identity ? " (me: " + state.identity + ")" : " (set `me <name>` in the terminal first)")
+    + ' · archive typo-duplicates</div>';
+  const mActions = document.createElement("div");
+  mActions.className = "cure-actions";
+  const mReport = document.createElement("div");
+  mReport.className = "cure-report";
+  const renderReport = (r, ran) => {
+    let t = (ran ? "consolidated" : "preview") + " · " + r.scanned + " facts scanned\n"
+      + "re-enriched " + r.re_enriched + " · identity-resolved " + r.identity_resolved
+      + " · questions skipped " + r.questions_skipped;
+    for (const d of r.duplicates_archived) {
+      t += "\narchived “" + d.archived + "” ⇒ kept “" + d.kept + "”";
+    }
+    if (!r.duplicates_archived.length) t += "\nno near-duplicates found";
+    mReport.textContent = t;
+  };
+  mActions.appendChild(cureBtn("preview", false, async () => {
+    const args = { space: state.space, dry_run: true };
+    if (state.identity) args.me = state.identity;
+    renderReport(await tool("consolidate", args), false);
+  }));
+  const runBtn = cureBtn("run consolidation", true, null);
+  runBtn.dataset.label = "run consolidation";
+  armable(runBtn,
+    async () => {
+      const args = { space: state.space, dry_run: true };
+      if (state.identity) args.me = state.identity;
+      const r = await tool("consolidate", args);
+      renderReport(r, false);
+      const n = r.re_enriched + r.identity_resolved + r.duplicates_archived.length;
+      if (!n) { mReport.textContent += "\nnothing to do"; return null; }
+      return "apply " + n + " changes — confirm";
+    },
+    async () => {
+      const args = { space: state.space, dry_run: false };
+      if (state.identity) args.me = state.identity;
+      renderReport(await tool("consolidate", args), true);
+      await refreshGrid();
+    });
+  mActions.appendChild(runBtn);
+  mc.appendChild(mActions);
+  mc.appendChild(mReport);
+  body.appendChild(mc);
+
+  // ── merge proposals ──
+  const head = document.createElement("div");
+  head.className = "cure-empty";
+  head.textContent = "loading alias proposals…";
+  body.appendChild(head);
+  const r = await tool("merge_candidates", { space: state.space });
+  head.textContent = r.count
+    ? r.count + " alias proposal" + (r.count === 1 ? "" : "s")
+      + " — name-alike entities with shared evidence:"
+    : "no alias proposals — every entity name stands alone";
+
+  for (const c of r.candidates) {
+    const card = cureCard();
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML = '<span class="pair"><b></b> ≈ <b></b></span><span class="score"></span>';
+    const bs = row.querySelectorAll("b");
+    bs[0].textContent = c.a;
+    bs[1].textContent = c.b;
+    row.querySelector(".score").textContent = "overlap " + c.score;
+    card.appendChild(row);
+
+    if (c.shared.length) {
+      const sect = document.createElement("div");
+      sect.className = "sect"; sect.textContent = "shared evidence";
+      card.appendChild(sect);
+      const chips = document.createElement("div");
+      chips.className = "cure-chips";
+      for (const v of c.shared.slice(0, 8)) {
+        const ch = document.createElement("span");
+        ch.className = "cure-chip"; ch.textContent = v;
+        chips.appendChild(ch);
+      }
+      if (c.shared.length > 8) {
+        const ch = document.createElement("span");
+        ch.className = "cure-chip"; ch.textContent = "+" + (c.shared.length - 8);
+        chips.appendChild(ch);
+      }
+      card.appendChild(chips);
+    }
+    if (c.conflicts.length) {
+      const sect = document.createElement("div");
+      sect.className = "sect"; sect.textContent = "conflicts";
+      card.appendChild(sect);
+      const chips = document.createElement("div");
+      chips.className = "cure-chips";
+      for (const v of c.conflicts) {
+        const ch = document.createElement("span");
+        ch.className = "cure-chip conflict"; ch.textContent = v;
+        chips.appendChild(ch);
+      }
+      card.appendChild(chips);
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "cure-actions";
+    const mkMerge = (source, target) => {
+      const b = cureBtn("keep " + target + "  (" + source + " → " + target + ")", false, null);
+      b.dataset.label = b.textContent;
+      armable(b,
+        async () => {
+          const d = await tool("merge", { source, target,
+                                          space: state.space, dry_run: true });
+          return "re-point " + d.facts + " facts → " + target + " — confirm";
+        },
+        async () => {
+          await tool("merge", { source, target, space: state.space,
+                                dry_run: false });
+          await refreshGrid();
+          await refreshCuration();
+        });
+      return b;
+    };
+    actions.appendChild(mkMerge(c.a, c.b));
+    actions.appendChild(mkMerge(c.b, c.a));
+    actions.appendChild(cureBtn("dismiss", false, () => card.remove()));
+    card.appendChild(actions);
+    body.appendChild(card);
   }
 }
 
