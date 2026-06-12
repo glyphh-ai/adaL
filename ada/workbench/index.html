@@ -42,6 +42,27 @@ body {
   --row-gap: 1.85;
 }
 
+/* ---- scrollbars: slim, purple, everywhere something scrolls ---- */
+.term, .panel-body, .rail, .viz-card {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--ada-primary) 45%, transparent) transparent;
+}
+.term::-webkit-scrollbar, .panel-body::-webkit-scrollbar,
+.rail::-webkit-scrollbar, .viz-card::-webkit-scrollbar { width: 6px; }
+.term::-webkit-scrollbar-track, .panel-body::-webkit-scrollbar-track,
+.rail::-webkit-scrollbar-track, .viz-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+.term::-webkit-scrollbar-thumb, .panel-body::-webkit-scrollbar-thumb,
+.rail::-webkit-scrollbar-thumb, .viz-card::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--ada-primary) 40%, transparent);
+  border-radius: 999px;
+}
+.term::-webkit-scrollbar-thumb:hover, .panel-body::-webkit-scrollbar-thumb:hover,
+.rail::-webkit-scrollbar-thumb:hover, .viz-card::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--ada-primary) 75%, transparent);
+}
+
 .tone-text   { color: var(--ada-text); }
 .tone-soft   { color: var(--ada-text-soft); }
 .tone-muted  { color: var(--ada-text-muted); }
@@ -78,6 +99,7 @@ body {
   border-right: 1px solid var(--ada-border);
   display: flex; flex-direction: column; align-items: center;
   padding: 14px 0; gap: 6px; z-index: 2;
+  overflow-y: auto; overflow-x: hidden; min-height: 0;
 }
 .rail .mark { width: 34px; height: 34px; margin-bottom: 12px; }
 .rail-btn {
@@ -114,7 +136,9 @@ body {
 .status .who:hover { color: var(--ada-text); }
 
 /* ---- main / terminal ---- */
-.main { grid-area: main; min-width: 0; display: flex; flex-direction: column; z-index: 1; position: relative; }
+/* grid children default to min-height:auto and grow with content —
+   min-height:0 is what makes the inner panes actually scroll */
+.main { grid-area: main; min-width: 0; min-height: 0; display: flex; flex-direction: column; z-index: 1; position: relative; }
 
 /* ---- constellation ---- */
 #viz { position: absolute; inset: 0; z-index: 3; background: var(--ada-ink-sunken); }
@@ -182,8 +206,6 @@ body {
   font-size: 13.5px; line-height: var(--row-gap);
   padding-bottom: 14px;
 }
-.term::-webkit-scrollbar { width: 10px; }
-.term::-webkit-scrollbar-thumb { background: var(--ada-border); border-radius: 6px; border: 3px solid var(--ada-ink-sunken); }
 
 .tline { white-space: pre-wrap; word-break: break-word; }
 .tline.indent { padding-left: 18px; }
@@ -248,6 +270,7 @@ body {
   background: var(--ada-ink);
   border-left: 1px solid var(--ada-border);
   display: flex; flex-direction: column; min-height: 0; z-index: 2;
+  overflow: hidden;
 }
 .panel-head {
   display: flex; align-items: center; justify-content: space-between;
@@ -255,9 +278,7 @@ body {
 }
 .panel-head h2 { margin: 0; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ada-text-muted); font-weight: 600; }
 .panel-head .count { font-size: 11px; color: var(--ada-text-faint); }
-.panel-body { overflow-y: auto; padding: 14px; flex: 1; }
-.panel-body::-webkit-scrollbar { width: 10px; }
-.panel-body::-webkit-scrollbar-thumb { background: var(--ada-border); border-radius: 6px; border: 3px solid var(--ada-ink); }
+.panel-body { overflow-y: auto; padding: 14px; flex: 1; min-height: 0; }
 
 .slotgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .slot {
