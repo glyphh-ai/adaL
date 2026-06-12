@@ -245,6 +245,44 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                 },
             ),
             Tool(
+                name="similar",
+                description=(
+                    "k nearest entities by EXACT Jaccard over current "
+                    "slot=value profiles — find accounts like this one. "
+                    "Candidates come off the slot index (entities sharing "
+                    "at least one value), capped — bounded at any store "
+                    "size. Every score lists the shared dimensions."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "entity": {"type": "string"},
+                        "k": {"type": "integer", "default": 5},
+                        "space": {"type": "string"},
+                    },
+                    "required": ["entity"],
+                },
+            ),
+            Tool(
+                name="drift",
+                description=(
+                    "Descriptive profile drift for one entity over the "
+                    "trailing window: dimensions added, dimensions "
+                    "dropped via in-window supersession, churned keys, "
+                    "and a 0-1 score that decomposes into those receipts. "
+                    "Measurement, not prediction."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "entity": {"type": "string"},
+                        "window_days": {"type": "integer", "default": 30},
+                        "space": {"type": "string"},
+                    },
+                    "required": ["entity"],
+                },
+            ),
+            Tool(
                 name="merge_candidates",
                 description=(
                     "Deterministic entity-alias proposals: name-alike "
@@ -415,6 +453,10 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
             return await _handle_entities(brain, args)
         if name == "archive":
             return await _handle_archive(brain, args)
+        if name == "similar":
+            return await _handle_similar(brain, args)
+        if name == "drift":
+            return await _handle_drift(brain, args)
         if name == "merge_candidates":
             return await _handle_merge_candidates(brain, args)
         if name == "merge":
@@ -711,6 +753,42 @@ async def _handle_consolidate(brain, args: dict) -> CallToolResult:
         return _ok(report)
     except Exception as e:
         logger.error("consolidate failed: %s", e, exc_info=True)
+        return _err(str(e))
+
+
+async def _handle_similar(brain, args: dict) -> CallToolResult:
+    from ada.memory.profile_sim import similar_entities
+    entity = (args.get("entity") or "").strip()
+    if not entity:
+        return _err("Missing 'entity' parameter")
+    try:
+        store, _ = _space(brain, args)
+        out = await similar_entities(brain._session_factory,
+                                     store.space_id, entity,
+                                     k=int(args.get("k", 5)))
+        if out.get("error"):
+            return _err(out["error"])
+        return _ok(out)
+    except Exception as e:
+        logger.error("similar failed: %s", e, exc_info=True)
+        return _err(str(e))
+
+
+async def _handle_drift(brain, args: dict) -> CallToolResult:
+    from ada.memory.profile_sim import entity_drift
+    entity = (args.get("entity") or "").strip()
+    if not entity:
+        return _err("Missing 'entity' parameter")
+    try:
+        store, _ = _space(brain, args)
+        out = await entity_drift(brain._session_factory, store.space_id,
+                                 entity,
+                                 window_days=int(args.get("window_days", 30)))
+        if out.get("error"):
+            return _err(out["error"])
+        return _ok(out)
+    except Exception as e:
+        logger.error("drift failed: %s", e, exc_info=True)
         return _err(str(e))
 
 

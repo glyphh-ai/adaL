@@ -682,6 +682,8 @@ function cmdHelp() {
     L([s("me ", "primary"), s("<name>", "calm"), s("                who my/I resolve to when you ask", "faint")]),
     L([s("consolidate ", "primary"), s("[dry]", "faint"), s("        offline maintenance: re-enrich · resolve identity · archive typo-dups", "faint")]),
     L([s("fact ", "primary"), s("<key>", "calm"), s("              the anatomy of a fact — slots, chain, provenance", "faint")]),
+    L([s("similar ", "primary"), s("<entity> [k]", "calm"), s("      nearest profiles by exact jaccard, with shared dims", "faint")]),
+    L([s("drift ", "primary"), s("<entity> [days]", "calm"), s("    what moved in the window — added · dropped · churned keys", "faint")]),
     L([s("merges", "primary"), s("                   alias proposals; confirm with ", "faint"), s("merge <a> => <b> confirm", "calm")]),
     L([s("logout", "primary")]),
     L([s("receipts over adjectives — every answer cites a key, a version.", "faint")], 0),
@@ -872,6 +874,60 @@ async function run(raw) {
     else if (verb === "history") await cmdHistory(rest);
     else if (verb === "stats") await cmdStats();
     else if (verb === "space") await cmdSpace(rest);
+    else if (verb === "similar") {
+      const parts = rest.trim().toLowerCase().split(/\s+/);
+      const maybeK = parseInt(parts[parts.length - 1], 10);
+      const hasK = parts.length > 1 && !isNaN(maybeK);
+      const entity = (hasK ? parts.slice(0, -1) : parts).join(" ");
+      if (!entity) { block([L([s("usage: similar <entity> [k]", "faint")])]); }
+      else {
+        const r = await tool("similar", { entity, space: state.space,
+                                          k: hasK ? maybeK : 5 });
+        const lines = [L([s("entities like ", "muted"), s(entity, "calm"),
+          s("  ·  " + r.profile_dims + " dims · "
+            + r.candidates_considered + " candidates considered", "faint")], 0)];
+        if (!r.similar.length) {
+          lines.push(L([s("none share a single slot value — it stands alone", "muted")]));
+        }
+        for (const e of r.similar) {
+          lines.push(L([s(e.name.padEnd(18), "calm"),
+                        s("jaccard " + e.similarity, "accent")]));
+          lines.push(L([s("shared: " + e.shared.slice(0, 4).join(" · ")
+            + (e.shared.length > 4 ? " · +" + (e.shared.length - 4) : ""), "faint")]));
+        }
+        block(lines);
+      }
+    }
+    else if (verb === "drift") {
+      const parts = rest.trim().toLowerCase().split(/\s+/);
+      const maybeD = parseInt(parts[parts.length - 1], 10);
+      const hasD = parts.length > 1 && !isNaN(maybeD);
+      const entity = (hasD ? parts.slice(0, -1) : parts).join(" ");
+      if (!entity) { block([L([s("usage: drift <entity> [window_days]", "faint")])]); }
+      else {
+        const r = await tool("drift", { entity, space: state.space,
+                                        window_days: hasD ? maybeD : 30 });
+        const hot = r.drift >= 0.4;
+        const lines = [L([s("drift · ", "muted"), s(entity, "calm"),
+          s("  ·  last " + r.window_days + " days", "faint")], 0),
+          L([s(String(r.drift), hot ? "signal" : "accent"),
+             s("   (" + r.added.length + " added · " + r.dropped.length
+               + " dropped · " + r.churned_keys.length + " keys churned · "
+               + r.facts_in_window + " facts in window)", "faint")])];
+        for (const d of r.added.slice(0, 6)) lines.push(L([s("+ " + d, "calm")]));
+        for (const d of r.dropped.slice(0, 6)) lines.push(L([s("− " + d, "signal")]));
+        for (const kk of r.churned_keys.slice(0, 4)) {
+          lines.push(L([s("⟲ " + kk + "  — see  history " + kk, "faint")]));
+        }
+        if (r.note) {
+          lines.push(L([s(r.note + " — drift starts measuring once the entity is older than the window", "muted")]));
+        } else if (!r.added.length && !r.dropped.length) {
+          lines.push(L([s("steady — nothing moved in the window", "muted")]));
+        }
+        lines.push(L([s("measurement, not prediction — receipts above", "faint")]));
+        block(lines);
+      }
+    }
     else if (verb === "fact") {
       const k = rest.trim().toLowerCase();
       if (!k) { block([L([s("usage: fact <key>   — the anatomy of a fact", "faint")])]); }
