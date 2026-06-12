@@ -154,6 +154,21 @@ body {
 .blink { animation: blink 1.05s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 
+/* ---- spinner: the mark, thinking ---- */
+/* The eight dots light in sequence clockwise around the slot grid —
+   braille-spinner cadence — while the ninth ring holds still: the
+   empty slot never spins. */
+.spinmark { display: inline-block; vertical-align: -2px; }
+.spinmark .sd { opacity: .18; animation: spin-dot .96s linear infinite; }
+.spinmark .sr { opacity: .85; }
+@keyframes spin-dot {
+  0%, 11% { opacity: 1; }
+  40%, 100% { opacity: .18; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spinmark .sd { animation: none; opacity: .6; }
+}
+
 /* hint chips */
 .hints { display: flex; gap: 8px; padding: 0 22px 12px; flex-wrap: wrap; background: var(--ada-ink-sunken); }
 .chip {
@@ -436,6 +451,38 @@ async function tool(name, args) {
 /* ---- terminal rendering ---------------------------------------------- */
 
 const tone = (t) => "tone-" + (t || "text");
+
+/* the mark as a spinner — dot order runs clockwise around the grid,
+   ending on the center; the ring (bottom-right) never animates */
+const SPIN_DOTS = [
+  [26, 26, "#ff5f87", 0], [48, 26, "#e570a1", 1], [70, 26, "#cc81ba", 2],
+  [70, 48, "#a19ee5", 3], [48, 70, "#90a9f6", 4], [26, 70, "#aa98dc", 5],
+  [26, 48, "#d47cb2", 6], [48, 48, "#b292d4", 7],
+];
+function spinnerEl(size = 15) {
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("class", "spinmark");
+  svg.setAttribute("viewBox", "12 12 72 72");
+  svg.setAttribute("width", size);
+  svg.setAttribute("height", size);
+  for (const [cx, cy, fill, beat] of SPIN_DOTS) {
+    const c = document.createElementNS(NS, "circle");
+    c.setAttribute("cx", cx); c.setAttribute("cy", cy); c.setAttribute("r", 7);
+    c.setAttribute("fill", fill);
+    c.setAttribute("class", "sd");
+    c.style.animationDelay = (beat * 0.12) + "s";
+    svg.appendChild(c);
+  }
+  const ring = document.createElementNS(NS, "circle");
+  ring.setAttribute("cx", 70); ring.setAttribute("cy", 70); ring.setAttribute("r", 7);
+  ring.setAttribute("fill", "none");
+  ring.setAttribute("stroke", "#87afff");
+  ring.setAttribute("stroke-width", "2");
+  ring.setAttribute("class", "sr");
+  svg.appendChild(ring);
+  return svg;
+}
 function lineEl(parts, indent) {
   const div = document.createElement("div");
   div.className = "tline" + (indent ? " indent" : "");
@@ -461,6 +508,9 @@ function echo(input) {
 }
 
 function block(lines) {
+  // first output dismisses the pending spinner line
+  document.querySelectorAll("#term .tline > .spinmark")
+    .forEach((n) => n.parentElement.remove());
   const wrap = document.createElement("div");
   wrap.className = "block-in";
   for (const ln of lines) wrap.appendChild(lineEl(ln.parts, ln.indent));
@@ -705,6 +755,11 @@ async function run(raw) {
   const verb = (sp < 0 ? input : input.slice(0, sp)).toLowerCase();
   const rest = sp < 0 ? "" : input.slice(sp + 1).trim();
   busy = true;
+  const pending = document.createElement("div");
+  pending.className = "tline indent";
+  pending.appendChild(spinnerEl());
+  $("term").appendChild(pending);
+  scrollTerm();
   try {
     if (verb === "help" || verb === "?") cmdHelp();
     else if (verb === "list") await cmdList();
@@ -721,8 +776,10 @@ async function run(raw) {
     }
   } catch (e) {
     if (e && e.auth) { location.reload(); return; }
+    pending.remove();
     block([L([s(String(e.message || e), "signal")])]);
   } finally {
+    pending.remove();
     busy = false;
   }
 }
@@ -771,9 +828,23 @@ function showRotate() {
   $("rot-current").focus();
 }
 
+function buttonBusy(form, on) {
+  const btn = form.querySelector("button");
+  if (on) {
+    btn.dataset.label = btn.textContent;
+    btn.textContent = "";
+    btn.appendChild(spinnerEl(14));
+    btn.disabled = true;
+  } else {
+    btn.textContent = btn.dataset.label || btn.textContent;
+    btn.disabled = false;
+  }
+}
+
 $("login-form").onsubmit = async (e) => {
   e.preventDefault();
   $("login-err").textContent = "";
+  buttonBusy($("login-form"), true);
   try {
     const r = await fetch("/auth/login", {
       method: "POST", headers: { "content-type": "application/json" },
@@ -788,6 +859,8 @@ $("login-form").onsubmit = async (e) => {
     else bootApp();
   } catch (err) {
     $("login-err").textContent = "runtime unreachable";
+  } finally {
+    buttonBusy($("login-form"), false);
   }
 };
 
@@ -797,6 +870,7 @@ $("rotate-form").onsubmit = async (e) => {
   if ($("rot-new").value !== $("rot-confirm").value) {
     $("rotate-err").textContent = "passwords don't match"; return;
   }
+  buttonBusy($("rotate-form"), true);
   try {
     const r = await fetch("/auth/change-password", {
       method: "POST", headers: { "content-type": "application/json" },
@@ -809,6 +883,8 @@ $("rotate-form").onsubmit = async (e) => {
     bootApp();
   } catch (err) {
     $("rotate-err").textContent = "runtime unreachable";
+  } finally {
+    buttonBusy($("rotate-form"), false);
   }
 };
 
