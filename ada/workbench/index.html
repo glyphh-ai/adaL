@@ -445,8 +445,22 @@ body {
   transition: background .15s;
 }
 .gate-btn:hover { background: color-mix(in srgb, var(--lead) 18%, var(--ada-ink-raised)); }
-.gate-err { font-size: 11.5px; color: var(--ada-signal); text-align: center; min-height: 16px; }
 .gate-note { font-size: 10.5px; color: var(--ada-text-faint); text-align: center; line-height: 1.6; }
+
+/* ---- standard form validation: field-level errors + red outline ---- */
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field-err {
+  font-size: 10.5px; color: var(--ada-signal); line-height: 1.4;
+  min-height: 0; padding-left: 2px;
+}
+.invalid, .tok-field.invalid, .gate-field.invalid {
+  border-color: var(--ada-signal) !important;
+}
+.invalid:focus { border-color: var(--ada-signal) !important; }
+.form-err {
+  font-size: 11.5px; color: var(--ada-signal); text-align: center;
+  min-height: 0;
+}
 .gate-note b { color: var(--ada-signal); font-weight: 500; }
 .hidden { display: none !important; }
 
@@ -498,9 +512,9 @@ body {
     <svg class="mark"><use href="#ada-mark"/></svg>
     <h1>ada · workbench</h1>
     <div class="sub">facts, not opinions. log in to manage this runtime.</div>
-    <input class="gate-field" id="login-user" placeholder="username" autocomplete="username" spellcheck="false">
-    <input class="gate-field" id="login-pass" placeholder="password" type="password" autocomplete="current-password">
-    <div class="gate-err" id="login-err"></div>
+    <div class="field"><input class="gate-field" id="login-user" data-field="username" placeholder="username" autocomplete="username" spellcheck="false"><div class="field-err"></div></div>
+    <div class="field"><input class="gate-field" id="login-pass" data-field="password" placeholder="password" type="password" autocomplete="current-password"><div class="field-err"></div></div>
+    <div class="form-err" id="login-err"></div>
     <button class="gate-btn" type="submit">log in</button>
     <div class="gate-note" id="login-note"></div>
   </form>
@@ -512,10 +526,10 @@ body {
     <svg class="mark"><use href="#ada-mark"/></svg>
     <h1>rotate your password</h1>
     <div class="sub">default credentials are a known fact.<br>ada refuses to run on one.</div>
-    <input class="gate-field" id="rot-current" placeholder="current password" type="password" autocomplete="current-password">
-    <input class="gate-field" id="rot-new" placeholder="new password (8+ chars)" type="password" autocomplete="new-password">
-    <input class="gate-field" id="rot-confirm" placeholder="confirm new password" type="password" autocomplete="new-password">
-    <div class="gate-err" id="rotate-err"></div>
+    <div class="field"><input class="gate-field" id="rot-current" data-field="current_password" placeholder="current password" type="password" autocomplete="current-password"><div class="field-err"></div></div>
+    <div class="field"><input class="gate-field" id="rot-new" data-field="new_password" placeholder="new password (8+ chars)" type="password" autocomplete="new-password"><div class="field-err"></div></div>
+    <div class="field"><input class="gate-field" id="rot-confirm" data-field="confirm" placeholder="confirm new password" type="password" autocomplete="new-password"><div class="field-err"></div></div>
+    <div class="form-err" id="rotate-err"></div>
     <button class="gate-btn" type="submit">rotate &amp; continue</button>
   </form>
 </div>
@@ -629,6 +643,59 @@ function errText(detail, fallback) {
   }
   if (detail && detail.msg) return detail.msg;
   return fallback;
+}
+
+/* ---- form validation: per-field errors + red outline, one path ----
+   markFieldError / clearForm / showFormErrors work on any form whose
+   inputs carry data-field and sit in a .field wrapper with a trailing
+   .field-err. FastAPI 422 details map by loc[-1] → data-field; string
+   details and unmatched fields fall to the form's .form-err line. */
+
+function clearForm(form) {
+  form.querySelectorAll("[data-field]").forEach((inp) => {
+    inp.classList.remove("invalid");
+    const e = inp.parentElement.querySelector(".field-err");
+    if (e) e.textContent = "";
+  });
+  const fl = form.querySelector(".form-err");
+  if (fl) fl.textContent = "";
+}
+
+function markFieldError(form, field, msg) {
+  const inp = form.querySelector(`[data-field="${field}"]`);
+  if (!inp) return false;
+  inp.classList.add("invalid");
+  const e = inp.parentElement.querySelector(".field-err");
+  if (e) e.textContent = msg;
+  return true;
+}
+
+function showFormErrors(form, detail, fallback) {
+  clearForm(form);
+  const fl = form.querySelector(".form-err");
+  if (Array.isArray(detail)) {
+    const unmatched = [];
+    for (const d of detail) {
+      const field = d && d.loc && d.loc[d.loc.length - 1];
+      if (!(d && d.msg && markFieldError(form, field, d.msg))) {
+        if (d && d.msg) unmatched.push(d.msg);
+      }
+    }
+    if (fl && unmatched.length) fl.textContent = [...new Set(unmatched)].join("; ");
+  } else if (fl) {
+    fl.textContent = errText(detail, fallback);
+  }
+}
+
+/* clear a field's error the moment the user edits it */
+function wireFormClearing(form) {
+  form.querySelectorAll("[data-field]").forEach((inp) => {
+    inp.addEventListener("input", () => {
+      inp.classList.remove("invalid");
+      const e = inp.parentElement.querySelector(".field-err");
+      if (e) e.textContent = "";
+    });
+  });
 }
 
 /* ---- MCP client ------------------------------------------------------ */
@@ -1308,10 +1375,16 @@ function buttonBusy(form, on) {
   }
 }
 
+wireFormClearing($("login-form"));
 $("login-form").onsubmit = async (e) => {
   e.preventDefault();
-  $("login-err").textContent = "";
-  buttonBusy($("login-form"), true);
+  const form = $("login-form");
+  clearForm(form);
+  let bad = false;
+  if (!$("login-user").value.trim()) { markFieldError(form, "username", "enter a username"); bad = true; }
+  if (!$("login-pass").value) { markFieldError(form, "password", "enter a password"); bad = true; }
+  if (bad) return;
+  buttonBusy(form, true);
   try {
     const r = await fetch("/auth/login", {
       method: "POST", headers: { "content-type": "application/json" },
@@ -1319,25 +1392,31 @@ $("login-form").onsubmit = async (e) => {
                              password: $("login-pass").value }),
     });
     const body = await r.json();
-    if (!r.ok) { $("login-err").textContent = errText(body.detail, "login failed"); return; }
+    if (!r.ok) {
+      if (r.status === 401) markFieldError(form, "password", "invalid username or password");
+      else showFormErrors(form, body.detail, "login failed");
+      return;
+    }
     state.me = body;
     $("login-pass").value = "";
     if (body.must_change_password) showRotate();
     else bootApp();
   } catch (err) {
-    $("login-err").textContent = "runtime unreachable";
+    showFormErrors(form, "runtime unreachable");
   } finally {
-    buttonBusy($("login-form"), false);
+    buttonBusy(form, false);
   }
 };
 
+wireFormClearing($("rotate-form"));
 $("rotate-form").onsubmit = async (e) => {
   e.preventDefault();
-  $("rotate-err").textContent = "";
+  const form = $("rotate-form");
+  clearForm(form);
   if ($("rot-new").value !== $("rot-confirm").value) {
-    $("rotate-err").textContent = "passwords don't match"; return;
+    markFieldError(form, "confirm", "passwords don't match"); return;
   }
-  buttonBusy($("rotate-form"), true);
+  buttonBusy(form, true);
   try {
     const r = await fetch("/auth/change-password", {
       method: "POST", headers: { "content-type": "application/json" },
@@ -1345,11 +1424,15 @@ $("rotate-form").onsubmit = async (e) => {
                              new_password: $("rot-new").value }),
     });
     const body = await r.json();
-    if (!r.ok) { $("rotate-err").textContent = errText(body.detail, "rotation failed"); return; }
+    if (!r.ok) {
+      if (r.status === 401) markFieldError(form, "current_password", "current password is incorrect");
+      else showFormErrors(form, body.detail, "rotation failed");
+      return;
+    }
     state.me.must_change_password = false;
     bootApp();
   } catch (err) {
-    $("rotate-err").textContent = "runtime unreachable";
+    showFormErrors(form, "runtime unreachable");
   } finally {
     buttonBusy($("rotate-form"), false);
   }
@@ -1439,9 +1522,17 @@ async function refreshTokens() {
   const spaceIn = document.createElement("input");
   spaceIn.className = "tok-field"; spaceIn.placeholder = "bind to space (optional)";
   spaceIn.style.width = "170px"; spaceIn.spellcheck = false;
+  nameIn.addEventListener("input", () => {
+    nameIn.classList.remove("invalid"); mintErr.textContent = "";
+  });
   const mintBtn = cureBtn("mint", false, async () => {
     const name = nameIn.value.trim();
-    if (!name) { nameIn.focus(); return; }
+    nameIn.classList.remove("invalid"); mintErr.textContent = "";
+    if (!name) {
+      nameIn.classList.add("invalid");
+      mintErr.textContent = "give the token a name";
+      nameIn.focus(); return;
+    }
     const args = { name, permissions: permSel.value.split(",") };
     const days = parseInt(expIn.value, 10);
     if (!isNaN(days) && days > 0) args.expires_days = days;
@@ -1478,6 +1569,9 @@ async function refreshTokens() {
   form.appendChild(nameIn); form.appendChild(permSel);
   form.appendChild(expIn); form.appendChild(spaceIn); form.appendChild(mintBtn);
   mint.appendChild(form);
+  const mintErr = document.createElement("div");
+  mintErr.className = "field-err"; mintErr.style.marginTop = "6px";
+  mint.appendChild(mintErr);
   const once = document.createElement("div");
   once.className = "tok-once hidden";
   mint.appendChild(once);
