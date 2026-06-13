@@ -167,21 +167,38 @@ def connect(url: str):
 # ── Command helpers ───────────────────────────────────────────────────
 
 HELP = """  commands:
+   memory
     tell <text>             — absorb a fact (durable, shared)
     tell key=K <text>       — absorb as next version of K
     ask <question>          — targeted retrieval (refuses 'I don't know')
-    think <input>           — broad recall
+    think <input>           — broad associative recall
+    recall <query>          — lexical search, top matches + scores
+   query
     count <l.r>=<v> ...     — count entities matching ALL conditions
-    top <layer.role> [pred] — distribution (pred filters relational verbs)
     find <l.r>=<v> ...      — entities matching ALL conditions
+    top <layer.role> [pred] — distribution (pred filters relational verbs)
+    list [filter]           — keyed facts (current belief)
+    fact <key>              — anatomy of a fact: slots, chain, provenance
     history <key>           — version chain
-    forget <key>            — erase a key's whole chain (run again with `confirm`)
+    similar <entity> [k]    — nearest profiles by exact jaccard
+    drift <entity> [days]   — what moved in the window (added/dropped/churn)
+   curate
+    merges                  — deterministic alias proposals
+    merge <src> => <tgt>    — merge src into tgt (run again with `confirm`)
+    consolidate [dry]       — maintenance: re-enrich · resolve identity · dedup
+    archive <l.r>=<v> ...   — soft-remove a cohort, reversible (+ `confirm`)
+    forget <key>            — erase a key's whole chain (+ `confirm`)
     forget entity <name>    — erase every fact of an entity (+ `confirm`)
     forget all <space>      — wipe the whole space (type the space name)
+   session / admin
     stats                   — substrate vital signs
+    space [id]              — show / switch space
+    me [name]               — show / set identity (resolves 'I/my')
+    config                  — storage mode, space, identity
     token create [name]     — mint an API token (shown once)
     token list              — list tokens (prefixes only)
-    token revoke <id|prefix>— revoke a token immediately
+    token revoke <id|pfx>   — revoke a token immediately
+    token delete <id|pfx>   — delete a revoked token's record
     aurora                  — load the 77-fact demo corpus
     help / ?                — this help
     quit / exit             — leave
@@ -334,6 +351,10 @@ def run_repl(url: str, banner: bool = True) -> None:
                 r = _call(backend, "token_revoke", {"token": parts[2]})
                 if not _show_error(r):
                     print(f"  {D}revoked: {', '.join(r.get('revoked', []))}{R}")
+            elif sub == "delete" and len(parts) > 2:
+                r = _call(backend, "token_delete", {"token": parts[2]})
+                if not _show_error(r):
+                    print(f"  {D}deleted: {', '.join(r.get('deleted', []))}{R}")
             else:
                 r = _call(backend, "token_list", {})
                 if not _show_error(r):
@@ -383,6 +404,172 @@ def run_repl(url: str, banner: bool = True) -> None:
             if _show_error(r):
                 continue
             print(f"  {C}{r['answer']}{R}")
+            continue
+
+        if raw.startswith("recall "):
+            r = _call(backend, "recall", {"query": raw[len("recall "):].strip(),
+                                          "top_k": 8})
+            if _show_error(r):
+                continue
+            res = r.get("results", [])
+            if not res:
+                print(f"  {D}(no matches){R}")
+                continue
+            for x in res:
+                tag = f"  {D}[{x['key']}]{R}" if x.get("key") else ""
+                print(f"    {D}[{x['similarity']:+.2f}]{R}  {x['content']}{tag}")
+            continue
+
+        if raw == "list" or raw == "keys" or raw.startswith("list ") \
+                or raw.startswith("keys "):
+            _, _, q = raw.partition(" ")
+            args = {"limit": 60}
+            if q.strip():
+                args["q"] = q.strip()
+            r = _call(backend, "keys", args)
+            if _show_error(r):
+                continue
+            facts = r.get("facts", [])
+            if not facts:
+                print(f"  {D}no keyed facts{R}")
+                continue
+            for f in facts:
+                print(f"  {C}{f['key']:<22}{R} {f['content']}  {D}v{f['version']}{R}")
+            continue
+
+        if raw.startswith("fact "):
+            r = _call(backend, "inspect", {"key": raw[len("fact "):].strip()})
+            if _show_error(r):
+                continue
+            print(f"  {C}{r.get('key') or r.get('thought_id')}{R}  {r.get('content')}")
+            print(f"  {D}entity {r.get('entity') or '—'} · speaker "
+                  f"{r.get('speaker')} · {(r.get('created_at') or '')[:16]}{R}")
+            if r.get("key"):
+                print(f"  {D}v{r.get('version')} of {r.get('versions')}{R}")
+            for sl in r.get("slots", []):
+                print(f"    {D}{sl['layer']}.{sl['role']:<14}{R} {sl['value']}")
+            chain = r.get("chain") or []
+            if len(chain) > 1:
+                for v in chain:
+                    print(f"  {D}v{v['version']}:{R} {v['content']}")
+            continue
+
+        if raw.startswith("similar "):
+            parts = raw[len("similar "):].split()
+            k = 5
+            if len(parts) > 1 and parts[-1].isdigit():
+                k = int(parts[-1]); parts = parts[:-1]
+            ent = " ".join(parts)
+            r = _call(backend, "similar", {"entity": ent, "k": k})
+            if _show_error(r):
+                continue
+            sim = r.get("similar", [])
+            if not sim:
+                print(f"  {D}{ent} shares no slot value — it stands alone{R}")
+                continue
+            for e in sim:
+                print(f"  {C}{e['name']:<18}{R} {D}jaccard {e['similarity']}{R}")
+                print(f"    {D}shared: {' · '.join(e['shared'][:4])}{R}")
+            continue
+
+        if raw.startswith("drift "):
+            parts = raw[len("drift "):].split()
+            days = 30
+            if len(parts) > 1 and parts[-1].isdigit():
+                days = int(parts[-1]); parts = parts[:-1]
+            ent = " ".join(parts)
+            r = _call(backend, "drift", {"entity": ent, "window_days": days})
+            if _show_error(r):
+                continue
+            print(f"  {C}drift {r.get('drift')}{R}  {D}{ent} · last {days}d · "
+                  f"+{len(r.get('added', []))} −{len(r.get('dropped', []))} · "
+                  f"{len(r.get('churned_keys', []))} keys churned{R}")
+            for d in r.get("added", [])[:6]:
+                print(f"    {C}+ {d}{R}")
+            for d in r.get("dropped", [])[:6]:
+                print(f"    {PINK}− {d}{R}")
+            continue
+
+        if raw == "merges":
+            r = _call(backend, "merge_candidates", {})
+            if _show_error(r):
+                continue
+            cands = r.get("candidates", [])
+            if not cands:
+                print(f"  {D}no alias proposals — every name stands alone{R}")
+                continue
+            for c in cands:
+                print(f"  {C}{c['a']}{R} ≈ {C}{c['b']}{R}  {D}overlap {c['score']}{R}")
+                if c["shared"]:
+                    print(f"    {D}shared: {' · '.join(c['shared'][:4])}{R}")
+                if c["conflicts"]:
+                    print(f"    {PINK}conflicts: {' · '.join(c['conflicts'])}{R}")
+                print(f"    {D}merge: merge {c['a']} => {c['b']}{R}")
+            continue
+
+        if raw.startswith("merge "):
+            body = raw[len("merge "):].strip()
+            confirm = body.endswith(" confirm")
+            if confirm:
+                body = body[:-len(" confirm")].strip()
+            if "=>" in body:
+                src, tgt = [x.strip().lower() for x in body.split("=>", 1)]
+            else:
+                p = body.split()
+                src, tgt = (p[0].lower(), p[1].lower()) if len(p) == 2 else (None, None)
+            if not src or not tgt:
+                print(f"  {D}usage: merge <source> => <target> [confirm]"
+                      f"  (target absorbs source){R}")
+                continue
+            r = _call(backend, "merge", {"source": src, "target": tgt,
+                                         "dry_run": not confirm})
+            if _show_error(r):
+                continue
+            if confirm:
+                print(f"  {D}merged {src} → {tgt} · {r.get('facts')} facts "
+                      f"re-pointed · sentences kept verbatim{R}")
+            else:
+                print(f"  {PINK}would merge {src} → {tgt} · {r.get('facts')} facts{R}")
+                print(f"  {D}run: merge {src} => {tgt} confirm{R}")
+            continue
+
+        if raw == "consolidate" or raw == "consolidate dry":
+            dry = raw.endswith("dry")
+            a = {"dry_run": dry}
+            if _SESSION["me"]:
+                a["me"] = _SESSION["me"]
+            r = _call(backend, "consolidate", a)
+            if _show_error(r):
+                continue
+            print(f"  {D}{'preview' if dry else 'consolidated'} · "
+                  f"{r.get('scanned')} scanned · re-enriched "
+                  f"{r.get('re_enriched')} · identity "
+                  f"{r.get('identity_resolved')} · dups "
+                  f"{len(r.get('duplicates_archived', []))}{R}")
+            for d in r.get("duplicates_archived", []):
+                print(f"    {D}archived “{d['archived']}” ⇒ kept “{d['kept']}”{R}")
+            if not _SESSION["me"]:
+                print(f"  {D}tip: set `me <name>` first to resolve first-person facts{R}")
+            continue
+
+        if raw.startswith("archive "):
+            body = raw[len("archive "):].strip()
+            confirm = body.endswith(" confirm")
+            if confirm:
+                body = body[:-len(" confirm")].strip()
+            conditions = _parse_conditions(body)
+            if not conditions:
+                print(f"  {D}usage: archive l.r=v [l.r=v ...] [confirm]{R}")
+                continue
+            r = _call(backend, "archive", {"conditions": conditions,
+                                           "dry_run": not confirm})
+            if _show_error(r):
+                continue
+            verb_word = "archived" if confirm else "would archive"
+            print(f"  {PINK if not confirm else D}{verb_word} {r.get('facts')} "
+                  f"facts of {r.get('entities_matched')} entities{R}")
+            if not confirm and r.get("facts"):
+                print(f"  {D}run: archive {body} confirm{R}")
             continue
 
         if raw == "forget" or raw.startswith("forget "):
