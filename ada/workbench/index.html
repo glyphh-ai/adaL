@@ -308,6 +308,19 @@ body {
 }
 .slot:hover { border-color: var(--lead); transform: translateY(-1px); }
 .slot.focus { border-color: var(--lead); box-shadow: inset 0 0 0 1px var(--lead); }
+.slot-x {
+  position: absolute; top: 6px; right: 6px; z-index: 1;
+  appearance: none; border: 0; background: transparent;
+  color: var(--ada-text-faint); font-family: var(--ada-mono);
+  font-size: 11px; line-height: 1; padding: 3px 5px; border-radius: 5px;
+  cursor: pointer; opacity: 0; transition: opacity .12s, color .12s, background .12s;
+}
+.slot:hover .slot-x { opacity: 1; }
+.slot-x:hover { color: var(--ada-signal); background: var(--ada-ink); }
+.slot-x.armed {
+  opacity: 1; color: var(--ada-text);
+  background: color-mix(in srgb, var(--ada-signal) 30%, var(--ada-ink));
+}
 .slot .k { font-size: 10.5px; color: var(--ada-text-faint); letter-spacing: .02em; }
 .slot .val { font-size: 13px; color: var(--ada-calm); line-height: 1.3; word-break: break-word;
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
@@ -843,11 +856,27 @@ function renderGrid(absorbedKey) {
     d.className = "slot" + (state.focusKey === f.key ? " focus" : "")
                 + (absorbedKey === f.key ? " absorbed" : "");
     d.title = "history " + f.key;
-    d.innerHTML = '<div class="k"></div><div class="val"></div><div class="ver"></div>';
+    d.innerHTML = '<button class="slot-x" title="forget this key">✕</button>'
+      + '<div class="k"></div><div class="val"></div><div class="ver"></div>';
     d.querySelector(".k").textContent = f.key;
     d.querySelector(".val").textContent = f.content;
     d.querySelector(".ver").textContent = "v" + f.version;
     d.onclick = () => run("history " + f.key);
+    // two-step forget on the ✕ — first arms with the count, second erases
+    const x = d.querySelector(".slot-x");
+    let armed = false, t = null;
+    x.onclick = async (e) => {
+      e.stopPropagation();
+      if (!armed) {
+        x.classList.add("armed"); x.textContent = "erase?"; armed = true;
+        t = setTimeout(() => { armed = false; x.classList.remove("armed"); x.textContent = "✕"; }, 6000);
+        return;
+      }
+      clearTimeout(t);
+      await tool("forget", { key: f.key, space: state.space, dry_run: false });
+      if (state.focusKey === f.key) state.focusKey = null;
+      await refreshGrid();
+    };
     grid.appendChild(d);
   }
   for (const u of state.unknowns) {
@@ -923,6 +952,7 @@ function cmdHelp() {
     L([s("space ", "primary"), s("<id>", "calm"), s("              switch space", "faint")]),
     L([s("me ", "primary"), s("<name>", "calm"), s("                who my/I resolve to when you ask", "faint")]),
     L([s("consolidate ", "primary"), s("[dry]", "faint"), s("        offline maintenance: re-enrich · resolve identity · archive typo-dups", "faint")]),
+    L([s("forget ", "primary"), s("<key> | entity <name>", "calm"), s("  permanently erase facts (two-step, no undo)", "faint")]),
     L([s("fact ", "primary"), s("<key>", "calm"), s("              the anatomy of a fact — slots, chain, provenance", "faint")]),
     L([s("similar ", "primary"), s("<entity> [k]", "calm"), s("      nearest profiles by exact jaccard, with shared dims", "faint")]),
     L([s("drift ", "primary"), s("<entity> [days]", "calm"), s("    what moved in the window — added · dropped · churned keys", "faint")]),
@@ -1259,6 +1289,39 @@ async function run(raw) {
           block([L([s("merged ", "muted"), s(source, "calm"), s(" → ", "faint"),
                     s(target, "calm"), s("  ·  " + r.facts + " facts", "accent"),
                     s("  ·  sentences kept verbatim", "faint")])]);
+          await refreshGrid();
+        }
+      }
+    }
+    else if (verb === "forget") {
+      // forget <key> | forget entity <name> | forget id <thought_id>
+      // two-step: bare runs dry, `... confirm` erases
+      let body = rest.trim();
+      const confirm = /\sconfirm$/.test(body) || body === "confirm";
+      if (confirm) body = body.replace(/\s*confirm$/, "").trim();
+      let scope = null;
+      const m = body.match(/^(entity|id)\s+(.+)$/i);
+      if (m) scope = m[1].toLowerCase() === "entity"
+        ? { entity: m[2].trim().toLowerCase() }
+        : { thought_id: m[2].trim() };
+      else if (body) scope = { key: body.toLowerCase() };
+      if (!scope) {
+        block([L([s("usage: forget <key> · forget entity <name> · forget id <thought_id>   [confirm]", "faint")])]);
+      } else {
+        const args = { ...scope, space: state.space, dry_run: !confirm };
+        const r = await tool("forget", args);
+        const what = scope.key ? "key " + scope.key
+          : scope.entity ? "entity " + scope.entity : "fact " + scope.thought_id;
+        if (!confirm) {
+          if (!r.facts) {
+            block([L([s("nothing matches ", "muted"), s(what, "calm")])]);
+          } else {
+            block([L([s("would permanently erase ", "signal"), s(r.facts + " fact" + (r.facts === 1 ? "" : "s"), "text"), s(" — " + what, "faint")]),
+                   L([s("no undo. run  forget " + (scope.entity ? "entity " + scope.entity : scope.thought_id ? "id " + scope.thought_id : scope.key) + " confirm  to erase", "faint")])]);
+          }
+        } else {
+          block([L([s("erased ", "signal"), s(r.facts + " fact" + (r.facts === 1 ? "" : "s"), "text"), s("  ·  " + what + "  ·  gone for good", "faint")])]);
+          state.focusKey = null;
           await refreshGrid();
         }
       }
@@ -2269,6 +2332,26 @@ async function openConstellation() {
       const w = document.createElement("div"); w.className = "w";
       w.textContent = n.weight + " slot fills";
       card.appendChild(w);
+      // forget this entity — two-step, hard erase of all its facts
+      const actions = document.createElement("div");
+      actions.className = "cure-actions";
+      const fb = cureBtn("forget entity", true, null);
+      fb.dataset.label = "forget entity";
+      armable(fb,
+        async () => {
+          const d = await tool("forget", { entity: n.name,
+                                           space: state.space, dry_run: true });
+          return "erase " + d.facts + " facts of " + n.name + " — no undo";
+        },
+        async () => {
+          await tool("forget", { entity: n.name, space: state.space,
+                                 dry_run: false });
+          C.clearSelect();
+          await loadScope();
+          refreshGrid();
+        });
+      actions.appendChild(fb);
+      card.appendChild(actions);
     } else {
       const b = document.createElement("div"); b.className = "vv";
       b.textContent = "shared by " + n.weight + " entities";

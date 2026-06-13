@@ -23,7 +23,8 @@ _MCP_PATH_RE = re.compile(r"^/mcp(/.*)?$")
 ADA_ORG_ID = "ada"
 
 # Tools that mutate state require write permission; everything else read.
-_WRITE_TOOLS = {"tell", "tell_raw", "consolidate", "archive", "merge"}
+_WRITE_TOOLS = {"tell", "tell_raw", "consolidate", "archive", "merge",
+                "forget"}
 # Minting or revoking credentials is privilege management, not data
 # writing — a write-permission token must not be able to mint itself
 # an admin successor.

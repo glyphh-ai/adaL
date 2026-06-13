@@ -359,6 +359,28 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                 },
             ),
             Tool(
+                name="forget",
+                description=(
+                    "Permanently delete facts — the irreversible erase, "
+                    "for corrections, PII, and right-to-be-forgotten. "
+                    "Scope by exactly one of: key (the whole version "
+                    "chain), thought_id (one fact), or entity (every fact "
+                    "of that entity). Removes the rows outright; unlike "
+                    "archive, there is no undo. dry_run defaults TRUE and "
+                    "returns counts only."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "key": {"type": "string"},
+                        "thought_id": {"type": "string"},
+                        "entity": {"type": "string"},
+                        "dry_run": {"type": "boolean", "default": True},
+                        "space": {"type": "string"},
+                    },
+                },
+            ),
+            Tool(
                 name="stats",
                 description=(
                     "Substrate vital signs: total thoughts, versioned keys, "
@@ -469,6 +491,8 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
             return await _handle_entities(brain, args)
         if name == "archive":
             return await _handle_archive(brain, args)
+        if name == "forget":
+            return await _handle_forget(brain, args)
         if name == "similar":
             return await _handle_similar(brain, args)
         if name == "drift":
@@ -755,6 +779,57 @@ async def _handle_archive(brain, args: dict) -> CallToolResult:
         return _ok(payload)
     except Exception as e:
         logger.error("archive failed: %s", e, exc_info=True)
+        return _err(str(e))
+
+
+async def _handle_forget(brain, args: dict) -> CallToolResult:
+    """Hard-delete by exactly one of key / thought_id / entity. Removes
+    ada_thoughts + fact_slots rows outright; no undo (cf. archive)."""
+    from sqlalchemy import delete, select
+    from domains.models.db_models import AdaThought, FactSlot
+    key = (args.get("key") or "").strip().lower() or None
+    tid = (args.get("thought_id") or "").strip() or None
+    entity = (args.get("entity") or "").strip().lower() or None
+    given = [x for x in (key, tid, entity) if x]
+    if len(given) != 1:
+        return _err("forget needs exactly one of key, thought_id, or "
+                    "entity")
+    dry = bool(args.get("dry_run", True))
+    try:
+        store, _ = _space(brain, args)
+        sf = brain._session_factory
+        async with sf() as s:
+            if tid:
+                ids = [tid] if (await s.execute(select(AdaThought.thought_id)
+                    .where(AdaThought.thought_id == tid,
+                           AdaThought.space_id == store.space_id))).first() \
+                    else []
+                scope = {"thought_id": tid}
+            else:
+                col = FactSlot.key if key else FactSlot.entity
+                val = key or entity
+                r = await s.execute(
+                    select(FactSlot.thought_id).distinct()
+                    .where(FactSlot.space_id == store.space_id, col == val))
+                ids = [row[0] for row in r.all()]
+                scope = {"key": key} if key else {"entity": entity}
+        payload = {"space": store.space_id, **scope, "facts": len(ids),
+                   "dry_run": dry}
+        if dry:
+            payload["note"] = ("dry run — nothing deleted; call with "
+                               "dry_run=false to erase permanently")
+            return _ok(payload)
+        if ids:
+            async with sf() as s:
+                await s.execute(delete(FactSlot)
+                                .where(FactSlot.thought_id.in_(ids)))
+                await s.execute(delete(AdaThought)
+                                .where(AdaThought.thought_id.in_(ids)))
+                await s.commit()
+            await _reload_memory_space(brain, store)
+        return _ok(payload)
+    except Exception as e:
+        logger.error("forget failed: %s", e, exc_info=True)
         return _err(str(e))
 
 
