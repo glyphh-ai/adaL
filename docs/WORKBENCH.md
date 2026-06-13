@@ -83,9 +83,18 @@ analogue of the space-bound tokens it already mints) and opens the
 workbench with it. The control plane never stores the credential;
 expiry does the cleanup.
 
-## What the REPL becomes
+## The REPL and the workbench
 
-The REPL stays — very basic, by design: boot the runtime, show
-status/config, print the workbench URL. Its current command set is
-untouched until the workbench reaches parity; what gets trimmed then
-is a product decision, not a side effect.
+Decision (2026-06): the REPL and the workbench carry the **same
+command set** — full parity, not a stripped bootstrapper. The terminal
+is a first-class management surface for headless/SSH operators who
+don't want a browser; the workbench is the same capabilities for
+mouse-first/visual work.
+
+The cost is explicit: each capability lives in three places — the MCP
+tool (the source of truth) and two thin clients (workbench verb, REPL
+command). New capabilities ship to all three. We accept that to keep
+one consistent operator vocabulary everywhere.
+
+The REPL additionally owns the bootstrapper role: boot the runtime,
+show status/config, print the workbench URL, mint the first token.
