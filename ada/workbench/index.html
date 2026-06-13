@@ -202,7 +202,19 @@ body {
 .viz-label {
   position: absolute; transform: translate(-50%, -160%);
   font-size: 11.5px; color: var(--ada-text); pointer-events: none;
-  text-shadow: 0 1px 6px var(--ada-ink-sunken), 0 0 2px var(--ada-ink-sunken);
+  white-space: nowrap; padding: 2px 7px; border-radius: 6px;
+  background: color-mix(in srgb, var(--ada-ink) 82%, transparent);
+  border: 1px solid var(--ada-border);
+  backdrop-filter: blur(3px);
+}
+/* persistent name tags on the heaviest orbs — quieter than the
+   hover/selected label so they don't crowd the field */
+.viz-tag {
+  position: absolute; transform: translate(-50%, -150%);
+  font-size: 10px; color: var(--ada-text-soft); pointer-events: none;
+  white-space: nowrap; padding: 1px 6px; border-radius: 5px;
+  background: color-mix(in srgb, var(--ada-ink) 70%, transparent);
+  text-shadow: 0 1px 4px var(--ada-ink-sunken);
 }
 .term-wrap { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 18px 22px 0; }
 .term {
@@ -1970,6 +1982,7 @@ function buildScene(entities) {
   C.scene.add(group);
   C.group = group;
   C.sprites = sprites;
+  C.buildTags();
   C.clearSelect();
   C.applySearch();
 }
@@ -2037,8 +2050,9 @@ async function openConstellation() {
 
   C = { active: true, scene, camera, renderer, tex: dotTexture(),
         group: null, sprites: [], conditions: null, armedArchive: null,
-        flyTo: null, labelFor: null,
-        clearSelect: () => {}, applySearch: () => {}, resize: () => {} };
+        flyTo: null, labelFor: null, tags: [],
+        clearSelect: () => {}, applySearch: () => {}, resize: () => {},
+        buildTags: () => {} };
 
   // orbit state
   const orbit = { theta: 0.6, phi: 1.1, dist: 230, target: new THREE.Vector3() };
@@ -2068,15 +2082,61 @@ async function openConstellation() {
     orbit.dist = Math.max(40, Math.min(900, orbit.dist * (1 + e.deltaY * 0.001)));
   }, { passive: false });
 
+  // persistent name tags on the heaviest orbs (the orb's identity is
+  // its entity name — entities have no surrogate id by design). Capped
+  // so the DOM stays bounded no matter how big the loaded scope is.
+  const TAG_CAP = 40;
+  C.tags = [];
+  C.buildTags = () => {
+    for (const t of C.tags) t.el.remove();
+    C.tags = [];
+    const ents = C.sprites.filter((s) => s.userData.kind === "entity")
+      .sort((a, b) => b.userData.weight - a.userData.weight)
+      .slice(0, TAG_CAP);
+    for (const sprite of ents) {
+      const el = document.createElement("div");
+      el.className = "viz-tag";
+      el.textContent = sprite.userData.name;
+      host.appendChild(el);
+      C.tags.push({ el, sprite });
+    }
+  };
+
   // picking
   const ray = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
   let card = null, label = null;
+  let hover = null;   // {el, sprite} following the cursor
   C.clearSelect = () => {
     if (card) { card.remove(); card = null; }
     if (label) { label.remove(); label = null; }
     C.labelFor = null;
   };
+  const clearHover = () => { if (hover) { hover.el.remove(); hover = null; } };
+  // hover labels for orbs that don't carry a persistent tag
+  renderer.domElement.addEventListener("pointermove", (e) => {
+    if (drag) { clearHover(); return; }
+    const r = renderer.domElement.getBoundingClientRect();
+    mouse.set(((e.clientX - r.left) / r.width) * 2 - 1,
+              -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(mouse, camera);
+    const hits = ray.intersectObjects(C.sprites);
+    const hit = hits.length ? hits[0].object : null;
+    if (!hit || C.tags.some((t) => t.sprite === hit) || hit === C.labelFor) {
+      clearHover();
+      renderer.domElement.style.cursor = hit ? "pointer" : "default";
+      return;
+    }
+    renderer.domElement.style.cursor = "pointer";
+    if (!hover || hover.sprite !== hit) {
+      clearHover();
+      const el = document.createElement("div");
+      el.className = "viz-label";
+      el.textContent = hit.userData.name;
+      host.appendChild(el);
+      hover = { el, sprite: hit };
+    }
+  });
   renderer.domElement.addEventListener("click", (e) => {
     if (drag && drag.moved) return;
     const r = renderer.domElement.getBoundingClientRect();
@@ -2173,13 +2233,19 @@ async function openConstellation() {
       if (orbit.target.distanceTo(C.flyTo) < 0.5) C.flyTo = null;
     }
     applyOrbit();
-    if (label && C.labelFor) {
-      const v = C.labelFor.position.clone().project(camera);
-      const r = renderer.domElement.getBoundingClientRect();
-      label.style.left = ((v.x + 1) / 2 * r.width) + "px";
-      label.style.top = ((-v.y + 1) / 2 * r.height) + "px";
-      label.style.display = v.z < 1 ? "" : "none";
-    }
+    const r = renderer.domElement.getBoundingClientRect();
+    const place = (el, sprite, hideWhenDim) => {
+      const v = sprite.position.clone().project(camera);
+      const dim = hideWhenDim && sprite.material.opacity < 0.5;
+      const onScreen = v.z < 1 && Math.abs(v.x) <= 1.05 && Math.abs(v.y) <= 1.05;
+      el.style.display = (onScreen && !dim) ? "" : "none";
+      if (!onScreen) return;
+      el.style.left = ((v.x + 1) / 2 * r.width) + "px";
+      el.style.top = ((-v.y + 1) / 2 * r.height) + "px";
+    };
+    if (label && C.labelFor) place(label, C.labelFor, false);
+    if (hover) place(hover.el, hover.sprite, false);
+    for (const t of C.tags) place(t.el, t.sprite, true);  // fade with search
     renderer.render(scene, camera);
   };
   tick();
