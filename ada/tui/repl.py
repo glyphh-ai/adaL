@@ -175,6 +175,9 @@ HELP = """  commands:
     top <layer.role> [pred] — distribution (pred filters relational verbs)
     find <l.r>=<v> ...      — entities matching ALL conditions
     history <key>           — version chain
+    forget <key>            — erase a key's whole chain (run again with `confirm`)
+    forget entity <name>    — erase every fact of an entity (+ `confirm`)
+    forget all <space>      — wipe the whole space (type the space name)
     stats                   — substrate vital signs
     token create [name]     — mint an API token (shown once)
     token list              — list tokens (prefixes only)
@@ -380,6 +383,59 @@ def run_repl(url: str, banner: bool = True) -> None:
             if _show_error(r):
                 continue
             print(f"  {C}{r['answer']}{R}")
+            continue
+
+        if raw == "forget" or raw.startswith("forget "):
+            body = raw[len("forget"):].strip()
+            confirm = body == "confirm" or body.endswith(" confirm")
+            if confirm:
+                body = "" if body == "confirm" else body[:-len(" confirm")].rstrip()
+            # forget all [space] — wipe the whole space (typed confirm)
+            if body == "all" or body.startswith("all "):
+                arg = body[len("all"):].strip().lower()
+                a = {"dry_run": not arg}
+                if arg:
+                    a["confirm"] = arg
+                r = _call(backend, "forget_all", a)
+                if _show_error(r):
+                    continue
+                sp = r.get("space", _SESSION["space"])
+                if r.get("dry_run"):
+                    if not r.get("facts"):
+                        print(f"  {D}space {sp} is already empty{R}")
+                    else:
+                        print(f"  {PINK}would erase ALL {r['facts']} facts "
+                              f"in space {sp}{R}")
+                        print(f"  {D}no undo. run: forget all {sp}{R}")
+                else:
+                    print(f"  {D}erased {r['facts']} facts — space {sp} "
+                          f"is empty{R}")
+                continue
+            # forget <key> | forget entity <name> | forget id <tid>
+            parts = body.split(None, 1)
+            if len(parts) == 2 and parts[0] in ("entity", "id"):
+                scope = ({"entity": parts[1].strip().lower()} if parts[0] == "entity"
+                         else {"thought_id": parts[1].strip()})
+                label = f"{parts[0]} {parts[1].strip()}"
+            elif body:
+                scope = {"key": body.lower()}
+                label = f"key {body.lower()}"
+            else:
+                print(f"  {D}usage: forget <key> | forget entity <name> | "
+                      f"forget id <tid> | forget all   [confirm]{R}")
+                continue
+            r = _call(backend, "forget", {**scope, "dry_run": not confirm})
+            if _show_error(r):
+                continue
+            n = r.get("facts", 0)
+            plural = "" if n == 1 else "s"
+            if confirm:
+                print(f"  {D}erased {n} fact{plural} — {label}{R}")
+            elif not n:
+                print(f"  {D}nothing matches {label}{R}")
+            else:
+                print(f"  {PINK}would erase {n} fact{plural} — {label}{R}")
+                print(f"  {D}no undo. run: forget {body} confirm{R}")
             continue
 
         if raw.startswith("tell ") or raw.startswith("write "):
