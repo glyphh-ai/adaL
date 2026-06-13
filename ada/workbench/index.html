@@ -623,8 +623,9 @@ const state = {
 function errText(detail, fallback) {
   if (typeof detail === "string") return detail;
   if (Array.isArray(detail)) {
-    return detail.map((d) => (d && d.msg) ? d.msg : String(d)).join("; ")
-      || fallback;
+    const msgs = [...new Set(  // dedupe: "username" + "password" both empty
+      detail.map((d) => (d && d.msg) ? d.msg : String(d)))];
+    return msgs.join("; ") || fallback;
   }
   if (detail && detail.msg) return detail.msg;
   return fallback;

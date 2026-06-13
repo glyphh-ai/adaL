@@ -24,24 +24,45 @@ BOLD = "\033[1m"
 PINK = "\033[38;5;204m"
 CYAN = "\033[38;5;116m"
 
-# Banner gradient
-_GRAD = ["\033[38;5;204m", "\033[38;5;177m", "\033[38;5;141m", "\033[38;5;111m"]
-_BANNER = [
-    " ⣼⢻⡄ ⣿⠛⠛⢻⡄ ⣼⢻⡄",
-    "⣼⠃ ⢻⡄⣿  ⢸⡇⣼⠃ ⢻⡄",
-    "⣿⠛⠛⢻⡇⣿  ⢸⡇⣿⠛⠛⢻⡇",
-    "⠛  ⠘⠃⠛⠛⠛⠛ ⠛  ⠘⠃",
-]
+# Dot-matrix "ada" — matches the brand wordmark: three 5×7 letter
+# grids of dots, in the pink→blue brand gradient. Each '1' is a filled
+# circle, rendered as a dot the way the logo's circles read.
+_GLYPH_A = ["00000", "00000", "01110", "00001", "01111", "10001", "01111"]
+_GLYPH_D = ["00001", "00001", "01110", "10001", "10001", "10001", "01111"]
+_WORDMARK = [_GLYPH_A, _GLYPH_D, _GLYPH_A]
 
 
-def _print_banner(version: str = "0.2.0") -> None:
-    width = max(len(line) for line in _BANNER)
-    for i, line in enumerate(_BANNER):
-        c = _GRAD[i] if i < len(_GRAD) else _GRAD[-1]
-        print(f"  {c}{BOLD}{line}{R}")
+def _grad_color(frac: float) -> str:
+    """Truecolor stop on the brand pink (#ff5f87) → blue (#87afff) ramp."""
+    r0, g0, b0 = 0xFF, 0x5F, 0x87
+    r1, g1, b1 = 0x87, 0xAF, 0xFF
+    r = round(r0 + (r1 - r0) * frac)
+    g = round(g0 + (g1 - g0) * frac)
+    b = round(b0 + (b1 - b0) * frac)
+    return f"\033[38;2;{r};{g};{b}m"
+
+
+def _print_banner(version: str = "0.7.0") -> None:
+    # lay each row out as cells across the full wordmark; None = letter gap
+    rows = []
+    for r in range(7):
+        cells = []
+        for li, letter in enumerate(_WORDMARK):
+            if li:
+                cells.append(None)
+            cells.extend(ch == "1" for ch in letter[r])
+        rows.append(cells)
+    width = len(rows[0])
+    for cells in rows:
+        line = "  "
+        for ci, cell in enumerate(cells):
+            if cell:
+                line += f"{_grad_color(ci / (width - 1))}●{R} "
+            else:
+                line += "  "
+        print(line.rstrip())
     ver = f"v{version}"
-    padding = width - len(ver)
-    print(f"  {' ' * padding}{D}{ver}{R}")
+    print(f"  {D}{ver.rjust(width * 2)}{R}")
     print()
 
 
