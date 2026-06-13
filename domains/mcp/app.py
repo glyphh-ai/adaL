@@ -24,7 +24,7 @@ ADA_ORG_ID = "ada"
 
 # Tools that mutate state require write permission; everything else read.
 _WRITE_TOOLS = {"tell", "tell_raw", "consolidate", "archive", "merge",
-                "forget"}
+                "forget", "amend"}
 # Minting or revoking credentials is privilege management, not data
 # writing — a write-permission token must not be able to mint itself
 # an admin successor.

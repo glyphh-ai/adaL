@@ -337,6 +337,30 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                 },
             ),
             Tool(
+                name="amend",
+                description=(
+                    "Edit a fact IN PLACE — fix a fact that was recorded "
+                    "wrong, without creating a new version (use tell with "
+                    "a key for that). Target by thought_id (precise), or "
+                    "key (the current belief), or key + version. Set text "
+                    "(the sentence) and/or facts (the universal-schema "
+                    "slot fill, replacing it). Preserves the version's "
+                    "place in the history chain."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "thought_id": {"type": "string"},
+                        "key": {"type": "string"},
+                        "version": {"type": "integer"},
+                        "text": {"type": "string"},
+                        "facts": {"type": "object",
+                                  "description": "universal-schema slot fill"},
+                        "space": {"type": "string"},
+                    },
+                },
+            ),
+            Tool(
                 name="archive",
                 description=(
                     "Archive every current fact belonging to entities "
@@ -512,6 +536,8 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
             return await _handle_archive(brain, args)
         if name == "forget":
             return await _handle_forget(brain, args)
+        if name == "amend":
+            return await _handle_amend(brain, args)
         if name == "forget_all":
             return await _handle_forget_all(brain, args)
         if name == "similar":
@@ -890,6 +916,42 @@ async def _handle_forget_all(brain, args: dict) -> CallToolResult:
         return _err(str(e))
 
 
+async def _handle_amend(brain, args: dict) -> CallToolResult:
+    from ada.memory.thought_persistence import amend_thought
+    text = args.get("text")
+    facts = args.get("facts")
+    if text is None and facts is None:
+        return _err("amend needs 'text' and/or 'facts' to change")
+    tid = (args.get("thought_id") or "").strip()
+    key = (args.get("key") or "").strip()
+    try:
+        store, _ = _space(brain, args)
+        if not tid:
+            if not key:
+                return _err("amend needs a thought_id or a key")
+            hist = await _maybe(store.history(key))
+            if not hist:
+                return _err(f"no such key: {key}")
+            ver = args.get("version")
+            if ver is not None:
+                match = [t for t in hist
+                         if t.metadata.get("_version") == int(ver)]
+                if not match:
+                    return _err(f"key {key!r} has no version {ver}")
+                tid = match[0].thought_id
+            else:
+                tid = hist[-1].thought_id  # current belief
+        out = await amend_thought(brain._session_factory, store.space_id,
+                                  tid, text=text, universal=facts)
+        if out is None:
+            return _err(f"no such fact: {tid}")
+        await _reload_memory_space(brain, store)
+        return _ok({"amended": True, "space": store.space_id, **out})
+    except Exception as e:
+        logger.error("amend failed: %s", e, exc_info=True)
+        return _err(str(e))
+
+
 async def _handle_consolidate(brain, args: dict) -> CallToolResult:
     from ada.memory.consolidate import consolidate
     space_id = args.get("space") or "main"
@@ -1035,6 +1097,7 @@ async def _handle_inspect(brain, args: dict) -> CallToolResult:
                        "content": t.content, "thought_id": t.thought_id}
                       for t in chain] or None,
             "slots": slots,
+            "universal": u,   # the raw object, for view-as-object / amend
         })
     except Exception as e:
         logger.error("inspect failed: %s", e, exc_info=True)

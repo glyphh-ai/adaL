@@ -186,6 +186,8 @@ HELP = """  commands:
     merges                  — deterministic alias proposals
     merge <src> => <tgt>    — merge src into tgt (run again with `confirm`)
     consolidate [dry]       — maintenance: re-enrich · resolve identity · dedup
+    amend <key> <text>      — fix a fact in place (no new version)
+    amend id <tid> <text>   — fix a specific version in place
     archive <l.r>=<v> ...   — soft-remove a cohort, reversible (+ `confirm`)
     forget <key>            — erase a key's whole chain (+ `confirm`)
     forget entity <name>    — erase every fact of an entity (+ `confirm`)
@@ -570,6 +572,32 @@ def run_repl(url: str, banner: bool = True) -> None:
                   f"facts of {r.get('entities_matched')} entities{R}")
             if not confirm and r.get("facts"):
                 print(f"  {D}run: archive {body} confirm{R}")
+            continue
+
+        if raw.startswith("amend "):
+            # amend <key> <new text>  ·  amend id <tid> <new text>
+            # fixes a fact in place (no new version)
+            body = raw[len("amend "):].strip()
+            parts = body.split(None, 1)
+            if parts and parts[0] == "id" and len(parts) == 2:
+                idtext = parts[1].split(None, 1)
+                if len(idtext) < 2:
+                    print(f"  {D}usage: amend id <thought_id> <new text>{R}")
+                    continue
+                req = {"thought_id": idtext[0], "text": idtext[1]}
+                label = "fact " + idtext[0]
+            elif len(parts) == 2:
+                req = {"key": parts[0].lower(), "text": parts[1]}
+                label = "key " + parts[0].lower() + " (current version)"
+            else:
+                print(f"  {D}usage: amend <key> <new text>  ·  "
+                      f"amend id <tid> <new text>{R}")
+                continue
+            r = _call(backend, "amend", req)
+            if _show_error(r):
+                continue
+            print(f"  {D}amended in place — {label} · v{r.get('version')} "
+                  f"(no new version){R}")
             continue
 
         if raw == "forget" or raw.startswith("forget "):

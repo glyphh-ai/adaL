@@ -211,6 +211,54 @@ async def save_thought(session_factory: Any, thought: StoredThought) -> None:
         await session.commit()
 
 
+async def amend_thought(session_factory: Any, space_id: str, thought_id: str,
+                        *, text: str | None = None,
+                        universal: dict | None = None) -> dict | None:
+    """Edit a fact IN PLACE — correct the record without versioning.
+
+    Unlike save_thought (which supersedes a chain), this preserves the
+    thought_id, key, version, and the row's is_current state: editing a
+    superseded v1 keeps it superseded; editing the current version keeps
+    it current. Use when a fact was recorded wrong, not when the world
+    changed (that's a new `tell key=` version). Returns the updated
+    fact, or None if the thought_id isn't in this space."""
+    from sqlalchemy import delete as sa_delete, select, update
+    from domains.models.db_models import AdaThought, FactSlot
+    from ada.memory.thought_space import StoredThought, _sanitize_universal
+
+    async with session_factory() as session:
+        row = (await session.execute(select(AdaThought).where(
+            AdaThought.thought_id == thought_id,
+            AdaThought.space_id == space_id))).scalar_one_or_none()
+        if row is None:
+            return None
+        # preserve this version's place in the chain
+        cur = (await session.execute(select(FactSlot.is_current).where(
+            FactSlot.thought_id == thought_id).limit(1))).scalar()
+        is_current = 1 if cur is None else int(cur)
+
+        meta = dict(row.extra_data or {})
+        if universal is not None:
+            meta["_universal"] = _sanitize_universal(universal)
+        new_content = text if text is not None else row.content
+
+        await session.execute(update(AdaThought)
+                              .where(AdaThought.thought_id == thought_id)
+                              .values(content=new_content,
+                                      extra_data=_json_safe_meta(meta)))
+        await session.execute(
+            sa_delete(FactSlot).where(FactSlot.thought_id == thought_id))
+        stored = StoredThought(thought_id=thought_id, content=new_content,
+                               speaker=row.speaker, space_id=space_id,
+                               metadata=meta)
+        for sr in slot_rows(stored):
+            sr["is_current"] = is_current   # don't disturb the chain
+            session.add(FactSlot(**sr))
+        await session.commit()
+    return {"thought_id": thought_id, "content": new_content,
+            "key": meta.get("_key"), "version": meta.get("_version")}
+
+
 async def archive_thought(session_factory: Any, thought_id: str) -> None:
     """Mark a thought as archived."""
     from domains.models.db_models import AdaThought

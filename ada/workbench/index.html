@@ -308,15 +308,18 @@ body {
 }
 .slot:hover { border-color: var(--lead); transform: translateY(-1px); }
 .slot.focus { border-color: var(--lead); box-shadow: inset 0 0 0 1px var(--lead); }
-.slot-x {
-  position: absolute; top: 6px; right: 6px; z-index: 1;
+.slot-x, .slot-edit {
+  position: absolute; top: 6px; z-index: 1;
   appearance: none; border: 0; background: transparent;
   color: var(--ada-text-faint); font-family: var(--ada-mono);
   font-size: 11px; line-height: 1; padding: 3px 5px; border-radius: 5px;
   cursor: pointer; opacity: 0; transition: opacity .12s, color .12s, background .12s;
 }
-.slot:hover .slot-x { opacity: 1; }
+.slot-x { right: 6px; }
+.slot-edit { right: 28px; }
+.slot:hover .slot-x, .slot:hover .slot-edit { opacity: 1; }
 .slot-x:hover { color: var(--ada-signal); background: var(--ada-ink); }
+.slot-edit:hover { color: var(--lead); background: var(--ada-ink); }
 .slot-x.armed {
   opacity: 1; color: var(--ada-text);
   background: color-mix(in srgb, var(--ada-signal) 30%, var(--ada-ink));
@@ -412,6 +415,48 @@ body {
 .tok-row .perm { font-size: 10px; color: var(--ada-accent); border: 1px solid color-mix(in srgb, var(--ada-accent) 40%, transparent); border-radius: 5px; padding: 1px 6px; }
 .tok-row .revoked { color: var(--ada-signal); font-size: 11px; }
 .tok-row .spacer { flex: 1; }
+
+/* ---- fact editor overlay ---- */
+#editor {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--ada-ink-sunken) 72%, transparent);
+  backdrop-filter: blur(3px);
+}
+.ed-card {
+  width: 560px; max-width: 92vw; max-height: 86vh; overflow-y: auto;
+  background: var(--ada-ink); border: 1px solid var(--ada-border);
+  border-radius: var(--ada-radius-lg); padding: 20px 22px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.ed-head { display: flex; align-items: baseline; gap: 10px; }
+.ed-head h3 { margin: 0; font-size: 14px; color: var(--ada-calm); font-weight: 600; }
+.ed-label { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ada-text-faint); }
+.ed-content {
+  width: 100%; min-height: 56px; resize: vertical;
+  background: var(--ada-ink-sunken); border: 1px solid var(--ada-border);
+  border-radius: var(--ada-radius); color: var(--ada-text);
+  font-family: var(--ada-mono); font-size: 13px; padding: 10px 12px; outline: none;
+}
+.ed-content:focus { border-color: var(--lead); }
+#ed-slots { display: flex; flex-direction: column; gap: 6px; }
+.ed-slot { display: flex; gap: 8px; align-items: center; }
+.ed-slot input {
+  background: var(--ada-ink-sunken); border: 1px solid var(--ada-border);
+  border-radius: 7px; color: var(--ada-text); font-family: var(--ada-mono);
+  font-size: 12px; padding: 6px 9px; outline: none; min-width: 0;
+}
+.ed-slot input:focus { border-color: var(--lead); }
+.ed-slot .lr { flex: 0 0 40%; color: var(--ada-text-muted); }
+.ed-slot .vv { flex: 1; color: var(--ada-calm); }
+.ed-slot-x {
+  appearance: none; border: 0; background: transparent; color: var(--ada-text-faint);
+  font-family: var(--ada-mono); font-size: 12px; cursor: pointer; padding: 4px 6px;
+  border-radius: 5px;
+}
+.ed-slot-x:hover { color: var(--ada-signal); background: var(--ada-ink-raised); }
+.ed-actions { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.ed-note { font-size: 11px; color: var(--ada-text-faint); line-height: 1.5; }
 
 /* ---- login / rotation gate ---- */
 .gate {
@@ -624,6 +669,27 @@ body {
       was asked for and refused to guess. Fill it: <b>tell key=&lt;key&gt; &lt;value&gt;</b>.
     </div>
   </aside>
+</div>
+
+<!-- fact editor — view a fact as an object and edit it -->
+<div id="editor" class="hidden">
+  <div class="ed-card">
+    <div class="ed-head">
+      <h3 id="ed-key"></h3>
+      <select id="ed-ver" class="tok-field" style="margin-left:auto;width:auto"></select>
+    </div>
+    <div class="ed-label">content</div>
+    <textarea id="ed-content" class="ed-content" spellcheck="false"></textarea>
+    <div class="ed-label">slots — the structured object</div>
+    <div id="ed-slots"></div>
+    <button id="ed-add" class="viz-btn" style="align-self:flex-start">+ slot</button>
+    <div class="ed-note" id="ed-note"></div>
+    <div class="ed-actions">
+      <button id="ed-save" class="viz-btn">save in place (no new version)</button>
+      <button id="ed-version" class="viz-btn">save as new version</button>
+      <button id="ed-cancel" class="viz-btn">cancel</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -856,8 +922,10 @@ function renderGrid(absorbedKey) {
     d.className = "slot" + (state.focusKey === f.key ? " focus" : "")
                 + (absorbedKey === f.key ? " absorbed" : "");
     d.title = "history " + f.key;
-    d.innerHTML = '<button class="slot-x" title="forget this key">✕</button>'
+    d.innerHTML = '<button class="slot-edit" title="edit this fact">✎</button>'
+      + '<button class="slot-x" title="forget this key">✕</button>'
       + '<div class="k"></div><div class="val"></div><div class="ver"></div>';
+    d.querySelector(".slot-edit").onclick = (e) => { e.stopPropagation(); openEditor(f.key); };
     d.querySelector(".k").textContent = f.key;
     d.querySelector(".val").textContent = f.content;
     d.querySelector(".ver").textContent = "v" + f.version;
@@ -914,6 +982,106 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+/* ---- fact editor: view a fact as an object, edit it ------------------
+   Edit IN PLACE (amend, no new version) for corrections, or save as a
+   NEW VERSION (tell) when the world changed. Pick which version to edit
+   from the chain. */
+const editor = { key: null };
+
+async function openEditor(key) {
+  let f;
+  try { f = await tool("inspect", { key, space: state.space }); }
+  catch (e) { block([L([s(String(e.message || e), "signal")])]); return; }
+  editor.key = f.key || key;
+  $("ed-key").textContent = editor.key;
+  const sel = $("ed-ver");
+  sel.innerHTML = "";
+  const chain = f.chain || [{ version: f.version, content: f.content,
+                              thought_id: f.thought_id }];
+  chain.forEach((v) => {
+    const o = document.createElement("option");
+    o.value = v.thought_id;
+    o.textContent = "v" + v.version + (v.version === f.version ? " · current" : "");
+    sel.appendChild(o);
+  });
+  sel.value = f.thought_id;
+  loadEditorVersion(f.thought_id, f);
+  $("editor").classList.remove("hidden");
+  $("ed-content").focus();
+}
+
+async function loadEditorVersion(tid, known) {
+  let f = known;
+  if (!f || f.thought_id !== tid) {
+    f = await tool("inspect", { thought_id: tid, space: state.space });
+  }
+  editor.tid = tid;
+  editor.version = f.version;
+  $("ed-content").value = f.content || "";
+  const wrap = $("ed-slots");
+  wrap.innerHTML = "";
+  const u = f.universal || {};
+  let any = false;
+  for (const [layer, roles] of Object.entries(u)) {
+    if (!roles || typeof roles !== "object") continue;
+    for (const [role, val] of Object.entries(roles)) {
+      addSlotRow(layer + "." + role, String(val)); any = true;
+    }
+  }
+  if (!any) addSlotRow();
+  $("ed-note").textContent = "save in place fixes v" + f.version
+    + " without adding a version; save as new version appends to the chain.";
+}
+
+function addSlotRow(lr = "", val = "") {
+  const row = document.createElement("div");
+  row.className = "ed-slot";
+  const a = document.createElement("input");
+  a.className = "lr"; a.placeholder = "layer.role"; a.value = lr; a.spellcheck = false;
+  const b = document.createElement("input");
+  b.className = "vv"; b.placeholder = "value"; b.value = val; b.spellcheck = false;
+  const x = document.createElement("button");
+  x.className = "ed-slot-x"; x.textContent = "✕"; x.title = "remove slot";
+  x.onclick = () => row.remove();
+  row.appendChild(a); row.appendChild(b); row.appendChild(x);
+  $("ed-slots").appendChild(row);
+}
+
+function editorUniversal() {
+  const u = {};
+  for (const row of $("ed-slots").querySelectorAll(".ed-slot")) {
+    const lr = row.querySelector(".lr").value.trim();
+    const val = row.querySelector(".vv").value.trim();
+    if (!lr.includes(".") || !val) continue;
+    const [layer, role] = lr.split(".", 2);
+    (u[layer] = u[layer] || {})[role] = val;
+  }
+  return u;
+}
+
+function closeEditor() { $("editor").classList.add("hidden"); }
+
+$("ed-ver").addEventListener("change", (e) => loadEditorVersion(e.target.value));
+$("ed-add").addEventListener("click", () => addSlotRow());
+$("ed-cancel").addEventListener("click", closeEditor);
+$("editor").addEventListener("click", (e) => { if (e.target.id === "editor") closeEditor(); });
+$("ed-save").addEventListener("click", async () => {
+  await tool("amend", { thought_id: editor.tid, text: $("ed-content").value,
+                        facts: editorUniversal(), space: state.space });
+  closeEditor();
+  block([L([s("amended in place ", "muted"), s(editor.key, "calm"),
+            s(" v" + editor.version + " — no new version", "faint")])]);
+  await refreshGrid();
+});
+$("ed-version").addEventListener("click", async () => {
+  const r = await tool("tell_raw", { facts: editorUniversal(), key: editor.key,
+                                     text: $("ed-content").value, space: state.space });
+  closeEditor();
+  block([L([s("saved as ", "muted"), s(editor.key, "calm"),
+            s(" v" + (r.version || "?") + " — appended to the chain", "faint")])]);
+  await refreshGrid();
+});
+
 /* ---- the verbs -------------------------------------------------------- */
 
 const HINTS = [
@@ -954,6 +1122,8 @@ function cmdHelp() {
     L([s("consolidate ", "primary"), s("[dry]", "faint"), s("        offline maintenance: re-enrich · resolve identity · archive typo-dups", "faint")]),
     L([s("forget ", "primary"), s("<key> | entity <name>", "calm"), s("  permanently erase facts (two-step, no undo)", "faint")]),
     L([s("fact ", "primary"), s("<key>", "calm"), s("              the anatomy of a fact — slots, chain, provenance", "faint")]),
+    L([s("edit ", "primary"), s("<key>", "calm"), s("              open the editor — view as object, fix in place or version", "faint")]),
+    L([s("amend ", "primary"), s("<key> <text>", "calm"), s("       fix a fact's text in place (no new version)", "faint")]),
     L([s("similar ", "primary"), s("<entity> [k]", "calm"), s("      nearest profiles by exact jaccard, with shared dims", "faint")]),
     L([s("drift ", "primary"), s("<entity> [days]", "calm"), s("    what moved in the window — added · dropped · churned keys", "faint")]),
     L([s("merges", "primary"), s("                   alias proposals; confirm with ", "faint"), s("merge <a> => <b> confirm", "calm")]),
@@ -1238,9 +1408,29 @@ async function run(raw) {
                           latest ? s("   ← current belief", "faint") : s("", "faint")]));
           });
         }
+        lines.push(L([s("edit it:  edit " + f.key + "   (view as object, fix in place or version)", "faint")]));
         state.focusKey = f.key;
         block(lines);
         renderGrid();
+      }
+    }
+    else if (verb === "edit") {
+      const k = rest.trim().toLowerCase();
+      if (!k) { block([L([s("usage: edit <key>   — open the fact editor", "faint")])]); }
+      else openEditor(k);
+    }
+    else if (verb === "amend") {
+      // amend <key> <new text> — fix the current version's text in place
+      const sp = rest.indexOf(" ");
+      if (sp < 0) {
+        block([L([s("usage: amend <key> <new text>   (or use  edit <key>  for the full object)", "faint")])]);
+      } else {
+        const k = rest.slice(0, sp).trim().toLowerCase();
+        const txt = rest.slice(sp + 1).trim();
+        const r = await tool("amend", { key: k, text: txt, space: state.space });
+        block([L([s("amended in place ", "muted"), s(k, "calm"),
+                  s(" v" + r.version + " — no new version", "faint")])]);
+        await refreshGrid();
       }
     }
     else if (verb === "merges") {
