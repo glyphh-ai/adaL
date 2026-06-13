@@ -381,6 +381,25 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
                 },
             ),
             Tool(
+                name="forget_all",
+                description=(
+                    "Erase EVERY fact in a space — the nuclear reset, for "
+                    "decommissioning or wiping test data. dry_run defaults "
+                    "TRUE (counts only). To execute, pass dry_run=false AND "
+                    "confirm equal to the space id (typed confirmation, not "
+                    "a bare flag). Admin only; no undo."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "confirm": {"type": "string",
+                                    "description": "must equal the space id"},
+                        "dry_run": {"type": "boolean", "default": True},
+                        "space": {"type": "string"},
+                    },
+                },
+            ),
+            Tool(
                 name="stats",
                 description=(
                     "Substrate vital signs: total thoughts, versioned keys, "
@@ -493,6 +512,8 @@ def create_mcp_server(brain: Any, auth_service: AuthService) -> Server:
             return await _handle_archive(brain, args)
         if name == "forget":
             return await _handle_forget(brain, args)
+        if name == "forget_all":
+            return await _handle_forget_all(brain, args)
         if name == "similar":
             return await _handle_similar(brain, args)
         if name == "drift":
@@ -830,6 +851,42 @@ async def _handle_forget(brain, args: dict) -> CallToolResult:
         return _ok(payload)
     except Exception as e:
         logger.error("forget failed: %s", e, exc_info=True)
+        return _err(str(e))
+
+
+async def _handle_forget_all(brain, args: dict) -> CallToolResult:
+    """Wipe an entire space. dry_run default TRUE; to execute, confirm
+    must equal the space id (typed confirmation)."""
+    from sqlalchemy import delete, func, select
+    from domains.models.db_models import AdaThought, FactSlot
+    dry = bool(args.get("dry_run", True))
+    try:
+        store, _ = _space(brain, args)
+        sf = brain._session_factory
+        async with sf() as s:
+            n = (await s.execute(
+                select(func.count()).select_from(AdaThought)
+                .where(AdaThought.space_id == store.space_id))).scalar() or 0
+        payload = {"space": store.space_id, "facts": int(n), "dry_run": dry}
+        if dry:
+            payload["note"] = (f"dry run — nothing deleted; to erase all "
+                               f"{n} facts call dry_run=false with "
+                               f"confirm='{store.space_id}'")
+            return _ok(payload)
+        if (args.get("confirm") or "") != store.space_id:
+            return _err(f"typed confirmation required: pass "
+                        f"confirm='{store.space_id}' to erase all "
+                        f"{n} facts in this space")
+        async with sf() as s:
+            await s.execute(delete(FactSlot)
+                            .where(FactSlot.space_id == store.space_id))
+            await s.execute(delete(AdaThought)
+                            .where(AdaThought.space_id == store.space_id))
+            await s.commit()
+        await _reload_memory_space(brain, store)
+        return _ok(payload)
+    except Exception as e:
+        logger.error("forget_all failed: %s", e, exc_info=True)
         return _err(str(e))
 
 

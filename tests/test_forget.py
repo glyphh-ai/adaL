@@ -81,6 +81,56 @@ def test_forget_key_thought_entity(tmp_path):
     asyncio.run(run())
 
 
+async def _forget_all(sf, space, *, confirm=None, dry_run=True):
+    """Mirror the MCP handler: dry counts; execute needs confirm==space."""
+    from sqlalchemy import delete, func, select
+    from domains.models.db_models import AdaThought, FactSlot
+    async with sf() as s:
+        n = (await s.execute(select(func.count()).select_from(AdaThought)
+            .where(AdaThought.space_id == space))).scalar() or 0
+    if dry_run:
+        return {"facts": int(n), "wiped": False}
+    if confirm != space:
+        return {"facts": int(n), "wiped": False, "refused": True}
+    async with sf() as s:
+        await s.execute(delete(FactSlot).where(FactSlot.space_id == space))
+        await s.execute(delete(AdaThought).where(AdaThought.space_id == space))
+        await s.commit()
+    return {"facts": int(n), "wiped": True}
+
+
+def test_forget_all_typed_confirmation(tmp_path):
+    async def run():
+        store, sf = await _make(tmp_path)
+        await store.absorb("Acme is active.", key="acme.status")
+        await store.tell_raw(facts={"entity": {"name": "bo"},
+                                    "spatial": {"location": "reno"}})
+        from domains.models.db_models import AdaThought, FactSlot
+
+        async def counts():
+            async with sf() as s:
+                t = len((await s.execute(select(AdaThought))).scalars().all())
+                f = len((await s.execute(select(FactSlot))).scalars().all())
+            return t, f
+        t0, f0 = await counts()
+        assert t0 == 2 and f0 > 0
+
+        # dry run: nothing changes
+        d = await _forget_all(sf, "main", dry_run=True)
+        assert d["facts"] == 2 and not d["wiped"]
+        assert (await counts())[0] == 2
+
+        # wrong confirmation token: refused, nothing changes
+        bad = await _forget_all(sf, "main", confirm="wrong", dry_run=False)
+        assert bad.get("refused") and (await counts())[0] == 2
+
+        # correct typed confirmation: everything gone (thoughts + slots)
+        ok = await _forget_all(sf, "main", confirm="main", dry_run=False)
+        assert ok["wiped"] and ok["facts"] == 2
+        assert await counts() == (0, 0)
+    asyncio.run(run())
+
+
 def test_forget_single_thought(tmp_path):
     async def run():
         store, sf = await _make(tmp_path)

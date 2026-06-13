@@ -1293,6 +1293,26 @@ async function run(raw) {
         }
       }
     }
+    else if (verb === "forget" && /^all\b/i.test(rest.trim())) {
+      // forget all → dry count; forget all <space> → wipe (typed confirm)
+      const arg = rest.trim().replace(/^all\s*/i, "").trim().toLowerCase();
+      const dry = !arg;
+      const a = { space: state.space, dry_run: dry };
+      if (!dry) a.confirm = arg;
+      const r = await tool("forget_all", a);
+      if (dry) {
+        if (!r.facts) {
+          block([L([s("space ", "muted"), s(state.space, "calm"), s(" is already empty", "faint")])]);
+        } else {
+          block([L([s("would erase ALL ", "signal"), s(r.facts + " facts", "text"), s(" in space ", "faint"), s(state.space, "calm")]),
+                 L([s("no undo. type  forget all " + state.space + "  to wipe the space", "faint")])]);
+        }
+      } else {
+        block([L([s("erased ", "signal"), s(r.facts + " facts", "text"), s("  ·  space ", "faint"), s(state.space, "calm"), s(" is empty", "faint")])]);
+        state.focusKey = null; state.unknowns = [];
+        await refreshGrid();
+      }
+    }
     else if (verb === "forget") {
       // forget <key> | forget entity <name> | forget id <thought_id>
       // two-step: bare runs dry, `... confirm` erases
@@ -1873,6 +1893,33 @@ async function refreshCuration() {
     card.appendChild(actions);
     body.appendChild(card);
   }
+
+  // ── danger zone: wipe the whole space (typed confirmation) ──
+  const dz = cureCard();
+  dz.style.borderColor = "color-mix(in srgb, var(--ada-signal) 40%, var(--ada-border))";
+  dz.innerHTML = '<div class="row"><span class="pair" style="color:var(--ada-signal)"><b>danger zone</b> — erase the entire space</span></div>'
+    + '<div class="cure-report">Permanently deletes every fact in <b>'
+    + state.space + '</b>. No undo, no archive. Type the space name to enable.</div>';
+  const dzRow = document.createElement("div");
+  dzRow.className = "cure-actions";
+  const dzIn = document.createElement("input");
+  dzIn.className = "tok-field"; dzIn.placeholder = "type “" + state.space + "”";
+  dzIn.spellcheck = false; dzIn.style.maxWidth = "200px";
+  const dzBtn = cureBtn("wipe space", true, async () => {
+    const r = await tool("forget_all", { space: state.space,
+                                         dry_run: false, confirm: dzIn.value.trim() });
+    dz.querySelector(".cure-report").textContent =
+      "erased " + r.facts + " facts — " + state.space + " is empty.";
+    dzIn.value = ""; dzBtn.disabled = true;
+    await refreshGrid();
+  });
+  dzBtn.disabled = true;
+  dzIn.addEventListener("input", () => {
+    dzBtn.disabled = dzIn.value.trim() !== state.space;
+  });
+  dzRow.appendChild(dzIn); dzRow.appendChild(dzBtn);
+  dz.appendChild(dzRow);
+  body.appendChild(dz);
 }
 
 document.querySelectorAll(".rail-btn").forEach((b) => {
