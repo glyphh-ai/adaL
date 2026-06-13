@@ -617,6 +617,19 @@ const state = {
   focusKey: null,
 };
 
+/* FastAPI returns `detail` as a string for HTTPException but as a list
+   of {loc,msg,type} objects for request-validation errors — flatten
+   either into one readable line. */
+function errText(detail, fallback) {
+  if (typeof detail === "string") return detail;
+  if (Array.isArray(detail)) {
+    return detail.map((d) => (d && d.msg) ? d.msg : String(d)).join("; ")
+      || fallback;
+  }
+  if (detail && detail.msg) return detail.msg;
+  return fallback;
+}
+
 /* ---- MCP client ------------------------------------------------------ */
 
 async function mcp(method, params) {
@@ -1305,7 +1318,7 @@ $("login-form").onsubmit = async (e) => {
                              password: $("login-pass").value }),
     });
     const body = await r.json();
-    if (!r.ok) { $("login-err").textContent = body.detail || "login failed"; return; }
+    if (!r.ok) { $("login-err").textContent = errText(body.detail, "login failed"); return; }
     state.me = body;
     $("login-pass").value = "";
     if (body.must_change_password) showRotate();
@@ -1331,7 +1344,7 @@ $("rotate-form").onsubmit = async (e) => {
                              new_password: $("rot-new").value }),
     });
     const body = await r.json();
-    if (!r.ok) { $("rotate-err").textContent = body.detail || "rotation failed"; return; }
+    if (!r.ok) { $("rotate-err").textContent = errText(body.detail, "rotation failed"); return; }
     state.me.must_change_password = false;
     bootApp();
   } catch (err) {
