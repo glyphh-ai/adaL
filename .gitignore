@@ -83,3 +83,4 @@ benchmark/curriculum/agi/chemistry/.phase1_extract_cache/
 benchmark/curriculum/agi/chemistry/.corpus_cache/
 benchmark/curriculum/agi/chemistry/.phase1_extract_cache_oldprompt/
 .venv-bench/
+!benchmark/recall/corpus.json
