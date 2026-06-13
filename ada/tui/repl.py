@@ -47,8 +47,64 @@ _BANNER = [
 D = "\033[38;5;244m"
 P = "\033[38;5;141m"
 C = "\033[38;5;116m"
+B = "\033[38;5;111m"
+G = "\033[38;5;114m"
+W = "\033[37m"
 PINK = "\033[38;5;204m"
+BOLD = "\033[1m"
 R = "\033[0m"
+
+
+def _connect_configs(url: str, token: str) -> None:
+    """Print copy-paste MCP configs for every client, token embedded."""
+    auth = f"Authorization: Bearer {token}"
+    print(f"\n  {G}{BOLD}Token minted — shown once. Store it now.{R}")
+    print(f"  {C}{token}{R}\n")
+    print(f"  {B}{BOLD}Claude Code{R}  {D}(or run: connect claude){R}")
+    print(f"  {W}claude mcp add ada --transport http {url} "
+          f"--header \"{auth}\"{R}\n")
+    print(f"  {B}{BOLD}Claude Desktop{R}  {D}(claude_desktop_config.json){R}")
+    print(f'  {W}{{"mcpServers":{{"ada":{{"transport":"http","url":"{url}",'
+          f'"headers":{{"Authorization":"Bearer {token}"}}}}}}}}{R}\n')
+    print(f"  {B}{BOLD}Cursor / VS Code{R}  {D}(MCP settings){R}")
+    print(f'  {W}{{"ada":{{"transport":"http","url":"{url}",'
+          f'"headers":{{"Authorization":"Bearer {token}"}}}}}}{R}\n')
+    print(f"  {B}{BOLD}ChatGPT · Gemini · any MCP client{R}")
+    print(f"  {W}Endpoint:{R} {url}")
+    print(f"  {W}Header:  {R} {auth}\n")
+    print(f"  {D}revoke anytime:  token revoke {token[:12]}{R}\n")
+
+
+def _connect_claude(url: str, token: str) -> None:
+    """Auto-wire Claude Code with the auth header."""
+    import shutil
+    import subprocess
+    auth = f"Authorization: Bearer {token}"
+    if not shutil.which("claude"):
+        print(f"\n  {D}claude CLI not found — install: "
+              f"npm i -g @anthropic-ai/claude-code{R}")
+        _connect_configs(url, token)
+        return
+    try:
+        r = subprocess.run(
+            ["claude", "mcp", "add", "ada", "--transport", "http", url,
+             "--header", auth],
+            capture_output=True, text=True, timeout=10)
+        if r.returncode == 0:
+            print(f"\n  {G}{BOLD}Connected.{R} Ada is wired into Claude Code "
+                  f"with a fresh token.")
+            print(f"  {C}{token}{R}  {D}(stored once — revoke: "
+                  f"token revoke {token[:12]}){R}\n")
+        elif "already exists" in (r.stderr or "").lower():
+            print(f"\n  {D}'ada' already configured. To swap in this token: "
+                  f"claude mcp remove ada, then connect claude again.{R}\n")
+            _connect_configs(url, token)
+        else:
+            print(f"\n  {PINK}claude mcp add failed:{R} {r.stderr.strip()}")
+            _connect_configs(url, token)
+    except Exception as e:
+        print(f"\n  {PINK}error:{R} {e}")
+        _connect_configs(url, token)
 
 
 # ── Backends ──────────────────────────────────────────────────────────
@@ -197,6 +253,8 @@ HELP = """  commands:
     space [id]              — show / switch space
     me [name]               — show / set identity (resolves 'I/my')
     config                  — storage mode, space, identity
+    connect                 — mint a token + print MCP configs (all clients)
+    connect claude          — auto-wire Claude Code (with auth header)
     token create [name]     — mint an API token (shown once)
     token list              — list tokens (prefixes only)
     token revoke <id|pfx>   — revoke a token immediately
@@ -283,6 +341,26 @@ def run_repl(url: str, banner: bool = True) -> None:
             break
         if raw in ("help", "?"):
             print(HELP)
+            continue
+
+        if raw == "connect" or raw.startswith("connect "):
+            parts = raw.split()
+            target = parts[1] if len(parts) > 1 else "show"
+            name = (parts[2] if len(parts) > 2
+                    else ("claude-code" if target == "claude" else "mcp-client"))
+            # provisioning a token IS the first step — connect always mints
+            tok = _call(backend, "create_token",
+                        {"name": name, "permissions": ["read", "write"]})
+            if _show_error(tok):
+                print(f"  {D}minting a token needs an admin credential — set "
+                      f"ADA_TOKEN to an admin token, or run the local "
+                      f"bootstrap.{R}")
+                continue
+            raw_token = tok.get("token", "")
+            if target == "claude":
+                _connect_claude(url, raw_token)
+            else:
+                _connect_configs(url, raw_token)
             continue
 
         if raw == "space" or raw.startswith("space "):

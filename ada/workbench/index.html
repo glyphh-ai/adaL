@@ -1765,6 +1765,75 @@ async function refreshTokens() {
     return;
   }
 
+  // ── connect-an-assistant card ──
+  // Each button mints a per-client token (the required provisioning)
+  // and renders the config with it embedded — shown once.
+  const mcpUrl = location.origin + "/mcp";
+  const conn = cureCard();
+  conn.innerHTML = '<div class="row"><span class="pair"><b>connect an assistant</b> — wire ada into a client over MCP</span></div>'
+    + '<div class="cure-report">Each option mints a dedicated token (shown once) and fills it into the config. Revoke per client below.</div>';
+  const connActions = document.createElement("div");
+  connActions.className = "cure-actions";
+  const connOut = document.createElement("div");
+  connOut.className = "tok-once hidden";
+
+  function showConfig(client, r) {
+    const tk = r.token, hdr = "Authorization: Bearer " + tk;
+    let cfg, cmd = null;
+    if (client === "claude-code") {
+      cmd = `claude mcp add ada --transport http ${mcpUrl} --header "${hdr}"`;
+      cfg = cmd;
+    } else if (client === "claude-desktop") {
+      cfg = JSON.stringify({ mcpServers: { ada: { transport: "http",
+        url: mcpUrl, headers: { Authorization: "Bearer " + tk } } } }, null, 2);
+    } else if (client === "cursor") {
+      cfg = JSON.stringify({ ada: { transport: "http", url: mcpUrl,
+        headers: { Authorization: "Bearer " + tk } } }, null, 2);
+    } else { // chatgpt / gemini / generic
+      cfg = "Endpoint:  " + mcpUrl + "\n" + hdr;
+    }
+    connOut.innerHTML = "";
+    const head = document.createElement("div");
+    head.className = "row";
+    head.innerHTML = '<span class="pair"><b></b></span><span class="perm">read+write</span>';
+    head.querySelector("b").textContent = r.name + " · " + r.token_prefix;
+    connOut.appendChild(head);
+    const ta = document.createElement("textarea");
+    ta.className = "raw"; ta.readOnly = true; ta.rows = client === "claude-code" || client.includes("gpt") || client === "gemini" ? 2 : 7;
+    ta.style.resize = "vertical"; ta.value = cfg;
+    ta.onclick = () => ta.select();
+    connOut.appendChild(ta);
+    const noteRow = document.createElement("div");
+    noteRow.className = "row";
+    const note = document.createElement("span");
+    note.className = "note"; note.textContent = "store it now — the token is not shown again.";
+    noteRow.appendChild(note);
+    noteRow.appendChild(cureBtn("copy", false, async () => {
+      ta.select();
+      try { await navigator.clipboard.writeText(cfg); note.textContent = "copied — not shown again."; }
+      catch { document.execCommand("copy"); }
+    }));
+    connOut.appendChild(noteRow);
+    connOut.classList.remove("hidden");
+  }
+
+  for (const [client, label] of [["claude-code", "Claude Code"],
+                                 ["claude-desktop", "Claude Desktop"],
+                                 ["cursor", "Cursor / VS Code"],
+                                 ["chatgpt", "ChatGPT"],
+                                 ["gemini", "Gemini"],
+                                 ["generic", "Other MCP"]]) {
+    connActions.appendChild(cureBtn(label, false, async () => {
+      const r = await tool("create_token",
+        { name: client, permissions: ["read", "write"] });
+      showConfig(client, r);
+      await renderList();
+    }));
+  }
+  conn.appendChild(connActions);
+  conn.appendChild(connOut);
+  body.appendChild(conn);
+
   // ── mint card ──
   const mint = cureCard();
   mint.innerHTML = '<div class="row"><span class="pair"><b>mint a token</b> — for agents, pipelines, the control plane</span></div>';
