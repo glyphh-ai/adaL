@@ -111,7 +111,7 @@ def _print_config(host: str, port: int) -> None:
     has_key = bool(os.environ.get("ANTHROPIC_API_KEY"))
 
     print(f"  {D}MCP{R}    http://{display_host}:{port}/mcp")
-    print(f"  {D}Web{R}    http://{display_host}:{port} {D}(first login root/root — you'll be asked to change it){R}")
+    print(f"  {D}Web{R}    http://{display_host}:{port} {D}(deprecated — the TUI is the interface){R}")
     print(f"  {D}Tools{R}  think · ask · tell · query · history · stats")
     print(f"  {D}LLM{R}    {model}")
     if has_key:
@@ -773,6 +773,9 @@ def main() -> None:
 
     if not args:
         _admin_repl(host, port)
+    elif args[0] == "repl":
+        # Escape hatch: the classic line REPL (no full-screen TUI).
+        _admin_repl_classic(host, port)
     elif args[0] == "chat":
         _shell(host, port)
     elif args[0] == "serve":
@@ -798,10 +801,10 @@ def main() -> None:
         sys.exit(1)
 
 
-def _admin_repl(host: str, port: int) -> None:
-    """The default `ada` experience: the admin REPL against the server,
-    auto-starting one in-process when none is reachable. Boot look and
-    feel match the original shell: banner, ● Online, config panel."""
+def _ensure_server(host: str, port: int) -> str | None:
+    """Banner + ensure a server is reachable, auto-starting one in-process
+    when none is. Returns the /mcp url, or None if the server failed to
+    start. Boot look and feel match the original shell."""
     import httpx
     from ada import __version__
 
@@ -835,12 +838,40 @@ def _admin_repl(host: str, port: int) -> None:
             if _server_error:
                 print(f"  {PINK}{_server_error}{R}")
             print(f"  {D}Try: ada serve (to see full error output){R}")
-            return
+            return None
 
     _print_config(host, port)
+    return url
+
+
+def _admin_repl(host: str, port: int) -> None:
+    """The default `ada` experience: the full-screen TUI — one interface
+    (dashboard · terminal · memory · tokens) over the server's /mcp door.
+    Falls back to the classic line REPL if Textual isn't installed."""
+    url = _ensure_server(host, port)
+    if url is None:
+        return
+
+    try:
+        from ada.tui.app import run_app
+    except ImportError:
+        print(f"  {D}(install 'textual' for the full dashboard — "
+              f"falling back to the line REPL){R}\n")
+        from ada.tui.repl import run_repl
+        run_repl(url, banner=False)
+        return
+
+    run_app(url)
+
+
+def _admin_repl_classic(host: str, port: int) -> None:
+    """The classic line REPL (`ada repl`) — the original command shell,
+    kept as an escape hatch from the full-screen TUI."""
+    url = _ensure_server(host, port)
+    if url is None:
+        return
     print(f"  {D}Type{R} help {D}for commands,{R} setup {D}to connect an LLM{R}")
     print()
-
     from ada.tui.repl import run_repl
     run_repl(url, banner=False)
 

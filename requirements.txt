@@ -28,6 +28,9 @@ cryptography>=41.0.0
 # opentelemetry-instrumentation-fastapi>=0.41b0
 # opentelemetry-exporter-otlp>=1.20.0
 
+# CLI / TUI — the `ada` terminal app (dashboard · terminal · memory · tokens)
+textual>=0.60.0
+
 # Utilities
 httpx>=0.24.0
 psutil>=5.9.0

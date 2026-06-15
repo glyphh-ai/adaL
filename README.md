@@ -69,33 +69,47 @@ make dev            # server with hot-reload on http://localhost:8002
 Other targets: `make repl` (interactive shell), `make serve` (no reload),
 `make test`, `make fmt`, `make clean`. Run `make` alone to list them.
 
-### The interactive REPL — the admin interface
+### The terminal app — the interface
 
-The REPL is an **MCP client of the running server**: every command is a
-tool call, so the REPL, Claude, and every other client share one
-SQL-backed memory. Writes are write-through durable (the `tell`
-response reports `durable: true`). With no server running it offers a
-clearly-labeled offline sandbox instead.
+Just run `ada`. It opens a **full-screen terminal app** — one interface
+for the whole substrate, with the same design language as the old web
+workbench:
+
+- **Dashboard** — live vital signs as terminal graphs: stat cards, the
+  per-layer slot-fill bar chart, and a session sparkline, refreshed live.
+- **Terminal** — the full command surface (`tell` · `ask` · `think` ·
+  `count` · `top` · `find` · `history` · `recall` · …). Bare text with no
+  verb is treated as `ask`.
+- **Memory** — keyed facts at their current belief, filterable.
+- **Tokens** — mint / list / revoke the credentials that open `/mcp`.
+
+Everything is an **MCP tool call** against the running server (the same
+`/mcp` door Claude and every other client use), so the app, Claude, and
+all clients share one SQL-backed memory. Writes are write-through
+durable. Switch views with the rail (or keys `1`–`4`).
 
 ```bash
-make dev            # start the server
-make repl           # connect (or: ada / ADA_URL=http://host:8002/mcp)
+make dev            # start the server (or `ada` auto-starts one)
+ada                 # the terminal app  ·  ADA_URL=http://host:8002/mcp ada
+ada repl            # escape hatch: the classic line REPL
 ```
 
 ```
-  ada> write key=carol.location Carol lives in Austin.
-  absorbed v1: carol.location@...#v1
-  ada> write key=carol.location Carol lives in Denver.
-  absorbed v2: carol.location@...#v2
-  ada> count spatial.location=denver
+  ada› tell key=carol.location Carol lives in Austin.
+  absorbed v1
+  ada› tell key=carol.location Carol lives in Denver.
+  absorbed v2
+  ada› count spatial.location=denver
   3                                  # current belief — Carol's Austin era excluded
-  ada> history carol.location
-  v1: Carol lives in Austin.  →  v2: Carol lives in Denver.
-  ada> top relational.object work    # distribution, predicate-filtered
+  ada› history carol.location
+  v1: Carol lives in Austin.   v2: Carol lives in Denver.
+  ada› top relational.object work    # distribution, predicate-filtered
   engineer (12), designer (9), ...
 ```
 
-Type `help` in the shell for the full command list.
+Type `help` in the Terminal view for the full command list. The browser
+workbench at `/` is **deprecated** in favor of this app — it stays served
+for the no-terminal path, in maintenance only.
 
 ---
 
